@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.4 1999/08/30 03:17:55 decibel Exp $
+# $Id: to-do.txt,v 1.5 1999/08/30 03:23:45 decibel Exp $
 
 o Standardized function names
 I'm probably gonna be creating a shitload of functions as part of code consolodation, so we should come up with a
@@ -6,6 +6,7 @@ standard for naming stuff
 
 
 o Add a method for team participants to request the team password be emailed to them via psummary.php3
+
 
 o /secure team editor
 
