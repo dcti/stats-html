@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.12 2003/10/13 20:57:42 paul Exp $
+// $Id: team.php,v 1.13 2003/10/14 16:16:09 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -138,6 +138,7 @@ class Team
 	    $this->_db =& $dbPtr;
 	    $this->_project =& $prjPtr;
             $this->_authed = false;
+            $team_id = (int) $team_id;
 
 	    if($team_id != -1)
 	    {
@@ -200,7 +201,7 @@ class Team
                     "       showpassword = '" . $this->_state->showpassword . "'," .
                     "       listmode = " . $this->_state->listmode . "," .
                     "       description = '" . $this->_state->description . "'" .
-                    " WHERE team = '" . $this->_state->team . "'; SELECT * FROM stats_team WHERE team = '" . $this->_state->team . "';";
+                    " WHERE team = " . $this->_state->team . "; SELECT * FROM stats_team WHERE team = " . $this->_state->team . ";";
            }
            else
            {
@@ -301,7 +302,7 @@ class Team
            // Uniqueness
            if($retVal == "")
            {
-             $sql = "SELECT * FROM stats_team WHERE team != " . $this->_state->team . " AND lower(name) = '" . strtolower($tmp) . "'::char(64)";
+             $sql = "SELECT * FROM stats_team WHERE team != " . $this->_state->team . " AND lower(name) = '" . strtolower($this->_state->name) . "'::char(64)";
              $queryData = $this->_db->query_first($sql);
 
              if($queryData != FALSE)
