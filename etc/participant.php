@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.18 2003/09/10 02:39:56 thejet Exp $
+// $Id: participant.php,v 1.19 2003/09/11 14:22:49 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -182,9 +182,12 @@ class Participant {
         $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
                       r.overall_rank_previous - r.overall_rank as overall_change,
                       r.day_rank_previous - r.day_rank as day_change
-                 FROM stats_participant_friend pf INNER JOIN email_rank r ON pf.friend = r.id
-                      INNER JOIN stats_participant p ON pf.friend = p.id
-                WHERE pf.id = " . $this->get_id() . " AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
+                 FROM stats_participant_friend pf, email_rank r, stats_participant p 
+                WHERE pf.id = " . $this->get_id() . " 
+                  AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
+
+                  AND pf.friend = r.id
+                  AND pf.friend = p.id
                 ORDER BY r.overall_rank ASC, r.work_total ASC";
 
         $queryData = $this->_db->query($qs);
@@ -230,10 +233,12 @@ class Participant {
         $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
                       r.overall_rank_previous - r.overall_rank as overall_change,
                       r.day_rank_previous - r.day_rank as day_change
-                 FROM email_rank r INNER JOIN stats_participant p ON r.id = p.id 
+                 FROM email_rank r, stats_participant p
                 WHERE r.overall_rank >= ($baserank -3) 
                   AND r.overall_rank <= ($baserank +3)
                   AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
+
+                  AND r.id = p.id 
                 ORDER BY r.overall_rank ASC, r.work_total ASC";
 
         $queryData = $this->_db->query($qs);
@@ -523,16 +528,18 @@ class Participant {
 	                  last_date - first_date + 1 AS days_working,
 			r.day_rank as rank, r.day_rank_previous - r.day_rank as change,
 			p.email, p.listmode, p.contact_name
-			from email_rank r INNER JOIN stats_participant p ON r.id = p.id
+			from email_rank r, stats_participant p
 			where day_rank <= $start + $limit and day_rank >= $start and p.listmode < 10 and r.project_id = " . $project->get_id() . "
+             AND r.id = p.id
 			order by r.day_rank, r.work_today desc limit 100";
         } else {
             $qs = "select r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date, r.work_total as blocks,
 						last_date - first_date + 1 as days_working,
 						r.overall_rank as rank, r.overall_rank_previous - r.overall_rank as change,
 						p.email, p.listmode, p.contact_name
-						from email_rank r INNER JOIN stats_participant p ON r.id = p.id
+						from email_rank r, stats_participant p
 						where overall_rank <= $start + $limit and overall_rank >= $start and p.listmode <	10 and r.project_id = " . $project->get_id() . "
+                          AND r.id = p.id
 						order by r.overall_rank, r.work_total desc limit 100";
         } 
         $queryData = $db->query($qs);
@@ -572,8 +579,9 @@ class Participant {
                          work_total, work_today,
                          last_date - first_date +1 AS days_working,
                          overall_rank_previous - overall_rank AS rank_change
-                    FROM email_rank r INNER JOIN stats_participant p ON p.id = r.id
-                   WHERE lower(email) like '%$sstr%'
+                    FROM email_rank r,stats_participant p 
+                   WHERE p.id = r.id
+                     AND lower(email) like '%$sstr%'
                      AND listmode <= 10
                      AND project_id = " . $project->get_id() . "
                    ORDER BY overall_rank ASC
@@ -621,11 +629,14 @@ class Participant {
              $qs = "SELECT p.*, tm.work_total, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
                            to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
                            tm.work_today, er.day_rank as rank, (er.day_rank_previous - er.day_rank) as rank_change
-                      FROM team_members tm INNER JOIN stats_participant p ON p.id = tm.id
-                           INNER JOIN email_rank er ON tm.id = er.id AND tm.project_id = er.project_id
+                      FROM team_members tm, stats_participant p, email_rank er 
                      WHERE tm.project_id = " . $project->get_id() . "
                        AND tm.team_id = " . $teamid . "
                        AND tm.work_today > 0
+
+                       AND p.id = tm.id
+                       AND tm.id = er.id
+                       AND tm.project_id = er.project_id
                      ORDER BY tm.work_today DESC, tm.work_total DESC;";
            }
            else
@@ -633,10 +644,12 @@ class Participant {
              $qs = "SELECT p.*, tm.work_total, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
                            to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
                            tm.work_today, er.overall_rank as rank, (er.overall_rank_previous - er.overall_rank) as rank_change
-                      FROM team_members tm INNER JOIN stats_participant p ON p.id = tm.id
-                           INNER JOIN email_rank er ON tm.id = er.id AND tm.project_id = er.project_id
                      WHERE tm.project_id = " . $project->get_id() . "
                        AND tm.team_id = " . $teamid . "
+
+                       AND p.id = tm.id
+                       AND tm.id = er.id
+                       AND tm.project_id = er.project_id
                      ORDER BY  tm.work_total DESC, tm.work_today DESC;";
            }
 
