@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.40 2003/12/31 16:30:28 decibel Exp $
+// $Id: participant.php,v 1.41 2004/01/03 03:32:22 fiddles Exp $
 
 include_once "participantstats.php";
 
@@ -556,6 +556,7 @@ class Participant {
       $sql = "UPDATE stats_participant 
                   SET password = '" . addslashes($this->_state->password) . "',
                       listmode = " . (int)$this->_state->listmode . ",
+                      nonprofit = " . (int)$this->_state->nonprofit . ",
                       dem_yob = " . (int)$this->_state->dem_yob . ",
                       dem_heard = " . (int)$this->_state->dem_heard . ",
                       dem_motivation = " . (int)$this->_state->dem_motivation . ",
