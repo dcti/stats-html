@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.58 2003/09/01 23:06:43 paul Exp $
+// $Id: psummary.php,v 1.59 2003/09/02 22:19:51 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -142,7 +142,7 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
       </tr>
       -->
       <tr>
-        <td class="phead2">Time Working:</td>
+        <td align="left" class="phead2">Time Working:</td>
         <td colspan="2" align="right">
             <? echo number_format($gpartstats -> get_stats_item('days_working')) . " day" . plural($gpartstats -> get_stats_item('days_working'));
 
