@@ -1,10 +1,14 @@
 <?php
 
-# $Id: money.php,v 1.1 2002/10/31 17:14:19 nugget Exp $
+# $Id: money.php,v 1.2 2002/10/31 17:26:26 nugget Exp $
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
+
+ if($project_id == 205) {
+   $project_id = 5;
+ }
 
  $filename = "money-$project_id.inc";
  $title = "Disposition of Prize Money";
