@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.17 2003/11/10 22:33:19 thejet Exp $
+// $Id: team.php,v 1.18 2003/11/17 18:32:56 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -174,6 +174,11 @@ class Team
 	         $this->_state = $this->_db->query_first("SELECT stats_team.* FROM stats_team INNER JOIN new_team_id ON stats_team.team = new_team_id.new_id WHERE new_team_id.old_id = $team_id");
              }
              else
+             {
+                 $this->_state = FALSE;
+             }
+
+             if($this->_state == FALSE)
              {
 	         $this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
              }
