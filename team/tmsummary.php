@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.15 2002/08/22 20:51:25 paul Exp $
+// $Id: tmsummary.php,v 1.16 2002/08/22 21:05:19 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -165,6 +165,7 @@ if ($par->showmembers=="NO") {
       <th align="right"><?=$proj_unitname?></th>
      </tr>
 <?
+ $totalblocks=0;
  for ($i = 0; $i < $numneighbors; $i++) {
 ?>
 	<tr class="<?=row_background_color($i)?>">
