@@ -1,118 +1,118 @@
-<?php
-  // vi: ts=2 sw=2 tw=120 syntax=php
-  // $Id: modules.inc,v 1.17 2003/03/12 21:40:22 thejet Exp $
-
-  function plural($num) {
+<?php 
+// vi: ts=2 sw=2 tw=120 syntax=php
+// $Id: modules.inc,v 1.18 2003/06/03 21:39:40 paul Exp $
+function plural($num)
+{
     if (abs($num) > 1 or $num == 0) {
-      return 's';
+        return 's';
     } else {
-      return '';
-    }
-  }
+        return '';
+    } 
+} 
 
-  function row_background_color($rownum, $color_a = "", $color_b = "") {
-	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
-	if ($color_b == "") $color_b = $GLOBALS["bar_color_b"];
-        if( ($rownum/2) == (round($rownum/2)) ) {
-		return $color_a;
-        } else {
-		return $color_b;
-	}
-  }
+function row_background_color($rownum, $color_a = "", $color_b = "")
+{
+    if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
+    if ($color_b == "") $color_b = $GLOBALS["bar_color_b"];
+    if(($rownum / 2) == (round($rownum / 2))) {
+        return $color_a;
+    } else {
+        return $color_b;
+    } 
+} 
 
-  function safe_display($string) {
- 	return stripslashes(htmlspecialchars($string));
-  } 
+function safe_display($string)
+{
+    return stripslashes(htmlspecialchars($string));
+} 
 
-  function html_rank_arrow($change) {
+function html_rank_arrow($change)
+{
     if ($change > 0) {
-	return "<span style=\"color: #009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</span>";
+        return "<span style=\"color: #009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</span>";
     } else {
-	if ($change < 0) {
-	    $offset = -$change;
-	    return "<span style=\"color: #990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</span>";
-	}
-    }
-  }
+        if ($change < 0) {
+            $offset = - $change;
+            return "<span style=\"color: #990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</span>";
+        } 
+    } 
+} 
 
-  function err_check_query_results($result) {
-    if ($result == "") {
-	if ($debug=="yes") {
-	  include "../templates/debug.inc";
-	} else {
-	  include "../templates/error.inc";
-	}
-	exit();
-     }
-  }
-
-  function participant_listas($listmode, $email, $id, $name) {
-    if ($listmode == 0 || $listmode == 8 || $listmode == 9)
-	$listas="$email";
-    else if ($listmode == 1)
-	$listas="Participant #".number_style_convert($id);
-    else if ($listmode == 2)
-	if ($name == "")
-		$listas="Participant #".number_style_convert($id);
-	else
-		$listas="$name";
-    else
-	$listas="Record error for #".number_style_convert($id)."!";
+function participant_listas($listmode, $email, $id, $name)
+{
+    if ($listmode == 0 || $listmode == 8 || $listmode == 9) {
+        $listas = "$email";
+    } else if ($listmode == 1) {
+        $listas = "Participant #" . number_style_convert($id);
+    } else if ($listmode == 2) {
+        if ($name == "") {
+            $listas = "Participant #" . number_style_convert($id);
+        } else {
+            $listas = "$name";
+        } 
+    } else {
+        $listas = "Record error for #" . number_style_convert($id) . "!";
+    } 
     return $listas;
-  }
+} 
 
-  function sybase_date_format_long($arg_1) {
-    $parts = explode(" ",ltrim($arg_1));
-    if($parts[0]=="") {
-      $formatted_date="&nbsp;";
+function sybase_date_format_long($arg_1)
+{
+    $parts = explode(" ", ltrim($arg_1));
+    if($parts[0] == "") {
+        $formatted_date = "&nbsp;";
     } else {
-      if($parts[1]=="") {
-        $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
-      } else {  
-        $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
-      }
-    }
+        if($parts[1] == "") {
+            $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
+        } else {
+            $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
+        } 
+    } 
     return trim($formatted_date);
-  }
+} 
 
-  function sybase_date_format_short($arg_1) {
-    $parts = explode(" ",ltrim($arg_1));
-    if($parts[0]=="") {
-      $formatted_date="&nbsp;";
+function sybase_date_format_short($arg_1)
+{
+    $parts = explode(" ", ltrim($arg_1));
+    if($parts[0] == "") {
+        $formatted_date = "&nbsp;";
     } else {
-      if($parts[1]=="") {
-        $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
-      } else {  
-        $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
-      }
-    }
+        if($parts[1] == "") {
+            $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
+        } else {
+            $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
+        } 
+    } 
     return trim($formatted_date);
-  }
+} 
 
-  function sybase_time_format($arg_1) {
-    $timestr = substr($arg_1,12);
-    $ap = strtolower(substr($arg_1,24,1));
-    $parts = explode(":",$timestr);
-    if($parts[0]=="") {
-      $formatted_time="an unknown time";
+function sybase_time_format($arg_1)
+{
+    $timestr = substr($arg_1, 12);
+    $ap = strtolower(substr($arg_1, 24, 1));
+    $parts = explode(":", $timestr);
+    if($parts[0] == "") {
+        $formatted_time = "an unknown time";
     } else {
-      $formatted_time = "$parts[0]:$parts[1]$ap";
-    }
+        $formatted_time = "$parts[0]:$parts[1]$ap";
+    } 
     return trim($formatted_time);
-  }
+} 
 
-  function number_style_convert($number, $decimal_places = 0) {
+function number_style_convert($number, $decimal_places = 0)
+{
     global $number_style;
-    if ( $number_style == "US" ) {
-      $number = number_format($number, $decimal_places, ".", ",");
-     }
-    if ( $number_style == "EU" ) {
-      $number = number_format($number, $decimal_places, ".", ".");
-    }
-   return $number;
-  }
+    if ($number_style == "US") {
+        $number = number_format($number, $decimal_places, ".", ",");
+    } 
+    if ($number_style == "EU") {
+        $number = number_format($number, $decimal_places, ".", ".");
+    } 
+    return $number;
+} 
 
-  function send_mail($to_address, $from_address, $subject, $message) {
+function send_mail($to_address, $from_address, $subject, $message)
+{
     $path_to_sendmail = "/usr/sbin/sendmail";
     $fp = popen("$path_to_sendmail -t -f $from_address", "w");
     $num = fputs($fp, "To: $to_address\n");
@@ -124,10 +124,10 @@
     $num += fputs($fp, "$message");
     pclose($fp);
     if ($num > 0) {
-      return 1;
+        return 1;
     } else {
-     return 0;
-    }
-  }
+        return 0;
+    } 
+} 
 
 ?>
