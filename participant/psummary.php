@@ -1,11 +1,12 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.53 2003/08/31 16:41:24 paul Exp $
+// $Id: psummary.php,v 1.54 2003/09/01 14:50:54 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
+include "../etc/projectstats.php";
 include "../etc/markup.inc";
 include "../etc/participant.php";
 include "../etc/participantstats.php";
@@ -179,7 +180,8 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     </p>
     <?
 if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> get_stats_item('work_today') > 0)) {
-    $odds = number_format($yest_totals -> WORK_UNITS / $gpartstats -> get_stats_item('work_today'));
+    $gprojstats = $gproj->get_current_stats();
+    $odds = number_format($gprojstats->get_stats_item('work_units') / $gpartstats -> get_stats_item('work_today'));
 
     ?>
         <p>
