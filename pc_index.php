@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.11 2003/03/22 19:29:07 paul Exp $
+  # $Id: pc_index.php,v 1.12 2003/03/23 13:07:00 paul Exp $
 
   $title = "Overall Project Stats";
 
@@ -93,62 +93,57 @@
 
   $odds = number_format($total_remaining / $par->work_units,0);
 ?>
-  <center>
    <br>
    <p>
-    <font <?=$fontd;?> size="+2">
      Aggregate Statistics
-    </font>
    </p>
    <table>
 <? if ($proj_totalunits > 0 ) { ?>
     <tr>
-     <td><font <?=$fontd?> size="+1">Total <?=$proj_scaled_unit_name?> to Search:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_scaled_units_to_search?></font></td>
+     <td>Total <?=$proj_scaled_unit_name?> to Search:</td>
+     <td align="right"><?=$tot_scaled_units_to_search?></td>
     </tr>
 <? } ?>
     <tr>
-     <td><font <?=$fontd;?> size="+1">Total <?=$proj_scaled_unit_name?> Tested:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_scaled_work_units?></font></td>
+     <td>Total <?=$proj_scaled_unit_name?> Tested:</td>
+     <td align="right"><?=$tot_scaled_work_units?></td>
     </tr>
     <tr>
-     <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$overall_scaled_rate?> <?=$proj_scaled_unit_name?>/sec</font></td>
+     <td>Overall Rate:</font></td>
+     <td align="right"><?=$overall_scaled_rate?> <?=$proj_scaled_unit_name?>/sec</td>
     </tr>
 <? if ($proj_totalunits > 0 ) { ?>
     <tr>
-     <td><font <?=$fontd?> size="+1">Total <?=$proj_unscaled_unit_name?> to Search:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_unscaled_units_to_search?></font></td>
+     <td>Total <?=$proj_unscaled_unit_name?> to Search:</td>
+     <td align="right"><?=$tot_unscaled_units_to_search?></td>
     </tr>
 <? } ?>
     <tr>
-     <td><font <?=$fontd;?> size="+1">Total <?=$proj_unscaled_unit_name?> Tested:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_unscaled_work_units?></font></td>
+     <td>Total <?=$proj_unscaled_unit_name?> Tested:</td>
+     <td align="right"><?=$tot_unscaled_work_units?></td>
     </tr>
     <tr>
-     <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$overall_unscaled_rate?> <?=$proj_unscaled_unit_name?>/sec</font></td>
+     <td>Overall Rate:</td>
+     <td align="right"><?=$overall_unscaled_rate?> <?=$proj_unscaled_unit_name?>/sec</td>
     </tr>
 <? if ($proj_totalunits > 0 ) { ?>
      <tr>
-     <td><font <?=$fontd?> size="+1"> Percent Complete:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
+     <td>Percent Complete:</td>
+     <td align="right"><?=$per_searched?>%</td>
     </tr>
 <? } ?>
    <tr>
-     <td><font <?=$fontd?> size="+1">Time Working:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$time_working?> days</font></td>
+     <td>Time Working:</td>
+     <td align="right"><?=$time_working?> days</td>
     </tr>
    </table>
    <br>
 <? if ($proj_totalunits > 0 ) { ?>
    <p>
-    <font <?=$fontd?> size="+2">
      Progress Meter
-    </font>
    </p>
    <table width="300" border="1" cellspacing="0" cellpadding="0">
-    <tr bgcolor="#dddddd">
+    <tr>
      <td align="left"><img src="/images/bar.jpg" width="<?=$bar_width?>" height="14"></td>
     </tr>
    </table>
@@ -156,40 +151,30 @@
 <? } ?>
 
   <p>
-    <font <?=$fontd?> size="+2">
      Current Information
-    </font>
   </p>
   <p>
-    <font <?=$fontd?>>
       <?=$yest_scaled_work_units?> <?=$proj_scaled_unit_name?> were completed yesterday
         <? if ($proj_totalunits > 0 ) { ?>
         (<?=$yest_per?>% of the keyspace)<br>
         <? } ?>
        at a sustained rate of <?=$yest_scaled_rate?> <?=$proj_scaled_unit_name?>/sec.
-    </font>
   </p>
   <p>
-    <font <?=$fontd?>>
       <?=$yest_unscaled_work_units?> <?=$proj_unscaled_unit_name?> were completed yesterday
         <? if ($proj_totalunits > 0 ) { ?>
         (<?=$yest_per?>% of the keyspace)<br>
         <? } ?>
        at a sustained rate of <?=$yest_unscaled_rate?> <?=$proj_unscaled_unit_name?>/sec.
-    </font>
   </p>
   <? if ($proj_totalunits > 0 ) { ?>
   <p>
-    <font <?=$fontd?>>
      The odds are 1 in <?=$odds?> that we will wrap this thing<br>
      up in the next 24 hours. (This also means that we'll<br>
      hit 100% in <?=$odds?> days at yesterday's rate.)
-    </font>
   </p>
 <? } ?>
-
   <p>
-    <font <?=$fontd?>>
       There have been <?=$total_emails?> participants<br>
       since the beginning of this project.<br>
       <?=$yest_emails?> of them were active yesterday<br>
@@ -199,14 +184,10 @@
       } else {
         echo' were brand-new participants.';
       }?> 
-    </font>
    </p>
    <p>
-    <font <?=$fontd?>>
      There are <?=$total_teams?> registered teams.<br>
      <?=$yest_teams?> of them submitted work units yesterday.<br>
      (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
-    </font>
    </p>
    <hr>
-  </center>
