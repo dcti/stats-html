@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.2 2003/09/10 02:56:08 thejet Exp $
+// $Id: tmember_xml.php,v 1.3 2003/10/23 01:51:04 thejet Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -18,7 +18,6 @@ include "../etc/project.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 
 // output the XML header
