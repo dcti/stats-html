@@ -2,6 +2,8 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 
 <html>
+<!-- vi: ts=2 sw=2 tw=120 syntax=php
+-->
  <head>
   <title>stats.distributed.net - <?=$proj_name?> <?=$title?></title>
   <style type="text/css"><!--
@@ -29,17 +31,22 @@
     <td width="33%">
       <br>
       <font <?=$fonth?> color=<?=$colora?>>
-       Project Stats
+        Project Stats
       </font>
       <br>
       <font <?=$fontd?> size="-1" color=<?=$colorb?>>
-       <a href="/projects.php?project_id=<?=$project_id?>"><font color="#ffffff">Overall Project Stats</font></a><br>
-       Keyrate History<br>
-       Participation History<br>
-       <a href="/misc/platformlist.php?project_id=<?=$project_id?>&view=tco"><font color="#ffffff">CPU/OS Distribution</font></a><br>
-       <a href="/misc/countries.php?project_id=<?=$project_id?>"><font color="#ffffff">Participating Countries</font></a><br>
-       <a href="/participant/pedit.php"><font color="#ffffff">Edit your Information</font></a><br>
-       <a href="/team/newteam1.php"><font color="#ffffff">Create a new Team</font></a><br>
+        <a href="/projects.php?project_id=<?=$project_id?>"><font color="#ffffff">Overall Project Stats</font></a><br>
+        Keyrate History<br>
+        Participation History<br>
+        <a href="/misc/platformlist.php?project_id=<?=$project_id?>&view=tco"><font color="#ffffff">CPU/OS Distribution</font></a><br>
+        <a href="/misc/countries.php?project_id=<?=$project_id?>"><font color="#ffffff">Participating Countries</font></a><br>
+        <?
+        if ( $proj_prize <> 0 ) {
+          ?>
+          <a href="/misc/money.php?project_id=<?=$project_id?>"><font color="#ffffff">Distribution of Prize Money</font></a><br>
+          <?
+        }
+        ?>
       </font>
     </td>
     <td width="33%">
@@ -49,23 +56,31 @@
       </font>
       <br>
       <font <?=$fontd?> size="-1" color=<?=$colorb?>>
-       <a href="/participant/plist.php?project_id=<?=$project_id?>&low=1&limit=100"><font color="#ffffff">Top 100 Participants Overall</font></a><br>
-       <a href="/participant/plist.php?project_id=<?=$project_id?>&low=1&limit=100&source=y"><font color="#ffffff">Top 100 Participants Yesterday</font></a><br>
-       <form action="/participant/psearch.php"><input type="hidden" name="project_id" value="<?=$project_id?>"><input type="text" name="st" size="16" maxlength="42">
-             <input type="submit" value="Search"></form>
+        <a href="/participant/plist.php?project_id=<?=$project_id?>&low=1&limit=100"><font color="#ffffff">Top 100 Participants Overall</font></a><br>
+        <a href="/participant/plist.php?project_id=<?=$project_id?>&low=1&limit=100&source=y"><font color="#ffffff">Top 100 Participants Yesterday</font></a><br>
+        <form action="/participant/psearch.php">
+          <input type="hidden" name="project_id" value="<?=$project_id?>">
+          <input type="text" name="st" size="16" maxlength="42">
+          <input type="submit" value="Search">
+        </form>
+        <a href="/participant/pedit.php"><font color="#ffffff">Edit your Information</font></a><br>
       </font>
     </td>
     <td width="33%">
       <br>
       <font <?=$fonth?> color=<?=$colora?>>
-       Team Stats
+        Team Stats
       </font>
       <br>
       <font <?=$fontd?> size="-1" color=<?=$colorb?>>
-       <a href="/team/tlist.php?project_id=<?=$project_id?>&low=1&limit=100"><font color="#ffffff">Top 100 Teams Overall</font></a><br>
-       <a href="/team/tlist.php?project_id=<?=$project_id?>&low=1&limit=100&source=y"><font color="#ffffff">Top 100 Teams Yesterday</font></a><br>
-       <form action="/team/tsearch.php"><input type="hidden" name="project_id" value="<?=$project_id?>"><input type="text" name="st" size="16" maxlength="32">
-             <input type="submit" value="Search"></form>
+        <a href="/team/tlist.php?project_id=<?=$project_id?>&low=1&limit=100"><font color="#ffffff">Top 100 Teams Overall</font></a><br>
+        <a href="/team/tlist.php?project_id=<?=$project_id?>&low=1&limit=100&source=y"><font color="#ffffff">Top 100 Teams Yesterday</font></a><br>
+        <form action="/team/tsearch.php">
+          <input type="hidden" name="project_id" value="<?=$project_id?>">
+          <input type="text" name="st" size="16" maxlength="32">
+          <input type="submit" value="Search">
+        </form>
+        <a href="/team/newteam1.php"><font color="#ffffff">Create a new Team</font></a><br>
       </font>
     </td>
    </tr>
