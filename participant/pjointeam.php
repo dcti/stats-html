@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.13 2000/11/12 02:24:32 decibel Exp $
+  // $Id: pjointeam.php,v 1.14 2000/11/12 02:33:37 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -14,8 +14,18 @@
 <?
 
   $id = 0+$par->id;
-  $oldteam = 0+$par->team;
   $team = $team+0;
+
+  $qs = "select team_id from Team_Joins where id=$id and last_date=null"
+  $result = sybase_query($qs);
+  $rows = sybase_num_rows($result);
+  if( $rows == 1 ) {
+    sybase_data_seek($result,0);
+    $RS_teamid = sybase_fetch_object($result);
+    $oldteam = (int) $RS_teamid->team_id;
+  } else {
+    $oldteam = 0;
+  }
 
   $oldteamname = "No Team";
   if( $oldteam > 0 ) {
