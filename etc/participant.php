@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.2 2003/05/20 19:28:03 paul Exp $
+// $Id: participant.php,v 1.3 2003/05/25 20:20:01 paul Exp $
 
 /**
  * This class represents a participant
@@ -113,11 +113,11 @@ class Participant {
      */
     function get_retire_to()
     {
-        return $this -> _state ->retireto;
+        return $this -> _state ->retire_to;
     } 
     function set_retire_to($value)
     {
-        $this -> _state -> retireto = $value;
+        $this -> _state -> retire_to = $value;
     } 
 
     /**
@@ -289,17 +289,17 @@ class Participant {
 
     function getDisplayName()
     {
-        if ($this -> _listmode == 0 || $this -> _listmode == 8 || $this -> _listmode == 9) 
-            $listas = $this -> Getemail();
-         else if ($this -> _listmode == 1) 
-            $listas = "Participant #" . number_style_convert($this -> GetID());
-         else if ($this -> _listmode == 2) 
+        if ($this -> _state -> listmode == 0 || $this -> _state -> listmode == 8 || $this -> _state -> listmode == 9) 
+            $listas = $this -> get_email();
+         else if ($this -> _state -> listmode == 1) 
+            $listas = "Participant #" . number_style_convert($this -> get_id());
+         else if ($this -> _state -> listmode == 2) 
             if ($this ->getContactName() == "")
-                $listas = "Participant #" . number_style_convert($this -> GetID());
+                $listas = "Participant #" . number_style_convert($this -> get_id());
             else
                 $listas = $this -> getContactName();
             else
-                $listas = "Record error for #" . number_style_convert($this -> GetID()) . "!";
+                $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
         return $listas;
     } 
     /**

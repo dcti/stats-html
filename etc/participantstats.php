@@ -1,6 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.2 2003/05/20 19:11:24 paul Exp $
-
+// $Id: participantstats.php,v 1.3 2003/05/25 20:20:01 paul Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -14,7 +13,6 @@
  * @access public 
  */
 class ParticipantStats {
-
     /**
      * The Id for the current participant stats info (read only)
      * 
@@ -22,8 +20,8 @@ class ParticipantStats {
      * @type int
      */
     var $_id;
-	var $_db;
-	var $_project;
+    var $_db;
+    var $_project;
     /**
      * The StatsDate for the current participant stats info
      * 
@@ -31,39 +29,39 @@ class ParticipantStats {
      * @type date
      */
     var $statsdate;
-
-	var $rs_rank;
+    var $_history;
+    var $rs_rank;
     /**
      * Instantiates a new participant stats object, and loads it with the specified participant stats information.
      * 
      * @access public 
      * @return void 
      * @param DBClass $ The database connectivity to use
-     *          int The ID of the participant to load
-     *          ProjectClass The project to retrieve stats for
-     *          date The stats date to load
+     *             int The ID of the participant to load
+     *             ProjectClass The project to retrieve stats for
+     *             date The stats date to load
      */
     function ParticipantStats($dbPtr, $project, $id = -1, $date = -1)
     {
-		$this -> _db = $dbPtr;
-		$this -> _project = $project;
-		
-		if ($id != -1){
-			$this -> load($id,$project,$date);
-		}
-		
+        $this -> _db = $dbPtr;
+        $this -> _project = $project;
+		$this -> _id = $id;
+
+        if ($id != -1) {
+            $this -> load($id, $project, $date);
+        } 
     } 
 
     /**
      * Loads the requested participant object using the current database connection
      * 
-     *    This function loads the requested date's stats data.
+     *       This function loads the requested date's stats data.
      * 
      * @access public 
      * @return bool 
      * @param int $ The ID of the participant to load
-     *          ProjectClass The project to load for
-     *          date The date to load for
+     *             ProjectClass The project to load for
+     *             date The date to load for
      */
     function load($id, $project, $date)
     {
@@ -75,31 +73,30 @@ class ParticipantStats {
         from Email_Rank
         where id = $id
           and PROJECT_ID = $project";
-		  if ($date != -1) {
-		      // do..
-		  }
+        if ($date != -1) {
+            // do..
+        } 
 
-		$this->_state = $this -> _db -> query_first ($qs);
+        $this -> _state = $this -> _db -> query_first ($qs);
     } 
 
     /**
      * Loads the requested participant stats object using the current database connection.
      * 
-     *    This function loads the requested historical stats data available.
+     *       This function loads the requested historical stats data available.
      * 
      * @access public 
      * @return ParticipantStats []
      * @param int $ The ID of the participant to load
-     *          ProjectClass The project to load for
-     *          date date to start from
-     *          int Number of days prior to start (including start) to retrieve
+     *             ProjectClass The project to load for
+     *             date date to start from
+     *             int Number of days prior to start (including start) to retrieve
      */
     function loadHistorical($id, $project, $start, $days_back)
     {
     } 
-	
-	
-	    /**
+
+    /**
      * This function returns an array of participant objects representing the neighbors of the current participant
      * 
      * This function is a "load on demand" function, so the first call loads the
@@ -120,19 +117,28 @@ class ParticipantStats {
         from STATS_Participant p, Email_Rank r
         where p.id = r.id
           and PROJECT_ID = $this->_project
-          and (r.OVERALL_RANK < (".$this->rs_rank->overall_rank."+5))
-          and (r.OVERALL_RANK > (".$this->rs_rank->overall_rank."-5))
+          and (r.OVERALL_RANK < (" . $this -> rs_rank -> overall_rank . "+5))
+          and (r.OVERALL_RANK > (" . $this -> rs_rank -> overall_rank . "-5))
         order by r.OVERALL_RANK LIMIT 18";
-		
+
         $dbneighbors = $this -> _db -> query($qs);
-			$i = 0;
-			while($temp = $this-> _db -> fetch_object($dbneighbors))
-			{
-				$neighbors[$i++] = $temp;
-			}
-		return $neighbors;
+        $i = 0;
+        while ($temp = $this -> _db -> fetch_object($dbneighbors)) {
+            $neighbors[$i++] = $temp;
+        } 
+        return $neighbors;
     } 
-	
+
+    function get_stats_history($lastdays = -1)
+    {
+        $qs = "select date, sum(work_units) as work_units from email_contrib ec, stats_participant sp where ec.project_id=".$this -> _project." and ec.id=sp.id and (sp.id=".$this->_id." or sp.retire_to=".$this->_id.") group by date order by date";
+        if ($lastdays > 0) {
+            $qs .= "DESC LIMIT $lastdays";
+        } 
+        $dbstatshist = $this -> _db -> query($qs);
+        $this -> _history = $this -> _db -> fetch_paged_result($dbstatshist);
+		return $this -> _history;
+    } 
 
     /**
      * Returns the requested stats item for this ParticipantStats instance
@@ -144,9 +150,9 @@ class ParticipantStats {
      * @param string $ The stats item to retrieve (i.e. FirstBlock)
      */
     function getStatsItem($name)
-    {
-//		var_dump($this->rs_rank);
-		return $this->_state->$name;
+    { 
+        // var_dump($this->rs_rank);
+        return $this -> _state -> $name;
     } 
 
     /**
