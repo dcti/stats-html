@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.26 2004/07/29 03:44:44 decibel Exp $
+// $Id: team.php,v 1.27 2004/07/29 12:36:31 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -404,7 +404,7 @@ class Team
          function &get_neighbors()
          {
            $this->get_current_stats();
-           $sql = "SELECT r.overall_rank, t.name, last_date - first_date AS days_working, work_total";
+           $sql = "SELECT r.overall_rank, r.overall_rank_previous, t.team, t.name, last_date - first_date AS days_working, work_total";
            $sql .= "    FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= ($1 -5)";
            $sql .= "        AND overall_rank <= ($1 +5)";
            $sql .= "        AND project_id = $2";
@@ -421,7 +421,9 @@ class Team
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($this->_db, $this->_project);
-             $teamTmp->explode($result[$i]);
+             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $statsTmp->explode($result[$i]);
+             $teamTmp->explode($result[$i], $statsTmp);
              $retVal[] = $teamTmp;
            }
 
