@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.6 1999/08/30 14:52:09 nugget Exp $
+  // $Id: ppass.php,v 1.7 1999/09/09 03:29:49 nugget Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -36,33 +36,6 @@
   sybase_data_seek($result,0);
   $par = sybase_fetch_object($result);
   $id = 0+$par->id;
-
-  if (eregi("hotmail.com",$par->email)) {
-    print "
-	   <h2>I'm sorry, hotmail.com password mailing has been disabled.</h2>
-	   <p>
-	    Due to recently-discovered holes in hotmail's security, we've temporarily
-	    disabled all password mailing to hotmail accounts.  Once hotmail.com has
-	    corrected the hole in their security, we will be changing all passwords
-	    associated with hotmail accounts on the stats server and re-enabling 
-	    the password mailer.
-	   </p>
-	   <p>
-	    If you'd like more information on the situation, we recommend the
-	    <a href=\"http://slashdot.org/article.pl?sid=99/08/30/1324206&mode=thread\">Slashdot Article</a>.
-	   </p>
-	   <p>
-	    Thanks for your patience.  We hope that hotmail is able to quickly rectify the situation.
-	   </p>
-	  </body>
-	 </html>";
-  
-    $fh = fopen("/var/log/ppass.log","a+");
-    $ts = gmdate("M d Y H:i:s",time());
-    fputs($fh,"$ts password for id $id ($par->email) denied to $REMOTE_HOST [$REMOTE_ADDR]\n");
-    fclose($fh);
-    exit(); 
-  }
 
   if (!$par->password) {
     $qs = "select char(convert(int,rand(datepart(mi,getdate())*datepart(ss,getdate())*datepart(ms,getdate()))*25)+97) + 
