@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.15 2002/06/20 19:32:55 decibel Exp $
+# $Id: plist.php,v 1.16 2002/09/14 10:36:57 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -58,14 +58,14 @@ if ("$source" == "y") {
 ?>
     <center>
      <br>
-     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
-      <tr>
-       <th>Rank</th>
-       <th>Participant</th>
-       <th align="right">First Unit</th>
-       <th align="right">Last Unit</th>
-       <th align="right">Days</th>
-       <th align="right"><?=$proj_unitname?></th>
+     <table border="1" cellspacing="0">
+      <tr bgcolor=<?=$header_bg?>>
+       <th><font <?=$footer_font?>>Rank</font></th>
+       <th><font <?=$footer_font?>>Participant</font></th>
+       <th align="right"><font <?=$footer_font?>>First Unit</font></th>
+       <th align="right"><font <?=$footer_font?>>Last Unit</font></th>
+       <th align="right"><font <?=$footer_font?>>Days</font></th>
+       <th align="right"><font <?=$footer_font?>><?=$proj_unitname?></font></th>
       </tr>
 <?
 
