@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.16 2002/06/05 20:27:42 paul Exp $
+ # $Id: psummary.php,v 1.17 2002/06/05 21:45:05 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -129,6 +129,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  $best_day = sybase_fetch_object($result);
  $best_day_units = (double) $best_day->WORK_UNITS;
  debug_text("<!-- Best Day -- qs: $qs, best_day: $best_day, best_day_units: $best_day_units -->\n", $debug);
+ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
 */
  // Get the latest record from Daily_Summary, store in $yest_totals
 
@@ -141,7 +142,6 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 $constant_keys_in_one_block = 268435456;
 $tot_keys_searched = number_format(($rs_rank->TOTAL*$constant_keys_in_one_block),0);
 
-$best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
 $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
 
 ?>
