@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.7 2002/03/24 17:07:21 paul Exp $
+// $Id: tmsummary.php,v 1.8 2002/03/25 22:55:46 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -16,19 +16,7 @@ include "../etc/modules.inc";
 include "etc/project.inc";
 include "../etc/markup.inc";
 
-$qs = "p_lastupdate @section=t, @contest='new', @project_id=$project_id";
-$result = sybase_query($qs);
-if(!$result) {
-  $qs = "p_lastupdate @section=t, @contest='new', @project_id=$project_id";
-  $result = sybase_query($qs);
-}
-if($result) {
-  $par = sybase_fetch_object($result);
-  $lastupdate = sybase_date_format_long($par->lastupdate);
-} else {
-  $lastupdate = "some day, not too long ago";
-}
-
+$lastupdate = last_update('t');
 include "templates/header.inc";
 
 // Query server
@@ -149,22 +137,21 @@ if ($par->showmembers=="NO") {
 }
 
 //A list of teams goes here
- print "
+?> 
    </p>
 	<center>
-    <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+    <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
      <tr>
-      <td><font $header_font>Rank</font></td>
-      <td><font $header_font>Team</font></td>
-      <td align=\"right\"><font $header_font>Days</font></td>
-      <td align=\"right\"><font $header_font>$proj_unitname</font></td>
-     </tr>";
+      <th>Rank</th>
+      <th>Team</th>
+      <th align="right">Days</th>
+      <th align="right"><?=$proj_unitname?></th>
+     </tr>
+<?
  for ($i = 0; $i < $numneighbors; $i++) {
-        if( ($i/2) == (round($i/2)) ) {
-          echo "  <tr bgcolor=$bar_color_a>\n";
-        } else {
-          echo "  <tr bgcolor=$bar_color_b>\n";
-        }
+?>
+	<tr class="<?=row_background_color($i)?>">
+<?        
         sybase_data_seek($neighbors,$i);
         $teamrec = sybase_fetch_object($neighbors);
         $teamrecid = 0 + $teamrec->TEAM_ID;
@@ -188,18 +175,16 @@ if ($par->showmembers=="NO") {
 	</tr>
         ";
  }
- print "
-	<tr bgcolor=$footer_bg>
-		<td align=\"right\" colspan=\"3\"><font $footer_font>Total</font></td>
-		<td align=\"right\" colspan=\"3\"><font $footer_font>" . number_style_convert($totalblocks) . "</td>
+?>
+	<tr bgcolor=<?=$footer_bg?>>
+		<td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
+		<td align="right" colspan="3"><font <?=$footer_font?>><? echo number_style_convert($totalblocks)?></td>
 	</tr>
    </table>
    <hr>
-   <a href=\"/pjointeam.php?team=$team\">I want to join this team!</a>
+   <a href="/pjointeam.php?team=<?=$team?>">I want to join this team!</a>
    <hr>
   </center>
-	";
-?>
   <center>
    <form action="/tmedit.php" method="post">
     <p>
@@ -207,13 +192,13 @@ if ($par->showmembers=="NO") {
      <br>
      Password:
      <input name="pass" size="8" maxlength="8" type="password">
-     <input name="team" type="hidden" value="$team">
+     <input name="team" type="hidden" value="<?=$team?>">
      <input value="Edit" type="submit">
     </p>
    </form>
    <p>
     If you are the team coordinator, and you've forgotten your team password, click
-    <form action="/tmpass.php"><input type="hidden" name="team" value="$team">
+    <form action="/tmpass.php"><input type="hidden" name="team" value="<?=$team?>">
     <input type="submit" value="here"></form> and the password will be mailed to
     <?=$par->contactemail?>.
    </p>
