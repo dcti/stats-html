@@ -38,8 +38,8 @@ if (!isset($proj_list)) {
 		<?
 */
     if($debug >= DEBUG_SHOW_QUERY) {
-        foreach ( $g_queries_array as $query ) {
-            echo $query[1];
+        foreach ( $gdb->get_queries() as $query ) {
+            echo $query[0] . "\n";
         }
     }
     if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }

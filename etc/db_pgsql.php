@@ -72,6 +72,17 @@ class DB {
       }
 
     /**
+     * Get Queries
+     * Returns array of queries that have been run
+     *
+     * @return array query array
+     * @access public
+     */
+    function get_queries() {
+        return $this->_queries_array;
+    }
+
+    /**
      * Run Query
      *
      * @param string $query_string Databasename to use
