@@ -1,6 +1,6 @@
 <?php 
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.24 2004/04/21 19:18:42 paul Exp $
+// $Id: modules.inc,v 1.25 2004/04/21 19:20:19 paul Exp $
 function plural($num)
 {
     if (abs($num) > 1 or $num == 0) {
