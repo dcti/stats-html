@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.3 2003/05/18 20:37:47 thejet Exp $
+// $Id: team.php,v 1.4 2003/05/24 01:28:52 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -177,7 +177,7 @@ class Team
            $this->get_current_stats();
            $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= (".$this->_stats->get_stats_item('overall_rank')." -5)";
            $sql .= " AND overall_rank <= (".$this->_stats->get_stats_item('overall_rank')." +5)"; 
-           $sql .= " AND project_id = " . $this->_project->ID;
+           $sql .= " AND project_id = " . $this->_project->get_id();
            //$sql .= " AND team_id != " . $this->get_id();
            $sql .= " AND listmode <= 9 ORDER BY overall_rank ASC ";
 
@@ -254,7 +254,7 @@ class Team
                      WHERE st.listmode <= 9
                        AND day_rank <= " . ($start + $limit -1) . "
                        AND day_rank >= $start
-                       AND tr.project_id = " . $this->_project->ID . "
+                       AND tr.project_id = " . $this->_project->get_id() . "
                      ORDER BY day_rank ASC, work_total DESC;";
            }
            else
@@ -267,7 +267,7 @@ class Team
                      WHERE st.listmode <= 9
                        AND overall_rank <= " . ($start + $limit -1) . "
                        AND overall_rank >= $start
-                       AND tr.project_id = " . $this->_project->ID . "
+                       AND tr.project_id = " . $this->_project->get_id() . "
                      ORDER BY overall_rank ASC, work_total DESC;";
            }
 
@@ -315,7 +315,7 @@ class Team
                     FROM team_rank tr INNER JOIN stats_team st ON tr.team_id = st.team
                    WHERE (lower(name) like '%$sstr%' OR CAST(st.team as varchar) like '%$sstr%')
                      AND listmode <= 9
-                     AND project_id = " . $this->_project->ID . "
+                     AND project_id = " . $this->_project->get_id() . "
                    ORDER BY overall_rank ASC
                    LIMIT $limit";
 
