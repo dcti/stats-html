@@ -11,8 +11,8 @@
  if( file_exists("cache/index_$project_id.inc")) {
 	readfile( "cache/index_$project_id.inc");
  } else {
+  display_last_update();
   ?> 
-        </tr></table>
 	<center>
 	Apologies, these pages are currently being built. Please try again in a few minutes
 	</center>
