@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.8 2002/04/09 22:58:41 jlawson Exp $
+ // $Id: pc_countries.php,v 1.9 2002/04/12 20:56:13 jlawson Exp $
 
  $outname = "countries";
 
@@ -35,7 +35,7 @@
 	  <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
 	   <tr>
             <td colspan=2><font $header_font>&nbsp</font></td>";
- if ($source == y) {
+ if ($source == 'y') {
    print "
 	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">
               <font $header_font>Overall</font>
@@ -44,7 +44,7 @@
  } else {
    print "
 	    <td align=\"center\" colspan=2><font $header_font>Overall</font></td>
-	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">
+	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">
               <font $header_font>Yesterday</font>
 	    </a></td>";
  }
