@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.27 2002/06/20 19:32:55 decibel Exp $
+ # $Id: psummary.php,v 1.28 2002/10/07 07:06:28 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -215,7 +215,7 @@ $per_searched = number_format(100*($rs_rank->TOTAL/$proj_totalunits),8);
 
 <? if ($proj_totalunits > 0 ) { ?>
   <p>
-  <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( % of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
+  <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( <?=$per_searched?>% of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
   </p>
 <? } ?>
 
