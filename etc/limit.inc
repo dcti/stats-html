@@ -1,7 +1,7 @@
 <?php
- // $Id: limit.inc,v 1.4 2000/01/18 03:52:00 decibel Exp $
+ // $Id: limit.inc,v 1.5 2000/07/14 03:42:41 decibel Exp $
 
- if ( $limit > 100 || $limit < 0 ) {
+ if ( $limit > 100 || $limit < 1 ) {
    $limit = 100;
  }
 
