@@ -1,5 +1,5 @@
 <?
-// $Id: tlist.php,v 1.21 2004/07/16 20:45:27 decibel Exp $
+// $Id: tlist.php,v 1.22 2004/07/19 18:16:31 jlawson Exp $
 
 # vi: ts=2 sw=2 tw=120 syntax=php
 
@@ -84,7 +84,7 @@ if ( $rows >= $limit ) {
       ?>
       <tr class="<?=$row_bgnd_color?>">
         <td><?=$statsTmp->get_stats_item('rank')?><?=html_rank_arrow($statsTmp->get_stats_item('rank_change'))?></td>
-        <td><a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$teamid?>"><?=$teamTmp->get_name()?></a></td>
+        <td><a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$teamid?>"><?= safe_display($teamTmp->get_name()) ?></a></td>
         <td align="right"><?=$first?></td>
         <td align="right"><?=$last?></td>
         <td align="right"><?=number_format($statsTmp->get_stats_item('days_working'), 0)?></td>

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.38 2004/07/19 01:01:29 jlawson Exp $
+// $Id: tmember.php,v 1.39 2004/07/19 18:16:31 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -108,7 +108,7 @@ if ($teamStats == null) {
 }
 
 // The source of the data...
-$title = $team->get_name() . " Members ";
+$title = safe_display($team->get_name()) . " Members ";
 if ($source == 'y') {
   $title = $title . "Yesterday ";
   $source = 'y';

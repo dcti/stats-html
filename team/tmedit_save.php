@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit_save.php,v 1.10 2004/07/19 01:01:29 jlawson Exp $
+  // $Id: tmedit_save.php,v 1.11 2004/07/19 18:16:31 jlawson Exp $
 
   include "../etc/global.inc";
   include "../etc/project.inc";
@@ -51,7 +51,7 @@
 ?>
 <html>
 	<head>
-		<title>Updating <?=$gteam->get_name()?> data</title>
+		<title>Updating <?= safe_display($gteam->get_name()) ?> data</title>
 		<meta http-equiv="refresh" content="4; URL=tmsummary.php?team=<?=$gteam->get_id()?>">
 	</head>
 	<body>
