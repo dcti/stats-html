@@ -1,7 +1,26 @@
 <?php
-  // $Id: modules.inc,v 1.1 1999/07/11 19:21:15 nugget Exp $
+  // $Id: modules.inc,v 1.2 1999/07/25 07:59:29 decibel Exp $
 
-  function err_Check_Query_Results($result) {
+  function row_background_color($rownum) {
+        if( ($rownum/2) == (round($rownum/2)) ) {
+		return $GLOBALS["bar_color_a"];
+        } else {
+		return $GLOBALS["bar_color_b"];
+	}
+  }
+
+  function html_rank_arrow($change) {
+    if ($change > 0) {
+	return "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</font></td>";
+    } else {
+	if ($change < 0) {
+	    $offset = -$change;
+	    return "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font></td>";
+	}
+    }
+  }
+
+  function err_check_query_results($result) {
     if ($result == "") {
 	if ($debug=="yes") {
 	  include "templates/debug.inc";
