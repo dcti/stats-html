@@ -1,10 +1,10 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.41 2004/07/28 23:58:19 decibel Exp $
+// $Id: project.inc,v 1.42 2004/07/29 12:51:03 decibel Exp $
 
-include "limit.inc";
-include "db_pgsql.php";
-include "project.php";
+require_once "limit.inc";
+require_once "db_pgsql.php";
+require_once "project.php";
 
 ob_start();
 
