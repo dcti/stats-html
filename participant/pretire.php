@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
+  // $Id: pretire.php,v 1.3 1999/07/20 04:20:12 nugget Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -9,9 +9,9 @@
   //                            - either em or destid may be passed
   // destid = id to retire to  /
 
-  include "etc/psecure.inc";
   include "etc/config.inc";
   include "etc/project.inc";
+  include "etc/psecure.inc";
 
   $title = "Retiring $par->email";
 

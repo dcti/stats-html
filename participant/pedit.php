@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
+  // $Id: pedit.php,v 1.3 1999/07/20 04:20:12 nugget Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -290,7 +290,7 @@
      Before you can do this, you should update all of your clients to your new email address and wait
      for that new address to appear in the stats database.
      <br>
-     Once you've done that, you may then <a href=\"/pretire.php3?id=$id&pass=$pass\">retire this email address permanently</a>.
+     Once you've done that, you may then <a href=\"/pretire.php3?id=$id&pass=$test_pass\">retire this email address permanently</a>.
     </p>
     <hr>
     <h2>
