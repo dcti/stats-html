@@ -1,0 +1,7 @@
+$Id: to-do-generic.txt,v 1.1 2002/03/08 21:50:41 decibel Exp $
+
+Add index on project_id, date to email_rank, team_rank for lastupdate's usage
+
+add rate (units/hour or units/day)
+
+add percent of total overall work done
