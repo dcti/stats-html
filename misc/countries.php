@@ -1,5 +1,5 @@
 <?
-# $Id: countries.php,v 1.4 2002/12/17 04:49:27 decibel Exp $
+# $Id: countries.php,v 1.5 2003/11/25 21:51:14 paul Exp $
 # vi: ts=2 sw=2 tw=120
 
 include "../etc/config.inc";
@@ -15,13 +15,7 @@ if( file_exists($filename)) {
   readfile($filename);
 } else {
   display_last_update();
-  ?> 
-  <center>	
-    <p>
-      Apologies, these pages are currently being built. Please try again in a few minutes.
-    </p>
-  </center>
-  <? 
+  trigger_error("Apologies, these pages are currently being built. Please try again in a few minutes",E_USER_ERROR);
 }
 ?>
 <?include "../templates/footer.inc";?>
