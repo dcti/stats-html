@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.7 2000/01/18 03:51:59 decibel Exp $
+  // $Id: pretire.php,v 1.8 2000/03/21 21:58:03 bwilson Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -28,9 +28,9 @@
 	  </p>
 	  <p>
 	   You should <strong>only</strong> be doing this if you will no longer be using the old
-	   email address.  This feature has been designed to allow participants to gracefully 
-	   migrate from one email address to another without losing their longevity or standing 
-	   in the stats database.  
+	   email address.  This feature has been designed to allow participants to gracefully
+	   migrate from one email address to another without losing their longevity or standing
+	   in the stats database.
 	  </p>
 	  <p>
 	   In order to retire this email address, you must first pick a destination email address.
@@ -85,7 +85,7 @@
 	   </tr>";
       }
       print "</table>";
-    } 
+    }
     if ($destid <> "") {
       if ($id == $destid) {
         print "
@@ -124,6 +124,9 @@
       $result = sybase_query($qs);
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
       $result = sybase_query($qs);
+# BW: Prevent the retired e-mail from being ranked
+#     $qs = "delete OGR_Email_Rank where id = $id";
+#     $result = sybase_query($qs);
       $qs = "select * from STATS_participant where id = $destid";
       $result = sybase_query($qs);
       $destpar = sybase_fetch_object($result);
