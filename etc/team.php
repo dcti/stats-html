@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.27 2004/07/29 12:36:31 thejet Exp $
+// $Id: team.php,v 1.28 2004/08/18 16:13:14 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -229,7 +229,7 @@ class Team
              $sql = "INSERT INTO stats_team " .
                     " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
                     "VALUES" .
-                    " ($2, $3, $4, $5, $6, $7, $8, $9, 10)" .
+                    " ($2, $3, $4, $5, $6, $7, $8, $9, $10)" .
                "; SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
            }
 
