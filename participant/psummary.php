@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.8 2002/03/28 19:18:20 paul Exp $
+ # $Id: psummary.php,v 1.9 2002/04/03 19:04:38 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -39,7 +39,7 @@
  // Get the participant's record from STATS_Participant and store it in $person
 
  //$qs = "p_participant_all $id";
-$qs = "select * from STATS_Participant where id = $id and listmode < 10";
+$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant where id = $id and listmode < 10";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
@@ -69,7 +69,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 
  // Get the participant's ranking info, store in $rs_rank
 
- $qs = "select *, datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
+ $qs = "select DAY_RANK, OVERALL_RANK, datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
 	WORK_TODAY/$proj_divider as TODAY,
 	WORK_TOTAL/$proj_divider as TOTAL,
 	OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
@@ -85,7 +85,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 
  // Grab the participant's neighbors and store in $neighbors (number of neighbors in $numneighbors)
 
- $qs = "select p.*, r.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
+ $qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	WORK_TODAY/$proj_divider as TODAY,
 	WORK_TOTAL/$proj_divider as TOTAL,
 	(r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
@@ -105,7 +105,8 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 
  $qs = "select r.*, p.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	WORK_TODAY/$proj_divider as TODAY,
-	WORK_TOTAL/$proj_divider as TOTAL
+	WORK_TOTAL/$proj_divider as TOTAL,
+	(r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change
 	from STATS_Participant p, Email_Rank r
         where (r.id = $person->friend_a or
                r.id = $person->friend_b or
@@ -179,7 +180,6 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
   <p>
 <?
   $pct_of_best = (double) $rs_rank->TODAY / $best_day_units;
-  debug_text("<!-- pct_of_best: $pct_of_best, rs_rank->WORK_TODAY: $rs_rank->WORK_TODAY, best_day->WORK_UNITS: $best_day->WORK_UNITS -->\n", $debug);
   if($pct_of_best == 1) {
 ?>
 	<br>
@@ -199,7 +199,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
   }
 ?> 
 	<p>
-	<a href="phistory.php?project_id=$project_id&id=$id">View this Participant's Work Unit Submission History</a>
+	<a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
 	</p>
     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
      <tr>
