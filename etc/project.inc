@@ -1,8 +1,9 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.14 2002/12/07 19:54:30 decibel Exp $
+# $Id: project.inc,v 1.15 2002/12/07 20:33:46 decibel Exp $
 
 include "limit.inc";
+include "debug.inc";
 
 # Formatting options
 $bgcolor = "\"#ffffff\"";
