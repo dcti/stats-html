@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.7 2000/06/15 18:53:20 nugget Exp $
+  // $Id: pjointeam.php,v 1.8 2000/07/06 18:52:16 nugget Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -37,7 +37,7 @@
     if( $rows == 1 ) {
       sybase_data_seek($result,0);
       $teaminfo = sybase_fetch_object($result);
-      $teamname = $teaminfo->name;
+      $newteamname = $teaminfo->name;
     }
   }
 
@@ -53,13 +53,12 @@
     exit;
   }
 
-  $teamname = "No Team";
   $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
   $result = sybase_query($qs);
   $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
   $result = sybase_query($qs);
 
-  $title = "$par->email has joined $teamname";
+  $title = "$par->email has joined $newteamname";
 
   include "templates/header.inc";
 
@@ -80,7 +79,7 @@
 	   </tr>
 	   <tr>
 	    <td>New Team Affiliation</td>
-	    <td bgcolor=\"#ffdddd\"><strong>$team: $teamname</strong></td>
+	    <td bgcolor=\"#ffdddd\"><strong>$team: $newteamname</strong></td>
 	   </tr>
 	  </table>
 	  <p>
