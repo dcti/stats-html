@@ -1,5 +1,5 @@
 <?
-// $Id: tlist.php,v 1.16 2003/05/18 20:38:25 thejet Exp $
+// $Id: tlist.php,v 1.17 2003/06/12 20:44:04 thejet Exp $
 
 # vi: ts=2 sw=2 tw=120 syntax=php
 
@@ -27,8 +27,8 @@ $lastupdate = last_update('t');
 include "../templates/header.inc";
 
 // Get the results
-$team = new Team($gdb, $gproj);
-$result =& $team->get_ranked_list($source, $lo, $limit, &$rows); 
+#$team = new Team($gdb, $gproj);
+$result =& Team::get_ranked_list($source, $lo, $limit, &$rows, $gdb, $gproj); 
 
 // Figure out what navagation buttons we should have
 if ( $lo > $rows ) {

@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.15 2003/05/18 20:38:25 thejet Exp $
+# $Id: tsearch.php,v 1.16 2003/06/12 20:44:04 thejet Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -12,8 +12,8 @@ include "../etc/team.php";
 include "../etc/teamstats.php";
 
 $title = "Team Search: [".safe_display($st)."]";
-$team = new Team($gdb, $gproj);
-$result = $team->get_search_list($st, 50);
+#$team = new Team($gdb, $gproj);
+$result = Team::get_search_list($st, 50, $gdb, $gproj);
 $rows = count($result);
 
 if($rows == 1) {
