@@ -1,5 +1,5 @@
 <?php
-  # $Id: dberror.inc,v 1.1 1999/07/19 17:38:22 nugget Exp $
+  # $Id: dberror.inc,v 1.2 2000/01/18 03:49:18 decibel Exp $
 
   print "
 	<center>

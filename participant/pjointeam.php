@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
+  // $Id: pjointeam.php,v 1.3 2000/01/18 03:49:15 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie

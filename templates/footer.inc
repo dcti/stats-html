@@ -1,5 +1,5 @@
 <?
- # $Id: footer.inc,v 1.2 1999/07/19 16:08:04 nugget Exp $
+ # $Id: footer.inc,v 1.3 2000/01/18 03:49:18 decibel Exp $
 
  print "
   <center>

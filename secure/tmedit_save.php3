@@ -2,7 +2,7 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: tmedit_save.php3,v 1.2 1999/10/31 18:02:03 nugget Exp $
+  // $Id: tmedit_save.php3,v 1.3 2000/01/18 03:49:18 decibel Exp $
 
   // tmsecure.inc will obtain $team and $tpass from the user.
   // Input may come from the url, http headers, or a client cookie

@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc,v 1.1 1999/07/11 19:20:48 nugget Exp $
+// $Id: config.inc,v 1.2 2000/01/18 03:49:16 decibel Exp $
 
 ///////////////////////////
 // Database Connectivity //

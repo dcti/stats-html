@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam1.php,v 1.2 1999/07/11 19:23:26 nugget Exp $
+ // $Id: newteam1.php,v 1.3 2000/01/18 03:49:15 decibel Exp $
  //
  // Team creation, step 1.  This will soon be modified to have a
  // psecure wrapper to only allow team creation to be performed

@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.5 1999/09/09 03:29:49 nugget Exp $
+  // $Id: pretire.php,v 1.6 2000/01/18 03:49:15 decibel Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired

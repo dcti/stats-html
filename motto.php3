@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: motto.php3,v 1.1 1999/07/11 19:09:31 nugget Exp $
+ // $Id: motto.php3,v 1.2 2000/01/18 03:49:14 decibel Exp $
  //
  // Not a production script.
 

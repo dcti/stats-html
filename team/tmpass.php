@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.5 1999/12/12 07:06:32 nitehawk Exp $
+  // $Id: tmpass.php,v 1.6 2000/01/18 03:49:15 decibel Exp $
 
   // Variables Passed in url:
   //  team = team id

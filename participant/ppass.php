@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.8 2000/01/04 20:32:55 nugget Exp $
+  // $Id: ppass.php,v 1.9 2000/01/18 03:49:15 decibel Exp $
 
   // Variables Passed in url:
   //  id == email id
