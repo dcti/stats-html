@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.3 1999/07/20 04:20:12 nugget Exp $
+  // $Id: pretire.php,v 1.4 1999/08/30 14:56:10 nugget Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -16,6 +16,33 @@
   $title = "Retiring $par->email";
 
   include "templates/header.inc";
+
+  if (eregi("hotmail.com",$par->email)) {
+    print "
+           <h2>I'm sorry, hotmail.com e has been iisabled.</h2>
+           <p>
+            Due to recently-discovered holes in hotmail's security, we've temporarily
+            disabled all retiring of hotmail accounts.  Once hotmail.com has
+            corrected the hole in their security, we will be changing all passwords
+            associated with hotmail accounts on the stats server and re-enabling
+            the password mailer and retiring functions.
+           </p>
+           <p>
+            If you'd like more information on the situation, we recommend the
+            <a href=\"http://slashdot.org/article.pl?sid=99/08/30/1324206&mode=thread\">Slashdot Article</a>.
+           </p>
+           <p>
+            Thanks for your patience.  We hope that hotmail is able to quickly rectify the situation.
+           </p>
+          </body>
+         </html>";
+ 
+    $fh = fopen("/var/log/pretire.log","a+");
+    $ts = gmdate("M d Y H:i:s",time());
+    fputs($fh,"$ts retire for id $id ($par->email) denied to $REMOTE_HOST [$REMOTE_ADDR]\n");
+    fclose($fh);
+    exit();
+  }
 
   if ($destid == "" and $ems == "") {
     print "
