@@ -61,13 +61,13 @@ class DB {
 		return false;
     }
 
-	function _error( $p_query=null ) {
-		if ( null !== $p_query ) {
-			error_parameters( $this-> get_last_error(), $p_query );
-		} else {
-			error_parameters( $this -> get_last_error() );
-		}
+    function _error( $p_query=null ) {
+	if ( null !== $p_query ) {
+		//error_parameters( $this-> get_last_error(), $p_query );
+	} else {
+		//error_parameters( $this -> get_last_error() );
 	}
+    }
     /**
      * Run Query
      *
