@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.12 2003/03/09 12:34:54 paul Exp $
+ # $Id: phistory.php,v 1.13 2003/03/21 23:13:38 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -46,9 +46,8 @@ This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
 http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$id
 -->
-  <center>
-    <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
-    <table border="1" cellspacing"0">
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
+      <table align="center" border="1" cellspacing="0" cellpadding="1" >
       <tr>
        <th>Date</th>
        <th align="right"><?=$proj_unitname?></th>
@@ -82,12 +81,11 @@ http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=
       <tr class=<?=row_background_color($i);?>>
         <td><?=$date_fmt?></td>
         <td align="right"><?=$work_units_fmt?></td>
-        <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>"></td>
+        <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>" alt=""></td>
       </tr>
 <?
  }
 ?>
     </table>
-    <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
-  </center>
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
 <?include "../templates/footer.inc";?>
