@@ -27,10 +27,10 @@
        <a href=\"/" . strtolower($project) . "/\">Overall Project Stats</a><br>
        Keyrate History<br>
        Participation History<br>
-       <a href=\"platformlist.php3?view=tco\">CPU/OS Distribution</a><br>
+       <a href=\"platformlist.php?project_id=$project_id&view=tco\">CPU/OS Distribution</a><br>
        <a href=\"countries.html\">Participating Countries</a><br>
-       <a href=\"/pedit.php3\">Edit your Information</a><br>
-       <a href=\"/newteam1.php3\">Create a new Team</a><br>
+       <a href=\"/pedit.php\">Edit your Information</a><br>
+       <a href=\"/newteam1.php\">Create a new Team</a><br>
       </font>
     </td>
     <td width=\"33%\">
@@ -40,9 +40,9 @@
       </font>
       <br>
       <font $fontd size=\"-1\" color=$colorb>
-       <a href=\"plist.php3?low=1&limit=100\">Top 100 Participants Overall</a><br>
-       <a href=\"plist.php3?low=1&limit=100&source=y\">Top 100 Participants Yesterday</a><br>
-       <form action=\"psearch.php3\"><input type=\"text\" name=\"st\" size=\"16\" maxlength=\"42\">
+       <a href=\"plist.php?project_id=$project_id&low=1&limit=100\">Top 100 Participants Overall</a><br>
+       <a href=\"plist.php?project_id=$project_id&low=1&limit=100&source=y\">Top 100 Participants Yesterday</a><br>
+       <form action=\"psearch.php?project_id=$project_id\"><input type=\"text\" name=\"st\" size=\"16\" maxlength=\"42\">
              <input type=\"submit\" value=\"Search\"></form>
       </font>
     </td>
@@ -53,9 +53,9 @@
       </font>
       <br>
       <font $fontd size=\"-1\" color=$colorb>
-       <a href=\"tlist.php3?low=1&limit=100\">Top 100 Teams Overall</a><br>
-       <a href=\"tlist.php3?low=1&limit=100&source=y\">Top 100 Teams Yesterday</a><br>
-       <form action=\"tsearch.php3\"><input type=\"text\" name=\"st\" size=\"16\" maxlength=\"32\">
+       <a href=\"tlist.php?project_id=$project_id&low=1&limit=100\">Top 100 Teams Overall</a><br>
+       <a href=\"tlist.php?project_id=$project_id&low=1&limit=100&source=y\">Top 100 Teams Yesterday</a><br>
+       <form action=\"tsearch.php?project_id=$project_id\"><input type=\"text\" name=\"st\" size=\"16\" maxlength=\"32\">
              <input type=\"submit\" value=\"Search\"></form>
       </font>
     </td>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
 	"http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-// $Id: tmsummary.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+// $Id: tmsummary.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -11,7 +11,7 @@ if ($tm <= 0){
   $tm = 1;
 }
 
-$myname = "tmsummary.php3";
+$myname = "tmsummary.php";
 
 $title = "Team #$tm Summary";
 
@@ -141,11 +141,11 @@ if ($par->showmembers=="NO") {
 } else {  
 	if ($par->WORK_TODAY == 0) {
 		print "<center><p>Click here to view this team's 
-			<a href=\"tmember.php3?team=$tm\"><font color=\"#000000\">overall</font></a> participant stats";
+			<a href=\"tmember.php?project_id=$project_id&team=$tm\"><font color=\"#000000\">overall</font></a> participant stats";
 	} else {
 		print "<center><p>Click here to view this team's participant stats for
-			<a href=\"tmember.php3?team=$tm&source=y\"><font color=\"#000000\">yesterday</font></a> or
-			<a href=\"tmember.php3?team=$tm\"><font color=\"#000000\">overall</font></a>";
+			<a href=\"tmember.php?project_id=$project_id&team=$tm&source=y\"><font color=\"#000000\">yesterday</font></a> or
+			<a href=\"tmember.php?project_id=$project_id&team=$tm\"><font color=\"#000000\">overall</font></a>";
 	}
 	
 	if ($par->showmembers=="PAS") {
@@ -189,7 +189,7 @@ if ($par->showmembers=="NO") {
           }
         }
         print "
-		<td><a href=\"tmsummary.php3?team=$teamrecid\"><font color=\"#cc0000\">$teamrec->name</font></a></td>
+		<td><a href=\"tmsummary.php?project_id=$project_id&team=$teamrecid\"><font color=\"#cc0000\">$teamrec->name</font></a></td>
 		<td align=\"right\">$teamrec->Days_Working</td>
 		<td align=\"right\">$blocks</td>
 	</tr>
@@ -202,14 +202,14 @@ if ($par->showmembers=="NO") {
 	</tr>
    </table>
    <hr>
-   <a href=\"/pjointeam.php3?team=$team\">I want to join this team!</a>
+   <a href=\"/pjointeam.php?team=$team\">I want to join this team!</a>
    <hr>
   </center>
 	";
 
  print "
   <center>
-   <form action=\"/tmedit.php3\" method=\"post\">
+   <form action=\"/tmedit.php\" method=\"post\">
     <p>
      Edit this team's information 
      <br>
@@ -221,7 +221,7 @@ if ($par->showmembers=="NO") {
    </form>
    <p>
     If you are the team coordinator, and you've forgotten your team password, click
-    <form action=\"/tmpass.php3\"><input type=\"hidden\" name=\"team\" value=\"$team\">
+    <form action=\"/tmpass.php\"><input type=\"hidden\" name=\"team\" value=\"$team\">
     <input type=\"submit\" value=\"here\"></form> and the password will be mailed to
     $par->contactemail.
    </p>

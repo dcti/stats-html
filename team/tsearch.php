@@ -1,7 +1,7 @@
 <?
- # $Id: tsearch.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: tsearch.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
- $myname = "tsearch.php3";
+ $myname = "tsearch.php";
 
  // Variables Passed in url:
  //   st == Search Term
@@ -44,7 +44,7 @@
 	# Only one hit, let's jump straight to psummary
 	$par = sybase_fetch_object($QRSLTteams);
 	$id = (int) $par->TEAM_ID;
-	header("Location: tmsummary.php3?team=$id");
+	header("Location: tmsummary.php?project_id=$project_id&team=$id");
 	exit;
  }
 
@@ -95,7 +95,7 @@
 	print "
 		<tr bgcolor=" . row_background_color($i) . ">
 		<td>$par->OVERALL_RANK" . html_rank_arrow($par->Change) . "</td>
-		<td><a href=\"tmsummary.php3?team=$teamid\"><font color=\"#cc0000\">$par->name</font></a></td>
+		<td><a href=\"tmsummary.php?project_id=$project_id&team=$teamid\"><font color=\"#cc0000\">$par->name</font></a></td>
 		<td align=\"right\">$firstd-$firstm-$firsty</td>
 		<td align=\"right\">$lastd-$lastm-$lasty</td>
 		<td align=\"right\">" . number_format($par->Days_Working) . "</td>

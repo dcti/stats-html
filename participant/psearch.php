@@ -1,7 +1,7 @@
 <?
- # $Id: psearch.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: psearch.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
- $myname = "psearch.php3";
+ $myname = "psearch.php";
 
  // Variables Passed in url:
  //   st == Search Term
@@ -35,8 +35,8 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	# Only one hit, let's jump straight to psummary
 	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
 	$id = (int) $ROWparticipant->id;
-#	header("Location: http://stats.distributed.net/$project/psummary.php3?id=$id");
-	header("Location: psummary.php3?id=$id");
+#	header("Location: http://stats.distributed.net/$project/psummary.php?project_id=$project_id&id=$id");
+	header("Location: psummary.php?project_id=$project_id&id=$id");
 	exit;
  }
 
@@ -95,7 +95,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 		. ", totalblocks: $totalblocks. --->\n";
 
 	print "
-		<td><a href=\"psummary.php3?id=$id\"><font color=\"#cc0000\">" . participant_listas($ROWparticipant->listmode,
+		<td><a href=\"psummary.php?project_id=$project_id&id=$id\"><font color=\"#cc0000\">" . participant_listas($ROWparticipant->listmode,
 			$ROWparticipant->email,$id,$ROWparticipant->contact_name) . "</font></a></td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>

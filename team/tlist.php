@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
-$myname = "tlist.php3";
+$myname = "tlist.php";
 
 // Variables Passed in url:
 //   low == lowest rank used
@@ -117,7 +117,7 @@ if ("$source" == "y") {
 	print "
 	      <tr bgcolor=$row_bgnd_color>
 		<td>$par->Rank" . html_rank_arrow($par->Change) . "</td>
-		<td><a href=\"tmsummary.php3?team=$teamid\"><font color=\"#cc0000\">$par->name</font></a></td>
+		<td><a href=\"tmsummary.php?project_id=$project_id&team=$teamid\"><font color=\"#cc0000\">$par->name</font></a></td>
 		<td align=\"right\">$first</td>
 		<td align=\"right\">$last</td>
 		<td align=\"right\">" . number_format($par->Days_Working, 0) . "</td>

@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+# $Id: plist.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -18,7 +18,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
-$myname = "plist.php3";
+$myname = "plist.php";
 
 // Variables Passed in url:
 //   low == lowest rank used
@@ -129,7 +129,7 @@ if ("$source" == "y") {
             print "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font></td>\n";
           }
         }
-	print "	<td><a href=\"psummary.php3?id=$parid\"><font color=\"#cc0000\">" . participant_listas($par->listas,
+	print "	<td><a href=\"psummary.php?project_id=$project_id&id=$parid\"><font color=\"#cc0000\">" . participant_listas($par->listas,
 			$par->email,$par->id,$par->contact_name) . "</font></a></td>
 		<td align=\"right\">$firstd-$firstm-$firsty</td>
 		<td align=\"right\">$lastd-$lastm-$lasty</td>

@@ -1,7 +1,7 @@
 <?
- # $Id: phistory_raw.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: phistory_raw.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
- $myname = "phistory_raw.php3";
+ $myname = "phistory_raw.php";
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -35,7 +35,7 @@
 
  $retire_to = (int) $person->retire_to;
  if( $retire_to > 0 ) {
-   header("Location: http://stats.distributed.net/rc5-64/phistory_raw.php3?id=$retire_to");
+   header("Location: http://stats.distributed.net/rc5-64/phistory_raw.php?project_id=$project_id&id=$retire_to");
    exit();
  }
 

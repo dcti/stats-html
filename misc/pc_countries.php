@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: pc_countries.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ // $Id: pc_countries.php,v 1.2 2002/03/08 22:53:01 paul Exp $
 
  $outname = "countries";
 
@@ -104,7 +104,7 @@
 	      <font size=\"-1\">
 	       Note: Nationalities listed on this page are only reflective of
 	       those participants who have designated their nationality when
-	       <a href=\"/pedit.php3\">editing</a> their participant information.
+	       <a href=\"/pedit.php\">editing</a> their participant information.
 	       No attempt has been made to derive nationalities from participant
 	       email addresses.
 	      </font>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
 	"http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-// $Id: tmember.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+// $Id: tmember.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -10,7 +10,7 @@
 //  pass == Password for viewing member listing
 //  source == y for yesterday's contributors only
 
-$myname = "tmember.php3";
+$myname = "tmember.php";
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
@@ -192,8 +192,8 @@ print "<BR><TABLE border=\"0\"><tr>
 	<td align=right>$rows</td>
 	</tr></table><br>";
 
-// Provide a link back to tmsummary.php3
-print "<center>Return to the <a href=\"tmsummary.php3?team=$tm\">team summary page</a>.</center>";
+// Provide a link back to tmsummary.php
+print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>";
 
 // Start the table
 print "<CENTER>
@@ -239,7 +239,7 @@ for ($i = $low; $i < $low + $limit; $i++)
 	print "
 		<tr bgcolor=" . row_background_color($i, $color_a, $color_b) . ">
 		  <td>$rnk</td>
-		  <td><a href=\"psummary.php3?id=$linkid\"><font color=\"#cc0000\">$listas</font></a></td>";
+		  <td><a href=\"psummary.php?project_id=$project_id&id=$linkid\"><font color=\"#cc0000\">$listas</font></a></td>";
 	if ($n_yesterday < 1 and $source == y) {
 		print "
 		  <td align=\"center\">--</td>";
@@ -302,9 +302,9 @@ else
 }
 print "</tr></TABLE>";
 
-// Provide a link back to tmsummary.php3
+// Provide a link back to tmsummary.php
 if ($rows > 25) {
-	print "<center>Return to the <a href=\"tmsummary.php3?team=$tm\">team summary page</a>.</center>";
+	print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>";
 }
 
 include "templates/footer.inc";

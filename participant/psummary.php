@@ -1,7 +1,7 @@
 <?
- # $Id: psummary.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: psummary.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
- $myname = "psummary.php3";
+ $myname = "psummary.php";
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -26,7 +26,7 @@
 
         print "	  <tr bgcolor=" . row_background_color($i, $color_a, $color_b) . ">
 		<td>$par->OVERALL_RANK" . html_rank_arrow($par->Overall_Change) . "
-		<td><a href=\"psummary.php3?id=$parid\"><font color=\"#cc0000\">$participant</font></a></td>
+		<td><a href=\"psummary.php?project_id=$project_id&id=$parid\"><font color=\"#cc0000\">$participant</font></a></td>
 		<td align=\"right\">" . number_style_convert( $par->Days_Working ) . "</td>
 		<td align=\"right\">" . number_style_convert( (double) $par->TOTAL) . "</td>
 		<td align=\"right\">" . number_style_convert( (double) $par->TODAY) . "</td>
@@ -75,7 +75,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 
  $retire_to = 0+$person->retire_to;
  if( $retire_to > 0 ) {
-   header("Location: psummary.php3?id=$retire_to");
+   header("Location: psummary.php?project_id=$project_id&id=$retire_to");
    exit();
  }
 
@@ -254,7 +254,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  
  print "
 	<p>
-	<a href=\"phistory.php3?id=$id\">View this Participant's Work Unit Submission History</a>
+	<a href=\"phistory.php?project_id=$project_id&id=$id\">View this Participant's Work Unit Submission History</a>
 	</p>
     <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
      <tr>
@@ -297,7 +297,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
    <br>
    <hr>
    <p>
-    <form action=\"/ppass.php3\"><input type=\"hidden\" name=\"id\" value=\"$id\"><input type=\"submit\" value=\"Please email me my password.\"></form>
+    <form action=\"/ppass.php\"><input type=\"hidden\" name=\"id\" value=\"$id\"><input type=\"submit\" value=\"Please email me my password.\"></form>
    </p>
   </center>
 	";

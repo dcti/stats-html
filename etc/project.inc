@@ -1,9 +1,8 @@
 <?
- # $Id: project.inc,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: project.inc,v 1.2 2002/03/08 22:53:02 paul Exp $
 
  $project = "OGR-25";
- $project_id = 25;
- $dir = "/ogr-25/";
+ $project_id = $_GET["project_id"];
  $divider = 1000000000;
 
  $bgcolor = "\"#ffffff\"";

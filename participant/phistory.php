@@ -1,7 +1,7 @@
 <?
- # $Id: phistory.php,v 1.1 2002/03/08 21:50:41 decibel Exp $
+ # $Id: phistory.php,v 1.2 2002/03/08 22:53:02 paul Exp $
 
- $myname = "phistory.php3";
+ $myname = "phistory.php";
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -42,7 +42,7 @@
 
  $retire_to = (int) $person->retire_to;
  if( $retire_to > 0 ) {
-   header("Location: http://stats.distributed.net/ogr-24/phistory.php3?id=$retire_to");
+   header("Location: http://stats.distributed.net/ogr-24/phistory.php?project_id=$project_id&id=$retire_to");
    exit();
  }
 
@@ -88,7 +88,7 @@
 
  include "templates/header.inc";
 
-print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats pages, has a version which is far more suitable\n     for machine parsing.  Please try the url:\n http://stats.distributed.net/ogr-24/phistory_raw.php3?id=$id\n-->\n";
+print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats pages, has a version which is far more suitable\n     for machine parsing.  Please try the url:\n http://stats.distributed.net/ogr-24/phistory_raw.php?project_id=$project_id&id=$id\n-->\n";
 
  print "
 	<center>
