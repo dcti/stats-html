@@ -105,7 +105,6 @@ class DB {
         if(in_array('pg_query_params', get_extension_funcs('pgsql')))
           {
             $this -> _query_id = @pg_query_params($this -> _link_id, $p_query, $arr_parms);
-            
           }
         else
           {
@@ -215,7 +214,22 @@ class DB {
       {
         // does a query and returns first row
         $query_id = $this -> query($query_string);
-        $returnobj = $this -> fetch_object($query_id, $query_string);
+        $returnobj = $this -> fetch_object($query_id);
+        $this -> free_result($query_id);
+        return $returnobj;
+      }
+
+
+    /**
+     * Executes a query and returns an object.
+     * Useful if you are expecting a single row to be returned so you
+     * don't have to loop
+     */
+    function query_bound_first($query_string, $arr_parms)
+      {
+        // does a query and returns first row
+        $query_id = $this -> query_bound($query_string, $arr_parms);
+        $returnobj = $this -> fetch_object($query_id);
         $this -> free_result($query_id);
         return $returnobj;
       }
