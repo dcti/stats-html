@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.35 2003/11/17 18:53:10 thejet Exp $
+// $Id: tmember.php,v 1.36 2003/11/19 14:43:24 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -139,7 +139,7 @@ $lo = $low + 1;
 include "../templates/header.inc";
 
 if($team->get_id_mismatch() == true) {
-  print "<h2 class=\"phead2\" style=\"color: red\">WARNING: This team has been renumbered, the new
+  print "<h2 class=\"phead2\" style=\"color: red\">NOTICE: This team has been renumbered, the new
   team ID is " . $team->get_id() . ".</h2>";
 }
 

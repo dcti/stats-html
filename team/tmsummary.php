@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.39 2003/11/11 02:28:41 thejet Exp $
+// $Id: tmsummary.php,v 1.40 2003/11/19 14:43:24 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -41,7 +41,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 <div style="text-align:center;">
 <h1 class="phead"><?= safe_display($team->get_name()) ?></h1>
 <?if($team->get_id_mismatch() == true) {?>
-  <h2 class="phead2" style="color: red">WARNING: This team has been renumbered, the new
+  <h2 class="phead2" style="color: red">NOTICE: This team has been renumbered, the new
   team ID is <?=$team->get_id()?>.</h2>
 <?}?>
   <table align="center">
