@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.7 1999/08/30 22:45:53 nugget Exp $
+# $Id: to-do.txt,v 1.8 1999/10/31 18:32:51 nugget Exp $
 
 o Setup support for HTTP caching (ie: squid)
 This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
@@ -61,4 +61,6 @@ o <tibim> Nugget94M: on stats for the overall daily rate... you should use
           in the ranks, except use it to show how many more mkeys/sec we were
           slower or faster than the previous day.
   <Nugget94M> hmmm.  that's a neat idea.
+
+[12:31pm][Rayden242->] I had an idea for another stat on the main page... If we had been going at our current rate since the begining, it would have taken us x days to get where we are today
 
