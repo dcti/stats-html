@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.12 2002/04/12 21:41:13 paul Exp $
+  // $Id: psecure.inc,v 1.13 2002/06/03 13:17:02 paul Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -23,11 +23,12 @@
       # The user has actually keyed in their ID, let's ask again.
       authenticate();
     }
-    include "etc/project.inc";
-    include "templates/header.inc";
-    include "templates/$why.inc";
+
+    include "../etc/project.inc";
+    include "../templates/header.inc";
+    include "../templates/$why.inc";
     print 'datestamp: ' . date("M d Y H:i:s");
-    include "templates/footer.inc";
+    include "../templates/footer.inc";
     exit;
   }
 
