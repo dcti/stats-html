@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.4 2003/07/10 20:11:07 paul Exp $
+// $Id: participant.php,v 1.5 2003/07/10 20:30:33 paul Exp $
 /**
  * This class represents a participant
  * 
@@ -467,5 +467,5 @@ class Participant {
         $this -> _state = &$obj;
         $this -> _stats = &$stats;
     } 
-
+}
     ?>
