@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.6 2000/06/15 18:49:55 nugget Exp $
+  // $Id: pjointeam.php,v 1.7 2000/06/15 18:53:20 nugget Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -29,6 +29,18 @@
     }
   }
 
+  if( $team > 0 ) {
+    $newteamname = "Invalid team";
+    $qs = "select * from stats.dbo.STATS_team where team = $team";
+    $result = sybase_query($qs);
+    $rows = sybase_num_rows($result);
+    if( $rows == 1 ) {
+      sybase_data_seek($result,0);
+      $teaminfo = sybase_fetch_object($result);
+      $teamname = $teaminfo->name;
+    }
+  }
+
   if( $teaminfo->listmode > 0 ) {
     $title = "This team has been revoked";
     include "templates/header.inc";
@@ -42,24 +54,12 @@
   }
 
   $teamname = "No Team";
-  if( $team > 0 ) {
-    $newteamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $team";
-    $result = sybase_query($qs);
-    $rows = sybase_num_rows($result);
-    if( $rows == 1 ) {
-      sybase_data_seek($result,0);
-      $teaminfo = sybase_fetch_object($result);
-      $teamname = $teaminfo->name;
-    }
-  }
-
   $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
   $result = sybase_query($qs);
   $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
   $result = sybase_query($qs);
 
-  $title = "$par->EMAIL has joined $teamname";
+  $title = "$par->email has joined $teamname";
 
   include "templates/header.inc";
 
@@ -68,7 +68,7 @@
 	  <table cellpadding=\"1\" cellspacing=\"1\" bgcolor=\"#dddddd\">
 	   <tr>
 	    <td>Email Address:</td>
-	    <td>$par->EMAIL</td>
+	    <td>$par->email</td>
 	   </tr>
 	   <tr>
 	    <td>Participant Number:</td>
