@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.17 2002/04/15 04:49:14 jlawson Exp $
+  // $Id: pjointeam.php,v 1.18 2002/05/25 22:43:43 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -55,6 +55,7 @@
   if( $teaminfo->listmode > 0 ) {
     $title = "This team has been revoked";
     include "../templates/header.inc";
+    display_last_update();
     print "<center>
           <h2>This team has been revoked</h2>
           <p>Team #$team ($teaminfo->name) is no longer valid.</p>
@@ -70,6 +71,7 @@
   $title = "$par->email has joined $newteamname";
 
   include "../templates/header.inc";
+  display_last_update();
   debug_text("<!-- TJqs: $TJqs, TJrows: $TJrows. -->\n",$debug);
 
   print "<center>
