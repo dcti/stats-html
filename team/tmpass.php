@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.3 1999/07/19 19:11:48 nugget Exp $
+  // $Id: tmpass.php,v 1.4 1999/07/28 20:38:18 nugget Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -79,4 +79,10 @@ help@distributed.net.
 Thanks.";
 
   send_mail($par->contactemail, "passmail@distributed.net", "Your distributed.net stats password", $message);
+
+  $fh = fopen("/var/log/tmpass.log","a+");
+  $ts = gmdate("M d Y H:i:s",time());
+  fputs($fh,"$ts password for team $team requested by $REMOTE_HOST [$REMOTE_ADDR]\n");
+  fclose($fh);
+
 ?>
