@@ -5,7 +5,7 @@
 <!-- vi: ts=2 sw=2 tw=120 syntax=php
 -->
  <head>
-  <title>stats.distributed.net - <?=$proj_name?> <?=$title?></title>
+  <title>stats.distributed.net - <?=$gproj->get_name()?> <?=$title?></title>
   <meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
   <link rel="stylesheet" type="text/css" href="/css/default.css" />
  </head>
@@ -14,8 +14,8 @@
   <colgroup><col><col width="33%"><col width="33%"><col width="33%"></colgroup>
    <tr>
     <td colspan="4" align="center" class="htitle">
-      <? if(isset($proj_name)) {
-    echo $proj_name . " / ";
+      <? if($gproj->get_name() != null) {
+    echo $gproj->get_name() . " / ";
 } 
 ?>  <?=$title?>
     </td>
@@ -34,7 +34,7 @@
         <a href="/misc/platformlist.php?project_id=<?=$project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
         <a href="/misc/countries.php?project_id=<?=$project_id?>">Participating Countries</a><br>
         <?
-if ($gproj -> getprize() <> 0) {
+if ($gproj->get_prize() <> 0) {
 
     ?>
           <a href="/misc/money.php?project_id=<?=$project_id?>">Distribution of Prize Money</a><br>
