@@ -1,10 +1,14 @@
 <?
-$query_string = str_replace ("project_id=$project_id", "", $_SERVER['QUERY_STRING']);
+$query_string = $_SERVER['QUERY_STRING'];
+if (isset($project_id)) {
+	$query_string = str_replace ("project_id=$project_id", "", $query_string );
+}
 
 // Trim off leading and trailing &'s, then add an & at the front if necessary
 $query_string = preg_replace("/^[&]+(.*)\$/", "\$1", $query_string);
 $query_string = preg_replace("/^(.*)[&]+\$/", "\$1", $query_string);
 $query_string = preg_replace("/^(.*)&&(.*)\$/", "\$1&\$2", $query_string);
+
 $query_string = str_replace("&", "&amp;", $query_string);
 if($query_string != '') $query_string = "&amp;$query_string";
 if (!isset($proj_list)) {
