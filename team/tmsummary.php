@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.20 2003/03/09 02:01:53 thejet Exp $
+// $Id: tmsummary.php,v 1.21 2003/03/09 11:43:16 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -159,12 +159,12 @@ if (private_markupurl_safety($par->logo) != "") {
   <? if($proj_totalunits > 0 && $par->WORK_TODAY == 0)
      {
    ?>
-  This team will not find the key before anyone else does.<br>
+  The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
   <?} else if ($proj_totalunits > 0 && $par->WORK_TODAY > 0) { ?>
   The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $par->WORK_TODAY) ?> that this team will
-    find the key before anyone else does. <br>
+    find the key before anyone else does. 
   <? } ?>
-
+  <br>
   <p>
     This team has had <?= number_style_convert($par->MEMBERS_OVERALL) ?> participants contribute blocks.
     Of those, <?= number_style_convert($par->MEMBERS_CURRENT) ?> are still on this team,
@@ -196,7 +196,7 @@ if (private_markupurl_safety($par->logo) != "") {
   ?> 
   </p>
 	<center>
-    <table border="1" cellspacing="0" style="background-color: <?=substr($header_bg,1,7)?>;">
+    <table border="1" cellspacing="0">
       <tr>
         <th>Rank</th>
         <th>Team</th>
@@ -225,7 +225,7 @@ if (private_markupurl_safety($par->logo) != "") {
       <?
       }
       ?>
-      <tr style="background-color: <?=substr($footer_bg,1,7)?>;">
+      <tr bgcolor=<?= $footer_bg ?>>
         <td align="right" colspan="3"><font <?= $footer_font ?>>Total</font></td>
         <td align="right"><font <?= $footer_font ?>><?= number_style_convert($totalwork * $proj_scale) ?></td>
       </tr>
