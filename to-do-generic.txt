@@ -1,4 +1,4 @@
-$Id: to-do-generic.txt,v 1.2 2002/04/15 22:32:19 paul Exp $
+$Id: to-do-generic.txt,v 1.3 2002/05/14 22:18:32 paul Exp $
 
 Add index on project_id, date to email_rank, team_rank for lastupdate's usage
 
@@ -20,3 +20,4 @@ add 30day history script.
 
 2559: various tasks( most covered here or complete)
 
+fix ppass.php so it's not called directly.. i.e. state from psummary.php
