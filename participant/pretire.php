@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.25 2004/07/08 08:18:18 fiddles Exp $
+// $Id: pretire.php,v 1.26 2004/07/15 17:44:15 decibel Exp $
 
 include "../etc/config.inc";
 include "../etc/project.inc";
@@ -63,7 +63,7 @@ if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
 	  		<p>
 	  		Below are all the email addresses in stats that match what you just typed in. Please choose the appropriate email address by clicking on it.
 	  		</p>
-	  		<p>This <strong>will retire</strong><?=$gpart->get_email()?>.</p>
+	  		<p>This <strong>will retire</strong> <?=$gpart->get_email()?>.</p>
 	  		<p>Clicking an email below will result in a permanent change to the stats database.</p>
 	  		<table border="1">
 	  		 <tr bgcolor="#00aaaa">
