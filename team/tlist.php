@@ -1,5 +1,5 @@
 <?
-// vi: ts=2 sw=2 tw=120
+# vi: ts=2 sw=2 tw=120 syntax=php
 
 // Variables Passed in url:
 //   low == lowest rank used
@@ -14,7 +14,7 @@ include "../etc/project.inc";
 if ("$source" == "y") {
   $title = "Team Listing by Yesterday's Rank: $lo to $hi";
   $qs = "select  tr.TEAM_ID, name, FIRST_DATE, LAST_DATE,
-            WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
+            WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY,
             MEMBERS_CURRENT, DAY_RANK as Rank,
             datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
             DAY_RANK_PREVIOUS-DAY_RANK as Change
@@ -29,7 +29,7 @@ if ("$source" == "y") {
   $source = "o";
   $title = "Team Listing by Overall Rank: $lo to $hi";
   $qs = "select  tr.TEAM_ID, name, FIRST_DATE, LAST_DATE,
-            WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
+            WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY,
             MEMBERS_CURRENT, OVERALL_RANK as Rank,
             datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
             OVERALL_RANK_PREVIOUS-OVERALL_RANK as Change
@@ -82,12 +82,12 @@ if ( $rows >= $limit ) {
     <tr>
       <th>Rank</th>
       <th>Team</th>
-      <th align="right">First Block</th>
-      <th align="right">Last Block</th>
+      <th align="right">First Unit</th>
+      <th align="right">Last Unit</th>
       <th align="right">Days</th>
       <th align="right">Current Members</th>
-      <th align="right"><?=$proj_unitname?> Overall</th>
-      <th align="right"><?=$proj_unitname?> Yesterday</th>
+      <th align="right"><?=$proj_scaled_unit_name?> Overall</th>
+      <th align="right"><?=$proj_scaled_unit_name?> Yesterday</th>
     </tr>
     <?
     $totalblocks=0;
@@ -99,8 +99,8 @@ if ( $rows >= $limit ) {
 
       $row_bgnd_color = row_background_color($i);
 
-      $totalblocks += (double) $par->WORK_TOTAL;
-      $totalblocksy += (double) $par->WORK_TODAY;
+      $totalblocks += (double) $par->WORK_TOTAL * $proj_scale;
+      $totalblocksy += (double) $par->WORK_TODAY * $proj_scale;
       $decimal_places=0;
       $first = sybase_date_format_long($par->FIRST_DATE);
       $last = sybase_date_format_long($par->LAST_DATE);
@@ -114,8 +114,8 @@ if ( $rows >= $limit ) {
         <td align="right"><?=$last?></td>
         <td align="right"><?=number_format($par->Days_Working, 0)?></td>
         <td align="right"><?=number_format($par->MEMBERS_CURRENT, 0)?></td>
-        <td align="right"><?=number_format( (double) $par->WORK_TOTAL, 0)?></td>
-        <td align="right"><?=number_format( (double) $par->WORK_TODAY, 0)?></td>
+        <td align="right"><?=number_format( (double) $par->WORK_TOTAL * $proj_scale, 0)?></td>
+        <td align="right"><?=number_format( (double) $par->WORK_TODAY * $proj_scale, 0)?></td>
       </tr>
       <?
     }

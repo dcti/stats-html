@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.18 2002/12/09 04:49:16 decibel Exp $
+// $Id: tmember.php,v 1.19 2002/12/10 23:52:22 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -88,7 +88,7 @@ if ($info->showmembers == "PAS") {
 
 
 // See how many blocks this team did
-$qs = "SELECT  WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY
+$qs = "SELECT  WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY
         FROM Team_Rank
         WHERE TEAM_ID = $tm
           and PROJECT_ID = $project_id";
@@ -99,9 +99,9 @@ if ($result == "") {
 } else {
   $totblocks = TRUE;
   $blocksresult = sybase_fetch_object($result);
-  $yblocks = (double) $blocksresult->WORK_TODAY;
+  $yblocks = (double) $blocksresult->WORK_TODAY * $proj_scale;
   if ( $yblocks == 0 ) $yblocks = 1;
-  $oblocks = (double) $blocksresult->WORK_TOTAL;
+  $oblocks = (double) $blocksresult->WORK_TOTAL * $proj_scale;
 }
 
 debug_text("<!-- TOTAL BLOCKS -- qs: $qs, totblocks: $totblocks, yblocks: ${yblocks}, oblocks: ${oblocks}. -->\n",$debug);
@@ -113,9 +113,9 @@ if ($source == y) {    // $qs_source is an easy way around re-doing $qs based on
   $qs_source = "*";
 }
 
-$qs = "SELECT  tm.WORK_TOTAL/$proj_divider as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
+$qs = "SELECT  tm.WORK_TOTAL as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
           p.id, p.listmode, p.contact_name, p.email, p.team,
-          tm.WORK_TODAY/$proj_divider as WORK_TODAY,";
+          tm.WORK_TODAY as WORK_TODAY,";
 if ($source == y) {
   $qs .= "
           er.DAY_RANK as eRANK, (er.DAY_RANK_PREVIOUS - er.DAY_RANK) as eRANK_CHANGE";
@@ -218,9 +218,9 @@ print "
           $rnk = number_style_convert($i+1);
           $prnk = $member->eRANK;
           $prnkchg = $member->eRANK_CHANGE;
-          $n_yesterday = (double) $member->WORK_TODAY;
+          $n_yesterday = (double) $member->WORK_TODAY * $proj_scale;
           $yesterday = number_style_convert($n_yesterday);
-          $n_blocks = (double) $member->WORK_TOTAL;
+          $n_blocks = (double) $member->WORK_TOTAL * $proj_scale;
           $blocks = number_style_convert($n_blocks);
           $first = sybase_date_format_long($member->FIRST_DATE);
           $last = sybase_date_format_long($member->LAST_DATE);

@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.11 2002/12/07 20:15:02 decibel Exp $
+ # $Id: psearch.php,v 1.12 2002/12/10 23:52:50 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -55,7 +55,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
        <th align="right">First Block</th>
        <th align="right">Last Block</th>
        <th align="right">Days</th>
-       <th align="right"><?=$proj_unitname?></th>
+       <th align="right"><?=$proj_scaled_unit_name?></th>
       </tr>
  <?
 
@@ -65,7 +65,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	sybase_data_seek($QRSLTsearch, $i);
 	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
 	$id = (int) $ROWparticipant->id;
-	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$proj_divider;
+	$totalblocks += (double) $ROWparticipant->WORK_TOTAL * $proj_scale;
 
 	?>
 	<tr class="<?=row_background_color($i)?>">
@@ -78,7 +78,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>
 		<td align=\"right\">" . number_style_convert($ROWparticipant->Days_Working) . "</td>
-		<td align=\"right\">" . $blocks=number_style_convert( (double) $ROWparticipant->WORK_TOTAL/$proj_divider) . "</td>
+		<td align=\"right\">" . $blocks=number_style_convert( (double) $ROWparticipant->WORK_TOTAL * $proj_scale) . "</td>
 		</tr>
 	";
  }

@@ -1,6 +1,6 @@
 <?
-
-# $Id: plist.php,v 1.16 2002/09/14 10:36:57 paul Exp $
+# vi: ts=2 sw=2 tw=120 syntax=php
+# $Id: plist.php,v 1.17 2002/12/10 23:52:50 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -26,7 +26,7 @@ include "../etc/project.inc";
 
 if ("$source" == "y") {
   $title = "Participant Listing by Yesterday's Rank: $lo to $hi";
-  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY/$proj_divider as blocks,
+  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY as blocks,
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.DAY_RANK as rank, r.DAY_RANK_PREVIOUS - r.DAY_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
@@ -36,7 +36,7 @@ if ("$source" == "y") {
 } else {
   $source = "o";
   $title = "Participant Listing by Overall Rank: $lo to $hi";
-  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL/$proj_divider as blocks,
+  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL as blocks,
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.OVERALL_RANK as rank, r.OVERALL_RANK_PREVIOUS - r.OVERALL_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
@@ -65,7 +65,7 @@ if ("$source" == "y") {
        <th align="right"><font <?=$footer_font?>>First Unit</font></th>
        <th align="right"><font <?=$footer_font?>>Last Unit</font></th>
        <th align="right"><font <?=$footer_font?>>Days</font></th>
-       <th align="right"><font <?=$footer_font?>><?=$proj_unitname?></font></th>
+       <th align="right"><font <?=$footer_font?>><?=$proj_scaled_unit_name?></font></th>
       </tr>
 <?
 
@@ -83,9 +83,9 @@ debug_text ("<!-- $i, $par->listas, $par->email,$par->id,$par->contact_name " .
 participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " -->\n",$debug);
 
         $parid = 0+$par->id;
-	$totalblocks = $totalblocks + (double) $par->blocks;
+	$totalblocks = $totalblocks + (double) $par->blocks * $proj_scale;
 	$decimal_places=0;
-	$blocks=number_style_convert( (double) $par->blocks );
+	$blocks=number_style_convert( (double) $par->blocks * $proj_scale );
         $firstd = substr($par->first,4,2);
 	$firstm = substr($par->first,0,3);
 	$firsty = substr($par->first,7,4);

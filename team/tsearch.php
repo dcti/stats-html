@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.12 2002/12/09 04:56:24 decibel Exp $
+# $Id: tsearch.php,v 1.13 2002/12/10 23:52:22 paul Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -12,7 +12,7 @@ include "../etc/project.inc";
 $title = "Team Search: [".safe_display($st)."]";
 
 $qs = "select tr.TEAM_ID, name, FIRST_DATE, LAST_DATE,
-          WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
+          WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY,
           MEMBERS_CURRENT, OVERALL_RANK,
           datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
           OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change
@@ -53,8 +53,8 @@ include "../templates/header.inc";
       <td align="right"><font <?=$header_font?>>Last Unit</font></td>
       <td align="right"><font <?=$header_font?>>Days</font></td>
       <td align="right"><font <?=$header_font?>>Current Members</font></td>
-      <td align="right"><font <?=$header_font?>><?=$proj_unitname?> Overall</font></td>
-      <td align="right"><font <?=$header_font?>><?=$proj_unitname?> Yesterday</font></td>
+      <td align="right"><font <?=$header_font?>><?=$proj_scaled_unit_name?> Overall</font></td>
+      <td align="right"><font <?=$header_font?>><?=$proj_scaled_unit_name?> Yesterday</font></td>
     </tr>
     <? 
 
@@ -71,8 +71,8 @@ include "../templates/header.inc";
       $lasty = substr($par->LAST_DATE,7,4);
       $members = number_format($par->MEMBERS_CURRENT);
       $teamid = 0 + $par->TEAM_ID;
-      $totalblocks += (double) $par->WORK_TOTAL;
-      $totalblocksy += (double) $par->WORK_TODAY;
+      $totalblocks += (double) $par->WORK_TOTAL * $proj_scale;
+      $totalblocksy += (double) $par->WORK_TODAY * $proj_scale;
 
     ?>
     <tr class="<?=row_background_color($i)?>">
@@ -82,8 +82,8 @@ include "../templates/header.inc";
       <td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
       <td align="right"><? echo number_format($par->Days_Working)?></td>
       <td align="right"><?=$members?></td>
-      <td align="right"><? echo number_format( (double) $par->WORK_TOTAL)?> </td>
-      <td align="right"><? echo number_format( (double) $par->WORK_TODAY)?> </td>
+      <td align="right"><? echo number_format( (double) $par->WORK_TOTAL * $proj_scale)?> </td>
+      <td align="right"><? echo number_format( (double) $par->WORK_TODAY * $proj_scale)?> </td>
     </tr>
     <?
     }
