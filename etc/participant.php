@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.46 2004/04/29 20:44:08 paul Exp $
+// $Id: participant.php,v 1.47 2004/04/29 23:11:16 paul Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -33,10 +33,9 @@ class Participant {
 
     function get_team_id()
     {
-        $qs = "SELECT team_id, last_date
-                FROM team_joins
-                WHERE id = " . $this->_db->prepare_int($this->_state->id) . "
-                ORDER BY join_date DESC LIMIT 1;";
+        $qs  = 'SELECT team_id, last_date FROM team_joins';
+        $qs .= ' WHERE id = ' . $this->_db->prepare_int($this->_state->id) ;
+        $qs .= ' ORDER BY join_date DESC LIMIT 1;';
         $res = $this->_db->query_first($qs);
         if($res == FALSE)
             return 0;
@@ -184,7 +183,8 @@ class Participant {
     {
         if (is_int($value) && $value > 0 && $this->is_authed() ) {
             if ( $this -> _state -> id > 0 ) {
-                $res =$this -> _db -> query ("select p_retire(". $this->_db->prepare_int($this -> _state -> id).", " . $this->_db->prepare_int($value) . ")");
+                $qs = "select p_retire(". $this->_db->prepare_int($this -> _state -> id).", " . $this->_db->prepare_int($value) . ")";
+                $res =$this -> _db -> query ($qs);
                 if($res == FALSE) {
                     return false;
                 } else {
@@ -237,9 +237,8 @@ class Participant {
             return "";
 
         // This routine saves current friend data to the database
-        $sql = "DELETE FROM stats_participant_friend
-                WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
-        $res = $this->_db->query($sql);
+        $qs = "DELETE FROM stats_participant_friend WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
+        $res = $this->_db->query($qs);
         if($res == FALSE)
             return false;
 
@@ -248,9 +247,9 @@ class Participant {
             $friend = (int) $friend;
             if($friend > 0)
             {
-                $sql = "INSERT INTO stats_participant_friend (id, friend)
-                        VALUES (" . $this->_db->prepare_int($this->_state->id) . ", " . $this->_db->prepare_int($friend) . ")";
-                $res = $this->_db->query($sql);
+                $qs  = 'INSERT INTO stats_participant_friend (id, friend)';
+                $qs .= " VALUES (" . $this->_db->prepare_int($this->_state->id) . ", " . $this->_db->prepare_int($friend) . ")";
+                $res = $this->_db->query($qs);
                 if($res == FALSE)
                     return false;
            }
@@ -260,15 +259,15 @@ class Participant {
 
     function &load_friend_data()
     {
-        $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
-                        r.overall_rank_previous - r.overall_rank as overall_change,
-                        r.day_rank_previous - r.day_rank as day_change
-                    FROM stats_participant_friend pf, email_rank r, stats_participant p
-                WHERE pf.id = " . $this->_db->prepare_int($this->get_id()) . "
-                  AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id()) . "
-                  AND pf.friend = r.id
-                  AND pf.friend = p.id
-                ORDER BY r.overall_rank ASC, r.work_total ASC";
+        $qs  = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,";
+        $qs .= "                r.overall_rank_previous - r.overall_rank as overall_change,";
+        $qs .= "                r.day_rank_previous - r.day_rank as day_change";
+        $qs .= "            FROM stats_participant_friend pf, email_rank r, stats_participant p";
+        $qs .= "        WHERE pf.id = " . $this->_db->prepare_int($this->get_id()) ;
+        $qs .= "          AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id()) ;
+        $qs .= "          AND pf.friend = r.id";
+        $qs .= "          AND pf.friend = p.id";
+        $qs .= "        ORDER BY r.overall_rank ASC, r.work_total ASC";
 
         $queryData = $this->_db->query($qs);
         $total = $this->_db->num_rows($queryData);
@@ -310,15 +309,15 @@ class Participant {
     {
         $mystats = $this->get_current_stats();
         $baserank = $mystats->get_stats_item("overall_rank");
-        $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
-                      r.overall_rank_previous - r.overall_rank as overall_change,
-                      r.day_rank_previous - r.day_rank as day_change
-                 FROM email_rank r, stats_participant p
-                WHERE r.overall_rank >= ($baserank -3)
-                  AND r.overall_rank <= ($baserank +3)
-                  AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id()) . "
-                  AND r.id = p.id
-                ORDER BY r.overall_rank ASC, r.work_total ASC";
+        $qs  = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,";
+        $qs .= "              r.overall_rank_previous - r.overall_rank as overall_change,";
+        $qs .= "              r.day_rank_previous - r.day_rank as day_change";
+        $qs .= "         FROM email_rank r, stats_participant p";
+        $qs .= "        WHERE r.overall_rank >= ($baserank -3)";
+        $qs .= "          AND r.overall_rank <= ($baserank +3)";
+        $qs .= "          AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id())
+        $qs .= "          AND r.id = p.id";
+        $qs .= "        ORDER BY r.overall_rank ASC, r.work_total ASC";
 
         $queryData = $this->_db->query($qs);
         $total = $this->_db->num_rows($queryData);
@@ -573,29 +572,30 @@ class Participant {
         if($chkResult != '')
             return $chkResult;
 
-        $sql = 'BEGIN;';
-        $res = $this->_db->query($sql);
+        $qs = 'BEGIN;';
+        $res = $this->_db->query($qs);
         if($res == FALSE)
             return 'Error starting transaction for save' . chr(10);
 
-        $sql = "UPDATE stats_participant
-                  SET password = '" . addslashes($this->_state->password) . "',
-                      listmode = " . $this->_db->prepare_int($this->_state->listmode) . ",
-                      dem_yob = " . $this->_db->prepare_int($this->_state->dem_yob) . ",
-                      dem_heard = " . $this->_db->prepare_int($this->_state->dem_heard) . ",
-                      dem_motivation = " . $this->_db->prepare_int($this->_state->dem_motivation) . ",
-                      dem_gender = " . ((trim($this->_state->dem_gender) == "" || is_null($this->_state->dem_gender))?"NULL":("'".$this->_state->dem_gender."'")) . ",
-                      dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".addslashes($this->_state->dem_country)."'")) . ",
-                      contact_name = '" . addslashes($this->_state->contact_name) . "',
-                      contact_phone = '" . addslashes($this->_state->contact_phone) . "',
-                      motto = '" . addslashes($this->_state->motto) . "'
-                      WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
-        $res = $this->_db->query($sql);
-        if($res == FALSE)
-            $chkResult = "Error Updating Participant Record.$sql\n";
+        $qs  = "UPDATE stats_participant ";
+        $qs .= "          SET password = '" . $this->_db->prepare_string($this->_state->password, false) . "',";
+        $qs .= "              listmode = " . $this->_db->prepare_int($this->_state->listmode) . ",";
+        $qs .= "              dem_yob = " . $this->_db->prepare_int($this->_state->dem_yob) . ",";
+        $qs .= "              dem_heard = " . $this->_db->prepare_int($this->_state->dem_heard) . ",";
+        $qs .= "              dem_motivation = " . $this->_db->prepare_int($this->_state->dem_motivation) . ",";
+        $qs .= "              dem_gender = " . ((trim($this->_state->dem_gender) == "" || is_null($this->_state->dem_gender))?"NULL":("'".$this->_db->prepare_string($this->_state->dem_gender)."'")) . ",";
+        $qs .= "              dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".$this->_db->prepare_string($this->_state->dem_country)."'")) . ",";
+        $qs .= "              contact_name = '" . $this->_db->prepare_string($this->_state->contact_name) . "',";
+        $qs .= "              contact_phone = '" . $this->_db->prepare_string(($this->_state->contact_phone) . "',";
+        $qs .= "              motto = '" . $this->_db->prepare_string($this->_state->motto, false) . "'";
+        $qs .= "              WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
 
-        $sql = "SELECT * FROM stats_participant WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
-        $res = $this->_db->query_first($sql);
+        $res = $this->_db->query($qs);
+        if($res == FALSE)
+            $chkResult = "Error Updating Participant Record.$qs\n";
+
+        $qs = "SELECT * FROM stats_participant WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
+        $res = $this->_db->query_first($qs);
         if($res == FALSE)
             $chkResult = "Error retrieving updated participant record.\n";
         else
@@ -709,16 +709,16 @@ class Participant {
             $rank_field = 'overall_rank';
             $work_field = 'work_total';
         }
-        $qs = "SELECT r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date,
-                        r.$work_field as blocks, last_date - first_date + 1 AS days_working,
-                        r.$rank_field as rank, r." . $rank_field . "_previous - r.$rank_field as change,
-                        p.email, p.listmode, p.contact_name
-                FROM email_rank r, stats_participant p
-                WHERE r.$rank_field BETWEEN " . $db->prepare_int($start) ." AND " . $db->prepare_int($start + $limit) . "
-                    AND r.project_id = " . $db->prepare_int($project->get_id()) . "
-                    AND p.listmode < 10
-                    AND r.id = p.id
-                ORDER BY r.$rank_field, r.$work_field DESC LIMIT 100";
+        $qs  = "SELECT r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date,";
+        $qs .= "                r.$work_field as blocks, last_date - first_date + 1 AS days_working,";
+        $qs .= "                r.$rank_field as rank, r." . $rank_field . "_previous - r.$rank_field as change,";
+        $qs .= "                p.email, p.listmode, p.contact_name";
+        $qs .= "        FROM email_rank r, stats_participant p";
+        $qs .= "        WHERE r.$rank_field BETWEEN " . $db->prepare_int($start) ." AND " . $db->prepare_int($start + $limit);
+        $qs .= "            AND r.project_id = " . $db->prepare_int($project->get_id());
+        $qs .= "            AND p.listmode < 10";
+        $qs .= "            AND r.id = p.id";
+        $qs .= "        ORDER BY r.$rank_field, r.$work_field DESC LIMIT 100";
         $queryData = $db->query($qs);
         $total = $db->num_rows($queryData);
         $result =& $db->fetch_paged_result($queryData, 0, $limit);
@@ -752,18 +752,18 @@ class Participant {
         $sstr = strtolower($sstr);
 
         // The query to run...
-        $qs = "SELECT p.*,r.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,
-                         to_char(last_date, 'dd-Mon-YYYY') as last_date,
-                         work_total, work_today,
-                         last_date - first_date +1 AS days_working,
-                         overall_rank_previous - overall_rank AS rank_change
-                FROM email_rank r,stats_participant p
-                WHERE p.id = r.id
-                    AND lower(email) like '%" . $this->_db->prepare_string($sstr) . "%'
-                    AND listmode <= 10
-                    AND project_id = " . $this->_db->prepare_int($project->get_id()) . "
-                ORDER BY overall_rank ASC
-                LIMIT ". $this->_db->prepare_int($limit);
+        $qs  = "SELECT p.*,r.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,";
+        $qs .= "                 to_char(last_date, 'dd-Mon-YYYY') as last_date,";
+        $qs .= "                 work_total, work_today,";
+        $qs .= "                 last_date - first_date +1 AS days_working,";
+        $qs .= "                 overall_rank_previous - overall_rank AS rank_change";
+        $qs .= "        FROM email_rank r,stats_participant p";
+        $qs .= "        WHERE p.id = r.id";
+        $qs .= "            AND lower(email) like '%" . $this->_db->prepare_string($sstr) . "%'";
+        $qs .= "            AND listmode <= 10";
+        $qs .= "            AND project_id = " . $this->_db->prepare_int($project->get_id()) ;
+        $qs .= "        ORDER BY overall_rank ASC";
+        $qs .= "         LIMIT ". $this->_db->prepare_int($limit);
 
         // Actually run the query...
         $queryData = $db->query($qs);
@@ -844,17 +844,17 @@ class Participant {
             $other_field = 'work_today';
         }
 
-        $qs = "SELECT p.*, tm.work_total, tm.work_today, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
-                         to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
-                         er.$rank_field as rank, (er.${rank_field}_previous - er.$rank_field) as rank_change
-                FROM team_members tm, stats_participant p, email_rank er
-                WHERE tm.project_id = " . $this->_db->prepare_int($project->get_id()) . "
-                    AND tm.team_id = " . $this->_db->prepare_int($teamid) . "
-                    AND tm.$field > 0
-                    AND p.id = tm.id
-                    AND tm.id = er.id
-                    AND tm.project_id = er.project_id
-                ORDER BY tm.$field DESC, tm.$other_field DESC;";
+        $qs  = "SELECT p.*, tm.work_total, tm.work_today, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,";
+        $qs .= "                 to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,";
+        $qs .= "                 er.$rank_field as rank, (er.${rank_field}_previous - er.$rank_field) as rank_change";
+        $qs .= "        FROM team_members tm, stats_participant p, email_rank er";
+        $qs .= "        WHERE tm.project_id = " . $this->_db->prepare_int($project->get_id()) ;
+        $qs .= "            AND tm.team_id = " . $this->_db->prepare_int($teamid) ;
+        $qs .= "            AND tm.$field > 0";
+        $qs .= "            AND p.id = tm.id";
+        $qs .= "            AND tm.id = er.id";
+        $qs .= "            AND tm.project_id = er.project_id";
+        $qs .= "        ORDER BY tm.$field DESC, tm.$other_field DESC;";
 
         $queryData = $db->query($qs);
         $total = $db->num_rows($queryData);

@@ -1,5 +1,5 @@
 <?php
-// $Id: projectstats.php,v 1.4 2004/04/29 20:44:42 paul Exp $
+// $Id: projectstats.php,v 1.5 2004/04/29 23:10:46 paul Exp $
 // ==========================================
 // file: projectstats.inc
 // This file contains the classes which
@@ -120,9 +120,9 @@ class ProjectStats {
                 LIMIT 1";
         $this -> _state = $this -> _db -> query_first ($qs);
 
-        $qs = "SELECT SUM(work_units) AS tot_units, MAX(date)+1-MIN(date) AS time_working
-                FROM daily_summary
-                WHERE project_id=" . $this->_db->prepare_int($project_id);
+        $qs  = "SELECT SUM(work_units) AS tot_units, MAX(date)+1-MIN(date) AS time_working";
+        $qs .= "       FROM daily_summary";
+        $qs .= "        WHERE project_id=" . $this->_db->prepare_int($project_id);
         $ptPtr = $this -> _db -> query_first ($qs);
         $this -> _tot_units = $ptPtr -> tot_units;
         $this -> _time_working = $ptPtr -> time_working;

@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.11 2004/04/29 20:38:25 paul Exp $
+// $Id: participantstats.php,v 1.12 2004/04/29 23:11:49 paul Exp $
 
 /**
  * This class represents a participant stats entry
@@ -66,12 +66,12 @@ class ParticipantStats {
      */
     function load($id, &$project, $date)
     {
-        $qs = "SELECT day_rank, overall_rank, last_date + 1 - first_date as Days_Working,
-                        work_today, work_total, overall_rank_previous-overall_rank as Overall_Change,
-                        day_rank_previous-day_rank as Day_Change
-                FROM Email_Rank
-                WHERE id = " . $this->_db->prepare_int($id) . "
-                    AND project_id = " . $this->_db->prepare_int($project->get_id());
+        $qs  = "SELECT day_rank, overall_rank, last_date + 1 - first_date as Days_Working,";
+        $qs .= "                work_today, work_total, overall_rank_previous-overall_rank as Overall_Change,";
+        $qs .= "                day_rank_previous-day_rank as Day_Change ";
+        $qs .= "        FROM Email_Rank ";
+        $qs .= "        WHERE id = " . $this->_db->prepare_int($id);
+        $qs .= "            AND project_id = " . $this->_db->prepare_int($project->get_id());
         if ($date != -1) {
             // do..
         }
@@ -97,14 +97,14 @@ class ParticipantStats {
 
     function get_stats_history($lastdays = -1)
     {
-        $qs = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,
-                      SUM(work_units) as work_units
-               FROM email_contrib ec, stats_participant sp
-               WHERE ec.project_id=".$this->_db->prepare_int($this->_project->get_id())."
-                 AND (sp.id=".$this->_id." or sp.retire_to=".$this->_db->prepare_int($this->_id).")
-                 AND ec.id=sp.id
-               GROUP BY date
-               ORDER BY date DESC";
+        $qs  = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,";
+        $qs .= "              SUM(work_units) as work_units";
+        $qs .= "       FROM email_contrib ec, stats_participant sp";
+        $qs .= "       WHERE ec.project_id=".$this->_db->prepare_int($this->_project->get_id())
+        $qs .= "         AND (sp.id=".$this->_id." or sp.retire_to=".$this->_db->prepare_int($this->_id).")";
+        $qs .= "         AND ec.id=sp.id";
+        $qs .= "       GROUP BY date";
+        $qs .= "       ORDER BY date DESC";
         if ($lastdays > 0) {
             $qs .= " LIMIT " . $this->_db->prepare_int($lastdays);
         }
