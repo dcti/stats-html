@@ -1,10 +1,11 @@
 <?
-// $Id: global.inc,v 1.6 2005/04/01 16:37:04 decibel Exp $
+// $Id: global.inc,v 1.7 2005/04/01 16:43:39 decibel Exp $
 
 include "error.php";
 include "config.inc";
 
-global $random_stats;
+global $random_stats, $random_function;
+$random_function = "*random()*10";
 $random_stats = 1;
 /*
 if ( rand(1,100) <= 20 ) {
