@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.14 2002/06/04 11:14:48 paul Exp $
+ # $Id: psummary.php,v 1.15 2002/06/04 22:18:58 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -307,7 +307,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
    <br>
    <hr>
    <p>
-    <form action="ppass.php"><input type="hidden" name="id" value="id"><input type="submit" value="Please email me my password."></form>
+    <form action="ppass.php"><input type="hidden" name="id" value="<?=$id?>"><input type="submit" value="Please email me my password."></form>
    </p>
   </center>
 <?include "../templates/footer.inc";?>
