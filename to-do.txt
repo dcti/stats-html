@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.24 2002/06/03 13:17:58 paul Exp $
+# $Id: to-do.txt,v 1.25 2003/03/22 18:12:53 paul Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -38,9 +38,6 @@ o Look into using a 'view'/stored query to do the listmode logic instead of doin
 
 ******** PHP features ******** 
 o Add a method for team participants to request the team password be emailed to them via psummary.php3
-
-
-o Create another countries.html for yesterday work
 
 
 o Add the participant history graphs back in
