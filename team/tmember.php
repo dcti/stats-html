@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.34 2003/10/06 02:23:12 thejet Exp $
+// $Id: tmember.php,v 1.35 2003/11/17 18:53:10 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -41,6 +41,8 @@ if($team->get_id() == 0)
   print('Bah!');
   exit(1);
 }
+// Support team renumbering
+$tm = $team->get_id();
 
 // Verify the team exists
 $title = "Team Members Listing - Team #".$tm;
@@ -116,7 +118,7 @@ if ($source == 'y') {
 }
 $title = $title . "$lo - $hi";
 
-$teamMembers =& Participant::get_team_list($tm, $source, $lo, $limit, $rows, $gdb, $gproj);
+$teamMembers =& Participant::get_team_list($team->get_id(), $source, $lo, $limit, $rows, $gdb, $gproj);
 
 // Sanity check $low and $limit
 if ($low > $rows) {
@@ -135,6 +137,11 @@ $hi = $low + $limit;
 $lo = $low + 1;
 
 include "../templates/header.inc";
+
+if($team->get_id_mismatch() == true) {
+  print "<h2 class=\"phead2\" style=\"color: red\">WARNING: This team has been renumbered, the new
+  team ID is " . $team->get_id() . ".</h2>";
+}
 
 // Display how many members
 print "

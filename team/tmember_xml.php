@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.3 2003/10/23 01:51:04 thejet Exp $
+// $Id: tmember_xml.php,v 1.4 2003/11/17 18:53:10 thejet Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -53,6 +53,8 @@ if($team->get_id() == 0)
   print('<error>Bah!</error>');
   exit(1);
 }
+// support team renumbering
+$tm = $team->get_id();
 
 $title = "Team Members Listing - Team #".$tm;
 
