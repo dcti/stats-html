@@ -13,4 +13,6 @@
     $authfrom = "cookie";
   }
 
+  apache_note("REMOTE_USER",$ss_login);
+
 ?>
