@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.36 2003/10/27 14:09:42 thejet Exp $
+// $Id: participant.php,v 1.37 2003/10/28 14:53:22 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -88,7 +88,7 @@ class Participant {
      */
     function set_email($value)
     {
-        $this -> _state -> email = $value;
+        $this -> _state -> email = stripslashes($value);
     } 
 
     /**
@@ -103,7 +103,7 @@ class Participant {
     } 
     function set_password($value)
     {
-		$this -> _state -> password = $value;
+		$this -> _state -> password = stripslashes($value);
     } 
 
     function check_password($pass)
@@ -150,7 +150,7 @@ class Participant {
     } 
     function set_list_mode($value)
     {
-        $this -> _state -> listmode = $value;
+        $this -> _state -> listmode = (int)$value;
     } 
 
     /**
@@ -165,7 +165,7 @@ class Participant {
     } 
     function set_non_profit($value)
     {
-        $this -> _state -> nonprofit = $value;
+        $this -> _state -> nonprofit = (int)$value;
     } 
 
 
@@ -181,7 +181,7 @@ class Participant {
     } 
     function set_retire_to($value)
     {
-        $this -> _state -> retire_to = $value;
+        $this -> _state -> retire_to = (int)$value;
     } 
 
     /**
@@ -334,7 +334,7 @@ class Participant {
     } 
     function set_dem_yob($value)
     {
-        $this -> _state -> dem_yob = $value;
+        $this -> _state -> dem_yob = (int)$value;
     } 
 
     /**
@@ -349,7 +349,7 @@ class Participant {
     } 
     function set_dem_heard($value)
     {
-        $this -> _state -> dem_heard = $value;
+        $this -> _state -> dem_heard = (int)$value;
     } 
 
     /**
@@ -364,7 +364,7 @@ class Participant {
     } 
     function set_dem_gender($value)
     {
-        $this -> _state -> dem_gender = $value;
+        $this -> _state -> dem_gender = stripslashes($value);
     } 
 
     /**
@@ -379,7 +379,7 @@ class Participant {
     } 
     function set_dem_motivation($value)
     {
-        $this -> _state -> dem_motivation = $value;
+        $this -> _state -> dem_motivation = (int)$value;
     } 
 
     /**
@@ -394,7 +394,7 @@ class Participant {
     } 
     function set_dem_country($value)
     {
-        $this -> _state -> dem_country = $value;
+        $this -> _state -> dem_country = stripslashes($value);
     } 
 
     /**
@@ -409,7 +409,7 @@ class Participant {
     } 
     function set_contact_name($value)
     {
-        $this -> _state -> contact_name = $value;
+        $this -> _state -> contact_name = stripslashes($value);
     } 
 
     /**
@@ -424,7 +424,7 @@ class Participant {
     } 
     function set_contact_phone($value)
     {
-        $this -> _state -> contact_phone = $value;
+        $this -> _state -> contact_phone = stripslashes($value);
     } 
 
     /**
@@ -439,7 +439,7 @@ class Participant {
     } 
     function set_motto($value)
     {
-        $this -> _state -> motto = $value;
+        $this -> _state -> motto = stripslashes($value);
     } 
 
     /**

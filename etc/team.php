@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.15 2003/10/27 21:27:34 thejet Exp $
+// $Id: team.php,v 1.16 2003/10/28 14:53:22 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -52,7 +52,7 @@ class Team
 	 function get_contact_name() { return $this->_state->contactname; }
 	 function set_contact_name($value) {
            //print("Got contact name: $value<br>");
-           $this->_state->contactname = trim($value);
+           $this->_state->contactname = stripslashes(trim($value));
            //print('Result: ' . $this->_state->contactname . '<br>');
          }
 
@@ -63,7 +63,7 @@ class Team
          * @type string
          ***/
 	  function get_contact_email() { return $this->_state->contactemail; }
-	  function set_contact_email($value) { $this->_state->contactemail = trim($value); }
+	  function set_contact_email($value) { $this->_state->contactemail = stripslashes(trim($value)); }
 
         /***
          * The Password for the current team
@@ -72,7 +72,7 @@ class Team
          * @type string
          ***/
          function get_password() { return $this->_state->password; }
-	 function set_password($value) { $this->_state->password = trim($value); }
+	 function set_password($value) { $this->_state->password = stripslashes(trim($value)); }
 
         /***
 	 * The listmode for the current team
@@ -81,7 +81,7 @@ class Team
 	 * @type int
 	 * */
 	 function get_listmode() { return $this->_state->listmode; }
-	 function set_listmode($value) { $this->_state->listmode = $value; }
+	 function set_listmode($value) { $this->_state->listmode = (int)$value; }
 
 	/***
 	 * The name of the current team
@@ -90,7 +90,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_name() { return $this->_state->name; }
-	 function set_name($value) { $this->_state->name = trim($value); }
+	 function set_name($value) { $this->_state->name = stripslashes(trim($value)); }
 
 	/***
 	 * The URL for the team
@@ -99,7 +99,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_url() { return $this->_state->url; }
-	 function set_url($value) { return $this->_state->url = trim($value); }
+	 function set_url($value) { return $this->_state->url = stripslashes(trim($value)); }
 
 	/***
 	 * The logo for the current team
@@ -108,7 +108,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_logo() { return $this->_state->logo; }
-	 function set_logo($value) { $this->_state->logo = trim($value); }
+	 function set_logo($value) { $this->_state->logo = stripslashes(trim($value)); }
 
 	/***
 	 * The description of the current team (in UBBCode)
@@ -117,13 +117,13 @@ class Team
 	 * @type string
 	 * */
 	 function get_description() { return $this->_state->description; }
-	 function set_description($value) { $this->_state->description = trim($value); }
+	 function set_description($value) { $this->_state->description = stripslashes(trim($value)); }
 
 	 function get_show_members() { return $this->_state->showmembers; }
-	 function set_show_members($value) { $this->_state->showmembers = $value; }
+	 function set_show_members($value) { $this->_state->showmembers = stripslashes(trim($value)); }
 
 	 function get_show_password() { return $this->_state->showpassword; }
-	 function set_show_password($value) { $this->_state->showpassword = $value; }
+	 function set_show_password($value) { $this->_state->showpassword = stripslashes(trim($value)); }
 
         /***
          * Instantiates a new [empty] team object
@@ -273,9 +273,9 @@ class Team
            // Required Fields
            if($this->_state->password == '' ||
               $this->_state->password == null ||
-              strlen($this->_state->password) != 8)
+              strlen($this->_state->password) != MAX_PASS_LEN)
            {
-             $retVal .= "Password must be 8 characters in length\n";
+             $retVal .= "Password must be " . MAX_PASS_LEN . " characters in length\n";
            }
 
            if($this->_state->name == '' ||
