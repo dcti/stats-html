@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.10.2.1 2003/05/22 22:20:08 nerf Exp $
+  # $Id: pc_index.php,v 1.10.2.2 2003/05/27 17:52:26 nerf Exp $
 
   $title = "Overall Project Stats";
 
@@ -108,6 +108,7 @@ while($row = pg_fetch_array($result,NULL,PGSQL_ASSOC))
     //print_r($row);
     // Uncomment the preceding line to see the entire array.
 $per_searched = $row['tot_pct'];
+$ver_rundate = $row['rundate'];
 }
 $bar_width = number_format(3*($per_searched),0);
 
@@ -233,7 +234,7 @@ $bar_width = number_format(3*($per_searched),0);
 <A NAME="footnote"></A>
 <font size="-2">
 * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
-In this case, the values from the previous day will be used.
+In this case, the values from the previous day will be used.  This data is from <?=$ver_rundate?>.
 </font>
 <p>
 		<? } ?>
