@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.2 1999/07/19 17:38:22 nugget Exp $
+  // $Id: psecure.inc,v 1.3 1999/12/14 04:47:26 decibel Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -86,24 +86,40 @@
     # OK, We've retrieved the id for this email address.
     $par = sybase_fetch_object($result);
     $test_id = (int) $par->id;
+  } else {
+    # $test_id is an integer, lets see if we can retrive a record for the user
+    $qs = "p_participant_all $test_id";
+    $result = sybase_query($qs);
+    if(!$result) {
+      authfail("dberror",$test_from,$test_id,$test_pass);
+    }
+    $rows = sybase_num_rows($result);
+    $par = sybase_fetch_object($result);
   }
 
+  # OK, let's do some sanity checking
   $test_pass = substr($test_pass,0,8);
 
-  # OK, now we've got an id and a password to work with, lets try to authorize the luser.
-  $qs = "select * from STATS_Participant where id = $test_id and password = '$test_pass'";
-  $result = sybase_query($qs);
-  if(!$result) {
-    authfail("dberror",$test_from,$test_id,$test_pass);
-  }
-  $rows = sybase_num_rows($result);
-  $par = sybase_fetch_object($result);
+  # Did we sucessfully grab a single record?
   if ($rows > 1) {
     authfail("dberror",$test_from,$test_id,$test_pass);
   }
+
+  # Did we find a record for this ID? (This should return a different error message,
+  # such as invalid user or user not found
   if ($rows == 0) {
     authfail("pbadpass",$test_from,$test_id,$test_pass);
   }
+
+  # Does the user have a password set?? (This should eventually return a different
+  # error message, as well as emailing the password out
+  if ($par->password == "") {
+    authfail("pbadpass",$test_from,$test_id,$test_pass);
+  }
+
+  # Finally, make sure that we've got the right password (I think that we don't
+  # actually want the first condition in here as it breaks when the user submits
+  # an email address.)
   if (!($test_id == (int) $par->id) or !($test_pass == $par->password)) {
     authfail("pbadpass",$test_from,$test_id,$test_pass);
   }
