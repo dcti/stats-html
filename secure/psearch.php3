@@ -40,7 +40,7 @@ for ($i = 0; $i<$rows; $i++) {
 	$id = 0+$par->id;
 
 	echo "   <TD>$id</TR>\n";
-	echo "   <TD><a href=\"pedit.php3?id=$id\">$par->email</a></TR>\n";
+	echo "   <TD><a href=\"pedit.php3?id=$id\">$par->email</a></td>\n";
 #	echo "   <TD align=\"right\">$par->contact_name&nbsp;</td></TR>\n";
 }
 
