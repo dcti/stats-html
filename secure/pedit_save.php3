@@ -35,8 +35,6 @@ include "../etc/project.inc";
 	contact_name = '$contact_name',
 	contact_phone = '$contact_phone',
         motto = '$motto',
-        team = $team,
-        retire_to = $retire_to,
         password = '$pword',
 	dem_country = '$dem_country'
 	where id = $id";
@@ -53,6 +51,7 @@ include "../etc/project.inc";
 	  <center>
 	   <h2>Saving your information...</h2>
 	  </center>
+	 <!-- qs: $qs, result: $result. -->
 	 </body>";
 ?>
 </html>
