@@ -1,6 +1,7 @@
 <?
 $query_string = str_replace ("project_id=$project_id", "", $_SERVER['QUERY_STRING']);
 $query_string = str_replace("&", "&amp;", $query_string);
+if(substr($query_string, 1, 1) != '&') $query_string = "&amp;$query_string";
 if (!isset($proj_list)) {
 
     ?>
