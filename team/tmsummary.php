@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.13 2002/06/05 23:14:30 paul Exp $
+// $Id: tmsummary.php,v 1.14 2002/06/06 11:56:47 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -126,7 +126,7 @@ if ( $par->WORK_TODAY > 0 )
 
 <? if ($proj_totalunits > 0 ) { ?>
 The odds are 1 in <?=number_format((double)$yest_totals->WORK_UNITS / (double) $par->WORK_TODAY)?> that this team will
-	find the key before anyone else does. </CENTER><BR>
+	find the key before anyone else does. <BR>
 <? } ?>
 
 
