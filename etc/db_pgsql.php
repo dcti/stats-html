@@ -112,7 +112,9 @@ class DB {
             while (preg_match('/\$(\d+)/', $p_query, $matches, PREG_OFFSET_CAPTURE, $lastoffset)) {
               $i = (int)$matches[1][0];
               if ($i >= 1 && $i <= count($arr_parms)) {
-                if(is_string($arr_parms[$i-1]))
+                if (is_null($arr_parms[$i-1]))
+                  $replace = 'NULL';
+                else if(is_string($arr_parms[$i-1]))
                   $replace = "'" . pg_escape_string($arr_parms[$i-1]) . "'";
                 else if(is_integer($arr_parms[$i-1]) || is_float($arr_parms[$i-1]))
                   $replace = (float)$arr_parms[$i-1];
