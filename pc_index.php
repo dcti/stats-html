@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.30 2004/10/17 07:36:26 fiddles Exp $
+  # $Id: pc_index.php,v 1.31 2004/10/17 08:01:03 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -205,7 +205,7 @@
    </p>
    <?php if ($project_id == 8) { ?>
    <p>
-   <a href="http://nocgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a>
+   <a href="http://n0cgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a>
    </p>
    <?php } elseif ($project_id == 24 || $project_id == 25) { ?>
    <p>
