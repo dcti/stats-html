@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.5 2003/11/10 22:33:36 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.6 2003/11/11 02:28:41 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -12,14 +12,19 @@ include "../etc/project.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
 
-$title = "Team #$tm Summary";
-$lastupdate = last_update('t');
 header("Content-type: text/xml", true);
 print("<"."?xml version=\"1.0\" standalone=\"yes\"?".">\n");
 print("<!-- WARNING: This code is experimental and the schema is subject to change at any time -->\n");
 
 // Create the team and team stats objects
 $team = new Team($gdb, $gproj, $tm);
+
+// To support team renumbering, reset $tm based on retrieved id
+$tm = $team->get_id();
+
+$title = "Team #$tm Summary";
+$lastupdate = last_update('t');
+
 $stats = $team->get_current_stats();
 
 if ($team->get_id() == 0) {

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.38 2003/11/10 22:33:36 thejet Exp $
+// $Id: tmsummary.php,v 1.39 2003/11/11 02:28:41 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -21,7 +21,10 @@ if($team->get_id() == 0) {
 	exit;
 }
 
-$title = "Team #".$team->get_id()." Summary";
+// Set the current $tm to be the retrieved team_id (to support team renumbering)
+$tm = $team->get_id();
+
+$title = "Team #$tm Summary";
 $lastupdate = last_update('t');
 include "../templates/header.inc";
 
