@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.22 2003/09/01 15:48:12 decibel Exp $
+# $Id: platformlist.php,v 1.23 2003/09/01 15:56:51 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -101,7 +101,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  $rows = $gdb->num_rows();
 
  # Total number of columns in table, not counting yesterday or total columns. Start at 2 to account for first and last.
- $cols = 2;
+ $cols = 3;
  print "
     <center>
      <br>
@@ -171,13 +171,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    $padding = (int) $cols - 1;
    print "
    <tr>
-	<td align=\"right\" colspan=\"$padding\">Total</td>";
+	<td class= \"tfoot\" align=\"right\" colspan=\"$padding\">Total</td>";
 
    if ($show_yesterday) {
-     print "<td align=\"right\">" . number_style_convert($total_yesterday, 0) . "</td>\n";
+     print "<td class= \"tfoot\" align=\"right\">" . number_style_convert($total_yesterday, 0) . "</td>\n";
    }
    if ($show_total) {
-     print "<td align=\"right\">" . number_style_convert($total_overall, 0) . "</td>\n";
+     print "<td class= \"tfoot\" align=\"right\">" . number_style_convert($total_overall, 0) . "</td>\n";
    }
  }
 
