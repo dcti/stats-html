@@ -18,6 +18,13 @@ if (!isset($proj_list)) { ?>
    </div>
 <? if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ ?>
    <p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
-<? } ?>
+
+<? 
+  if($_GET["debug"] == "1") {
+    echo xdebug_dump_function_trace();
+	echo xdebug_dump_function_profile();
+  }
+}
+ ?>
  </body>
 </html>
