@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.60 2003/09/05 19:29:32 thejet Exp $
+// $Id: psummary.php,v 1.61 2003/10/21 15:42:57 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -9,7 +9,6 @@ include "../etc/project.inc";
 include "../etc/projectstats.php";
 include "../etc/markup.inc";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 function par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $proj_scale, $color_a = "", $color_b = "")
 {
@@ -259,7 +258,6 @@ if($numfriends >= 1) {
 } 
 ?>
     <hr>
-    <!--
     <p>
     <form action="ppass.php">
 		<div>
@@ -268,7 +266,6 @@ if($numfriends >= 1) {
 		</div>
 	</form>
     </p>
-    -->
 <?include "../templates/footer.inc";
 
 ?>
