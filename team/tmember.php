@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.10 2002/04/09 22:48:58 jlawson Exp $
+// $Id: tmember.php,v 1.11 2002/04/15 04:47:42 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -223,7 +223,7 @@ for ($i = $low; $i < $low + $limit; $i++)
 	print "
 		<tr class=" . row_background_color($i, $color_a, $color_b) . ">
 		  <td>$rnk</td>
-		  <td><a href=\"psummary.php?project_id=$project_id&id=$linkid\"><font color=\"#cc0000\">$listas</font></a></td>";
+		  <td><a href=\"/participant/psummary.php?project_id=$project_id&id=$linkid\"><font color=\"#cc0000\">$listas</font></a></td>";
 	if ($n_yesterday < 1 and $source == y) {
 		print "
 		  <td align=\"center\">--</td>";
