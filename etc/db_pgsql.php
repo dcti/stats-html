@@ -25,7 +25,7 @@ class DB {
 
     var $errdesc = "";
     var $reporterror = 1;
-	var $_connected;
+    var $_connected = false;
 
     /**
      * Constructor
@@ -73,10 +73,9 @@ class DB {
      */
     function query($query_string)
     {
-        $this -> query_id = pg_query ($this -> link_id, $query_string);
-
+        $this -> query_id = pg_query (/*$this -> link_id,*/ $query_string);
         if(!$this -> query_id) {
-            $this -> halt("Invalid SQL: " . $query_string);
+           // $this -> halt("Invalid SQL: " . $query_string);
         } 
         return $this -> query_id;
     } 
@@ -119,6 +118,25 @@ class DB {
         } // end if
         return $this -> record;
     } 
+
+    // //////////////////////
+    // Function: fetch_paged_result
+    function fetch_paged_result($query_id, $start = -1, $limit = -1)
+    {
+      if($start > 1)
+      {
+        $this->data_seek($query_id, $start-1);
+      }
+      $ctr = 0;
+      while($tmp = $this->fetch_object($query_id))
+      {
+        $result[] = $tmp;
+        $ctr++;
+        if($limit != -1 && $ctr >= $limit) break;
+      }
+      return $result;
+    }
+
     // //////////////////////
     // Function ....: free result
     // Description .: returns the memory (although PHP should do this automagically)
@@ -133,22 +151,22 @@ class DB {
     } // end function free_result   
     // //////////////////////
     // Function ....: query_first
-    // Description .: Executes a query and fetches it into an associative array.
+    // Description .: Executes a query and returns an object.
     // Useful if you are expecting a single row to be returned so you don't have to loop
     // //////////////////////
     function query_first($query_string)
     { 
         // does a query and returns first row
         $query_id = $this -> query($query_string);
-        $returnarray = $this -> fetch_array($query_id, $query_string);
+        $returnobj = $this -> fetch_object($query_id, $query_string);
         $this -> free_result($query_id);
-        return $returnarray;
+        return $returnobj;
     } // end function query_first   
     // //////////////////////
     // Function ....: data_seek
     // Description .: If you want to move around, generally don't use
     // //////////////////////
-    function data_seek($pos, $query_id = -1)
+    function data_seek($query_id = -1, $pos = 1)
     { 
         // goes to row $pos
         if($query_id != -1) {
@@ -165,7 +183,7 @@ class DB {
         if($query_id != -1) {
             $this -> query_id = $query_id;
         } 
-        return sybase_num_rows($this -> query_id);
+        return pg_num_rows($this -> query_id);
     }
 	
 	// Function ....: close
