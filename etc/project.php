@@ -1,5 +1,5 @@
 <?php
-// $Id: project.php,v 1.6 2003/10/06 02:16:37 thejet Exp $
+// $Id: project.php,v 1.7 2003/10/23 02:30:24 thejet Exp $
 // ==========================================
 // file: project.inc
 // This file contains the classes which
@@ -134,6 +134,8 @@ class Project {
     {
         $qs = "	select * from Projects where PROJECT_ID = $id";
         $prj_info = $this -> _db -> query_first($qs);
+        if($prj_info == FALSE) return;
+
         $this -> _name = $prj_info -> name;
         $this -> _type = $prj_info -> project_type;
         $this -> _totalunits = (double)$prj_info -> work_unit_qty;
