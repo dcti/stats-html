@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: plist.php,v 1.18 2003/03/21 23:08:08 paul Exp $
+# $Id: plist.php,v 1.19 2003/03/27 22:00:13 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -58,12 +58,12 @@ if ("$source" == "y") {
      <div><br></div>
       <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">     
       <tr>
-       <th>Rank</th>
-       <th>Participant</th>
-       <th align="right">First Unit</th>
-       <th align="right">Last Unit</th>
-       <th align="right">Days</th>
-       <th align="right"><?=$proj_scaled_unit_name?></th>
+       <th class="thead">Rank</th>
+       <th class="thead">Participant</th>
+       <th class="thead" align="right">First Unit</th>
+       <th class="thead" align="right">Last Unit</th>
+       <th class="thead" align="right">Days</th>
+       <th class="thead" align="right"><?=$proj_scaled_unit_name?></th>
       </tr>
 <?
 
@@ -121,14 +121,14 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
 
 ?> 
 	 <tr>
-	  <td><? echo "$lo-$hi"?></td>
-	  <td align="right" colspan="4">Total</td>
-	  <td align="right"><?=$totalblocks?></td>
+	  <td class="tfoot"><? echo "$lo-$hi"?></td>
+	  <td class="tfoot" align="right" colspan="4">Total</td>
+	  <td class="tfoot" align="right"><?=$totalblocks?></td>
 	 </tr>
 	 <tr>
-	  <td><?=$btn_back?></td>
-	  <td colspan="4">&nbsp;</td>
-	  <td align="right"><?=$btn_fwd?></td>
+	  <td class="tfoot"><?=$btn_back?></td>
+	  <td class="tfoot" colspan="4">&nbsp;</td>
+	  <td class="tfoot" align="right"><?=$btn_fwd?></td>
 	 </tr>
 	</table>
 <?include "../templates/footer.inc";?>
