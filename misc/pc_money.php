@@ -1,5 +1,5 @@
 <?
-# $Id: pc_money.php,v 1.4 2002/12/17 04:52:42 decibel Exp $
+# $Id: pc_money.php,v 1.5 2002/12/17 05:01:15 decibel Exp $
 # vi: ts=2 sw=2 tw=120 syntax=php
 
 $title = "Disposition of Prize Money";
@@ -46,7 +46,7 @@ group by
 */
 
 $qs = "select distinct
-          p.nonprofit, count(p.nonprofit) as people, sum(WORK_TOTAL) as votes
+          p.nonprofit, count(p.nonprofit) as people, sum(WORK_TOTAL * $proj_scale) as votes
         into #MONEYa
         from
           STATS_participant p
