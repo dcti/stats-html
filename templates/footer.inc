@@ -1,5 +1,8 @@
+
+
 <?
-if (!isset($proj_list)) {
+/* 
+ if (!isset($proj_list)) {
  $qs = "select project_id, name from projects where not status = 'h'";
  sybase_query("set rowcount 0"); 
  $result = sybase_query($qs);
@@ -15,9 +18,9 @@ echo "<center> This page in other projects: <br>";
 	echo "<a href=\"$myname?$query_string\">$prj_list->name</a> ";
  }
 }
+*/
 ?>
 </center>
-
 
   <center>
    <p>
