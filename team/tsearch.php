@@ -1,5 +1,5 @@
 <?
- # $Id: tsearch.php,v 1.10 2002/04/09 22:48:58 jlawson Exp $
+ # $Id: tsearch.php,v 1.11 2002/08/02 15:03:04 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -74,7 +74,7 @@ $title = "Team Search: [".safe_display($st)."]";
 
 ?>
 		<tr class="<?=row_background_color($i)?>">
-		<td><? echo $par->OVERALL_RANK. html_rank_arrow($par->Change)?></td>
+		<td><? echo $par->OVERALL_RANK. html_rank_arrow($par->Overall_Change)?></td>
 		<td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=safe_display($par->name)?></font></a></td>
 		<td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
 		<td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
