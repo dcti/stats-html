@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.10 2002/12/16 20:09:24 decibel Exp $
+  # $Id: pc_index.php,v 1.10.2.1 2003/05/22 22:20:08 nerf Exp $
 
   $title = "Overall Project Stats";
 
@@ -93,6 +93,26 @@
 
 
   $odds = number_format($total_remaining / $par->work_units,0);
+
+if ($proj_totalunits == 0 ) {
+
+$database = "ogr";
+$conn=pg_connect("dbname=$database") or die("Couldn't Connect: ".pg_last_error());
+
+$sql = "SELECT * FROM recent_complete where project_id = $project_id";
+$result = pg_query($conn, $sql);
+$num_rows = pg_num_rows($result);
+
+while($row = pg_fetch_array($result,NULL,PGSQL_ASSOC))
+{
+    //print_r($row);
+    // Uncomment the preceding line to see the entire array.
+$per_searched = $row['tot_pct'];
+}
+$bar_width = number_format(3*($per_searched),0);
+
+}
+
 ?>
   <center>
    <br>
@@ -130,22 +150,23 @@
      <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
      <td align="right" size="+2"><font <?=$fontf?>><?=$overall_unscaled_rate?> <?=$proj_unscaled_unit_name?>/sec</font></td>
     </tr>
-<? if ($proj_totalunits > 0 ) { ?>
      <tr>
-     <td><font <?=$fontd?> size="+1"> Percent Complete:</font></td>
+     <td><font <?=$fontd?> size="+1"> Percent Complete<? if ($proj_totalunits == 0 ) { ?><sup><A href=#footnote>*</A></sup><? } ?>:</font></td>
      <td align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
     </tr>
-<? } ?>
    <tr>
      <td><font <?=$fontd?> size="+1">Time Working:</font></td>
      <td align="right" size="+2"><font <?=$fontf?>><?=$time_working?> days</font></td>
     </tr>
    </table>
    <br>
-<? if ($proj_totalunits > 0 ) { ?>
    <p>
     <font <?=$fontd?> size="+2">
      Progress Meter
+     <? if ($proj_totalunits == 0 ) { ?><sup><font size="+1"><A href=#footnote>*</A>
+</font>
+</sup>
+<? } ?>
     </font>
    </p>
    <table width="300" border="1" cellspacing="0" cellpadding="0">
@@ -154,8 +175,6 @@
     </tr>
    </table>
    <br>
-<? } ?>
-
   <p>
     <font <?=$fontd?> size="+2">
      Current Information
@@ -210,4 +229,12 @@
     </font>
    </p>
    <hr>
+		<? if ($proj_totalunits == 0 ) { ?>
+<A NAME="footnote"></A>
+<font size="-2">
+* The completion values are calculated in a separate stats run and may not be available at the same time as other values.
+In this case, the values from the previous day will be used.
+</font>
+<p>
+		<? } ?>
   </center>
