@@ -15,7 +15,7 @@
 // This requires at least PHP 4.0.6 due to the use of array_map(),
 // and the PREG_SPLIT_DELIM_CAPTURE flag on preg_split().
 //
-// $Id: markup.inc,v 1.1 2002/01/20 23:21:03 paul Exp $
+// $Id: markup.inc,v 1.2 2002/01/24 19:52:53 paul Exp $
 
 
 // This is the only function that is meant to be publicly callable.
@@ -66,4 +66,3 @@ function private_markup_walker($element) {
 }
 
 ?>
-
