@@ -1,0 +1,20 @@
+# $Id: README,v 1.1 1999/07/12 16:56:22 nugget Exp $
+#
+# distributed.net stats-html tree
+#
+# The intention is for all of us to work with local copies of the
+# tree in our home directories.  I have configured apache to use
+# virtual hosts which point to ~/stats-html/ in each of our 
+# respective home directories.
+#
+# For example, http://stats-nugget.distributed.net/ will use nugget's
+# copy of stats in ~nugget/stats-html/.
+#
+# You'll note that there is no ./rc5-64/index.html file.  This is
+# normal, as it is one of the pages that is regenerated every 
+# evening.  Since there's no index.html, apache is configured to fall
+# back onto index.php3.
+#
+# When you're happy with the changes you've committed, you can do a 
+# "sudo wwwcvs" to update /htdocs/ with the current tree.
+#
