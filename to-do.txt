@@ -1,11 +1,9 @@
-# $Id: to-do.txt,v 1.2 1999/07/25 08:05:08 decibel Exp $
+# $Id: to-do.txt,v 1.3 1999/07/28 02:33:52 nugget Exp $
 
 o Standardized function names
 I'm probably gonna be creating a shitload of functions as part of code consolodation, so we should come up with a
 standard for naming stuff
 
-
-o Get rid of 'Last stats update: Moo'
 
 
 o /secure team editor
