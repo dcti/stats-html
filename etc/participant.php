@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.38 2003/10/29 04:24:45 fiddles Exp $
+// $Id: participant.php,v 1.39 2003/11/25 17:59:46 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -484,13 +484,22 @@ class Participant {
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
-        $id = (int)$id;
-        if($id > 0)
+
+        if(is_numeric($id))
         {
-            $this -> load($id);
-        } else {
-            // Load default values
-	}
+            $id = (int)$id;
+            if($id > 0)
+            {
+                $this -> load($id);
+            } else {
+                // Load default values
+            }
+        }
+        else
+        {
+            // Try to load by email
+            $this->load_by_email(stripslashes($id));
+        }
     } 
 
     /**
@@ -503,6 +512,19 @@ class Participant {
     function load($id)
     {
         $qs = "SELECT * FROM stats_participant WHERE id = $id AND listmode < 10";
+        $this -> _state = $this -> _db -> query_first ($qs);
+    } 
+
+    /**
+     * Loads the requested participant object (by email address) using the current database connection
+     * 
+     * @access public 
+     * @return bool 
+     * @param string $ The email of the participant to load
+     */
+    function load_by_email($email)
+    {
+        $qs = "SELECT * FROM stats_participant WHERE lower(email) = lower('" . addslashes($email) . "') AND listmode < 10";
         $this -> _state = $this -> _db -> query_first ($qs);
     } 
 

@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.23 2003/10/22 04:13:25 thejet Exp $
+  // $Id: psecure.inc,v 1.24 2003/11/25 17:59:46 thejet Exp $
 
 include_once "participant.php";
 
@@ -67,7 +67,7 @@ if ( !$gpart ) {
 	authfail("pdbbadobject",$test_from,$test_id,$test_pass);
 }
 
-if ( $test_id != $gpart->get_id() ) {
+if ( (is_numeric($test_id) && $test_id != $gpart->get_id()) || (!is_numeric($test_id) && strtolower($test_id) != $gpart->get_email()) ) {
 	authfail("pbaduser",$test_from,$test_id,$test_pass);
 }
 
