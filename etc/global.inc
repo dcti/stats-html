@@ -1,14 +1,15 @@
 <?
-// $Id: global.inc,v 1.3 2005/04/01 16:03:54 decibel Exp $
+// $Id: global.inc,v 1.4 2005/04/01 16:06:42 decibel Exp $
 
 include "error.php";
 include "config.inc";
 
+$random_stats = 0;
+/*
 if rand(1,100) <= 20 {
     $random_stats = 1;
-} else {
-    $random_stats = 0;
 }
+*/
 
 if ( isset($log_timing) ) {
     if ( $log_timing == 1 ) {
