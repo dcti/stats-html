@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.43 2004/07/19 06:41:20 jlawson Exp $
+// $Id: tmsummary.php,v 1.44 2005/04/01 16:58:42 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -69,6 +69,9 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 <? } ?>
     </tr>
     <tr>
+    <? if ( $random_stats == 1 ) { ?>
+      <!-- A random we will go... -->
+    <? } ?>
       <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>:</td>
       <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
 <? if ($stats->get_stats_item('work_today') > 0) { ?>

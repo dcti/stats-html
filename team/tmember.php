@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.39 2004/07/19 18:16:31 jlawson Exp $
+// $Id: tmember.php,v 1.40 2005/04/01 16:58:42 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -205,6 +205,10 @@ print "
           } else {
             print "
             <td>$prnk " . html_rank_arrow($prnkchg) . "</td>";
+          }
+          if ( $random_stats == 1 ) {
+            print "
+            <!-- Random goodness! -->";
           }
           print "
             <td align=\"right\">$first</td>

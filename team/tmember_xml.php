@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.8 2004/07/16 20:45:27 decibel Exp $
+// $Id: tmember_xml.php,v 1.9 2005/04/01 16:58:42 decibel Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -13,6 +13,7 @@
 //  source == y for yesterday's contributors only
 //error_reporting(0);
 include "../etc/global.inc";
+$random_stats = 0;
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/team.php";

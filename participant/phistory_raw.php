@@ -1,5 +1,5 @@
 <? 
-// $Id: phistory_raw.php,v 1.16 2004/07/16 20:45:27 decibel Exp $
+// $Id: phistory_raw.php,v 1.17 2005/04/01 16:58:42 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .see phistory and implement during update lock code
@@ -7,6 +7,7 @@
 // @todo -c Implement .order by date desc/asc
 
 include "../etc/global.inc";
+$random_stats = 0;
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.23 2004/07/19 00:59:37 jlawson Exp $
+// $Id: phistory.php,v 1.24 2005/04/01 16:58:42 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -65,6 +65,9 @@ foreach ($history as $histrow)
     $width = (int) (((double)$histrow->work_units / $maxwork_units) * 200) + 1;
     ?>
       <tr class=<?=row_background_color($i);?>>
+      <? if ( $random_stats == 1 ) { ?>
+        <!-- Mmmm... random data... -->
+      <? } ?>
         <td><?=$date_fmt?></td>
         <td align="right"><?=$work_units_fmt?></td>
         <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>" alt=""></td>

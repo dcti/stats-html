@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.70 2004/09/27 21:00:56 decibel Exp $
+// $Id: psummary.php,v 1.71 2005/04/01 16:58:42 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -21,6 +21,9 @@ function par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $proj_scale, $co
 
     ?>
     <tr class="<?=row_background_color($i, $color_a, $color_b)?>">
+      <? if ( $random_stats == 1 ) { ?>
+        <!-- *aol voice* YOU'VE GOT RANDOM! */aol voice* -->
+      <? } ?>
       <td align="left"><?echo $stats->get_stats_item("overall_rank") . html_rank_arrow($stats->get_stats_item("overall_change")) ?></td>
       <td align="left"><a href="psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$parid?>"><?=safe_display($participant)?></a></td>
       <td align="right"><?echo number_style_convert($stats->get_stats_item("days_working"));?></td>
