@@ -20,6 +20,12 @@
 ?>  <?=$title?>
     </td>
    </tr>
+   <tr>
+    <td colspan="4" align="center" class="hcontent">
+      <a href="http://n0cgi.distributed.net/bugs/buglist.cgi?product=Stats&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED" style="color: red; font-weight:bolder">Bug Database</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="http://n0cgi.distributed.net/cgi/dnet-finger.cgi?user=decibel" style="color:red; font-weight:bolder">Current Progress</a>
+    </td>
+  </tr>
    <tr valign="top">
     <td align="center" valign="top" class="hcontent">
      <a href="/"><img src="/images/dcti128.jpg" alt="stats.distributed.net" height="96" width="128"></a>
@@ -93,6 +99,5 @@ if ($gproj->get_prize() <> 0) {
     </td>
    </tr>
  </table>
-<? } 
-?>
- 
+<? } ?> 
+
