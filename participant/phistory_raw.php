@@ -1,5 +1,5 @@
 <?
- # $Id: phistory_raw.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+ # $Id: phistory_raw.php,v 1.7 2002/04/03 17:39:07 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -13,14 +13,7 @@
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
 
- if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($result);
 
  sybase_data_seek($result,0);
  $person = sybase_fetch_object($result);
@@ -32,36 +25,7 @@
    exit();
  }
 
-/*
-*************************
- $qs = "select id from STATS_Participant where retire_to = $id";
- $result = sybase_query($qs);
- $rows = sybase_num_rows($result);
- $whereline = "id = $id";
- for ($i = 0; $i<$rows; $i++) {
-   sybase_data_seek($result,$i);
-   $par = sybase_fetch_object($result);
-   $rt = (int) $par->id;
-   $whereline = "$whereline or id = $rt";
- }
- 
- $qs = "select date, convert(char(10),date,101) as datefmt, sum(work_units)/$proj_divider as work_units
-	from email_contrib
-	where PROJECT_ID=$project_id and ( $whereline )
-	group by date
-	order by date desc";
-*************************
-*/
-
- $qz = "select max(date)
-		from email_contrib
-		where date>dateadd(day,-10,getdate())
-			and project_id=$project_id";
- $result = sybase_query($qs);
- if($result) {
-   $par = sybase_fetch_object($result);
-   $lastupdate = sybase_date_format_long($par->lastupdate);
- }
+ $lastupdate = last_update('m');
 
  $qs = "p_phistory @project_id = $project_id, @id = $id";
 
