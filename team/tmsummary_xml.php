@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.6 2003/11/11 02:28:41 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.7 2004/04/21 12:35:10 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -13,7 +13,7 @@ include "../etc/team.php";
 include "../etc/teamstats.php";
 
 header("Content-type: text/xml", true);
-print("<"."?xml version=\"1.0\" standalone=\"yes\"?".">\n");
+print("<"."?xml version=\"1.0\" encoding=\"UTF-16\"?".">\n");
 print("<!-- WARNING: This code is experimental and the schema is subject to change at any time -->\n");
 
 // Create the team and team stats objects
