@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.13 2002/06/03 13:17:02 paul Exp $
+  // $Id: psecure.inc,v 1.14 2002/06/05 23:42:58 paul Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -8,6 +8,7 @@
   }
 
   function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
+   global $interface,$username,$password;
     if(!($tfrom == "NULL")) {
       # This might be a bit verbose.  Disabled normally.
       error_log("$why $tfrom [$tid/$tpass] $desc",0);
@@ -23,12 +24,11 @@
       # The user has actually keyed in their ID, let's ask again.
       authenticate();
     }
-
-    include "../etc/project.inc";
-    include "../templates/header.inc";
+//    include "../etc/project.inc";
+//    include "../templates/header.inc"; 
     include "../templates/$why.inc";
     print 'datestamp: ' . date("M d Y H:i:s");
-    include "../templates/footer.inc";
+//    include "../templates/footer.inc";
     exit;
   }
 
