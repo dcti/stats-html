@@ -79,5 +79,5 @@
      </font>
     </td>
    </tr>
-  </table>
 <? } ?>
+  </table>
