@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.20 2003/08/31 11:41:00 paul Exp $
+# $Id: platformlist.php,v 1.21 2003/09/01 15:02:41 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -46,7 +46,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    $ch = substr($view,$i,1);
    if($ch == 'c') $fieldname = "p.CPU";
    if($ch == 'o') $fieldname = "p.OS";
-   if($ch == 'v') $fieldname = "p.VER";
+   if($ch == 'v') $fieldname = "p.ver";
    if($ch == 'y') {
      $fieldname = "sum(p.WORK_TODAY)* ".$gproj->get_scale()." as yesterday";
      $show_yesterday = 1;
@@ -78,7 +78,8 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
      $ordstr = "$ordstr osname,";
    }
    if($ch == 'v') {
-     $ordstr = "$ordstr p.VER,";
+     $selstr = "$selstr p.ver,";
+     $ordstr = "$ordstr p.ver,";
    }
    if($ch == 'y') {
      $ordstr = "$ordstr yesterday desc,";
@@ -146,7 +147,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    $ch = substr($view,$j,1);
    if($ch == 'c') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/cpu/$par->cpuimage\"> $par->cpuname</td>\n";
    if($ch == 'o') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/os/$par->osimage\"> $par->osname</td>\n";
-   if($ch == 'v') print "<td>$par->VER</td>\n";
+   if($ch == 'v') print "<td>$par->ver</td>\n";
  }
 
  print "
