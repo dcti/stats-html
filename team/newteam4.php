@@ -1,10 +1,10 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: newteam4.php,v 1.4 2000/01/18 03:51:59 decibel Exp $
+  // $Id: newteam4.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
   
-  include "etc/config.inc";
-  include "etc/project.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
 
   sybase_connect($interface,$username,$password);
 
@@ -14,7 +14,7 @@
   $result = sybase_query($qs);
   $rows = sybase_num_rows($result);
   if ($rows <> 0) {
-    include "templates/tmdupename.inc";
+    include "../templates/tmdupename.inc";
     exit;
   }
   $qs = "select char(convert(int,rand(datepart(mi,getdate())*datepart(ss,getdate())*datepart(ms,getdate()))*25)+97) +
@@ -39,7 +39,7 @@
 	'$pass' as password";
   $result = sybase_query($qs);
   if ($result == "") {
-    include "templates/tmerror.inc";
+    include "../templates/tmerror.inc";
     exit;
   }
 
@@ -47,7 +47,7 @@
   $result = sybase_query($qs);
   $rows = sybase_num_rows($result);
   if ($rows <> 1) {
-    include "templates/tmerror.inc";
+    include "../templates/tmerror.inc";
     exit;
   }
   sybase_data_seek($result,0);

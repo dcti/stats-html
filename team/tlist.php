@@ -5,10 +5,10 @@
 //   limit == how many lines to return
 //   source == "y" for yesterday, all other values ignored.
 
- include "etc/limit.inc";	// Handles low, high, limit calculations
+ include "../etc/limit.inc";	// Handles low, high, limit calculations
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
 if ("$source" == "y") {
   $title = "Team Listing by Yesterday's Rank: $lo to $hi";
@@ -41,7 +41,7 @@ if ("$source" == "y") {
 
  $lastupdate = last_update('t');
 
- include "templates/header.inc";
+ include "../templates/header.inc";
  debug_text("<!-- Last Update -- qs: $qs, result: $result, par: $par -->\n",$debug);
 
  // Get the results
@@ -129,4 +129,4 @@ if ("$source" == "y") {
 	  <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
 	 </tr>
 </table>
-<? include "templates/footer.inc";?>
+<? include "../templates/footer.inc";?>

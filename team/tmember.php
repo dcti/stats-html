@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.9 2002/03/29 00:19:18 paul Exp $
+// $Id: tmember.php,v 1.10 2002/04/09 22:48:58 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -10,7 +10,7 @@
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
-include "etc/project.inc";
+include "../etc/project.inc";
 
 debug_text("<!-- team: $team, low: $low, limit: $limit, source: $source, pass: $pass. -->\n",$debug);
 
@@ -48,20 +48,20 @@ $title = "Team Members Listing - Team #".$tm;
 // Do the password checking
 if ($info->showmembers == "NO") {
 	
-	include "templates/header.inc";
+	include "../templates/header.inc";
 	?>
 		<h1>Hey, you ain't supposed to be here!</h1>
 		<p>This team does not want to list it's members, so you might as well
 		quit asking for them!</p>
 	<?
-	include "templates/footer.inc";
+	include "../templates/footer.inc";
 	exit;
 }
 
 if ($info->showmembers == "PAS") {
 	if ($pass != $info->showpassword ) {
 	
-		include "templates/header.inc";
+		include "../templates/header.inc";
 		if ($pass == "") {
 			?>
 				<center><h1>Password required</h1>
@@ -82,7 +82,7 @@ if ($info->showmembers == "PAS") {
 			<input type="submit" value="Go">
 			</form></center>
 			<?
-		include "templates/footer.inc";
+		include "../templates/footer.inc";
 		exit;
 	}
 }
@@ -168,7 +168,7 @@ if ($source == y) $title = $title . "Yesterday ";
     else $title = $title . "Overall ";
 $title = $title . "$lo - $hi";
 
-include "templates/header.inc";
+include "../templates/header.inc";
 
 // Display how many members
 print "<BR><TABLE border=\"0\"><tr>
@@ -290,6 +290,6 @@ if ($rows > 25) {
 	print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>";
 }
 
-include "templates/footer.inc";
+include "../templates/footer.inc";
 
 ?>

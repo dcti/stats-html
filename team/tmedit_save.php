@@ -8,14 +8,14 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: tmedit_save.php,v 1.3 2000/01/18 03:51:59 decibel Exp $
+  // $Id: tmedit_save.php,v 1.4 2002/04/09 22:48:58 jlawson Exp $
 
   // tmsecure.inc will obtain $team and $tpass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/tmsecure.inc";
-  include "etc/config.inc";
-  include "etc/project.inc";
+  include "../etc/tmsecure.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
 
   sybase_connect($interface,$username,$password);
   $qs = "select * from STATS_team where team = $team and password = '$tpass'";
@@ -23,7 +23,7 @@
   $rows = sybase_num_rows($result);
 
   if( $rows <> 1) {
-    include "templates/tmbadpass.inc";
+    include "../templates/tmbadpass.inc";
     exit;
   }
   sybase_data_seek($result,0);
@@ -31,7 +31,7 @@
 
   $listmode = 0+$par->listmode;
   if ($listmode == 8 or $listmode == 9 or $listmode == 18 or $listmode == 19) {
-    include "templates/tmlocked.inc";
+    include "../templates/tmlocked.inc";
     exit;
   }
 

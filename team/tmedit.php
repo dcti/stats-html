@@ -1,12 +1,12 @@
 <?php
-  // $Id: tmedit.php,v 1.4 2002/01/20 23:21:03 paul Exp $
+  // $Id: tmedit.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/tmsecure.inc";
-  include "etc/config.inc";
-  include "etc/project.inc";
+  include "../etc/tmsecure.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
 
   sybase_connect($interface,$username,$password);
   $qs = "select * from STATS_team where team = $team and password = '$tpass'";
@@ -14,7 +14,7 @@
   $rows = sybase_num_rows($result);
 
   if( $rows <> 1) {
-    include "templates/tmbadpass.inc";
+    include "../templates/tmbadpass.inc";
     exit;
   }
   sybase_data_seek($result,0);
@@ -73,7 +73,7 @@
       break;
   }
 
-  include "templates/header.inc";
+  include "../templates/header.inc";
 
   print "
   <form action=\"tmedit_save.php3\" method=\"post\">
@@ -105,7 +105,7 @@
       <td><input name=\"logo\" value=\"$par->logo\" size=\"50\" maxlength=\"64\"></td>
      </tr>
 "; 
-include "etc/markuplegend.inc";
+include "../etc/markuplegend.inc";
 print "
      <tr>
       <td>Description:</td>

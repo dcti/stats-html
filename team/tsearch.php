@@ -1,12 +1,12 @@
 <?
- # $Id: tsearch.php,v 1.9 2002/04/02 23:39:31 paul Exp $
+ # $Id: tsearch.php,v 1.10 2002/04/09 22:48:58 jlawson Exp $
 
  // Variables Passed in url:
  //   st == Search Term
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
 $title = "Team Search: [".safe_display($st)."]";
 
@@ -38,7 +38,7 @@ $title = "Team Search: [".safe_display($st)."]";
 
  $lastupdate = last_update('t');
 
- include "templates/header.inc";
+ include "../templates/header.inc";
 
 ?>
     <center>
@@ -93,4 +93,4 @@ $title = "Team Search: [".safe_display($st)."]";
 	  <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocksy, 0)?> </font></td>
 	 </tr>
 	</table>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>

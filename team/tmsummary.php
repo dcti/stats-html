@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.8 2002/03/25 22:55:46 paul Exp $
+// $Id: tmsummary.php,v 1.9 2002/04/09 22:48:58 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -13,11 +13,11 @@ $title = "Team #$tm Summary";
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
-include "etc/project.inc";
+include "../etc/project.inc";
 include "../etc/markup.inc";
 
 $lastupdate = last_update('t');
-include "templates/header.inc";
+include "../templates/header.inc";
 
 // Query server
 $qs = "select t.*, r.*,
@@ -36,7 +36,7 @@ debug_text("<!-- Team Info -- qs: $qs, result: $result, rows: $rows -->\n",$debu
 
 if ($rows == 0) {
 	echo "<H2>That team is not known.</H2><BR>";
-	include "templates/footer.inc";
+	include "../templates/footer.inc";
 	exit;
 	}
 
@@ -204,4 +204,4 @@ if ($par->showmembers=="NO") {
    </p>
   </center>
 
-<? include "templates/footer.inc"; ?>
+<? include "../templates/footer.inc"; ?>

@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.7 2000/01/18 03:51:59 decibel Exp $
+  // $Id: tmpass.php,v 1.8 2002/04/09 22:48:58 jlawson Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -10,10 +10,10 @@
   
   $myname = "ppass.php3";
 
-  include "etc/config.inc";
-  include "etc/modules.inc";
-  include "etc/project.inc";
-  include "templates/header.inc";
+  include "../etc/config.inc";
+  include "../etc/modules.inc";
+  include "../etc/project.inc";
+  include "../templates/header.inc";
 
   $team = 0+$team;
 
@@ -25,7 +25,7 @@
  	 or your browser doesn't support the forms that we are using.  Please attempt to correct the problem, or
 	 mail <a href=\"mailto:stats@distributed.net\">stats@distributed.net</a> for help.
 	</h3>";
-    include "templates/footer.inc";
+    include "../templates/footer.inc";
     print "</html>\n";
     exit();
   }
