@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.15 2002/06/04 22:18:58 paul Exp $
+ # $Id: psummary.php,v 1.16 2002/06/05 20:27:42 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -122,14 +122,14 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  debug_text("<!-- Participant friends -- qs: $qs, friends: $friends, numfriends: $numfriends -->\n", $debug);
 
  // Get the participant's best day, store result in $best_day
-
+/* removed for now - killing sybase
  $qs = "p_phistory @project_id = $project_id, @id = $id, @sort_field = 'WORK_UNITS', @sort_dir = 'desc'";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  $best_day = sybase_fetch_object($result);
  $best_day_units = (double) $best_day->WORK_UNITS;
  debug_text("<!-- Best Day -- qs: $qs, best_day: $best_day, best_day_units: $best_day_units -->\n", $debug);
-
+*/
  // Get the latest record from Daily_Summary, store in $yest_totals
 
  $qs = "select * from Daily_Summary nolock
@@ -221,6 +221,7 @@ $per_searched = number_format(100*($rs_rank->TOTAL/$proj_totalunits),8);
 <? } ?>
 
 <?
+/*
   $pct_of_best = (double) $rs_rank->TODAY / $best_day_units;
   if($pct_of_best == 1) {
 ?>
@@ -242,6 +243,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 	</p><!-- Thanks, Havard! -->
 <?
   }
+*/
 ?> 
 	<p>
 	<a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
