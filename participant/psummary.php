@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.54 2003/09/01 14:50:54 decibel Exp $
+// $Id: psummary.php,v 1.55 2003/09/01 16:33:50 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -250,6 +250,7 @@ if($numfriends >= 1) {
 } 
 ?>
     <hr>
+    <!--
     <p>
     <form action="ppass.php">
 		<div>
@@ -258,6 +259,7 @@ if($numfriends >= 1) {
 		</div>
 	</form>
     </p>
+    -->
 <?include "../templates/footer.inc";
 
 ?>

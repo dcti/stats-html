@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.31 2003/08/31 22:34:41 paul Exp $
+// $Id: tmsummary.php,v 1.32 2003/09/01 16:33:50 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -199,6 +199,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       </tr>
     </table>
     <hr>
+    <!--
     <a href="/participant/pjointeam.php?team=<?=$tm?>">I want to join this team!</a>
     <hr>
     <form action="tmedit.php" method="post">
@@ -213,10 +214,11 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     </form>
     <form action="tmpass.php"><p>
     If you are the team coordinator, and you've forgotten your team password,<br> click
-    <input type="hidden" name="team" value="<?=$team?>">
+    <input type="hidden" name="team" value="<?=$team->get_id()?>">
     <input type="submit" value="here"> and the password will be mailed to
     <?=$team->get_contact_name()?>.
     </p></form>
+    -->
   </div>
 
 <? include "../templates/footer.inc"; ?>
