@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.71 2005/04/01 16:58:42 decibel Exp $
+// $Id: psummary.php,v 1.72 2005/04/01 17:07:14 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -13,7 +13,7 @@ include '../etc/participant.php';
 
 function par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $proj_scale, $color_a = "", $color_b = "")
 {
-    global $gproj;
+    global $gproj, $random_stats;
     $parid = 0 + $par->get_id();
     $totaltoday += $stats->get_stats_item("work_today");
     $totaltotal += $stats->get_stats_item("work_total");
