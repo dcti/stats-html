@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.14 2003/08/25 21:45:30 thejet Exp $
+ # $Id: psearch.php,v 1.15 2003/09/01 17:08:01 thejet Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -54,6 +54,10 @@ $rows = count($result);
  <?
 
  $totalblocks = (double) 0;
+ if($rows <= 0)
+ {
+   echo "<tr><td colspan=\"6\">No Matching Records Found</td></tr>\n";
+ }
  for ($i = 0; $i<$rows; $i++) {
    $ROWparticipant = $result[$i];
    $ROWstats = $ROWparticipant->get_current_stats();
