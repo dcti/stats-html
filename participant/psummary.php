@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.21 2002/06/06 14:56:42 paul Exp $
+ # $Id: psummary.php,v 1.22 2002/06/08 10:44:31 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -18,7 +18,7 @@
 	$participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
 ?>
         	<tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
-		<td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?> 
+		<td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
 		<td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
 		<td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
 		<td align="right"><?echo number_style_convert( (double) $par->TOTAL) ?> </td>
