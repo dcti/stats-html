@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.5 2000/04/13 15:06:39 bwilson Exp $
+  // $Id: pjointeam.php,v 1.6 2000/06/15 18:49:55 nugget Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -27,6 +27,18 @@
       $teaminfo = sybase_fetch_object($result);
       $oldteamname = $teaminfo->name;
     }
+  }
+
+  if( $teaminfo->listmode > 0 ) {
+    $title = "This team has been revoked";
+    include "templates/header.inc";
+    print "<center>
+          <h2>This team has been revoked</h2>
+          <p>Team #$team ($teaminfo->name) is no longer valid.</p>
+          <p><a href=\"http://stats.distributed.net/\">Oh well, I'll find another team...</a></p>
+         </center>
+        </body>";
+    exit;
   }
 
   $teamname = "No Team";
