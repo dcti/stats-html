@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.29 2003/10/21 15:44:09 thejet Exp $
+// $Id: participant.php,v 1.30 2003/10/21 17:43:15 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -38,7 +38,17 @@ class Participant {
 	function get_team_id() 
 	{
 		// @todo return team user is with 
-		return 0 ;	
+            $sql = "SELECT team_id, last_date 
+                        FROM team_joins
+                            WHERE id = " . $this->_state->id . "
+                    ORDER BY join_date DESC LIMIT 1;";
+            $res = $this->_db->query_first($sql);
+            if($res == FALSE)
+              return 0;
+            else if(is_null($res->last_date))
+              return $res->team_id;
+            else
+              return 0;
 	}
 
  	function get_id()
@@ -85,6 +95,7 @@ class Participant {
     	
 		if ($this->get_password() == "") {
     		//auth fail - no pass set -> mail pass to user
+                return false;
   		}
 
     	// @ TODO - NEED TO CHECK users is not suspended, retired etc

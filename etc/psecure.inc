@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.20 2003/10/21 15:44:09 thejet Exp $
+  // $Id: psecure.inc,v 1.21 2003/10/21 17:43:15 thejet Exp $
 
 include_once "participant.php";
 
@@ -35,12 +35,14 @@ function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
 }
 
 if(isset($id) && isset($pass) && $pass != "") {
+   print "Authenticating through URL.\n";
     # ID and PASS provided in url, use these over all other options
    	$test_id = $id;
    	$test_pass = $pass;
    	$test_from = "url";
 } else {
     if(isset($_COOKIE['sbid'])) {
+      print "Authenticating through Cookie.\n";
    		# We have a cookie set, use this
 		$test_id = $_COOKIE['sbid'];
     	$test_pass = $_COOKIE['sbpass'];
@@ -50,12 +52,14 @@ if(isset($id) && isset($pass) && $pass != "") {
    		if(!isset($_SERVER['PHP_AUTH_USER'])) {
        		authenticate();
    		} else {
+                print "Authenticating through PHP headers.\n";
       		$test_id = $_SERVER['PHP_AUTH_USER'];
        		$test_pass = $_SERVER['PHP_AUTH_PW'];
        		$test_from = "auth";
    		}
    	}
 }
+print "<!-- Username: $test_id, Password: $test_pass -->\n";
 
 // @TODO - pass null or gproj here?
 $gpart = new Participant($gdb, $gproj, $test_id);
@@ -63,7 +67,7 @@ if ( !$gpart ) {
 	authfail("pdbbadobject",$test_from,$test_id,$test_pass);
 }
 
-if ( $id != $gpart->get_id() ) {
+if ( $test_id != $gpart->get_id() ) {
 	authfail("pbaduser",$test_from,$test_id,$test_pass);
 }
 
