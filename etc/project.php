@@ -1,5 +1,5 @@
 <?php
-// $Id: project.php,v 1.5 2003/08/25 18:35:50 thejet Exp $
+// $Id: project.php,v 1.6 2003/10/06 02:16:37 thejet Exp $
 // ==========================================
 // file: project.inc
 // This file contains the classes which
@@ -119,7 +119,8 @@ class Project {
     {
         $this -> _db = $dbPtr;
         $this -> _id = $id;
-        $this -> load($id);
+        if($id > 0)
+            $this -> load($id);
     } 
 
     /**
