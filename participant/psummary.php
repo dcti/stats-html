@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.18 2002/06/05 21:53:36 paul Exp $
+ # $Id: psummary.php,v 1.19 2002/06/05 22:41:45 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -299,7 +299,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 	if($id<>$par->id) {
 	  par_list($i,$par,&$totaltoday,&$totaltotal);
 	} else {
-	  par_list($i,$par,&$totaltoday,&$totaltotal, "#ffffff","#ffffff");
+	  par_list($i,$par,&$totaltoday,&$totaltotal, "row3","row3");
 	}
    }
    par_footer($footer_font,$totaltoday,$totaltotal);
