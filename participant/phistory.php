@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.11 2003/03/09 12:19:55 paul Exp $
+ # $Id: phistory.php,v 1.12 2003/03/09 12:34:54 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -9,11 +9,13 @@
  include "../etc/modules.inc";
  include "../etc/project.inc";
 
- if(file_exists($lockfile)) {
-   $title = "Participant History (Unavailable)";
-   include "../templates/header.inc";
-   include "../templates/updating.inc";
-   exit;
+ if(isset($lockfile)){
+   if(file_exists($lockfile)) {
+    $title = "Participant History (Unavailable)";
+    include "../templates/header.inc";
+    include "../templates/updating.inc";
+    exit;
+   }
  }
 
  $qs = "p_participant_all $id";
