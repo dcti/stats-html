@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.21 2002/12/17 00:45:59 decibel Exp $
+// $Id: tmember.php,v 1.21.2.1 2002/12/30 00:50:20 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -265,12 +265,12 @@ print "
     </table>
   </center>
   <!-- Navigation Buttons here -->
-  <table border=\"0\" width=100%>
+  <table border="0" width=100%>
     <tr>
       <?
       if ($low > 0) {
         ?>
-        <td align = left>";
+        <td align = left>
         <?
         $newlow = $low - $lim + 1;
         $newlimit=$lim;
