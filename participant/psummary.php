@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.42 2003/03/22 18:42:53 paul Exp $
+# $Id: psummary.php,v 1.43 2003/03/22 18:50:02 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -20,7 +20,7 @@ function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = ""
   ?>
     <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
       <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
-      <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
+      <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><?=$participant?></a></td>
       <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
       <td align="right"><?echo number_style_convert( $par->TOTAL * $proj_scale) ?> </td>
       <td align="right"><?echo number_style_convert( $par->TODAY * $proj_scale) ?> </td>
@@ -65,7 +65,7 @@ $participant = participant_listas($person->listmode,$person->email,$id,$person->
 $title = "Participant Summary for $participant";
 
 if($person->motto <> "") {
-   $motto="<font size=\"+1\"><i>".markup_to_html($person->motto)."</i></font><hr>";
+   $motto="<i>".markup_to_html($person->motto)."</i><hr>";
 }
 
 
@@ -150,12 +150,11 @@ $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
 
 ?>
-  <center>
-    <table>
+    <table align="center">
       <tr>
         <td colspan="3">
           <br>
-          <font size="+2"><center><strong><?=$participant?>'s stats</strong></center></font>
+          <strong><?=$participant?>'s stats</strong>
           <hr>
           <? if(isset($motto)) {echo $motto;}?>
       </td>
@@ -222,7 +221,7 @@ $yest_totals = sybase_fetch_object($result);
   if($pct_of_best == 1) {
 ?>
   <br>
-  <font color="red">Yesterday was this participant's best day ever!</font>
+  Yesterday was this participant's best day ever!
   </p>
 <?
   } elseif ( $best_day_units > 0 ) {
@@ -242,7 +241,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 */
 ?> 
     <p>
-    <a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
+    <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
     <?
     if (($proj_type == 'RC5' or $proj_type == 'R72') && ($rs_rank->TODAY > 0)) {
@@ -282,7 +281,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
       if($numfriends>1) {
       ?>
       <tr>
-        <th colspan="6" align="center"><strong><?=$participant?>'s friends</strong></font></th>
+        <th colspan="6" align="center"><strong><?=$participant?>'s friends</strong></th>
       </tr>
       <tr>
         <th>Rank</th>
