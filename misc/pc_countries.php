@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.14 2003/08/31 22:48:07 paul Exp $
+ // $Id: pc_countries.php,v 1.15 2003/09/01 15:35:33 decibel Exp $
 
  $outname = "countries";
 
@@ -24,29 +24,29 @@
  };
 
  display_last_update('e');
- print "
+ print "<br>
 	 <center>
 	  <table border=\"1\" cellspacing=\"0\" >
 	   <tr>
-            <td colspan=2>&nbsp</td>";
+            <th class=\"thead\" colspan=2>&nbsp</td>";
  if ($source == 'y') {
    print "
-	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">Overall</a></td>
-	    <td align=\"center\" colspan=2>Yesterday</td>";
+	    <th class=\"thead\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">Overall</a></td>
+	    <th class=\"thead\" colspan=2>Yesterday</td>";
  } else {
    print "
-	    <td align=\"center\" colspan=2>Overall</td>
-	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">Yesterday</a></td>";
+	    <th class=\"thead\" colspan=2>Overall</td>
+	    <th class=\"thead\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">Yesterday</a></td>";
  }
 ?> 
            </tr>
 	   <tr>
-	    <th>Nationality</th>
-	    <th align="center">People</th>
-	    <th align="center"><?=$gproj->get_scaled_unit_name()?></th>
-	    <th align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
-	    <th align="center"><?=$gproj->get_scaled_unit_name()?></th>
-	    <th align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
+	    <th class="thead">Nationality</th>
+	    <th class="thead" align="center">People</th>
+	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?></th>
+	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
+	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?></th>
+	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
 	   </tr>
 <?
 
