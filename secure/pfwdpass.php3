@@ -6,9 +6,13 @@ include "../etc/project.inc";
 include "../etc/modules.inc";
 
   sybase_connect($interface, $ss_login, $ss_passwd);
+
+if($id == 0 ) { die; } //don't send out password for id = 0 
+
   if(isset($id)) {
     $qs = "select * from stats.dbo.STATS_participant where id = $id";
   } else {
+    die; //$id gets set in config.inc... 
     $qs = "select * from stats.dbo.STATS_participant where email = '$email'";
   }
   $result = sybase_query($qs);
@@ -85,9 +89,9 @@ $ss_login@distributed.net received an email recently from the address
 Note: please do not reply to this email as it will not reach a human.
 Rather, you should mail $ss_login@distributed.net and let them know
 that there's been an error.";
-
-  include "../templates/header.inc";
-
+?>
+<html>
+<?
   $id = 0+$par->id;
   $team = 0+$par->team;
   $retire_to = 0+$par->retire_to;
