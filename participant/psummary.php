@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.10 2002/04/09 22:54:19 jlawson Exp $
+ # $Id: psummary.php,v 1.11 2002/06/03 13:14:43 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -139,6 +139,12 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  $result = sybase_query($qs);
  $yest_totals = sybase_fetch_object($result);
 
+$constant_keys_in_one_block = 268435456;
+$tot_keys_searched = number_format(($rs_rank->TOTAL*$constant_keys_in_one_block),0);
+$per_searched = number_format(100*($rs_rank->TOTAL/$proj_totalunits),8);
+$best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
+$odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
+
 ?>
   <center>
    <table>
@@ -167,10 +173,38 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 		html_rank_arrow($rs_rank->Day_Change);?> </font></td>
      <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
     </tr>
+<? if ($proj_totalunits > 0 ) { ?>
+    <tr>
+     <td colspan="3">
+      <hr>
+     </td>
+    </tr>
+    <tr>
+     <td><font <?=$fontd?> size="+1">Total Blocks to Search:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
+    </tr>
+
+    <tr>
+     <td><font <?=$fontd?> size="+1">Keyspace Checked:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
+    </tr>
+    <tr>
+     <td><font <?=$fontd?> size="+1">Total Keys Tested:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
+    </tr>
+
+<? } ?>
     <tr>
      <td><font <?=$fontd?> size="+1">Time Working:</font></td>
      <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
     </tr>
+<? if ($proj_totalunits > 0 ) { ?>
+    <tr>
+     <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=$overall_rate?> KKeys/sec</font></td>
+    </tr>
+
+<? } ?>
     <tr>
      <td colspan="3">
       <hr>
@@ -178,6 +212,13 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
     </tr>
    </table>
   <p>
+
+<? if ($proj_totalunits > 0 ) { ?>
+  <p>
+  <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( % of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
+  </p>
+<? } ?>
+
 <?
   $pct_of_best = (double) $rs_rank->TODAY / $best_day_units;
   if($pct_of_best == 1) {
@@ -194,6 +235,9 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	<br>
 	 <? echo sybase_date_format_long($best_day->DATE)?> when <? echo number_format($best_day->WORK_UNITS,0)?>
 	 units were completed.
+<? if ($proj_totalunits > 0 ) { ?>
+were completed at a rate of <?=$best_rate?> Kkeys/sec.
+<? } ?>
 	</p><!-- Thanks, Havard! -->
 <?
   }
@@ -201,6 +245,12 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	<p>
 	<a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
 	</p>
+<? if ($proj_totalunits > 0 ) { ?>
+	<p>
+	The odds are 1 in <?=$odds?> that this participant will find the key before anyone else does.
+	</p>
+<? } ?>
+
     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
      <tr>
       <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
