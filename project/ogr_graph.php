@@ -12,7 +12,7 @@ include "../etc/db_pgsql.php";
 include "../etc/jpgraph/jpgraph.php";
 include "../etc/jpgraph/jpgraph_line.php";
 
-$history                 = "30";
+$history                 = "60";
 $dbDSN                   = "dbname=ogr";
 $table                   = "ogr_complete";
 $numeric_scale           = 1000000;
@@ -75,6 +75,7 @@ $graph->title->SetFont(FF_FONT2,FS_BOLD);
 // Make the margin around the plot a little bit bigger
 // then default
 $graph->img->SetMargin(60,60,40,70);
+#$graph->img->SetAntiAliasing();
 
 // Slightly adjust the legend from it's default position in the
 // top right corner to middle right side
@@ -84,7 +85,7 @@ $graph->legend->SetLayout(LEGEND_HOR);
 // Set the x-axis labels
 $graph->xaxis->SetTickLabels($xLabel);
 #$graph->xaxis->SetTextLabelInterval(5);
-$graph->xaxis->SetTextTickInterval(6);
+$graph->xaxis->SetTextTickInterval(12);
 
 // Create a red line plot
 //$p1 = new LinePlot($xData1);
@@ -96,18 +97,21 @@ $graph->xaxis->SetTextTickInterval(6);
 $p2 = new LinePlot($xData2);
 $p2->SetColor("blue");
 $p2->SetLegend("Pass1 Stubs Completed");
+#$p2->SetWeight(1);
 $graph->Add($p2);
 
 // Create a red line plot
 $p3 = new LinePlot($xData3);
-$p3->SetColor("green");
+$p3->SetColor("red");
 $p3->SetLegend("Pass2 Stubs Completed");
+#$p3->SetWeight(3);
 $graph->Add($p3);
 
 // Add the %-complete graph
 $p4 = new LinePlot($xData4);
 $p4->SetColor("purple");
 $p4->SetLegend("%-complete");
+#$p4->SetWeight(3);
 $graph->AddY2($p4);
 
 // Finally output the  image
