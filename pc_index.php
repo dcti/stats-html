@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.22 2004/04/23 17:08:10 nerf Exp $
+  # $Id: pc_index.php,v 1.23 2004/05/20 13:56:53 nerf Exp $
 
   $title = "Overall Project Stats";
 
@@ -114,12 +114,16 @@
 <? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
      <tr>
      <?if($showOGRcomplete) {?>
-     <td align="left" class="phead2">Percent Complete<sup><A href="#footnote">*</A></sup>:</td>
-     <td align="right"><a href="cache/ogr_graph_<?=$gproj->get_id()?>.png"><?=$per_searched?>%</a> *</td>
+     <td align="left" class="phead2">Percent Complete (Phase 1)
+		 :</td>
+     <td align="right"><a href="cache/ogr_graph_<?=$gproj->get_id()?>.png"><?=$per_searched?>%</a></td>
      <?} else {?>
      <td align="left" class="phead2">Percent Complete:</td>
      <td align="right"><?=$per_searched?>%</td>
      <?}?>
+    </tr>
+     <td align="left" class="phead2">Percent Complete (Phase 2):</td>
+<td align="right"> N/A</td>
     </tr>
 <? } ?>
    <tr>
@@ -130,15 +134,21 @@
    <br>
 <? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
    <p class="phead2">
-     Progress Meter<?if($showOGRcomplete){?><sup><A href="#footnote">*</A></sup><?}?>
+     Progress Meters
    </p>
    <table style="margin: auto" width="300" border="1" cellspacing="0" cellpadding="0">
     <tr>
+		<td align="left">Phase1</td>
      <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
+    </tr>
+    <tr>
+		<td align="left">Phase2</td>
+     <td align="Center">N/A</td>
     </tr>
    </table>
    <br>
 <? } ?>
+
 
   <p class="phead2">
      Current Information
@@ -184,8 +194,11 @@
    <?if(isset($showOGRcomplete)){?>
    <A NAME="footnote"></A>
    <font size="-2">
-     * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
-       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.  Note that this is only for stubs with leading marks totalling less than 70.
+   <!--  * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
+       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.
+		* Note that this is only for stubs with leading marks totalling less than 70.
+	 --!>
+		For more information about Phase 1 and Phase 2 go <a href=http://n0cgi.distributed.net/faq/cache/230.html>here</a>.
    </font>
    <br><br>
    <?}?>
