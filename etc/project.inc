@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.23 2003/06/03 21:11:01 paul Exp $
+# $Id: project.inc,v 1.24 2003/06/03 21:26:11 paul Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
@@ -126,7 +126,7 @@ function last_update($type)
   return $lastupdate;
 }
 
-function display_last_update($type) {
+function display_last_update($type = null) {
   global $lastupdate;
   global $colorc;
   if(isset($type)) {$lastupdate = last_update($type);
