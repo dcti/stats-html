@@ -1,5 +1,3 @@
-<?php
-  print "
 	<center>
 	<table width=\"400\" border=\"0\"><tr><td>
 	<h2>Function Unavailable During Update</h2>
@@ -10,4 +8,3 @@
 	<p>
 	 Thanks for your patience.
 	</p></td></tr></table>";
-?>
