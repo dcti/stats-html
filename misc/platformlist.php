@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.16 2002/06/05 22:53:22 decibel Exp $
+# $Id: platformlist.php,v 1.17 2002/06/05 22:56:54 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -69,13 +69,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
      $selstr = "$selstr min(c.name) as cpuname, min(c.image) as cpuimage,";
      $frostr = "$frostr STATS_cpu c,";
      $whestr = "$whestr and c.cpu = p.CPU";
-     $ordstr = "$ordstr p.CPU,";
+     $ordstr = "$ordstr cpuname,";
    }
    if($ch == 'o') {
      $selstr = "$selstr min(o.name) as osname, min(o.image) as osimage,";
      $frostr = "$frostr STATS_os o,";
      $whestr = "$whestr and o.os = p.OS";
-     $ordstr = "$ordstr p.OS,";
+     $ordstr = "$ordstr osname,";
    }
    if($ch == 'v') {
      $ordstr = "$ordstr p.VER,";
