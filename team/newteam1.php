@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam1.php,v 1.6 2002/04/09 23:20:46 jlawson Exp $
+ // $Id: newteam1.php,v 1.7 2002/05/28 22:40:33 paul Exp $
  //
  // Team creation, step 1.  This will soon be modified to have a
  // psecure wrapper to only allow team creation to be performed
@@ -12,8 +12,11 @@
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
+
  include "../templates/header.inc";
+ display_last_update();
 ?>
+  </table>
   <center>
    <h2>Team Registration Center</h2>
    <p>

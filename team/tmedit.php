@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.6 2002/04/09 23:20:46 jlawson Exp $
+  // $Id: tmedit.php,v 1.7 2002/05/28 22:40:33 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -74,7 +74,7 @@
   }
 
   include "../templates/header.inc";
-
+  display_last_update();
   print "
   <form action=\"tmedit_save.php\" method=\"post\">
    <center>

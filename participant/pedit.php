@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.14 2002/04/09 23:18:49 jlawson Exp $
+  // $Id: pedit.php,v 1.15 2002/05/28 22:43:37 paul Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -8,7 +8,7 @@
   include "../etc/project.inc";
   include "../etc/modules.inc";
   include "../etc/psecure.inc";
-
+  
   # psecure.inc leaves us with $result containing * from STATS_Participant
   # and $par being the fetched object.
 
@@ -168,8 +168,8 @@
       $msel_sex="selected";
       break;
   }
- 
   include "../templates/header.inc";
+  display_last_update();
 
   if ($debug == yes) print "  <form action=\"pedit_save.php?debug=yes\" method=\"post\">";
 	else print "  <form action=\"pedit_save.php\" method=\"post\">";

@@ -1,5 +1,5 @@
 <?
- # $Id: phistory_raw.php,v 1.8 2002/04/09 22:54:19 jlawson Exp $
+ # $Id: phistory_raw.php,v 1.9 2002/05/28 22:42:19 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -44,9 +44,9 @@ in this report.  Future improvements may be implemented which
 result in additional fields added to each line.
 
 ---BEGIN HEADER---
-ID=<?=$id?>
-PARTICIPANT=<?=$participant?>
-LASTUPDATE=<?=$lastupdate?>
+ID=<?=$id?> 
+PARTICIPANT=<?=$participant?> 
+LASTUPDATE=<?=$lastupdate?> 
 ---BEGIN DATA---
 DATE,UNITS
 <?
