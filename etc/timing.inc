@@ -1,5 +1,5 @@
 <?
-// $Id: timing.inc,v 1.5 2004/07/21 05:24:56 decibel Exp $
+// $Id: timing.inc,v 1.6 2004/07/21 17:10:58 decibel Exp $
 
 function timer_start ($name = 'default') {
     global $timer_start_times;
@@ -28,9 +28,14 @@ function timer_current ($name = 'default') {
     return $current;
 }
 
-function log_timing(&$dbPtr) {
-    $sql = 'SELECT page_log.log( $1, $2 )';
-    $queryId = $dbPtr->query_bound( $sql, array( $_SERVER['PHP_SELF'], (string) timer_current('log') ) );
+function log_timing(&$dbPtr, $project_id, $other = '') {
+    $sql = 'SELECT page_log.log( $1, $2, $3, $4 )';
+    $queryId = $dbPtr->query_bound( $sql, array(
+                                                    $_SERVER['PHP_SELF']
+                                                    , $project_id
+                                                    , $other
+                                                    , (string) timer_current('log')
+                                                ) );
 }
     
 // vi: expandtab sw=4 ts=4
