@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc.default,v 1.9 2004/07/16 20:45:26 decibel Exp $
+// $Id: config.inc.default,v 1.10 2004/07/21 00:12:39 decibel Exp $
 
 ///////////////////////////
 // Database Connectivity //
@@ -19,6 +19,7 @@ define("DEBUG_TRACE", DEBUG_PROFILE+1);
 
 $debug = 0;
 
+$log_timing = 0;    // Set to 1 to log page load times
 
 ///////////////////////////
 // Layout Style Elements //
