@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.22 2003/03/05 22:24:04 decibel Exp $
+// $Id: tmember.php,v 1.23 2003/03/09 12:08:33 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -109,7 +109,7 @@ if ($result == "") {
 debug_text("<!-- TOTAL BLOCKS -- qs: $qs, totblocks: $totblocks, yblocks: ${yblocks}, oblocks: ${oblocks}. -->\n",$debug);
 
 // Query server for member listing
-if ($source == y) {    // $qs_source is an easy way around re-doing $qs based on $source
+if ($source == 'y') {    // $qs_source is an easy way around re-doing $qs based on $source
   $qs_source = "";
 } else {
   $qs_source = "*";
@@ -118,7 +118,7 @@ if ($source == y) {    // $qs_source is an easy way around re-doing $qs based on
 $qs = "SELECT  tm.WORK_TOTAL as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
           p.id, p.listmode, p.contact_name, p.email, p.team,
           tm.WORK_TODAY as WORK_TODAY,";
-if ($source == y) {
+if ($source == 'y') {
   $qs .= "
           er.DAY_RANK as eRANK, (er.DAY_RANK_PREVIOUS - er.DAY_RANK) as eRANK_CHANGE";
   } else {
@@ -131,7 +131,7 @@ $qs .= "
           and er.PROJECT_ID = $project_id
           and tm.PROJECT_ID = er.PROJECT_ID
           and tm.TEAM_ID = $tm";
-if ($source ==y) {
+if ($source =='y') {
   $qs.= "
           and tm.WORK_TODAY >0";
 }
@@ -139,7 +139,7 @@ $qs.= "
           and p.id = tm.ID
           and er.ID = tm.ID
           and p.id = er.ID";
-if ($source == y) {
+if ($source == 'y') {
   $qs .= "
         ORDER BY  er.WORK_TODAY desc, tm.WORK_TOTAL desc";
 } else {
@@ -169,7 +169,7 @@ if ($low + $limit > $rows)
 $hi = $low + $limit;
 $lo = $low + 1;
 $title = "$info->name Members ";
-if ($source == y) {
+if ($source == 'y') {
   $title = $title . "Yesterday ";
 } else {
   $title = $title . "Overall ";
