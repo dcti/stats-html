@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: plist.php,v 1.20 2003/04/20 21:31:37 paul Exp $
+# $Id: plist.php,v 1.21 2003/06/03 21:53:51 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -76,7 +76,6 @@ if ("$source" == "y") {
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
 
-participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " -->\n",$debug);
 
         $parid = 0+$par->id;
 	$totalblocks = $totalblocks + (double) $par->blocks * $proj_scale;
