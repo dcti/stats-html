@@ -14,13 +14,21 @@ RewriteRule ^(tm[a-z_]*|newteam[1-4])\.php3$ /team/$1.php  [R]
 # participant files that used to be in the root directory.
 RewriteRule ^(p[a-z_]*)\.php3$ /participant/$1.php  [R]
 
+
 # files that are specific to rc5-64
 RewriteRule ^rc5-64/*$ /projects.php?project_id=5  [R]
+RewriteRule ^rc5-64/+countries\.html$ /misc/countries.php?project_id=5&source=o   [R]
+RewriteRule ^rc5-64/+countries-y\.html$ /misc/countries.php?project_id=5&source=y   [R]
+RewriteRule ^rc5-64/+(platformlist)\.php3$ /misc/$1.php?project_id=5   [R,QSA]
 RewriteRule ^rc5-64/+(p[a-z_]*)\.php3$ /participant/$1.php?project_id=5   [R,QSA]
 RewriteRule ^rc5-64/+(t[a-z_]*)\.php3$ /team/$1.php?project_id=5   [R,QSA]
 
+
 # files that are specific to ogr
 RewriteRule ^ogr-(24|25)/*$ /projects.php?project_id=$1  [R]
+RewriteRule ^ogr-(24|25)/+countries\.html$ /misc/countries.php?project_id=$1&source=o   [R]
+RewriteRule ^ogr-(24|25)/+countries-y\.html$ /misc/countries.php?project_id=$1&source=y   [R]
+RewriteRule ^ogr-(24|25)/+(platformlist)\.php3$ /misc/$2.php?project_id=$1   [R,QSA]
 RewriteRule ^ogr-(24|25)/+(p[a-z_]*)\.php3$ /participant/$2.php?project_id=$1   [R,QSA]
 RewriteRule ^ogr-(24|25)/+(t[a-z_]*)\.php3$ /team/$2.php?project_id=$1   [R,QSA]
 
