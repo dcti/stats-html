@@ -1,5 +1,5 @@
-<?php
-// $Id: participant.php,v 1.5 2003/07/10 20:30:33 paul Exp $
+<?php 
+// $Id: participant.php,v 1.6 2003/08/01 23:51:05 paul Exp $
 /**
  * This class represents a participant
  * 
@@ -10,18 +10,24 @@
  * can change at any time.
  * 
  * 
- *  retire_date    | date                   |
- * contact_name   | character varying(50)  | not null default ''
+ *   retire_date    | date                   |
  * contact_phone  | character varying(20)  | not null default ''
- * motto          | character varying(255) | not null default ''
- * 
  * 
  * @access public 
  */
 class Participant {
 
+    /**
+     * ** Internal Class Variables **
+     */
+    var $_db;
+    var $_project;
     var $_state;
     var $_friends;
+
+    /**
+     * ** End Internal class variables **
+     */
 
     function get_id()
     {
@@ -91,21 +97,7 @@ class Participant {
         $this -> _state -> nonprofit = $value;
     } 
 
-    /**
-     * Which team does this participant belong to? (ID)
-     * 
-     * @access public 
-     * @type int
-     */
-    /*    function getTeamID()
-    {
-        return $this -> _teamID;
-    } 
-    function setTeamID($value)
-    {
-        $this -> _teamID = $value;
-    } 
-*/
+
     /**
      * Has this participant retired their record to another participant?
      * 
@@ -221,14 +213,13 @@ class Participant {
      * @access public 
      * @type string
      */
-    var $_contactName;
-    function getContactName()
+    function get_contact_name()
     {
-        return $this -> _contactName;
+        return $this -> _state -> contact_name; 
     } 
-    function setContactName($value)
+    function set_contact_name($value)
     {
-        $this -> _contactName = $value;
+        $this -> _state -> contact_name = $value;
     } 
 
     /**
@@ -237,14 +228,13 @@ class Participant {
      * @access public 
      * @type string
      */
-    var $_contactPhone;
-    function getContactPhone()
+    function get_contact_phone()
     {
-        return $this -> _contactPhone;
+        return $this -> _state -> contact_phone;
     } 
-    function setContactPhone($value)
+    function set_contact_phone($value)
     {
-        $this -> _contactPhone = $value;
+        $this -> _state -> contact_phone = $value;
     } 
 
     /**
@@ -253,14 +243,13 @@ class Participant {
      * @access public 
      * @type string
      */
-    var $_motto;
-    function getMotto()
+    function get_motto()
     {
-        return $this -> _motto;
+        return $this -> _state -> motto;
     } 
-    function setMotto($value)
+    function set_motto($value)
     {
-        $this -> _motto = $value;
+        $this -> _state -> motto = $value;
     } 
 
     /**
@@ -275,26 +264,18 @@ class Participant {
         return $this > _retireDate;
     } 
 
-    /**
-     * ** Internal Class Variables **
-     */
-    var $_db;
-    var $_project;
-    /**
-     * ** End Internal class variables **
-     */
 
-    function getDisplayName()
+    function get_display_name()
     {
         if ($this -> _state -> listmode == 0 || $this -> _state -> listmode == 8 || $this -> _state -> listmode == 9) {
             $listas = $this -> get_email();
         } else if ($this -> _state -> listmode == 1) {
             $listas = "Participant #" . number_style_convert($this -> get_id());
         } else if ($this -> _state -> listmode == 2) {
-            if ($this -> getContactName() == "")
+            if ($this -> get_contact_name() == "")
                 $listas = "Participant #" . number_style_convert($this -> get_id());
             else
-                $listas = $this -> getContactName();
+                $listas = $this -> get_contact_name();
         } else {
             $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
         } 
@@ -306,14 +287,21 @@ class Participant {
      * @access public 
      * @return void 
      * @param DBClass $ The database connectivity to use
-     *                                 ProjectClass The current project
-     *                                 int The ID of the participant to load
+     *                                  ProjectClass The current project
+     *                                  int The ID of the participant to load
      */
-    function Participant($dbPtr, $prjPtr, $id)
+    function Participant($dbPtr, $prjPtr, $id )
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
-        $this -> load($id);
+		if (!is_null($id)) {
+		    if($id != -1)
+		    {
+		        $this -> load($id);
+		    } else {
+				// load default values
+			}
+		}
     } 
 
     /**
@@ -393,9 +381,15 @@ class Participant {
      * @access public 
      * @return ParticipantStats 
      */
-    function getCurrentStats()
-    {
-    } 
+         var $_stats;
+         function &get_current_stats()
+         {
+           if($this->_stats == null)
+           {
+             $this->_stats = new ParticipantStats($this->_db, $this->_project, $this->get_id());
+           }
+           return $this->_stats;
+         }
 
     /**
      * Returns the requested amount of historical stats information for this participant
@@ -407,30 +401,30 @@ class Participant {
      * @access public 
      * @return ParticipantStats []
      * @param date $ The date to start retrieval
-     *                                 int The number of days prior to $start to retrieve data for
+     *                                  int The number of days prior to $start to retrieve data for
      */
     function getStatsHistory($start, $getDays)
     {
     } 
 
-    function get_ranked_list($source = 'o', $lo, $hi, $limit)
+    function get_ranked_list($source = 'o', $start, $limit)
     { 
         // First, we need to determine which query to run...
-        if($source == 'y') {
+        if ($source == 'y') {
             $qs = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY as blocks,
-						LAST_DATE + 1 - FIRST_DATE as Days_Working,
+						LAST_DATE + 1 - FIRST_DATE as days_working,
 						r.DAY_RANK as rank, r.DAY_RANK_PREVIOUS - r.DAY_RANK as change,
-						p.email, p.listmode as listas, p.contact_name
+						p.email, p.listmode, p.contact_name
 						from Email_Rank r, STATS_Participant p
-						where DAY_RANK <= $hi and DAY_RANK >= $lo and r.id = p.id and p.listmode < 10 and 	r.PROJECT_ID = " . $this -> _project . "
+						where DAY_RANK <= $start + $limit and DAY_RANK >= $start and r.id = p.id and p.listmode < 10 and 	r.PROJECT_ID = " . $this -> _project . "
 						order by r.DAY_RANK, r.WORK_TODAY desc";
         } else {
             $qs = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL as blocks,
-						LAST_DATE + 1 - FIRST_DATE as Days_Working,
+						LAST_DATE + 1 - FIRST_DATE as days_working,
 						r.OVERALL_RANK as rank, r.OVERALL_RANK_PREVIOUS - r.OVERALL_RANK as change,
-						p.email, p.listmode as listas, p.contact_name
+						p.email, p.listmode, p.contact_name
 						from Email_Rank r, STATS_Participant p
-						where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 	10 and r.PROJECT_ID = " . $this -> _project . "
+						where OVERALL_RANK <= $start + $limit and OVERALL_RANK >= $start and r.id = p.id and p.listmode < 	10 and r.PROJECT_ID = " . $this -> _project . "
 						order by r.OVERALL_RANK, r.WORK_TOTAL desc";
         } 
 
@@ -439,11 +433,11 @@ class Participant {
         $result = &$this -> _db -> fetch_paged_result($queryData, $start, $limit);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp = new Participant($this -> _db, $this -> _project);
+            $partTmp = new Participant($this -> _db, $this -> _project, null);
             $statsTmp = new ParticipantStats($this -> _db, $this -> _project);
             $statsTmp -> explode($result[$i]);
             $partTmp -> explode($result[$i], $statsTmp);
-            $retVal[] = $teamTmp;
+            $retVal[] = $partTmp;
         } 
 
         return $retVal;
@@ -467,5 +461,6 @@ class Participant {
         $this -> _state = &$obj;
         $this -> _stats = &$stats;
     } 
-}
-    ?>
+} 
+
+?>

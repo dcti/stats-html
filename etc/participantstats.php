@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.3 2003/05/25 20:20:01 paul Exp $
+// $Id: participantstats.php,v 1.4 2003/08/01 23:51:06 paul Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -149,10 +149,9 @@ class ParticipantStats {
      * @return variant 
      * @param string $ The stats item to retrieve (i.e. FirstBlock)
      */
-    function getStatsItem($name)
+    function get_stats_item($name)
     { 
-        // var_dump($this->rs_rank);
-        return $this -> _state -> $name;
+        return $this -> _state -> {$name};
     } 
 
     /**
@@ -179,9 +178,7 @@ class ParticipantStats {
      * @return bool 
      * @param DBVariant $ This is the object/array from the database server which contains the data for the desired participant stats object
      */
-    function explode($parStatsInfo)
-    {
-    } 
+      function explode(&$obj) { $this->_state =& $obj; }
 } 
 
 ?>
