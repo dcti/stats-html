@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.13 2003/03/27 21:21:28 paul Exp $
+  # $Id: pc_index.php,v 1.14 2003/05/20 19:45:34 paul Exp $
 
   $title = "Overall Project Stats";
 
@@ -20,8 +20,6 @@
   $lastupdate = sybase_date_format_long($daysum->DATE);
   display_last_update('i');
 
-  debug_text("<!-- Daily Summary -- qs: $qs, daysum: $daysum,  -->\n",$debug);
-
   $yest_scaled_work_units = number_format( (double) $daysum->WORK_UNITS * $proj_scale);
   $yest_unscaled_work_units = number_format( (double) $daysum->WORK_UNITS);
   $yest_emails = number_format($daysum->PARTICIPANTS);
@@ -38,8 +36,6 @@
   $result = sybase_query($qs);
   sybase_data_seek($result,0);
   $par = sybase_fetch_object($result);
-
-  debug_text("<!-- Time Working -- qs: $qs, result: $result, par: $par -->\n",$debug);
 
   $time_working_raw = $par->TIME_WORKING;
   $time_working = number_format($par->TIME_WORKING);
@@ -65,11 +61,11 @@
 
   ####
   # Percent complete
-  $tot_unscaled_units_to_search = number_style_convert($proj_totalunits);
-  $tot_scaled_units_to_search = number_style_convert($proj_totalunits * $proj_scale);
-  $total_remaining = $proj_totalunits - $TOT_UNITS;
-  $per_searched = number_format(100*($TOT_UNITS/$proj_totalunits),3);
-  $bar_width = number_format(300*($TOT_UNITS/$proj_totalunits),0);
+  $tot_unscaled_units_to_search = number_style_convert($gproj->get_total_units());
+  $tot_scaled_units_to_search = number_style_convert($gproj->get_total_units() * $proj_scale);
+  $total_remaining = $gproj->get_total_units() - $TOT_UNITS;
+  $per_searched = number_format(100*($TOT_UNITS/$gproj->get_total_units()),3);
+  $bar_width = number_format(300*($TOT_UNITS/$gproj->get_total_units()),0);
 
   ####
   # Overall Rate
@@ -86,7 +82,7 @@
   sybase_query("set rowcount 0");
   $yest_unscaled_work_units = number_format($par->work_units);
   $yest_scaled_work_units = number_format($par->work_units * $proj_scale);
-  $yest_per =  number_format(100*($par->work_units / $proj_totalunits),6);
+  $yest_per =  number_format(100*($par->work_units / $gproj->get_total_units()),6);
   $yest_unscaled_rate = number_format(( ($par->work_units) / (86400) ),0);
   $yest_scaled_rate = number_format(( ($par->work_units * $proj_scale) / (86400) ),0);
 
@@ -100,17 +96,17 @@
    <table>
 <? if ($proj_totalunits > 0 ) { ?>
     <tr>
-     <td>Total <?=$proj_scaled_unit_name?> to Search:</td>
+     <td>Total <?=$gproj->get_scaled_unit_name?> to Search:</td>
      <td align="right"><?=$tot_scaled_units_to_search?></td>
     </tr>
 <? } ?>
     <tr>
-     <td>Total <?=$proj_scaled_unit_name?> Tested:</td>
+     <td>Total <?=$gproj->get_scaled_unit_name?> Tested:</td>
      <td align="right"><?=$tot_scaled_work_units?></td>
     </tr>
     <tr>
      <td>Overall Rate:</td>
-     <td align="right"><?=$overall_scaled_rate?> <?=$proj_scaled_unit_name?>/sec</td>
+     <td align="right"><?=$overall_scaled_rate?> <?=$gproj->get_scaled_unit_name?>/sec</td>
     </tr>
 <? if ($proj_totalunits > 0 ) { ?>
     <tr>
@@ -138,7 +134,7 @@
     </tr>
    </table>
    <br>
-<? if ($proj_totalunits > 0 ) { ?>
+<? if ($gproj->get_total_units() > 0 ) { ?>
    <p>
      Progress Meter
    </p>
@@ -154,20 +150,20 @@
      Current Information
   </p>
   <p>
-      <?=$yest_scaled_work_units?> <?=$proj_scaled_unit_name?> were completed yesterday
-        <? if ($proj_totalunits > 0 ) { ?>
+      <?=$yest_scaled_work_units?> <?=$gproj->get_scaled_unit_name?> were completed yesterday
+        <? if ($gproj->get_total_units() > 0 ) { ?>
         (<?=$yest_per?>% of the keyspace)<br>
         <? } ?>
-       at a sustained rate of <?=$yest_scaled_rate?> <?=$proj_scaled_unit_name?>/sec.
+       at a sustained rate of <?=$yest_scaled_rate?> <?=$gproj->get_scaled_unit_name?>/sec.
   </p>
   <p>
       <?=$yest_unscaled_work_units?> <?=$proj_unscaled_unit_name?> were completed yesterday
-        <? if ($proj_totalunits > 0 ) { ?>
+        <? if ($gproj->get_total_units() > 0 ) { ?>
         (<?=$yest_per?>% of the keyspace)<br>
         <? } ?>
        at a sustained rate of <?=$yest_unscaled_rate?> <?=$proj_unscaled_unit_name?>/sec.
   </p>
-  <? if ($proj_totalunits > 0 ) { ?>
+  <? if ($gproj->get_total_units() > 0 ) { ?>
   <p>
      The odds are 1 in <?=$odds?> that we will wrap this thing<br>
      up in the next 24 hours. (This also means that we'll<br>
