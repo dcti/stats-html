@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.12 2002/06/03 21:44:59 paul Exp $
+// $Id: tmsummary.php,v 1.13 2002/06/05 23:14:30 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -57,7 +57,7 @@ $neighbors = sybase_query($qs);
 $numneighbors = sybase_num_rows($neighbors);
 
 $qs = "select * from Daily_Summary nolock
-	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary)";
+	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary where project_id=$project_id)";
 sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
@@ -125,7 +125,7 @@ if ( $par->WORK_TODAY > 0 )
 <BR><BR>
 
 <? if ($proj_totalunits > 0 ) { ?>
-The odds are 1 in <?=number_format($yest_totals->blocks / (double) $par->WORK_TODAY)?> that this team will
+The odds are 1 in <?=number_format((double)$yest_totals->WORK_UNITS / (double) $par->WORK_TODAY)?> that this team will
 	find the key before anyone else does. </CENTER><BR>
 <? } ?>
 
