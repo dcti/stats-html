@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.9 2003/09/02 22:36:03 paul Exp $
+// $Id: team.php,v 1.10 2003/09/05 15:47:32 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -120,8 +120,8 @@ class Team
 	 function get_show_members() { return $this->_state->showmembers; }
 	 function set_show_members($value) { $this->_state->showmembers = $value; }
 	 
-	 function get_show_password() { if($this->_state->showpassword == "YES") { return true; } else { return false; }}
-	 function set_show_password($value) { if($value == true){$this->_state->showpassword = "YES";} else { $this->_state->showpassword = ""; }}
+	 function get_show_password() { return $this->_state->showpassword; }
+	 function set_show_password($value) { $this->_state->showpassword = $value; }
 	 
         /***
          * Instantiates a new [empty] team object
