@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.6 2002/03/25 15:50:04 paul Exp $
+ // $Id: pc_countries.php,v 1.7 2002/04/07 21:52:06 paul Exp $
 
  $outname = "countries";
 
@@ -9,14 +9,6 @@
  include "etc/project.inc";
 
  sybase_query("set rowcount 0");
-
- $title = "Participating Countries";
-
- $qs = "p_lastupdate e, @contest='new', @project_id=$project_id";
- $result = sybase_query($qs);
- $par = sybase_fetch_object($result);
- $lastupdate = sybase_date_format_long($par->lastupdate);
- include "templates/header.inc";
 
  $qs = "select distinct code, country, count(country) as recs, sum(work_total)/$proj_divider as units_total,
 		sum(work_today)/$proj_divider as units_today
@@ -36,6 +28,8 @@
  $country = sybase_query($qs);
  $countries = sybase_num_rows($country);
 
+	$lastupdate = last_update('e');
+	display_last_update();
  print "
 	 <center>
 	  <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
@@ -43,30 +37,30 @@
             <td colspan=2><font $header_font>&nbsp</font></td>";
  if ($source == y) {
    print "
-	    <td align=\"center\" colspan=2><a href=\"" . $outname . ".html\">
+	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">
               <font $header_font>Overall</font>
 	    </a></td>
 	    <td align=\"center\" colspan=2><font $header_font>Yesterday</font></td>";
  } else {
    print "
 	    <td align=\"center\" colspan=2><font $header_font>Overall</font></td>
-	    <td align=\"center\" colspan=2><a href=\"" . $outname . "-y.html\">
+	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">
               <font $header_font>Yesterday</font>
 	    </a></td>";
  }
 ?> 
            </tr>
 	   <tr>
-	    <th>Nationality</td>
-	    <th align="center">People</td>
-	    <th align="center"><?=$proj_unitname?></td>
-	    <th align="center"><?=$proj_unitname?>/Person</td>
-	    <th align="center"><?=$proj_unitname?></td>
-	    <th align="center"><?=$proj_unitname?>/Person</td>
+	    <th>Nationality</th>
+	    <th align="center">People</th>
+	    <th align="center"><?=$proj_unitname?></th>
+	    <th align="center"><?=$proj_unitname?>/Person</th>
+	    <th align="center"><?=$proj_unitname?></th>
+	    <th align="center"><?=$proj_unitname?>/Person</th>
 	   </tr>
 <?
  for ($i = 0; $i < $countries; $i++) {
-   print "<tr bgcolor=" . row_background_color($i) . ">";
+   print "<tr class=" . row_background_color($i) . ">";
    sybase_data_seek($country,$i);
    $par = sybase_fetch_object($country);
    $recs = (int) $par->recs;
@@ -92,19 +86,19 @@
 <?
  } 
 ?>
-	   </table>
-	   <table width="60%">
-	    <tr>
-	     <td>
-	      <font size="-1">
-	       Note: Nationalities listed on this page are only reflective of
-	       those participants who have designated their nationality when
-	       <a href="/pedit.php">editing</a> their participant information.
-	       No attempt has been made to derive nationalities from participant
-	       email addresses.
-	      </font>
-	     </td>
-	    </tr>
-	   </table>
- 	  </center>
-<?include "templates/footer.inc";?>
+	</table>
+           <table width="60%">
+            <tr>
+             <td>
+              <font size="-1">
+               Note: Nationalities listed on this page are only reflective of
+               those participants who have designated their nationality when
+               <a href="/pedit.php">editing</a> their participant information.
+               No attempt has been made to derive nationalities from participant
+               email addresses.
+              </font>
+             </td>
+            </tr>
+           </table>
+          </center>
+

@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+# $Id: platformlist.php,v 1.7 2002/04/07 21:51:07 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -26,11 +26,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  include "../etc/modules.inc";
  include "etc/project.inc";
 
- $qs = "p_lastupdate @section='e', @contest='new', @project_id=$project_id";
- $result = sybase_query($qs);
- $par = sybase_fetch_object($result);
- $lastupdate = sybase_date_format_long($par->lastupdate);
-
+ $lastupdate = last_update('e');
  $title = "CPU Participation";
 
  include "templates/header.inc";
@@ -87,22 +83,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  $QSlist = "$selstr $frostr $whestr $grostr $ordstr";
  $result = sybase_query($qs);
  $par = sybase_fetch_object($result);
-
+ sybase_query("set rowcount 0");
  $result = sybase_query($QSlist);
 
  debug_text("<!-- QSlist: $QSlist, result: $result -->", $debug);
-
- if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($result);
  
  $rows = sybase_num_rows($result);
-
  $cols = 3;
  print "
     <center>
@@ -112,35 +99,35 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
    if($ch == 'c') {
-     print "<td><font $header_font>CPU</font></td>";
+     print "<th>CPU</th>";
      $cols++;
    }
    if($ch == 'o') {
-     print "<td><font $header_font>OS</font></td>";
+     print "<th>OS</th>";
      $cols++;
    }
    if($ch == 'v') {
-     print "<td><font $header_font>Version</font></td>";
+     print "<th>Version</th>";
      $cols++;
    }
  }
- print "
-       <td align=\"right\"><font $header_font>First Unit</font></td>
-       <td align=\"right\"><font $header_font>Last Unit</font></td>
-       <td align=\"right\"><font $header_font>Total $proj_unitname</font></td>
+?> 
+       <th align="right">First Unit</th>
+       <th align="right">Last Unit</th>
+       <th align="right">Total <?=$proj_unitname?></th>
       </tr>
- ";
-
+<?
+$totalwu = 0;
+$totalblocks = 0;
  for ($i = 0; $i<$rows; $i++) {
-	if( ($i/2) == (round($i/2)) ) {
-	  echo "  <tr bgcolor=$bar_color_a>\n";
-	} else {
-	  echo "  <tr bgcolor=$bar_color_b>\n";
-	}
+
+?>
+<tr class="<?=row_background_color($i)?>">
+<?
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
 
-	$totalwu = (double) $par->total + $totalwu;
+	$totalwu += (double) $par->total ;
 	$decimal_places=0;
 	$totalf=number_style_convert( (double) $par->total );
 	$firstd = sybase_date_format_long($par->first);
@@ -164,12 +151,10 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 
  $padding = (int) $cols - 1;
  $ftotalwu = number_style_convert( $totalwu );
- print "
-	 <tr bgcolor=$footer_bg>
-	  <td align=\"right\" colspan=\"$padding\"><font $footer_font>Total</font></td>
-	  <td align=\"right\"><font $footer_font>$ftotalwu</font></td>
+?> 
+	 <tr bgcolor=<?=$footer_bg?>>
+	  <td align="right" colspan="<?=$padding?>"><font <?=$footer_font?>>Total</font></td>
+	  <td align="right"><font <?=$footer_font?>><?=$ftotalwu?></font></td>
 	 </tr>
 	</table>
-	";
-?>
 <?include "templates/footer.inc";?>
