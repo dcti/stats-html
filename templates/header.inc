@@ -1,3 +1,10 @@
+<?
+if (isset($project_id)) {
+    $t_project_id = "project_id=$project_id";
+} else {
+	$t_project_id = "";
+}
+?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
         "http://www.w3.org/TR/html4/strict.dtd">
 
@@ -5,7 +12,7 @@
 <!-- vi: ts=2 sw=2 tw=120 syntax=php
 -->
  <head>
-  <title>stats.distributed.net - <?=$gproj->get_name()?> <?=$title?></title>
+  <title>stats.distributed.net - <? if (isset($gproj)) { echo $gproj->get_name(); }?> <?=$title?></title>
   <meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
   <link rel="stylesheet" type="text/css" href="/css/default.css" />
  </head>
@@ -14,10 +21,10 @@
   <colgroup><col><col width="33%"><col width="33%"><col width="33%"></colgroup>
    <tr>
     <td colspan="4" align="center" class="htitle">
-      <? if($gproj->get_name() != null) {
+      <? if(isset($gproj) && $gproj->get_name() != null) {
     echo $gproj->get_name() . " / ";
-} 
-?>  <?=$title?>
+} else {echo "&nbsp;";}
+?>  <? if (isset($title)) { echo $title;}?>
     </td>
    </tr>
    <tr>
@@ -34,16 +41,16 @@
       <br>
         <span class="hsubtitle">Project Stats</span>
       <br>
-        <a href="/projects.php?project_id=<?=$project_id?>">Overall Project Stats</a><br>
+        <a href="/projects.php?<?=$t_project_id?>">Overall Project Stats</a><br>
         Keyrate History<br>
         Participation History<br>
-        <a href="/misc/platformlist.php?project_id=<?=$project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
-        <a href="/misc/countries.php?project_id=<?=$project_id?>">Participating Countries</a><br>
+        <a href="/misc/platformlist.php?<?=$t_project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
+        <a href="/misc/countries.php?<?=$t_project_id?>">Participating Countries</a><br>
         <?
-if ($gproj->get_prize() <> 0) {
+if (isset($gpoj) && $gproj->get_prize() <> 0) {
 
     ?>
-          <a href="/misc/money.php?project_id=<?=$project_id?>">Distribution of Prize Money</a><br>
+          <a href="/misc/money.php?project_id=<?=$t_project_id?>">Distribution of Prize Money</a><br>
           <?
 } 
 
@@ -56,8 +63,8 @@ if ($gproj->get_prize() <> 0) {
       <br>
        <span class="hsubtitle">Participant Stats</span>
       <br>
-        <a href="/participant/plist.php?project_id=<?=$project_id?>&amp;low=1&amp;limit=100">Top 100 Participants Overall</a><br>
-        <a href="/participant/plist.php?project_id=<?=$project_id?>&amp;low=1&amp;limit=100&amp;source=y">Top 100 Participants Yesterday</a><br>
+        <a href="/participant/plist.php?<?=$t_project_id?>&amp;low=1&amp;limit=100">Top 100 Participants Overall</a><br>
+        <a href="/participant/plist.php?<?=$t_project_id?>&amp;low=1&amp;limit=100&amp;source=y">Top 100 Participants Yesterday</a><br>
           <input style="margin-top: 5px;" type="text" name="st" size="16" maxlength="42">
           <input style="margin-top: 5px;" type="submit" value="Search"><br>
         <a href="/participant/pedit.php?project_id=<?=$gproj->get_id()?>">Edit your Information</a><br>
@@ -71,8 +78,8 @@ if ($gproj->get_prize() <> 0) {
       <br>
         <span class="hsubtitle">Team Stats</span>
       <br>
-        <a href="/team/tlist.php?project_id=<?=$project_id?>&amp;low=1&amp;limit=100">Top 100 Teams Overall</a><br>
-        <a href="/team/tlist.php?project_id=<?=$project_id?>&amp;low=1&amp;limit=100&amp;source=y">Top 100 Teams Yesterday</a><br>
+        <a href="/team/tlist.php?<?=$t_project_id?>&amp;low=1&amp;limit=100">Top 100 Teams Overall</a><br>
+        <a href="/team/tlist.php?<?=$t_project_id?>&amp;low=1&amp;limit=100&amp;source=y">Top 100 Teams Yesterday</a><br>
           <input style="margin-top: 5px;" type="text" name="st" size="16" maxlength="32">
           <input style="margin-top: 5px;" type="submit" value="Search"><br>
           <a href="/team/newteam1.php">Create a new Team</a><br>
