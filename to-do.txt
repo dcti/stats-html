@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.20 2000/04/22 16:55:54 decibel Exp $
+# $Id: to-do.txt,v 1.21 2000/05/10 02:16:41 decibel Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -64,6 +64,8 @@ o <tibim> Nugget94M: on stats for the overall daily rate... you should use
 
 
 o 'Team friends' (http://n0cgi.distributed.net/bugs/show_bug.cgi?id=1186)
+
+o Percentile ranking (http://n0cgi.distributed.net/bugs/show_bug.cgi?id=1228)
 
 o HDML stats server.
 
