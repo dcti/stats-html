@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.13 2002/06/19 02:43:41 decibel Exp $
+# $Id: plist.php,v 1.14 2002/06/20 05:19:15 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -32,7 +32,7 @@ if ("$source" == "y") {
 	p.email, p.listmode as listas, p.contact_name
 	from Email_Rank r, STATS_Participant p
 	where DAY_RANK <= $hi and DAY_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
-	order by r.DAY_RANK, r.WORK_TODAY desc";
+	order by r.DAY_RANK, r.WORK_TODAY desc at isolation read uncommitted";
 } else {
   $source = "o";
   $title = "Participant Listing by Overall Rank: $lo to $hi";
@@ -42,7 +42,7 @@ if ("$source" == "y") {
 	p.email, p.listmode as listas, p.contact_name
 	from Email_Rank r, STATS_Participant p
 	where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
-	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
+	order by r.OVERALL_RANK, r.WORK_TOTAL desc at isolation read uncommitted";
 }
 
  include "../templates/header.inc";
