@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.32 2002/12/07 19:08:37 decibel Exp $
+# $Id: psummary.php,v 1.33 2002/12/07 19:49:33 decibel Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -166,28 +166,51 @@ $overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_
       </tr>
       <tr>
         <td></td>
-        <td align="center"><font <?=$fontd?> size="+1">Rank</font></td>
-        <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?></font></td>
+        <td align="center"><font <?=$fontd?> size="+1">Overall</font></td>
+        <td align="center"><font <?=$fontd?> size="+1">Yesterday</font></td>
       </tr>
       <tr>
-        <td><font <?=$fontd?> size="+1">Overall:</font></td>
+        <td align="left"><font <?=$fontd?> size="+1">Rank:</font></td>
         <td align="right" size="+2">
           <font <?=$fontf?>>
             <?echo $rs_rank->OVERALL_RANK.  html_rank_arrow($rs_rank->Overall_Change); ?>
           </font>
         </td>
-        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
-      </tr>
-      <tr>
-        <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
         <td align="right" size="+2">
           <font <?=$fontf?>><? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?> </font>
         </td>
+      </tr>
+      <tr>
+        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_scaled_unit_name?>:</font></td>
+        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></font></td>
+        <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></font></td>
+      </tr>
+      <tr>
+        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_scaled_unit_name?>/sec:</font></td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL * $proj_scale / (86400 * $rs_rank->Days_Working), 3);?></font>
+        </td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY * $proj_scale / 86400, 3);?></font>
+        </td>
+      </tr>
+      <tr>
+        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_unscaled_unit_name?>:</font></td>
+        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
         <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
+      </tr>
+      <tr>
+        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_unscaled_unit_name?>/sec:</font></td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL / (86400 * $rs_rank->Days_Working), 0);?></font>
+        </td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY / 86400, 0);?></font>
+        </td>
       </tr>
       <?
       if ($proj_totalunits > 0 ) {
-        $per_searched = number_format(100*($rs_rank->TOTAL * $proj_scale/$proj_totalunits),8);
+        $per_searched = number_format(100*($rs_rank->TOTAL / $proj_totalunits),8);
         ?>
         <tr>
           <td colspan="3">
@@ -195,17 +218,21 @@ $overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_
           </td>
         </tr>
         <tr>
-          <td><font <?=$fontd?> size="+1">Total Blocks to Search:</font></td>
-          <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
+          <td><font <?=$fontd?> size="+1">Total <?=$proj_scaled_unit_name?>:</font></td>
+          <td colspan="2" align="right" size="+2">
+            <font <?=$fontf?>><?=number_style_convert($proj_totalunits * $proj_scale)?></font>
+          </td>
         </tr>
 
         <tr>
-          <td><font <?=$fontd?> size="+1">Keyspace Checked:</font></td>
+          <td><font <?=$fontd?> size="+1">By this participant:</font></td>
           <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
         </tr>
         <tr>
-          <td><font <?=$fontd?> size="+1">Total Keys Tested:</font></td>
-          <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
+          <td><font <?=$fontd?> size="+1">Total <?=$proj_unscaled_unit_name?>:</font></td>
+          <td colspan="2" align="right" size="+2">
+            <font <?=$fontf?>><?=number_format($rs_rank->TOTAL)?></font>
+          </td>
         </tr>
         <?
       }
@@ -214,18 +241,6 @@ $overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_
         <td><font <?=$fontd?> size="+1">Time Working:</font></td>
         <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
       </tr>
-      <?
-      if ($proj_totalunits > 0 ) {
-        ?>
-        <tr>
-          <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
-          <td colspan="2" align="right" size="+2">
-            <font <?=$fontf?>><?=number_style_convert($overall_rate,0)?> KKeys/sec</font>
-          </td>
-        </tr>
-        <?
-      }
-      ?>
       <tr>
         <td colspan="3">
           <hr>
