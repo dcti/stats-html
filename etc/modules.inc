@@ -1,5 +1,14 @@
 <?php
-  // $Id: modules.inc,v 1.12 2002/06/04 11:10:38 paul Exp $
+  // vi: ts=2 sw=2 tw=120 syntax=php
+  // $Id: modules.inc,v 1.13 2002/12/07 20:22:17 decibel Exp $
+
+  function plural($num) {
+    if (abs($num) > 1 or $num == 0) {
+      return 's';
+    } else {
+      return '';
+    }
+  }
 
   function row_background_color($rownum, $color_a = "", $color_b = "") {
 	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
