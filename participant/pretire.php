@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.15 2001/08/25 22:52:56 paul Exp $
+  // $Id: pretire.php,v 1.16 2002/04/09 22:54:19 jlawson Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -9,13 +9,13 @@
   //                            - either em or destid may be passed
   // destid = id to retire to  /
 
-  include "etc/config.inc";
-  include "etc/project.inc";
-  include "etc/psecure.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
+  include "../etc/psecure.inc";
 
   $title = "Retiring $par->EMAIL";
 
-  include "templates/header.inc";
+  include "../templates/header.inc";
 
   if ($destid == "" and $ems == "") {
     print "
@@ -45,7 +45,7 @@
 	  <p>
 	   Please enter your new email address below:
 	   <br>
-	   <form action=\"/pretire.php3\" method=\"post\">
+	   <form action=\"pretire.php3\" method=\"post\">
 	    <input type=\"text\" name=\"ems\" size=\"64\" maxlength=\"64\">
 	    <input type=\"hidden\" name=\"id\" value=\"$id\">
 	    <input type=\"hidden\" name=\"pass\" value=\"$pass\">
@@ -87,7 +87,7 @@
         $tmpid = 0+$par->id;
         print "
 	   <tr><td align=\"right\">$tmpid</td>
-	       <td><a href=\"/pretire.php3?id=$id&pass=$pass&destid=$tmpid\">$par->EMAIL</a></td>
+	       <td><a href=\"pretire.php3?id=$id&pass=$pass&destid=$tmpid\">$par->EMAIL</a></td>
 	   </tr>";
       }
       print "</table>";

@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.8 2002/04/07 21:34:58 paul Exp $
+ # $Id: psearch.php,v 1.9 2002/04/09 22:54:19 jlawson Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -7,7 +7,7 @@
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
  $title = "Participant Search: [".safe_display($st)."]";
  $QRSLTsearch = "";
@@ -31,7 +31,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 
  $lastupdate = last_update('e');
 
- include "templates/header.inc";
+ include "../templates/header.inc";
 
  // Print debug info from the first query we ran
  if ($debug == "yes") print "<!-- result: '$QRSLTsearch', par: '$ROWparticipant', rows: $rows -->";
@@ -95,4 +95,4 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 <?
  }
 ?>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>

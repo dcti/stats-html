@@ -8,14 +8,14 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.5 2000/01/18 03:51:59 decibel Exp $
+  // $Id: pedit_save.php,v 1.6 2002/04/09 22:54:19 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/config.inc";
-  include "etc/project.inc";
-  include "etc/psecure.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
+  include "../etc/psecure.inc";
 
   if ($dem_yob == "") {
     $dem_yob = 0;

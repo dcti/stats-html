@@ -1,17 +1,17 @@
 <?
- # $Id: phistory.php,v 1.7 2002/04/07 22:52:17 paul Exp $
+ # $Id: phistory.php,v 1.8 2002/04/09 22:54:19 jlawson Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
  if(file_exists($lockfile)) {
    $title = "Participant History (Unavailable)";
-   include "templates/header.inc";
-   include "templates/updating.inc";
+   include "../templates/header.inc";
+   include "../templates/updating.inc";
    exit;
  }
 
@@ -35,7 +35,7 @@
 
  $title = "Participant History for $participant";
 
- include "templates/header.inc";
+ include "../templates/header.inc";
 ?> 
 
 <!-- IMPORTANT NOTE TO SCRIPTERS!
@@ -84,4 +84,4 @@ http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=
  }
 ?>
 </table>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>

@@ -1,13 +1,13 @@
 <?php
-  // $Id: pedit.php,v 1.12 2002/01/24 11:40:51 coffee Exp $
+  // $Id: pedit.php,v 1.13 2002/04/09 22:54:19 jlawson Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/config.inc";
-  include "etc/project.inc";
-  include "etc/modules.inc";
-  include "etc/psecure.inc";
+  include "../etc/config.inc";
+  include "../etc/project.inc";
+  include "../etc/modules.inc";
+  include "../etc/psecure.inc";
 
   # psecure.inc leaves us with $result containing * from STATS_Participant
   # and $par being the fetched object.
@@ -169,7 +169,7 @@
       break;
   }
  
-  include "templates/header.inc";
+  include "../templates/header.inc";
 
   if ($debug == yes) print "  <form action=\"pedit_save.php3?debug=yes\" method=\"post\">";
 	else print "  <form action=\"pedit_save.php3\" method=\"post\">";
@@ -194,7 +194,7 @@
         <i>To join a team, have your email address and password handy<br>
            and visit that team's stats summary page.</i>
         <p>
-        If you do not wish to be on a team, click <a href=\"/pjointeam.php3?team=0\">here</a>.
+        If you do not wish to be on a team, click <a href=\"pjointeam.php3?team=0\">here</a>.
        </font>
       </td>
      </tr>
@@ -212,7 +212,7 @@
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
- "; include "etc/markuplegend.inc"; print " 
+ "; include "../etc/markuplegend.inc"; print " 
     <tr>
       <td>Motto:</td>
       <td>
@@ -325,7 +325,7 @@
      Before you can do this, you should update all of your clients to your new email address and wait
      for that new address to appear in the stats database.
      <br>
-     Once you've done that, you may then <a href=\"/pretire.php3?id=$id&pass=$test_pass\">retire this email address permanently</a>.
+     Once you've done that, you may then <a href=\"pretire.php3?id=$id&pass=$test_pass\">retire this email address permanently</a>.
     </p>
     <hr>
     <h2>

@@ -1,5 +1,5 @@
 <?
- # $Id: phistory_raw.php,v 1.7 2002/04/03 17:39:07 paul Exp $
+ # $Id: phistory_raw.php,v 1.8 2002/04/09 22:54:19 jlawson Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -7,7 +7,7 @@
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
  $qs = "p_participant_all $id";
  sybase_query("set rowcount 0");

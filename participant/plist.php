@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.9 2002/04/03 17:30:20 paul Exp $
+# $Id: plist.php,v 1.10 2002/04/09 22:54:19 jlawson Exp $
 
 $hour = 3;
 $now = getdate();
@@ -18,11 +18,11 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 //   limit == how many lines to retuwn
 //   source == "y" for yseterday, all other values ignored.
 
-include "etc/limit.inc";	// Handles low, high, limit calculations
+include "../etc/limit.inc";	// Handles low, high, limit calculations
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
-include "etc/project.inc";
+include "../etc/project.inc";
 
 if ("$source" == "y") {
   $title = "Participant Listing by Yesterday's Rank: $lo to $hi";
@@ -46,7 +46,7 @@ if ("$source" == "y") {
 }
 
 $lastupdate = last_update('e');
- include "templates/header.inc";
+ include "../templates/header.inc";
 
  sybase_query("set rowcount 100");
  $result = sybase_query($QSlist);
@@ -134,4 +134,4 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
 	  <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
 	 </tr>
 	</table>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>

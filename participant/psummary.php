@@ -1,12 +1,12 @@
 <?
- # $Id: psummary.php,v 1.9 2002/04/03 19:04:38 paul Exp $
+ # $Id: psummary.php,v 1.10 2002/04/09 22:54:19 jlawson Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
  include "../etc/markup.inc";
 
  function par_list($i, $par, $totaltoday, $totaltotal, $color_a = "", $color_b = "") {
@@ -65,7 +65,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 
  $lastupdate = last_update('e');
 
- include "templates/header.inc";
+ include "../templates/header.inc";
 
  // Get the participant's ranking info, store in $rs_rank
 
@@ -256,7 +256,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
    <br>
    <hr>
    <p>
-    <form action="/ppass.php"><input type="hidden" name="id" value="id"><input type="submit" value="Please email me my password."></form>
+    <form action="ppass.php"><input type="hidden" name="id" value="id"><input type="submit" value="Please email me my password."></form>
    </p>
   </center>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>

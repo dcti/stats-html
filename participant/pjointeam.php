@@ -1,13 +1,13 @@
 <?php
-  // $Id: pjointeam.php,v 1.15 2000/11/12 03:13:28 decibel Exp $
+  // $Id: pjointeam.php,v 1.16 2002/04/09 22:54:19 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
 
-  include "etc/config.inc";
-  include "etc/modules.inc";
-  include "etc/project.inc";
-  include "etc/psecure.inc";
+  include "../etc/config.inc";
+  include "../etc/modules.inc";
+  include "../etc/project.inc";
+  include "../etc/psecure.inc";
 
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
@@ -54,7 +54,7 @@
 
   if( $teaminfo->listmode > 0 ) {
     $title = "This team has been revoked";
-    include "templates/header.inc";
+    include "../templates/header.inc";
     print "<center>
           <h2>This team has been revoked</h2>
           <p>Team #$team ($teaminfo->name) is no longer valid.</p>
@@ -69,7 +69,7 @@
 
   $title = "$par->email has joined $newteamname";
 
-  include "templates/header.inc";
+  include "../templates/header.inc";
   debug_text("<!-- TJqs: $TJqs, TJrows: $TJrows. -->\n",$debug);
 
   print "<center>
