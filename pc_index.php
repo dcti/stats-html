@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.28 2004/07/17 15:18:07 fiddles Exp $
+  # $Id: pc_index.php,v 1.29 2004/07/29 00:18:27 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -204,7 +204,7 @@
      (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
    </p>
    <hr>
-   <?if(isset($showOGRcomplete)){?>
+   <?if( $showOGRcomplete ){?>
    <A NAME="footnote"></A>
    <font size="-2">
 		For more information about Phase 1 and Phase 2 go <a href=http://n0cgi.distributed.net/faq/cache/230.html>here</a>.
