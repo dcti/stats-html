@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.4 2003/05/24 01:28:52 thejet Exp $
+// $Id: teamstats.php,v 1.5 2003/06/12 20:43:34 thejet Exp $
 
 //==========================================
 // file: teamstats.inc
@@ -36,10 +36,10 @@ class TeamStats
       * @return void
       * @param DBClass The database connectivity to use
       ***/
-      function TeamStats($dbPtr, $prjPtr, $team_id = -1, $stats_date = -1)
+      function TeamStats(&$dbPtr, &$prjPtr, $team_id = -1, $stats_date = -1)
       {
-        $this->_db = $dbPtr;
-        $this->_project = $prjPtr;
+        $this->_db =& $dbPtr;
+        $this->_project =& $prjPtr;
         
         if($team_id != -1)
         {
@@ -102,7 +102,7 @@ class TeamStats
       * @access protected
       * @param DBObject The new state for this object
       ***/
-      function explode($obj) { $this->_state = $obj; }
+      function explode(&$obj) { $this->_state =& $obj; }
      
 }
 ?>

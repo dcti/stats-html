@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.5 2003/05/27 18:36:27 thejet Exp $
+// $Id: team.php,v 1.6 2003/06/12 20:43:34 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -131,10 +131,10 @@ class Team
          * @param DBClass The database connectivity to use
          *        ProjectClass The current Project
          ***/
-         function Team($dbPtr, $prjPtr, $team_id = -1)
+         function Team(&$dbPtr, &$prjPtr, $team_id = -1)
 	 {
-	    $this->_db = $dbPtr;
-	    $this->_project = $prjPtr;
+	    $this->_db =& $dbPtr;
+	    $this->_project =& $prjPtr;
 		
 	    if($team_id != -1)
 	    {
@@ -345,7 +345,7 @@ class Team
          * @access public
          * @return Team[]
          ***/
-         function get_neighbors()
+         function &get_neighbors()
          {
            $this->get_current_stats();
            $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= (".$this->_stats->get_stats_item('overall_rank')." -5)";
@@ -378,7 +378,7 @@ class Team
          * @return TeamStats
          ***/
          var $_stats;
-         function get_current_stats()
+         function &get_current_stats()
          {
            if($this->_stats == null)
            {
@@ -414,7 +414,7 @@ class Team
          *        int The number to return (starting at rank)
          *        int [output] The total number of ranked teams
          ***/
-         function get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total)
+         function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
          {
            // First, we need to determine which query to run...
            if($source == 'y')
@@ -427,7 +427,7 @@ class Team
                      WHERE st.listmode <= 9
                        AND day_rank <= " . ($start + $limit -1) . "
                        AND day_rank >= $start
-                       AND tr.project_id = " . $this->_project->get_id() . "
+                       AND tr.project_id = " . $project->get_id() . "
                      ORDER BY day_rank ASC, work_total DESC;";
            }
            else
@@ -440,18 +440,18 @@ class Team
                      WHERE st.listmode <= 9
                        AND overall_rank <= " . ($start + $limit -1) . "
                        AND overall_rank >= $start
-                       AND tr.project_id = " . $this->_project->get_id() . "
+                       AND tr.project_id = " . $project->get_id() . "
                      ORDER BY overall_rank ASC, work_total DESC;";
            }
 
-           $queryData = $this->_db->query($qs);
-           $total = $this->_db->num_rows($queryData);
-           $result =& $this->_db->fetch_paged_result($queryData, $start, $limit);
+           $queryData = $db->query($qs);
+           $total = $db->num_rows($queryData);
+           $result =& $db->fetch_paged_result($queryData, $start, $limit);
            $cnt = count($result); 
            for($i = 0; $i < $cnt; $i++)
            {
-             $teamTmp = new Team($this->_db, $this->_project);
-             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $teamTmp = new Team($db, $project);
+             $statsTmp = new TeamStats($db, $project);
              $statsTmp->explode($result[$i]);
              $teamTmp->explode($result[$i], $statsTmp);
              $retVal[] = $teamTmp;
@@ -471,7 +471,7 @@ class Team
          * @param string The search string
          *        int The maximum number to return
          ***/
-         function get_search_list($sstr, $limit = 50)
+         function &get_search_list($sstr, $limit = 50, &$db, &$project)
          {
            // Ensure that the string is safe to pass to pgsql...
            $sstr = stripslashes($sstr);
@@ -488,19 +488,19 @@ class Team
                     FROM team_rank tr INNER JOIN stats_team st ON tr.team_id = st.team
                    WHERE (lower(name) like '%$sstr%' OR CAST(st.team as varchar) like '%$sstr%')
                      AND listmode <= 9
-                     AND project_id = " . $this->_project->get_id() . "
+                     AND project_id = " . $project->get_id() . "
                    ORDER BY overall_rank ASC
                    LIMIT $limit";
 
            // Actually run the query...
-           $queryData = $this->_db->query($qs);
-           $total = $this->_db->num_rows($queryData);
-           $result =& $this->_db->fetch_paged_result($queryData, 1, $limit);
+           $queryData = $db->query($qs);
+           $total = $db->num_rows($queryData);
+           $result =& $db->fetch_paged_result($queryData, 1, $limit);
            $cnt = count($result); 
            for($i = 0; $i < $cnt; $i++)
            {
-             $teamTmp = new Team($this->_db, $this->_project);
-             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $teamTmp = new Team($db, $project);
+             $statsTmp = new TeamStats($db, $project);
              $statsTmp->explode($result[$i]);
              $teamTmp->explode($result[$i], $statsTmp);
              $retVal[] = $teamTmp;
