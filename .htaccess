@@ -4,3 +4,16 @@
  Allow from localhost .distributed.net
  Allow from .slacker.com
 </FilesMatch>
+
+RewriteEngine On
+RewriteBase /
+
+RewriteRule ^rc5-64/+([a-z_])\.php3$ /generic/$1.php?project_id=6   [R]
+RewriteRule ^rc5-64/+([a-z_])\.php3\?(.*)$ /generic/$1.php?project_id=6&$2  [R]
+
+RewriteRule ^ogr-24/+([a-z_])\.php3$ /generic/$1.php?project_id=24   [R]
+RewriteRule ^ogr-24/+([a-z_])\.php3\?(.*)$ /generic/$1.php?project_id=24&$2   [R]
+
+RewriteRule ^ogr-25/+([a-z_])\.php3$ /generic/$1.php?project_id=25   [R]
+RewriteRule ^ogr-25/+([a-z_])\.php3\?(.*)$ /generic/$1.php?project_id=25&$2   [R]
+
