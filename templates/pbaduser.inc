@@ -1,9 +1,5 @@
-<?php
-  # $Id: pbaduser.inc,v 1.1 2003/10/23 01:55:43 thejet Exp $
-
-  print "
-	<div style=\"text-align: center\">
-	<table width=\"400\" border=\"0\"><tr><td>
+<div style="text-align: center">
+	<table width="400" border="0"><tr><td>
 	<h2>There was an error processing your request</h2>
 	<p>
          You have entered either an invalid id, or an incorrect password.
@@ -18,5 +14,6 @@
 	   should be on it's way to you.  As usual, feel free to contact
 	   help@distributed.net if you have any further questions
 	   regarding this change.</p>
-	</td></tr></table></div>";
-?>
+	</td></tr></table>
+</div>
+
