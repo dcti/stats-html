@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.30 2002/12/07 18:39:43 decibel Exp $
+# $Id: psummary.php,v 1.31 2002/12/07 19:02:32 decibel Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -155,78 +155,82 @@ $overall_rate = ((((double)$rs_rank->TOTAL)*$constant_keys_in_one_block)/(86400*
 
 ?>
   <center>
-   <table>
-    <tr>
-     <td colspan="3">
-      <br>
-      <font size="+2"><center><strong><?=$participant?>'s stats</strong></center></font>
-      <hr>
-      <? if(isset($motto)) {echo $motto;}?>
-    </td>
-    </tr>
-    <tr>
-     <td></td>
-     <td align="center"><font <?=$fontd?> size="+1">Rank</font></td>
-     <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?></font></td>
-    </tr>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Overall:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?echo $rs_rank->OVERALL_RANK.
-    html_rank_arrow($rs_rank->Overall_Change); ?> </font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
-    </tr>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><? echo $rs_rank->DAY_RANK.
-    html_rank_arrow($rs_rank->Day_Change);?> </font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
-    </tr>
+    <table>
+      <tr>
+        <td colspan="3">
+          <br>
+          <font size="+2"><center><strong><?=$participant?>'s stats</strong></center></font>
+          <hr>
+          <? if(isset($motto)) {echo $motto;}?>
+      </td>
+      </tr>
+      <tr>
+        <td></td>
+        <td align="center"><font <?=$fontd?> size="+1">Rank</font></td>
+        <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?></font></td>
+      </tr>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Overall:</font></td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>>
+            <?echo $rs_rank->OVERALL_RANK.  html_rank_arrow($rs_rank->Overall_Change); ?>
+          </font>
+        </td>
+        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
+      </tr>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
+        <td align="right" size="+2">
+          <font <?=$fontf?>><? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?> </font>
+        </td>
+        <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
+      </tr>
 <? if ($proj_totalunits > 0 ) {
 $per_searched = number_format(100*($rs_rank->TOTAL/$proj_totalunits),8);
  ?>
-    <tr>
-     <td colspan="3">
-      <hr>
-     </td>
-    </tr>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Total Blocks to Search:</font></td>
-     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
-    </tr>
+      <tr>
+        <td colspan="3">
+          <hr>
+        </td>
+      </tr>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Total Blocks to Search:</font></td>
+        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
+      </tr>
 
-    <tr>
-     <td><font <?=$fontd?> size="+1">Keyspace Checked:</font></td>
-     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
-    </tr>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Total Keys Tested:</font></td>
-     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
-    </tr>
-
-<? } ?>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Time Working:</font></td>
-     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
-    </tr>
-<? if ($proj_totalunits > 0 ) { ?>
-    <tr>
-     <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
-     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($overall_rate,0)?> KKeys/sec</font></td>
-    </tr>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Keyspace Checked:</font></td>
+        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
+      </tr>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Total Keys Tested:</font></td>
+        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
+      </tr>
 
 <? } ?>
-    <tr>
-     <td colspan="3">
-      <hr>
-     </td>
-    </tr>
-   </table>
-  <p>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Time Working:</font></td>
+        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
+      </tr>
+<? if ($proj_totalunits > 0 ) { ?>
+      <tr>
+        <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
+        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($overall_rate,0)?> KKeys/sec</font></td>
+      </tr>
+
+<? } ?>
+      <tr>
+        <td colspan="3">
+          <hr>
+        </td>
+      </tr>
+    </table>
+    <p>
 
 <? if ($proj_totalunits > 0 ) { ?>
-  <p>
-  <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( <?=$per_searched?>% of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
-  </p>
+    <p>
+    <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( <?=$per_searched?>% of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
+    </p>
 <? } ?>
 
 <?
@@ -254,28 +258,31 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
   }
 */
 ?> 
-  <p>
-  <a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
-  </p>
-<? if (($proj_totalunits > 0) && ($rs_rank->TODAY > 0)) {
-$odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
-        ?>
-  <p>
-  The odds are 1 in <?=$odds?> that this participant will find the key before anyone else does.
-  </p>
-<? } ?>
+    <p>
+    <a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
+    </p>
+<?
+if (($proj_totalunits > 0) && ($rs_rank->TODAY > 0)) {
+  $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
+  ?>
+    <p>
+    The odds are 1 in <?=$odds?> that this participant will find the key before anyone else does.
+    </p>
+  <?
+}
+?>
 
     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
-     <tr>
-      <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
-     </tr>
-    <tr>
-      <th>Rank</th>
-      <th>Participant</th>
-      <th align="right">Days</th>
-      <th align="right">Overall <?=$proj_unitname;?></th>
-      <th align="right">Current <?=$proj_unitname;?></th>
-     </tr>
+      <tr>
+        <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
+      </tr>
+      <tr>
+        <th>Rank</th>
+        <th>Participant</th>
+        <th align="right">Days</th>
+        <th align="right">Overall <?=$proj_unitname;?></th>
+        <th align="right">Current <?=$proj_unitname;?></th>
+      </tr>
 <?
 $totaltoday = 0;
 $totaltotal = 0;
@@ -291,16 +298,16 @@ for ($i = 0; $i < $numneighbors; $i++) {
 par_footer($footer_font,$totaltoday,$totaltotal);
 if($numfriends>1) {
 ?>
-    <tr>
-      <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s friends</strong></font></td>
-    </tr>
       <tr>
-      <td><font <?=$header_font;?>>Rank</font></td>
-      <td><font <?=$header_font;?>>Participant</font></td>
-      <td align="right"><font <?=$header_font;?>>Days</font></td>
-      <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
-      <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
-    </tr>
+        <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s friends</strong></font></td>
+      </tr>
+        <tr>
+        <td><font <?=$header_font;?>>Rank</font></td>
+        <td><font <?=$header_font;?>>Participant</font></td>
+        <td align="right"><font <?=$header_font;?>>Days</font></td>
+        <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
+        <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
+      </tr>
 <?
 $totaltoday = 0;
 $totaltotal = 0;
@@ -316,11 +323,11 @@ for ($i = 0; $i < $numfriends; $i++) {
 par_footer($footer_font,$totaltoday,$totaltotal);
 }
 ?>
-  </table>
-  <br>
-  <hr>
-  <p>
+    </table>
+    <br>
+    <hr>
+    <p>
     <form action="ppass.php"><input type="hidden" name="id" value="<?=$id?>"><input type="submit" value="Please email me my password."></form>
-  </p>
-</center>
+    </p>
+  </center>
 <?include "../templates/footer.inc";?>
