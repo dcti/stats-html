@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.29 2003/09/01 20:52:12 paul Exp $
+// $Id: project.inc,v 1.30 2003/09/01 20:53:56 paul Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
@@ -74,7 +74,7 @@ if (isset($_REQUEST['st'])) {
 if (isset($_REQUEST['view'])) {
     $view = $_REQUEST['view'];
 } else {
-    $view = "";
+    $view = "c";
 } 
 
 if (isset($_GET['team'])) {
