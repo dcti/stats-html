@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.19 2003/04/20 21:31:37 paul Exp $
+  // $Id: pjointeam.php,v 1.20 2003/10/13 21:01:45 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -30,7 +30,7 @@
   $oldteamname = "No Team";
   if( $oldteam > 0 ) {
     $oldteamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $oldteam";
+    $qs = "select * from stats.dbo.STATS_team where team = '$oldteam'";
     $result = sybase_query($qs);
     $rows = sybase_num_rows($result);
     if( $rows == 1 ) {
@@ -42,7 +42,7 @@
 
   if( $team > 0 ) {
     $newteamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $team";
+    $qs = "select * from stats.dbo.STATS_team where team = '$team'";
     $result = sybase_query($qs);
     $rows = sybase_num_rows($result);
     if( $rows == 1 ) {

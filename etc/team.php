@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.11 2003/09/26 03:09:12 thejet Exp $
+// $Id: team.php,v 1.12 2003/10/13 20:57:42 paul Exp $
 
 //==========================================
 // file: team.php
@@ -30,7 +30,7 @@ class Team
      var $_state;
      var $_authed;
      /*** END Internal Class variables ***/
-     
+
      /***
       * The Id for the current team (read only)
       *
@@ -42,15 +42,15 @@ class Team
       * @type int
       ***/
       function get_id() { return $this->_state->team; }
-     
+
      /***
 	 * The Name for the current team captain
-	 * 
+	 *
 	 * @access public
 	 * @type string
 	 * */
 	 function get_contact_name() { return $this->_state->contactname; }
-	 function set_contact_name($value) { 
+	 function set_contact_name($value) {
            //print("Got contact name: $value<br>");
            $this->_state->contactname = trim($value);
            //print('Result: ' . $this->_state->contactname . '<br>');
@@ -73,58 +73,58 @@ class Team
          ***/
          function get_password() { return $this->_state->password; }
 	 function set_password($value) { $this->_state->password = trim($value); }
-     
+
         /***
 	 * The listmode for the current team
-	 * 
+	 *
 	 * @access public
 	 * @type int
 	 * */
 	 function get_listmode() { return $this->_state->listmode; }
 	 function set_listmode($value) { $this->_state->listmode = $value; }
-     
+
 	/***
 	 * The name of the current team
-	 * 
+	 *
 	 * @access public
 	 * @type string
 	 * */
 	 function get_name() { return $this->_state->name; }
 	 function set_name($value) { $this->_state->name = trim($value); }
-	 
+
 	/***
 	 * The URL for the team
-	 * 
+	 *
 	 * @access public
 	 * @type string
 	 * */
 	 function get_url() { return $this->_state->url; }
 	 function set_url($value) { return $this->_state->url = trim($value); }
-	 
+
 	/***
 	 * The logo for the current team
-	 * 
+	 *
 	 * @access public
 	 * @type string
 	 * */
 	 function get_logo() { return $this->_state->logo; }
 	 function set_logo($value) { $this->_state->logo = trim($value); }
-	 
+
 	/***
 	 * The description of the current team (in UBBCode)
-	 * 
+	 *
 	 * @access public
 	 * @type string
 	 * */
 	 function get_description() { return $this->_state->description; }
 	 function set_description($value) { $this->_state->description = trim($value); }
-	 
+
 	 function get_show_members() { return $this->_state->showmembers; }
 	 function set_show_members($value) { $this->_state->showmembers = $value; }
-	 
+
 	 function get_show_password() { return $this->_state->showpassword; }
 	 function set_show_password($value) { $this->_state->showpassword = $value; }
-	 
+
         /***
          * Instantiates a new [empty] team object
          *
@@ -138,7 +138,7 @@ class Team
 	    $this->_db =& $dbPtr;
 	    $this->_project =& $prjPtr;
             $this->_authed = false;
-		
+
 	    if($team_id != -1)
 	    {
 	      $this->load($team_id);
@@ -155,7 +155,7 @@ class Team
               $this->_state->description = "";
             }
 	 }
-	  
+
         /***
          * Loads the requested team object using the current database connection
          *
@@ -167,7 +167,7 @@ class Team
 	 {
 	    $this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
 	 }
- 
+
         /***
          * Saves the current team to the database
          *
@@ -200,7 +200,7 @@ class Team
                     "       showpassword = '" . $this->_state->showpassword . "'," .
                     "       listmode = " . $this->_state->listmode . "," .
                     "       description = '" . $this->_state->description . "'" .
-                    " WHERE team = " . $this->_state->team . "; SELECT * FROM stats_team WHERE team = " . $this->_state->team . ";";
+                    " WHERE team = '" . $this->_state->team . "'; SELECT * FROM stats_team WHERE team = '" . $this->_state->team . "';";
            }
            else
            {
@@ -222,7 +222,7 @@ class Team
            // Execute the SQL statement
            // ** throw away the result of the first operation (if it's false)
            $retVal = $this->_db->query_first($sql);
-           
+
            if($retVal == FALSE)
            {
              return "Error Saving Team Data";
@@ -246,7 +246,7 @@ class Team
          *
          * @access public
          * @return string
-         ***/ 
+         ***/
          function is_valid()
          {
            // The Rules:
@@ -270,7 +270,7 @@ class Team
            }
 
            // Required Fields
-           if($this->_state->password == '' || 
+           if($this->_state->password == '' ||
               $this->_state->password == null ||
               strlen($this->_state->password) != 8)
            {
@@ -279,7 +279,7 @@ class Team
 
            if($this->_state->name == '' ||
               $this->_state->name == null ||
-              strlen($this->_state->name) > 64) 
+              strlen($this->_state->name) > 64)
            {
              $retVal .= "Team name is required and must be no longer than 64 characters.\n";
            }
@@ -289,14 +289,14 @@ class Team
               strlen($this->_state->contactname) > 64)
            {
              $retVal .= "Contact name is required and must be no longer than 64 characters.\n";
-           }   
+           }
 
            if($this->_state->contactemail == '' ||
               $this->_state->contactemail == null ||
               strlen($this->_state->contactemail) > 64)
            {
              $retVal .= "Contact email is required and must be no longer than 64 characters.\n";
-           }   
+           }
 
            // Uniqueness
            if($retVal == "")
@@ -329,7 +329,7 @@ class Team
            }
 
            if($this->_state->showmembers == "PAS" &&
-              ($this->_state->showpassword == '' || 
+              ($this->_state->showpassword == '' ||
                $this->_state->showpassword == null ||
                strlen($this->_state->showpassword) > 16))
            {
@@ -363,7 +363,7 @@ class Team
 
            return $this->_authed;
          }
-  
+
         /***
          * This function returns an array of team objects representing the neighbors of the current team
          *
@@ -378,7 +378,7 @@ class Team
          {
            $this->get_current_stats();
            $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= (".$this->_stats->get_stats_item('overall_rank')." -5)";
-           $sql .= " AND overall_rank <= (".$this->_stats->get_stats_item('overall_rank')." +5)"; 
+           $sql .= " AND overall_rank <= (".$this->_stats->get_stats_item('overall_rank')." +5)";
            $sql .= " AND project_id = " . $this->_project->get_id();
            //$sql .= " AND team_id != " . $this->get_id();
            $sql .= " AND listmode <= 9 ORDER BY overall_rank ASC ";
@@ -396,7 +396,7 @@ class Team
 
            return $retVal;
          }
-     
+
         /***
          * Returns the current TeamStats object for this team
          *
@@ -415,7 +415,7 @@ class Team
            }
            return $this->_stats;
          }
-     
+
         /***
          * Returns the requested amount of historical stats information for this team
          *
@@ -428,8 +428,8 @@ class Team
          * @param date The date to start retrieval
          *        int The number of days prior to $start to retrieve data for
          ***/
-         function get_stats_history($start, $getDays) { }     
-         
+         function get_stats_history($start, $getDays) { }
+
         /***
          * Returns a list of teams
          *
@@ -476,7 +476,7 @@ class Team
            $queryData = $db->query($qs);
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 0, $limit);
-           $cnt = count($result); 
+           $cnt = count($result);
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($db, $project);
@@ -485,7 +485,7 @@ class Team
              $teamTmp->explode($result[$i], $statsTmp);
              $retVal[] = $teamTmp;
            }
-           
+
            return $retVal;
          }
 
@@ -521,7 +521,7 @@ class Team
            $queryData = $db->query($qs);
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 1, $limit);
-           $cnt = count($result); 
+           $cnt = count($result);
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($db, $project);
