@@ -1,5 +1,5 @@
 <? 
-// $Id: phistory_raw.php,v 1.12 2003/09/01 23:16:58 paul Exp $
+// $Id: phistory_raw.php,v 1.13 2003/09/19 22:39:32 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .see phistory and implement during update lock code
@@ -46,7 +46,7 @@ DATE,UNITS
 
 foreach ($history as $histrow)
 {
-	print $histrow->stats_date . "," . number_format($histrow->work_units, 0) ."\n";
+	print "$histrow->stats_date,$histrow->work_units\n";
 } 
 ?>
 ---END DATA---
