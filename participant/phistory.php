@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.10 2003/03/05 22:24:04 decibel Exp $
+ # $Id: phistory.php,v 1.11 2003/03/09 12:19:55 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -46,7 +46,7 @@ http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=
 -->
   <center>
     <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
-    <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
+    <table border="1" cellspacing"0">
       <tr>
        <th>Date</th>
        <th align="right"><?=$proj_unitname?></th>

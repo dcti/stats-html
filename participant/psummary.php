@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.38 2003/03/09 11:48:11 paul Exp $
+# $Id: psummary.php,v 1.39 2003/03/09 12:16:09 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -29,7 +29,7 @@ function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = ""
 }
 function par_footer($footer_font, $totaltoday, $totaltotal, $proj_scale) {
 ?>
-  <tr>
+  <tr bgcolor="#222222">
     <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
     <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal * $proj_scale )?> </font></td>
     <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday * $proj_scale )?> </font></td>
@@ -259,17 +259,17 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     }
     ?>
 
-    <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
+    <table border="1" cellspacing="0">
       <tr>
         <th colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s neighbors</strong></font></th>
       </tr>
       <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
       <tr>
-        <th><font <?=$header_font;?>>Rank</font></td>
-        <th><font <?=$header_font;?>>Participant</font></td>
-        <th align="right"><font <?=$header_font;?>>Days</font></td>
-        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
-        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
+        <th><font <?=$header_font;?>>Rank</font></th>
+        <th><font <?=$header_font;?>>Participant</font></th>
+        <th align="right"><font <?=$header_font;?>>Days</font></th>
+        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></th>
+        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></th>
       </tr>
       <?
       $totaltoday = 0;
