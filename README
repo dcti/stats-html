@@ -1,4 +1,4 @@
-# $Id: README,v 1.2 1999/07/12 16:59:16 nugget Exp $
+# $Id: README,v 1.3 1999/07/19 19:36:04 nugget Exp $
 #
 # distributed.net stats-html tree
 #
@@ -14,6 +14,10 @@
 # normal, as it is one of the pages that is regenerated every 
 # evening.  Since there's no index.html, apache is configured to fall
 # back onto index.php3.
+#
+# Also note that each stats-foo site has isolated logging.  All
+# activity to your personal stats site is logged to ~/log/.
+# This should make debugging much simpler.
 #
 # When you're happy with the changes you've committed, you can do a 
 # "sudo wwwcvs" to update /htdocs/ with the current tree.
