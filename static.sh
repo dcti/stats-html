@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: static.sh,v 1.9 2004/04/21 22:15:24 paul Exp $
+# $Id: static.sh,v 1.10 2004/07/08 07:15:28 fiddles Exp $
 #
 # Update static pages
 
