@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.6 2000/05/31 23:26:51 decibel Exp $
+  // $Id: modules.inc,v 1.7 2000/06/01 00:01:29 decibel Exp $
 
   function row_background_color($rownum) {
         if( ($rownum/2) == (round($rownum/2)) ) {
@@ -15,11 +15,11 @@
 
   function html_rank_arrow($change) {
     if ($change > 0) {
-	return "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</font></td>";
+	return "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</font>";
     } else {
 	if ($change < 0) {
 	    $offset = -$change;
-	    return "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font></td>";
+	    return "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font>";
 	}
     }
   }
