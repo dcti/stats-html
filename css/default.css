@@ -3,7 +3,7 @@
 .row3 {border-color:#AAAAAA;background-color:#ffffff }
 .row1 a, .row2 a, .row3 a { color: #CC0000; }
 
-.thead {border-color:#AAAAAA;font-size:medium;font-weight:bold;color:#FFFFFF;background-color:#222222;}
+.thead {border-color:#AAAAAA;font-size:medium;font-weight:bold;color:#FFFFFF;background-color:#222222;vertical-align: bottom;}
 .tfoot {border-color:#AAAAAA;color:#FFFFFF;background-color:#222222;}
 .tcontent {border-color:#000000;color:#000000;font-size:small;}
 .thead a, .thead a:visited, .thead a:hover {font-weight:bold;color:#AAAAAA;background-color:#222222;}
