@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.9 2002/01/02 11:47:23 decibel Exp $
+  // $Id: modules.inc,v 1.10 2002/03/16 18:05:53 paul Exp $
 
   function row_background_color($rownum, $color_a = "", $color_b = "") {
 	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
@@ -93,7 +93,7 @@
   }
 
   function number_style_convert($number, $decimal_places = 0) {
-    $number_style=US;
+    global $number_style;
     if ( $number_style == "US" ) {
       $number = number_format($number, $decimal_places, ".", ",");
      }
