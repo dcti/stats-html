@@ -1,5 +1,5 @@
 <?php
-  // $Id: newteam4.php,v 1.11 2003/05/27 18:38:29 thejet Exp $
+  // $Id: newteam4.php,v 1.12 2003/10/07 21:26:02 thejet Exp $
   
   include "../etc/config.inc";
   include "../etc/project.inc";
@@ -41,58 +41,6 @@
     // Save was successful
   }
 
-  /*
-  //sybase_connect($interface,$username,$password);
-  //
-  //$name = htmlspecialchars($name);
-  //
-  $qs = "select * from STATS_team where name like '$name'";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-  if ($rows <> 0) {
-    include "../templates/tmdupename.inc";
-    include "../templates/footer.inc";
-    exit;
-  }
-  
-  $qs = "select char(convert(int,rand(datepart(mi,getdate())*datepart(ss,getdate())*datepart(ms,getdate()))*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) +
-      char(convert(int,rand()*25)+97) as password";
-  $result = sybase_query($qs);
-  sybase_data_seek($result,0);
-  $result = sybase_fetch_object($result);
-  $pass = $result->password;
-
-  $qs = "insert into STATS_team
-	(name, contactname, contactemail,password)
-	select
-	'$name' as name,
-	'$contactname' as contactname,
-	'$contactemail' as contactemail,
-	'$pass' as password";
-  $result = sybase_query($qs);
-  if ($result == "") {
-    include "../templates/tmerror.inc";
-    include "../templates/footer.inc";
-    exit;
-  }
-
-  $qs = "select * from STATS_team where name like '$name'";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-  if ($rows <> 1) {
-    include "../templates/tmerror.inc";
-    include "../templates/footer.inc";
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-  */
   $password = $newteam->get_password();
   $teamnum = $newteam->get_id();
 
