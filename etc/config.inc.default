@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc.default,v 1.6 2004/04/21 19:10:10 paul Exp $
+// $Id: config.inc.default,v 1.7 2004/07/01 10:26:01 fiddles Exp $
 
 include "error.php";
 

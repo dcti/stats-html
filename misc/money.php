@@ -1,6 +1,6 @@
 <?php
 
-# $Id: money.php,v 1.5 2004/04/22 20:18:34 paul Exp $
+# $Id: money.php,v 1.6 2004/07/01 10:26:01 fiddles Exp $
 # vi: ts=2 sw=2 tw=120
 
 include "../etc/config.inc";

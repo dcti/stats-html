@@ -1,5 +1,5 @@
 <?php
-// $Id: project.php,v 1.8 2004/04/29 20:37:34 paul Exp $
+// $Id: project.php,v 1.9 2004/07/01 10:26:01 fiddles Exp $
 
 /**
  * This class represents a project

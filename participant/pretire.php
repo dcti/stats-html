@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.23 2004/04/29 20:48:51 paul Exp $
+// $Id: pretire.php,v 1.24 2004/07/01 10:26:01 fiddles Exp $
 
 include "../etc/config.inc";
 include "../etc/project.inc";

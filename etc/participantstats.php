@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.12 2004/04/29 23:11:49 paul Exp $
+// $Id: participantstats.php,v 1.13 2004/07/01 10:26:01 fiddles Exp $
 
 /**
  * This class represents a participant stats entry

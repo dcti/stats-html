@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.20 2004/03/06 12:21:09 paul Exp $
+// $Id: phistory.php,v 1.21 2004/07/01 10:26:01 fiddles Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name

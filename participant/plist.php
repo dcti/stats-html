@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.27 2004/03/06 12:25:33 paul Exp $
+// $Id: plist.php,v 1.28 2004/07/01 10:26:01 fiddles Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn

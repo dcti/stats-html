@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.38 2004/04/29 20:36:39 paul Exp $
+// $Id: project.inc,v 1.39 2004/07/01 10:26:01 fiddles Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
