@@ -1,5 +1,5 @@
 <? 
-// $Id: phistory_raw.php,v 1.13 2003/09/19 22:39:32 decibel Exp $
+// $Id: phistory_raw.php,v 1.14 2003/10/22 16:30:44 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .see phistory and implement during update lock code
@@ -10,7 +10,6 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 $gpart = new Participant($gdb, $gproj, $id);
 $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.25 2003/09/01 19:58:07 paul Exp $
+// $Id: plist.php,v 1.26 2003/10/22 16:30:44 thejet Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
@@ -11,7 +11,6 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 if ("$source" == "y") {
     $title = "Participant Listing by Yesterday's Rank: $lo to $hi";

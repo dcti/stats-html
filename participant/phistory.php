@@ -1,6 +1,6 @@
 <? 
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.17 2003/08/25 18:17:14 thejet Exp $
+// $Id: phistory.php,v 1.18 2003/10/22 16:29:38 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -10,7 +10,6 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 if(isset($lockfile)) {
     if(file_exists($lockfile)) {
