@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.15 2003/09/01 17:08:01 thejet Exp $
+ # $Id: psearch.php,v 1.16 2003/09/13 22:17:38 decibel Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -46,8 +46,8 @@ $rows = count($result);
      <tr>
        <th class="thead">Rank</th>
        <th class="thead">Participant</th>
-       <th class="thead" align="right">First Block</th>
-       <th class="thead" align="right">Last Block</th>
+       <th class="thead" align="right">First Unit</th>
+       <th class="thead" align="right">Last Unit</th>
        <th class="thead" align="right">Days</th>
        <th class="thead" align="right"><?=$gproj->get_scaled_unit_name()?></th>
       </tr>
