@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.7 2002/03/24 17:02:42 paul Exp $
+ # $Id: psummary.php,v 1.8 2002/03/28 19:18:20 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -10,15 +10,16 @@
  include "../etc/markup.inc";
 
  function par_list($i, $par, $totaltoday, $totaltotal, $color_a = "", $color_b = "") {
+	global $project_id;
         $parid = 0+$par->id;
         $totaltoday += $par->TODAY;
         $totaltotal += $par->TOTAL;
         $decimal_places=0;
 	$participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
 ?>
-        	<tr bgcolor=<?echo row_background_color($i, $color_a, $color_b);?>>
+        	<tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
 		<td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?> 
-		<td><a href="psummary.php?project_id=$project_id&id=$parid"><font color="#cc0000"><?=$participant?></font></a></td>
+		<td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
 		<td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
 		<td align="right"><?echo number_style_convert( (double) $par->TOTAL) ?> </td>
 		<td align="right"><?echo number_style_convert( (double) $par->TODAY) ?> </td>
@@ -43,15 +44,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
  $person = sybase_fetch_object($result);
-
- if ($person == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($person);
 
  $retire_to = 0+$person->retire_to;
  if( $retire_to > 0 ) {
@@ -69,16 +62,8 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
    $motto="<font size=\"+1\"><i>".markup_to_html($person->motto)."</i></font><hr>";
  }
 
- // Find out when the last update was, store formatted result in $lastupdate
 
- $qs = "p_lastupdate e, @contest='new', @project_id=$project_id";
- $result = sybase_query($qs);
- if($result) {
-   $par = sybase_fetch_object($result);
-   $lastupdate = sybase_date_format_long($par->lastupdate);
- } else {
-  $lastupdate = "some day, not too long ago";
- }
+ $lastupdate = last_update('e');
 
  include "templates/header.inc";
 
@@ -218,14 +203,14 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 	</p>
     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
      <tr>
-      <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s neighbors</strong></font></td>
+      <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
      </tr>
     <tr>
-      <td><font <?=$header_font;?>>Rank</font></td>
-      <td><font <?=$header_font;?>>Participant</font></td>
-      <td align="right"><font <?=$header_font;?>>Days</font></td>
-      <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
-      <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
+      <th>Rank</th>
+      <th>Participant</th>
+      <th align="right">Days</th>
+      <th align="right">Overall <?=$proj_unitname;?></th>
+      <th align="right">Current <?=$proj_unitname;?></th>
      </tr>
 <?
  $totaltoday = 0;
