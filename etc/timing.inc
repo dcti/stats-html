@@ -1,4 +1,6 @@
 <?
+// $Id: timing.inc,v 1.2 2004/07/16 19:58:32 decibel Exp $
+
 function timer_start ($name = 'default') {
     global $timer_start_times;
     $timer_start_times[$name] = explode(' ', microtime());
@@ -26,4 +28,5 @@ function timer_current ($name = 'default') {
     return $current;
 }
 
+// vi: expandtab sw=4 ts=4
 ?>
