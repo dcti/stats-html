@@ -46,15 +46,9 @@ if (isset($project_id)) {
         Participation History<br>
         <a href="/misc/platformlist.php?<?=$t_project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
         <a href="/misc/countries.php?<?=$t_project_id?>">Participating Countries</a><br>
-        <?
-if (isset($gpoj) && $gproj->get_prize() <> 0) {
-
-    ?>
+        <? if ( isset( $gproj ) && $gproj->get_prize() <> 0 ) { ?>
           <a href="/misc/money.php?project_id=<?=$t_project_id?>">Distribution of Prize Money</a><br>
-          <?
-} 
-
-?>
+        <? } ?>
     </td>
     <td class="hcontent">
         <form method="GET" name="par-search" id="par-search" action="/participant/psearch.php">
@@ -87,18 +81,14 @@ if (isset($gpoj) && $gproj->get_prize() <> 0) {
         </form>
     </td>
    </tr>
-<? if(isset($lastupdate)) {
-    ?>
+<? if( isset( $lastupdate ) ) { ?>
    <tr>
     <td colspan="4" align="center" class="lastupdate">
-<? if($lastupdate <> "") {
-        ?>
+<? if( $lastupdate <> "" ) { ?>
       Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
-<? } else {
-        ?>
+<? } else { ?>
       Update currently in progress...
-<? } 
-    ?>
+<? } ?>
     </td>
    </tr>
  </table>
