@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.9 2004/04/21 16:01:49 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.10 2004/04/21 19:43:06 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -11,6 +11,7 @@ include "../etc/markup.inc";
 include "../etc/project.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
+include "../etc/projectstats.php";
 
 header("Content-type: text/xml", true);
 print("<"."?xml version=\"1.0\" encoding=\"ISO-8859-1\"?".">\n");
@@ -51,8 +52,10 @@ $numneighbors = count($neighbors);
     <? } ?>
 
     <stat name="time-working" unit="days" value="<?= round($stats->get_stats_item("days_working"),0) ?>"/>
-    <? if ($gproj->get_total_units() > 0) { ?>
-    <stat name="odds" unit="" value="<?= round($yest_totals->WORK_UNITS / $par->WORK_TODAY,0) ?>"/>
+    <? if ($gproj->get_total_units() > 0 && $stats->get_stats_item("work_today") > 0) {
+           $gprojstats = $gproj->get_current_stats();
+	 ?>
+    <stat name="odds" unit="" value="<?= round($gprojstats->get_stats_item("work_units") / $stats->get_stats_item("work_today"),0) ?>"/>
     <? } ?>
 
     <stat name="members-overall" unit="" value="<?=round($stats->get_stats_item("members_overall"),0)?>"/>
