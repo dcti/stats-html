@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.10 2002/04/09 22:57:11 jlawson Exp $
+// $Id: tmsummary.php,v 1.11 2002/06/03 13:09:34 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -56,7 +56,17 @@ sybase_query("set rowcount 18");
 $neighbors = sybase_query($qs);
 $numneighbors = sybase_num_rows($neighbors);
 
+$qs = "select * from STATS_dailies where date = (select max(date) from STATS_dailies)";
+sybase_query("set rowcount 0");
+$result = sybase_query($qs);
+$yest_totals = sybase_fetch_object($result);
+
+
 debug_text("<!-- Neighbors -- qs: $qs, neighbors: $neighbors, numneighbors: $numneighbors -->\n",$debug);
+
+
+$constant_keys_per_block = 268435456;
+$overall_rate = ((((double)$par->WORK_TOTAL)*$constant_keys_per_block)/(86400*$par->Days_Working))/1000;
 
 if (private_markupurl_safety($par->logo) != "") {
   $logo = "<IMG src=\"$par->logo\">";
@@ -103,9 +113,21 @@ if ( $par->WORK_TODAY > 0 )
      <td><font <?=$fontd?> size="+1">Time Working: </font></td>
      <td colspan="3" align="right" size="+2"><font <?=$fontf?>><?echo  number_format($par->Days_Working)?> days</font></td>
     </tr>
-    </tr>
+<? if ($proj_totalunits > 0 ) { ?>
+    <tr>
+     <td><font <?=$fontd?> size="+1">Overall Rate: </font></td>
+     <td colspan="3" align="right" size="+2"><font <?=$fontf?>><?echo  number_format($overall_rate)?> Kkeys/second</font></td>
+    <tr>
+<? } ?> 
+   </tr>
    </table>
 <BR><BR>
+
+<? if ($proj_totalunits > 0 ) { ?>
+The odds are 1 in <?=number_format($yest_totals->blocks / (double) $par->WORK_TODAY)?> that this team will
+	find the key before anyone else does. </CENTER><BR>
+<? } ?>
+
 
   <p>
     This team has had <?echo number_style_convert( $par->MEMBERS_OVERALL )?> participants contribute blocks.
