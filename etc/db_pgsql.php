@@ -142,8 +142,9 @@ class DB {
             $this -> _query_id = @pg_query($this -> _link_id, $p_query);
           }
         if(!$this -> _query_id) {
-          $this -> _error ($p_query);
           array_push ( $this->_queries_array, array($p_query,false) );
+          $this -> _error ($p_query);
+          trigger_error("DB Query Failed",E_USER_ERROR);
           return false;
         }
         array_push ( $this->_queries_array, array($p_query,true) );
