@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.4 1999/12/23 17:45:08 nugget Exp $
+  // $Id: psecure.inc,v 1.5 1999/12/24 17:35:26 nugget Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -97,6 +97,11 @@
     $par = sybase_fetch_object($result);
   }
 
+  # Some routines (pedit, for instance) need a full record returned, so...
+  $qs = "select * from STATS_Participant where id = $par->id";
+  $result = sybase_query($qs);
+  $par = sybase_fetch_object($result);
+
   # OK, let's do some sanity checking
   $test_pass = substr($test_pass,0,8);
 
@@ -141,6 +146,7 @@
   }
 
   # OK, We made it through without a problem.  
+
   # Now back to our regularly scheduled programming...
 
 ?>
