@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.10 2005/04/01 16:00:49 decibel Exp $
+// $Id: teamstats.php,v 1.11 2005/04/01 16:01:38 decibel Exp $
 
 /***
  * This class represents a team stats entry
@@ -51,16 +51,16 @@ class TeamStats
         $qs .= '        , members_today, members_overall, members_current';
         $qs .= '        , work_today, work_total';
         $qs .= '        , last_date::DATE - first_date::DATE + 1 AS days_working ';
-        $qs .= 'FROM team_rank ';
-        $qs .= 'WHERE team_id = ' . $this->_db->prepare_int($id);
-        $qs .= ' AND project_id = '. $this->_db->prepare_int($this->_project->get_id());
+        $qs .= '    FROM team_rank ';
+        $qs .= '    WHERE team_id = ' . $this->_db->prepare_int($id);
+        $qs .= '        AND project_id = '. $this->_db->prepare_int($this->_project->get_id());
         if($date == -1)
         {
-            $qs .= " AND last_date = (SELECT MAX(last_date) FROM team_rank t2 WHERE t2.team_id = team_rank.team_id AND t2.project_id = team_rank.project_id)";
+            $qs .= "        AND last_date = (SELECT MAX(last_date) FROM team_rank t2 WHERE t2.team_id = team_rank.team_id AND t2.project_id = team_rank.project_id)";
         }
         else
         {
-            $qs .= " AND last_date = '" + $date + "'::DATE";
+            $qs .= "        AND last_date = '" + $date + "'::DATE";
         }
 
         $this->_state = $this->_db->query_first($qs);
