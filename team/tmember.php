@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.29 2003/09/01 03:30:28 decibel Exp $
+// $Id: tmember.php,v 1.30 2003/09/01 21:01:44 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -117,7 +117,7 @@ if ($source == 'y') {
 }
 $title = $title . "$lo - $hi";
 
-$teamMembers =& Participant::get_team_list($tm, $source, $lo, $limit, &$rows, $gdb, $gproj);
+$teamMembers =& Participant::get_team_list($tm, $source, $lo, $limit, $rows, $gdb, $gproj);
 
 // Sanity check $low and $limit
 if ($low > $rows) {

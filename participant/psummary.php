@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.55 2003/09/01 16:33:50 decibel Exp $
+// $Id: psummary.php,v 1.56 2003/09/01 20:57:55 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -11,7 +11,7 @@ include "../etc/markup.inc";
 include "../etc/participant.php";
 include "../etc/participantstats.php";
 
-function par_list($i, $par, $stats, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "")
+function par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $proj_scale, $color_a = "", $color_b = "")
 {
     global $gproj;
     $parid = 0 + $par->get_id();
@@ -210,9 +210,9 @@ $neighbors = $gpart->get_neighbors();
 $numneighbors = count($neighbors);
 for ($i = 0; $i < $numneighbors; $i++) {
     if($gpart->get_id() <> $neighbors[$i]->get_id()) {
-        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), &$totaltoday, &$totaltotal, $gproj->get_scale());
+        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), $totaltoday, $totaltotal, $gproj->get_scale());
     } else {
-        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), &$totaltoday, &$totaltotal, $gproj->get_scale(), "row3", "row3");
+        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), $totaltoday, $totaltotal, $gproj->get_scale(), "row3", "row3");
     } 
 } 
 par_footer($totaltoday, $totaltotal, $gproj->get_scale());
@@ -241,9 +241,9 @@ if($numfriends >= 1) {
         $par = $gpart->get_friends($i);
         $stats = $par->get_current_stats();
         if($gpartstats->get_stats_item('work_total') >= $stats->get_stats_item('work_total')) {
-            par_list($i, $gpart, $gpartstats, &$totaltoday, &$totaltotal, $gproj->get_scale(), "row3", "row3");
+            par_list($i, $gpart, $gpartstats, $totaltoday, $totaltotal, $gproj->get_scale(), "row3", "row3");
         }
-        par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $gproj->get_scale());
+        par_list($i, $par, $stats, $totaltoday, $totaltotal, $gproj->get_scale());
     } 
     par_footer($totaltoday, $totaltotal, $gproj -> get_scale());
     echo("</table>\n");
