@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+# $Id: platformlist.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -57,7 +57,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  }
 
 
- $selstr .= " min(p.DATE) as first, max(p.DATE) as last, sum(p.WORK_UNITS)/$divider as total,";
+ $selstr .= " min(p.DATE) as first, max(p.DATE) as last, sum(p.WORK_UNITS)/$proj_divider as total,";
 
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
@@ -129,7 +129,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  print "
        <td align=\"right\"><font $header_font>First Unit</font></td>
        <td align=\"right\"><font $header_font>Last Unit</font></td>
-       <td align=\"right\"><font $header_font>Total Gnodes</font></td>
+       <td align=\"right\"><font $header_font>Total $proj_unitname</font></td>
       </tr>
  ";
 
@@ -174,11 +174,4 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 	</table>
 	";
 ?>
-   <p>
-    <a href="http://www.sybase.com"><img border="0" alt="Sybase" src="/images/sybase.gif"></a>
-    <br>
-    Sybase rocks!
-   </p>
-  </center>
- </body> 
-</html>
+<?include "templates/footer.inc";?>

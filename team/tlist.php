@@ -12,7 +12,7 @@
 
 if ("$source" == "y") {
   $title = "Team Listing by Yesterday's Rank: $lo to $hi";
-  $qs2 = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$divider as WORK_TOTAL, WORK_TODAY/$divider as WORK_TODAY,
+  $qs2 = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
 		MEMBERS_CURRENT, DAY_RANK as Rank,
 		datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
 		DAY_RANK_PREVIOUS-DAY_RANK as Change
@@ -26,7 +26,7 @@ if ("$source" == "y") {
 } else {
   $source = "o";
   $title = "Team Listing by Overall Rank: $lo to $hi";
-  $qs2 = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$divider as WORK_TOTAL, WORK_TODAY/$divider as WORK_TODAY,
+  $qs2 = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
 		MEMBERS_CURRENT, OVERALL_RANK as Rank,
 		datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
 		OVERALL_RANK_PREVIOUS-OVERALL_RANK as Change
@@ -90,8 +90,8 @@ if ("$source" == "y") {
 	<td align=\"right\"><font $header_font>Last Block</font></td>
 	<td align=\"right\"><font $header_font>Days</font></td>
 	<td align=\"right\"><font $header_font>Current Members</font></td>
-	<td align=\"right\"><font $header_font>Gnodes Overall</font></td>
-	<td align=\"right\"><font $header_font>Gnodes Yesterday</font></td>
+	<td align=\"right\"><font $header_font>$proj_unitname Overall</font></td>
+	<td align=\"right\"><font $header_font>$proj_unitname Yesterday</font></td>
       </tr>
  ";
 
@@ -140,11 +140,4 @@ if ("$source" == "y") {
 	</table>
 	";
 ?>
-   <p>
-    <a href="http://www.sybase.com"><img border="0" alt="Sybase" src="/images/sybase.gif"></a>
-    <br>
-    Sybase rocks!
-   </p>
-  </center>
- </body> 
-</html>
+<?include "templates/footer.inc";?>

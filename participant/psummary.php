@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+ # $Id: psummary.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -32,8 +32,8 @@
       <td><font $header_font>Rank</font></td>
       <td><font $header_font>Participant</font></td>
       <td align=\"right\"><font $header_font>Days</font></td>
-      <td align=\"right\"><font $header_font>Overall Gnodes</font></td>
-      <td align=\"right\"><font $header_font>Current Gnodes</font></td>
+      <td align=\"right\"><font $header_font>Overall $proj_unitname</font></td>
+      <td align=\"right\"><font $header_font>Current $proj_unitname</font></td>
      </tr>";
  }
  function par_footer($footer_font, $totaltoday, $totaltotal) {
@@ -98,8 +98,8 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  // Get the participant's ranking info, store in $rs_rank
 
  $qs = "select *, datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-	WORK_TODAY/$divider as TODAY,
-	WORK_TOTAL/$divider as TOTAL,
+	WORK_TODAY/$proj_divider as TODAY,
+	WORK_TOTAL/$proj_divider as TOTAL,
 	OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
 	DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
 	from Email_Rank
@@ -114,8 +114,8 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  // Grab the participant's neighbors and store in $neighbors (number of neighbors in $numneighbors)
 
  $qs = "select p.*, r.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-	WORK_TODAY/$divider as TODAY,
-	WORK_TOTAL/$divider as TOTAL,
+	WORK_TODAY/$proj_divider as TODAY,
+	WORK_TOTAL/$proj_divider as TOTAL,
 	(r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
 	(r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
 	from STATS_Participant p, Email_Rank r
@@ -132,8 +132,8 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  // Grab the participant's list of friends, store in $friends (number of friends in $numfriends)
 
  $qs = "select r.*, p.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-	WORK_TODAY/$divider as TODAY,
-	WORK_TOTAL/$divider as TOTAL
+	WORK_TODAY/$proj_divider as TODAY,
+	WORK_TOTAL/$proj_divider as TOTAL
 	from STATS_Participant p, Email_Rank r
         where (r.id = $person->friend_a or
                r.id = $person->friend_b or
@@ -198,7 +198,7 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
     <tr>
      <td></td>
      <td align=\"center\"><font $fontd size=\"+1\">Rank</font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">Gnodes</font></td>
+     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname</font></td>
     </tr>
     <tr>
      <td><font $fontd size=\"+1\">Overall:</font></td>
@@ -293,5 +293,4 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 	";
 
 ?>
- </body> 
-</html>
+<?include "templates/footer.inc";?>

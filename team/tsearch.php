@@ -1,5 +1,5 @@
 <?
- # $Id: tsearch.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+ # $Id: tsearch.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -11,7 +11,7 @@
  include "etc/project.inc";
 
  sybase_pconnect($interface, $username, $password);
- $qs = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$divider as WORK_TOTAL, WORK_TODAY/$divider as WORK_TODAY,
+ $qs = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
 		MEMBERS_CURRENT, OVERALL_RANK,
 		datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
 		OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change
@@ -65,8 +65,8 @@
        <td align=\"right\"><font $header_font>Last Unit</font></td>
        <td align=\"right\"><font $header_font>Days</font></td>
        <td align=\"right\"><font $header_font>Current Members</font></td>
-       <td align=\"right\"><font $header_font>Gnodes Overall</font></td>
-       <td align=\"right\"><font $header_font>Gnodes Yesterday</font></td>
+       <td align=\"right\"><font $header_font>$proj_unitname Overall</font></td>
+       <td align=\"right\"><font $header_font>$proj_unitname Yesterday</font></td>
       </tr>
  ";
 
@@ -110,11 +110,4 @@
 	</table>
 	";
 ?>
-   <p>
-    <a href="http://www.sybase.com"><img border="0" alt="Sybase" src="/images/sybase.gif"></a>
-    <br>
-    Sybase rocks!
-   </p>
-  </center>
- </body> 
-</html>
+<?include "templates/footer.inc";?>

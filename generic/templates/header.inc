@@ -2,14 +2,14 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
  <head>
-  <title>stats.distributed.net - <?=$project?> <?=$title?></title>
+  <title>stats.distributed.net - <?=$proj_name?> <?=$title?></title>
  </head>
  <body bgcolor=<?=$bgcolor?> text=<?=$text?> link=<?=$link?> vlink=<?=$link?>>
   <table width="100%" border="0" cellpadding="1" cellspacing="0">
    <tr>
     <td colspan="4" align="center" bgcolor="#777777">
      <font <?=$fontt?> color=<?=$colorc?>>
-      <?=$project?> / <?=$title?>
+      <?=$proj_name?> / <?=$title?>
      </font>
     </td>
    </tr>

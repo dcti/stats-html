@@ -1,6 +1,6 @@
 <?
 
- # $Id: pc_index.php,v 1.2 2002/03/09 12:49:32 paul Exp $
+ # $Id: pc_index.php,v 1.3 2002/03/09 18:31:29 paul Exp $
 
  $title = "Overall Project Stats";
 
@@ -21,14 +21,14 @@
 
  debug_text("<!-- Daily Summary -- qs: $qs, daysum: $daysum, par: $par -->\n",$debug);
 
- $yest_work_units = number_format( (double) $daysum->WORK_UNITS/$divider);
+ $yest_work_units = number_format( (double) $daysum->WORK_UNITS/$proj_divider);
  $yest_emails = number_format($daysum->PARTICIPANTS);
  $yest_teams = number_format($daysum->TEAMS);
  $new_emails = number_format($daysum->PARTICIPANTS_NEW);
  $new_teams = number_format($daysum->TEAMS_NEW);
 
  sybase_query("set rowcount 0");
- $qs = "select sum(WORK_UNITS)/$divider as TOT_UNITS, datediff(dd,min(date),max(date))+1 as time_working
+ $qs = "select sum(WORK_UNITS)/$proj_divider as TOT_UNITS, datediff(dd,min(date),max(date))+1 as time_working
 	from Daily_Summary
 	where PROJECT_ID=$project_id";
  $result = sybase_query($qs);
@@ -62,7 +62,7 @@
    </p>
    <table>
     <tr>
-     <td><font $fontd size=\"+1\">Total Gnodes Tested:</font></td>
+     <td><font $fontd size=\"+1\">Total $proj_unitname Tested:</font></td>
      <td align=\"right\" size=\"+2\"><font $fontf>$tot_work_units</font></td>
     </tr>
     <tr>
@@ -78,7 +78,7 @@
    </p>
    <p>
     <font $fontd>
-     $yest_work_units Gnodes were completed yesterday.
+     $yest_work_units $proj_unitname were completed yesterday.
     </font>
    </p>
    <p>
@@ -97,12 +97,7 @@
     </font>
    </p>
    <hr>
-   <p>
-    <a href=\"http://www.php.net\"><img src=\"/images/php.gif\" alt=\"PHP3\" border=\"0\"></a>
-    <a href=\"http://www.sybase.com/\"><img src=\"/images/sybase.gif\" alt=\"Sybase\" border=\"0\"></a>
-   </p>
   </center>
 ";
 ?>
- </body>
-</html>
+<?include "templates/footer.inc";?>

@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.3 2002/03/09 12:49:32 paul Exp $
+ // $Id: pc_countries.php,v 1.4 2002/03/09 18:31:28 paul Exp $
 
  $outname = "countries";
 
@@ -20,8 +20,8 @@
  $lastupdate = sybase_date_format_long($par->lastupdate);
  include "templates/header.inc";
 
- $qs = "select distinct code, country, count(country) as recs, sum(work_total)/$divider as units_total,
-		sum(work_today)/$divider as units_today
+ $qs = "select distinct code, country, count(country) as recs, sum(work_total)/$proj_divider as units_total,
+		sum(work_today)/$proj_divider as units_today
 	from STATS_participant, STATS_country,email_RANK
 	where retire_to = 0
 		and dem_country <> NULL
@@ -61,10 +61,10 @@
 	   <tr>
 	    <td><font $header_font>Nationality</font></font></td>
 	    <td align=\"center\"><font $header_font>People</font></td>
-	    <td align=\"center\"><font $header_font>Gnodes</font></td>
-	    <td align=\"center\"><font $header_font>Gnodes/Person</font></td>
-	    <td align=\"center\"><font $header_font>Gnodes</font></td>
-	    <td align=\"center\"><font $header_font>Gnodes/Person</font></td>
+	    <td align=\"center\"><font $header_font>$proj_unitname</font></td>
+	    <td align=\"center\"><font $header_font>$proj_unitname/Person</font></td>
+	    <td align=\"center\"><font $header_font>$proj_unitname</font></td>
+	    <td align=\"center\"><font $header_font>$proj_unitname/Person</font></td>
 	   </tr>";
 
  for ($i = 0; $i < $countries; $i++) {
@@ -110,6 +110,5 @@
 	    </tr>
 	   </table>
  	  </center>
-	 </body>
-	</html>";
 ?>
+<?include "templates/footer.inc";?>

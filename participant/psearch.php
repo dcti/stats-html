@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+ # $Id: psearch.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -62,7 +62,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
        <td align=\"right\"><font $header_font>First Block</font></td>
        <td align=\"right\"><font $header_font>Last Block</font></td>
        <td align=\"right\"><font $header_font>Days</font></td>
-       <td align=\"right\"><font $header_font>Gnodes</font></td>
+       <td align=\"right\"><font $header_font>$proj_unitname</font></td>
       </tr>
  ";
 
@@ -81,7 +81,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 		echo "  <tr bgcolor=$bar_color_b>\n";
 	}
 
-	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$divider;
+	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$proj_divider;
 
         print "   <td>$ROWparticipant->OVERALL_RANK " . html_rank_arrow($ROWparticipant->Overall_Change) . "</td>\n";
 
@@ -94,7 +94,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>
 		<td align=\"right\">" . number_style_convert($ROWparticipant->Days_Working) . "</td>
-		<td align=\"right\">" . $blocks=number_style_convert( (double) $ROWparticipant->WORK_TOTAL/$divider) . "</td>
+		<td align=\"right\">" . $blocks=number_style_convert( (double) $ROWparticipant->WORK_TOTAL/$proj_divider) . "</td>
 		</tr>
 	";
  }
@@ -114,11 +114,4 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	</p>";
  }
 ?>
-   <p>
-    <a href="http://www.sybase.com"><img border="0" alt="Sybase" src="/images/sybase.gif"></a>
-    <br>
-    Sybase rocks!
-   </p>
-  </center>
- </body>
-</html>
+<?include "templates/footer.inc";?>

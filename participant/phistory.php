@@ -1,5 +1,5 @@
 <?
- # $Id: phistory.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+ # $Id: phistory.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -35,7 +35,7 @@
 
  $retire_to = (int) $person->retire_to;
  if( $retire_to > 0 ) {
-   header("Location: http://stats.distributed.net/ogr-24/phistory.php?project_id=$project_id&id=$retire_to");
+   header("Location: http://stats.distributed.net/generic/phistory.php?project_id=$project_id&id=$retire_to");
    exit();
  }
 
@@ -64,7 +64,7 @@
    $whereline = "$whereline or id = $rt";
  }
  
- $qs = "select date, convert(char(10),date,101) as datefmt, sum(work_units)/$divider as work_units
+ $qs = "select date, convert(char(10),date,101) as datefmt, sum(work_units)/$proj_divider as work_units
 	from email_contrib
 	where PROJECT_ID=$project_id and ( $whereline )
 	group by date
@@ -85,7 +85,7 @@ print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats page
 	 <table border=\"1\" cellspacing\"0\" bgcolor=$header_bg>
 	  <tr>
 	   <td><font $header_font>Date</font></td>
-	   <td align=\"right\"><font $header_font>Gnodes</font></td>
+	   <td align=\"right\"><font $header_font>$proj_unitname</font></td>
 	   <td><font $header_font>&nbsp;</td>
 	  </tr>";
 
@@ -123,6 +123,4 @@ print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats page
 	 </table>";
 
 ?>
-  </center>
- </body> 
-</html>
+<?include "templates/footer.inc";?>

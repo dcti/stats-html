@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+// $Id: tmsummary.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -92,16 +92,16 @@ print "<CENTER><TABLE cellspacing=\"4\">\n
     <tr>
      <td></td>
      <td align=\"center\"><font $fontd size=\"+1\">Rank </font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">Gnodes </font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">Gnodes/<br>Member</font></td>
+     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname </font></td>
+     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname/<br>Member</font></td>
     </tr>
     <tr>
      <td><font $fontd size=\"+1\">Overall:</font></td>
      <td align=\"right\" size=\"+2\"><font $fontf>$par->OVERALL_RANK" .
 		html_rank_arrow($par->Overall_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TOTAL/$divider ) . "</font></td>
+     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TOTAL/$proj_divider ) . "</font></td>
      <td align=\"right\" size=\"+2\"><font $fontf> " .
-	number_style_convert( (double) $par->WORK_TOTAL/$divider/$par->MEMBERS_OVERALL ) . "</font></td>
+	number_style_convert( (double) $par->WORK_TOTAL/$proj_divider/$par->MEMBERS_OVERALL ) . "</font></td>
     </tr>";
 
 if ( $par->WORK_TODAY > 0 ) print "
@@ -109,9 +109,9 @@ if ( $par->WORK_TODAY > 0 ) print "
      <td><font $fontd size=\"+1\">Yesterday:</font></td>
      <td align=\"right\" size=\"+2\"><font $fontf>$par->DAY_RANK" .
 		html_rank_arrow($par->Day_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TODAY/$divider ) . "</font></td>
+     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TODAY/$proj_divider ) . "</font></td>
      <td align=\"right\" size=\"+2\"><font $fontf> " .
-	number_style_convert( (double) $par->WORK_TODAY/$divider/$par->MEMBERS_TODAY ) . "</font></td>
+	number_style_convert( (double) $par->WORK_TODAY/$proj_divider/$par->MEMBERS_TODAY ) . "</font></td>
     </tr>";
 print "
     <tr>
@@ -160,7 +160,7 @@ if ($par->showmembers=="NO") {
       <td><font $header_font>Rank</font></td>
       <td><font $header_font>Team</font></td>
       <td align=\"right\"><font $header_font>Days</font></td>
-      <td align=\"right\"><font $header_font>Gnodes</font></td>
+      <td align=\"right\"><font $header_font>$proj_unitname</font></td>
      </tr>";
  for ($i = 0; $i < $numneighbors; $i++) {
         if( ($i/2) == (round($i/2)) ) {
@@ -171,9 +171,9 @@ if ($par->showmembers=="NO") {
         sybase_data_seek($neighbors,$i);
         $teamrec = sybase_fetch_object($neighbors);
         $teamrecid = 0 + $teamrec->TEAM_ID;
-        $totalblocks += (double) $teamrec->WORK_TOTAL/$divider;
+        $totalblocks += (double) $teamrec->WORK_TOTAL/$proj_divider;
         $decimal_places=0;
-        $blocks=number_style_convert( (double) $teamrec->WORK_TOTAL/$divider );
+        $blocks=number_style_convert( (double) $teamrec->WORK_TOTAL/$proj_divider );
 
         print "   <td>$teamrec->OVERALL_RANK ";
         if ($teamrec->Change > 0) {

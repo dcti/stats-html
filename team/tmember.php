@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+// $Id: tmember.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -99,7 +99,7 @@ if($result) {
 }
 
 // See how many blocks this team did
-$qs = "	SELECT	WORK_TOTAL/$divider as WORK_TOTAL, WORK_TODAY/$divider as WORK_TODAY
+$qs = "	SELECT	WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY
 	FROM	Team_Rank
 	WHERE	TEAM_ID = $tm
 		and PROJECT_ID = $project_id";
@@ -124,9 +124,9 @@ if ($source == y) {		// $qs_source is an easy way around re-doing $qs based on $
 	$qs_source = "*";
 }
 
-$qs = "	SELECT	tm.WORK_TOTAL/$divider as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
+$qs = "	SELECT	tm.WORK_TOTAL/$proj_divider as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
 		p.id, p.listmode, p.contact_name, p.email, p.team,
-		tm.WORK_TODAY/$divider as WORK_TODAY,";
+		tm.WORK_TODAY/$proj_divider as WORK_TODAY,";
 if ($source == y) {
 $qs .= "
 		er.DAY_RANK as eRANK, (er.DAY_RANK_PREVIOUS - er.DAY_RANK) as eRANK_CHANGE";

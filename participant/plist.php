@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.4 2002/03/09 12:49:32 paul Exp $
+# $Id: plist.php,v 1.5 2002/03/09 18:31:29 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -79,7 +79,7 @@ if ("$source" == "y") {
        <td align=\"right\"><font $header_font>First Unit</font></td>
        <td align=\"right\"><font $header_font>Last Unit</font></td>
        <td align=\"right\"><font $header_font>Days</font></td>
-       <td align=\"right\"><font $header_font>Gnodes</font></td>
+       <td align=\"right\"><font $header_font>$proj_unitname</font></td>
       </tr>
  ";
 
@@ -160,11 +160,4 @@ if ("$source" == "y") {
 	</table>
 	";
 ?>
-   <p>
-    <a href="http://www.sybase.com"><img border="0" alt="Sybase" src="/images/sybase.gif"></a>
-    <br>
-    Sybase rocks!
-   </p>
-  </center>
- </body> 
-</html>
+<?include "templates/footer.inc";?>
