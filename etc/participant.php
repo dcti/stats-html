@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.39 2003/11/25 17:59:46 thejet Exp $
+// $Id: participant.php,v 1.40 2003/12/31 16:30:28 decibel Exp $
 
 include_once "participantstats.php";
 
@@ -665,7 +665,7 @@ class Participant {
         if (!$this->_authed) return false;
 
         // We got this far... lets continue
-        $sql = "SELECT p_pretire(" . $this->get_id() . "," . $new_id . ");";
+        $sql = "SELECT p_pretire(" . $this->get_id() . "," . $new_id . ", false);";
         $res = $this->_db->query_first($sql);
         if ($res == FALSE)
             return false;
