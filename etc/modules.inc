@@ -1,6 +1,6 @@
 <?php
   // vi: ts=2 sw=2 tw=120 syntax=php
-  // $Id: modules.inc,v 1.13 2002/12/07 20:22:17 decibel Exp $
+  // $Id: modules.inc,v 1.14 2002/12/07 20:32:11 decibel Exp $
 
   function plural($num) {
     if (abs($num) > 1 or $num == 0) {
@@ -18,10 +18,6 @@
         } else {
 		return $color_b;
 	}
-  }
-
-  function debug_text($text, $debug) {
-    if ($debug == "yes") print $text;
   }
 
   function safe_display($string) {
