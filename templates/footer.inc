@@ -1,20 +1,14 @@
 <?
-$query_string = $_SERVER['QUERY_STRING'];
-if (isset($project_id)) {
-	$query_string = str_replace ("project_id=$project_id", "", $query_string );
-}
 
-// Trim off leading and trailing &'s, then add an & at the front if necessary
-$query_string = preg_replace("/^[&]+(.*)\$/", "\$1", $query_string);
-$query_string = preg_replace("/^(.*)[&]+\$/", "\$1", $query_string);
-$query_string = preg_replace("/^(.*)&&(.*)\$/", "\$1&\$2", $query_string);
-
-$query_string = str_replace("&", "&amp;", $query_string);
-if($query_string != '') $query_string = "&amp;$query_string";
 if (!isset($proj_list)) {
-
+    $query_string = '';
+    foreach ($_GET as $getvar => $getval) {
+        if ($getvar != 'project_id') {
+            $query_string .= '&amp;' . htmlentities($getvar) . '=' . htmlentities(stripslashes($getval));
+        }
+    }
 ?>
-<div style="text-align: center;"> This page in other projects: <br>
+<div style="text-align: center;"> This page in other projects: <br />
 <? if ($project_id != 3) { ?> <a href="<?=$myname?>?project_id=3<?=$query_string?>">RC5-56</a>  <? } 
    if ($project_id != 5) { ?> <a href="<?=$myname?>?project_id=5<?=$query_string?>">RC5-64</a>  <? } 
    if ($project_id != 205) { ?> <a href="<?=$myname?>?project_id=205<?=$query_string?>">RC5-64 (all)</a>  <? } 
@@ -27,18 +21,17 @@ if (!isset($proj_list)) {
 } 
 ?>
    <div style="text-align: center">
-    <a href="http://www.php.net"><img src="/images/php.gif" alt="PHP4"></a>
-    <a href="http://www.postgresql.org/"><img src="/images/pg-power.jpg" alt="PostgreSQL"></a>
+    <a href="http://www.php.net"><img src="/images/php.gif" alt="PHP4" /></a>
+    <a href="http://www.postgresql.org/"><img src="/images/pg-power.jpg" alt="PostgreSQL" /></a>
    </div>
 <?
 /* if($debug >= DEBUG_TIME ) {
-
-    ?>
-		<p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
-		<?
+?>
+    <p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
+<?
 */
     if($debug >= DEBUG_SHOW_QUERY) {
-        echo '<table border=1>';
+        echo '<table border="1">';
         $queries = $gdb->get_queries();
         echo "<tr><td>Total queries: " . count( $queries ) . "</td></tr>\n";
         foreach ( $gdb->get_queries() as $query ) {
