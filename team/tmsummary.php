@@ -1,21 +1,15 @@
 <?
-// $Id: tmsummary.php,v 1.14 2002/06/06 11:56:47 paul Exp $
+// $Id: tmsummary.php,v 1.15 2002/08/22 20:51:25 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
-
-$tm = (int) $team;
-if ($tm <= 0){
-  $tm = 1;
-}
-
-$title = "Team #$tm Summary";
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/markup.inc";
 
+$title = "Team #$tm Summary";
 $lastupdate = last_update('t');
 include "../templates/header.inc";
 
