@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit_save.php,v 1.7 2003/09/26 03:09:29 thejet Exp $
+  // $Id: tmedit_save.php,v 1.8 2003/11/25 22:06:50 paul Exp $
 
   include "../etc/config.inc";
   include "../etc/project.inc";
@@ -16,7 +16,7 @@
   $gteam = new Team($gdb, $gproj, $team);
   if($gteam->get_password() != $pass)
   {
-    include "../templates/tmbadpass.inc";
+    trigger_error("Incorrect Password for this team");
     exit;
   }
   */
@@ -49,7 +49,7 @@
     print("</body></html>");
     exit;
   }
-  
+
 ?>
 <html>
 	<head>
