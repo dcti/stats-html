@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.24 2003/09/13 22:40:05 decibel Exp $
+// $Id: participant.php,v 1.25 2003/09/14 01:23:59 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -524,20 +524,22 @@ class Participant {
     { 
         // First, we need to determine which query to run...
         if ($source == 'y') {
-            $field = 'day_rank';
+            $rank_field = 'day_rank';
+            $work_field = 'work_today';
         } else {
-            $field = 'overall_rank';
+            $rank_field = 'overall_rank';
+            $work_field = 'work_total';
         } 
         $qs = "SELECT r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date,
-                        r.work_today as blocks, last_date - first_date + 1 AS days_working,
-                        r.$field as rank, r." . $field . "_previous - r.$field as change,
+                        r.$work_field as blocks, last_date - first_date + 1 AS days_working,
+                        r.$rank_field as rank, r." . $rank_field . "_previous - r.$rank_field as change,
                         p.email, p.listmode, p.contact_name
                 FROM email_rank r, stats_participant p
-                WHERE r.$field BETWEEN $start AND ($start + $limit)
+                WHERE r.$rank_field BETWEEN $start AND ($start + $limit)
                     AND r.project_id = " . $project->get_id() . "
                     AND p.listmode < 10
                     AND r.id = p.id
-                ORDER BY r.$field, r.work_today DESC LIMIT 100";
+                ORDER BY r.$rank_field, r.$work_field DESC LIMIT 100";
         $queryData = $db->query($qs);
         $total = $db->num_rows($queryData);
         $result =& $db->fetch_paged_result($queryData, 0, $limit);
