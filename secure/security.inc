@@ -1,7 +1,7 @@
 <?php
   if(!isset($ss_login)) {
     if(!isset($PHP_AUTH_USER)) {
-      Header("WWW-Authenticate: Basic realm=\"tally administration\"");
+      Header("WWW-Authenticate: Basic realm=\"blower administration\"");
       Header("HTTP/1.0 401 Unauthorized");
       echo "denied!\n";
       exit;
