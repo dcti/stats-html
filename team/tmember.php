@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.8 2002/03/25 22:54:54 paul Exp $
+// $Id: tmember.php,v 1.9 2002/03/29 00:19:18 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -29,6 +29,9 @@ if ($limit == "") {
 }
 $lim = $limit;
 
+
+$lastupdate = last_update('t');
+
 // Query server for basic team information
 $qs = "select name, showpassword, showmembers
 	from STATS_team
@@ -38,7 +41,6 @@ $info = sybase_fetch_object($result);
 
 
 $rows = sybase_num_rows($result);
-$rows = 0+$rows;
 
 // Verify the team exists
 $title = "Team Members Listing - Team #".$tm;
@@ -85,7 +87,6 @@ if ($info->showmembers == "PAS") {
 	}
 }
 
-$lastupdate = last_update('t');
 
 // See how many blocks this team did
 $qs = "	SELECT	WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY
@@ -144,7 +145,6 @@ $qs .= "
 $result = sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $rows = sybase_num_rows($result);
-$rows = 0+$rows;
 
 debug_text("<!-- Query: \"$qs\" Rows: \"$rows\" -->\n",$debug);
 
@@ -259,7 +259,6 @@ if ($low > 0)
 	if ($newlow < 1)
 	{
 		$newlow=1;
-		$newlimit=$low - $newlow + 1;
 	}
 	print "<a href=\"$myname?project_id=$project_id&pass=" . urlencode($pass) . "&team=$tm&source=$source&low=$newlow&limit=$newlimit\">$newlow - $low</a> </TD>";
 }
