@@ -1,5 +1,7 @@
 <?php 
-// $Id: participant.php,v 1.27 2003/09/21 15:20:25 decibel Exp $
+// $Id: participant.php,v 1.28 2003/09/23 20:24:32 paul Exp $
+
+include_once "participantstats.php";
 
 define('MAX_PASS_LEN',9);
 
@@ -39,7 +41,7 @@ class Participant {
 		return 0 ;	
 	}
 
-    function get_id()
+ 	function get_id()
     {
         return $this -> _state -> id;
     } 
@@ -74,7 +76,7 @@ class Participant {
     } 
     function set_password($value)
     {
-        $this -> _state -> password = $value;
+		$this -> _state -> password = $value;
     } 
 
     function check_password($pass)
