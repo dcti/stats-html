@@ -97,15 +97,36 @@ class DB {
       */
       function query_bound($p_query, $arr_parms)
       {
-	  $this -> _query_id = @pg_query_params($this -> _link_id, $p_query, $arr_parms);
+		// Check to see if query binding is implemented by extension, otherwise
+		// emulate it
+		if(in_array('pg_query_params', get_extension_funcs('pgsql')))
+		{
+			$this -> _query_id = @pg_query_params($this -> _link_id, $p_query, $arr_parms);
 
-	  if(!$this -> _query_id) {
-	      $this -> _error ($p_query);
-	      array_push ( $this->g_queries_array, array($p_query,false) );
-	      return false;
-	  }
-	  array_push ( $this->g_queries_array, array($p_query,true) );
-	  return $this -> _query_id;
+		}
+		else
+		{
+			for($i = 0; $i < count($arr_parms); $i++)
+			{
+				if(is_string($arr_parms[$i]))
+					$p_query = str_replace("\$".($i+1), "'" . pg_escape_string($arr_parms[$i]) . "'", $p_query);
+				else if(is_integer($arr_parms[$i]) || is_float($arr_parms[$i]))
+					$p_query = str_replace("\$".($i+1), (float)$arr_parms[$i], $p_query);
+				else
+				{
+					echo('Invalid argument type passed to query_bound(): $i');
+					exit(1);
+				}
+			}
+			$this -> _query_id = @pg_query($this -> _link_id, $p_query);
+		}
+		if(!$this -> _query_id) {
+     			$this -> _error ($p_query);
+			array_push ( $this->g_queries_array, array($p_query,false) );
+			return false;
+		}
+		array_push ( $this->g_queries_array, array($p_query,true) );
+		return $this -> _query_id;
       }
 
 
