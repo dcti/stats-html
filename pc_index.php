@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.12 2003/03/23 13:07:00 paul Exp $
+  # $Id: pc_index.php,v 1.13 2003/03/27 21:21:28 paul Exp $
 
   $title = "Overall Project Stats";
 
@@ -109,7 +109,7 @@
      <td align="right"><?=$tot_scaled_work_units?></td>
     </tr>
     <tr>
-     <td>Overall Rate:</font></td>
+     <td>Overall Rate:</td>
      <td align="right"><?=$overall_scaled_rate?> <?=$proj_scaled_unit_name?>/sec</td>
     </tr>
 <? if ($proj_totalunits > 0 ) { ?>
