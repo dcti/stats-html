@@ -5,7 +5,7 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 
 sybase_connect($interface, $ss_login, $ss_passwd);
-$qs = "select * from stats.dbo.STATS_participant where email like \"%%$st%%\" order by id";
+$qs = "select id, email from stats.dbo.STATS_participant where email like \"%%$st%%\" order by id";
 $result = sybase_query($qs);
 $rows = sybase_num_rows($result);
 
@@ -24,7 +24,7 @@ echo " <table border=\"1\" cellspacing=\"0\">\n";
 echo "  <tr bgcolor=\"#ffffff\">\n";
 echo "   <td>ID</td>\n";
 echo "   <td>Email</td>\n";
-echo "   <td>Name</td>\n";
+# echo "   <td>Name</td>\n";
 echo "  </tr>\n";
 
 for ($i = 0; $i<$rows; $i++) {
@@ -43,10 +43,10 @@ for ($i = 0; $i<$rows; $i++) {
 
 	echo "   <TD>$id</TR>\n";
 	echo "   <TD><a href=\"pedit.php3?id=$id\">$par->email</a></TR>\n";
-	echo "   <TD align=\"right\">$par->contact_name&nbsp;</td></TR>\n";
+#	echo "   <TD align=\"right\">$par->contact_name&nbsp;</td></TR>\n";
 }
 	$totalblocks = number_format($totalblocks, 0, ".", ",");
-	echo "<TR BGCOLOR=\"#ffffff\"><TD>&nbsp;<TD align=\"right\"><strong>Total</strong></TR><TD>$totalblocks</TR>\n";
+	echo "<TR BGCOLOR=\"#ffffff\"><TD align=\"right\"><strong>Total</strong></TR><TD>$totalblocks</TR>\n";
 
 echo " </table>\n";
 
