@@ -60,9 +60,7 @@ if ($gproj->get_prize() <> 0) {
         <a href="/participant/plist.php?project_id=<?=$project_id?>&amp;low=1&amp;limit=100&amp;source=y">Top 100 Participants Yesterday</a><br>
           <input style="margin-top: 5px;" type="text" name="st" size="16" maxlength="42">
           <input style="margin-top: 5px;" type="submit" value="Search"><br>
-        <!--
         <a href="/participant/pedit.php">Edit your Information</a><br>
-        -->
         </div>
         </form>
     </td>

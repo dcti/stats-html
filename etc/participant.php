@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.30 2003/10/21 17:43:15 thejet Exp $
+// $Id: participant.php,v 1.31 2003/10/21 22:02:25 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -186,10 +186,37 @@ class Participant {
         else
           return $this -> _friends[$index];
     } 
-    function set_friends($index, $value)
+    function set_friends($value)
     {
-        $this -> _friends[$index] = $value;
+      // This routine gets friend information in a comma-separated list
+      //NOTE: At this time, setting this value replaces the array of friend
+      //      objects with an array of friend ids
+      $this->_friends = explode(",", $value);
     } 
+    function save_friends()
+    {
+        // This routine saves current friend data to the database
+        $sql = "DELETE FROM stats_participant_friend 
+                    WHERE id = " . $this->_state->id . ";";
+        //print $sql . "<br>";
+        $res = $this->_db->query($sql);
+        if($res == FALSE) return false;
+
+        foreach($this->_friends as $friend)
+        {
+            $friend = (int) $friend;
+            if($friend > 0)
+            {
+                $sql = "INSERT INTO stats_participant_friend (id, friend)
+                            VALUES (" . $this->_state->id . ", " . $friend . ")";
+                print $sql . "<br>";
+                $res = $this->_db->query($sql);
+                if($res == FALSE) return false; 
+           }
+        }
+
+        return true;
+    }
     function &load_friend_data()
     {
         $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
@@ -469,20 +496,60 @@ class Participant {
     function save()
     {
       // @todo - expand this to save more than the password
+      if(!$this->_authed)
+        return "You must be authorized to save participant data.\n";
+
       $chkResult = $this->is_valid();
       if($chkResult != "")
         return $chkResult;
 
-      $sql = "UPDATE stats_participant 
-                  SET password = '" . $this->_state->password . "'
-                      WHERE id = " . $this->_state->id . ";
-              SELECT * FROM stats_participant WHERE id = " . $this->_state->id . ";";
+      $sql = "BEGIN;";
+      $res = $this->_db->query($sql);
+      if($res == FALSE)
+        return "Error starting transaction for save.\n";
 
-      $res = $this->_db->query_first($sql);
+      $sql = "UPDATE stats_participant 
+                  SET password = '" . $this->_state->password . "',
+                      listmode = " . $this->_state->listmode . ",
+                      dem_yob = " . $this->_state->dem_yob . ",
+                      dem_heard = " . $this->_state->dem_heard . ",
+                      dem_motivation = " . $this->_state->dem_motivation . ",
+                      dem_gender = '" . $this->_state->dem_gender . "',
+                      dem_country = " . (($this->_state->dem_country == "")?"NULL":("'".$this->_state->dem_country."'")) . ",
+                      contact_name = '" . $this->_state->contact_name . "',
+                      contact_phone = '" . $this->_state->contact_phone . "',
+                      motto = '" . $this->_state->motto . "'
+                      WHERE id = " . $this->_state->id . ";";
+      //print $sql . "<br>";
+      $res = $this->_db->query($sql);
       if($res == FALSE)
         $chkResult = "Error Updating Participant Record.\n";
+
+      $sql = "SELECT * FROM stats_participant WHERE id = " . $this->_state->id . ";";
+      //print $sql . "<br>";
+      $res = $this->_db->query_first($sql);
+      if($res == FALSE)
+        $chkResult = "Error retrieving updated participant record.\n";
       else
         $this->_state = $res;
+      
+      /* @TODO: re-enable this when permissions are correct
+      if(!$this->save_friends())
+        $chkResult = "Error Saving Friend Information.\n";
+      else
+        $this->_friends = null; // reset the friends array, current is invalid 
+      */
+      
+      if($chkResult != "")
+      {
+        $res = $this->_db->query("ROLLBACK;");
+        if($res == FALSE) $chkResult .= "Error rolling back transaction.\n";
+      }
+      else
+      {
+        $res = $this->_db->query("COMMIT;");
+        if($res == FALSE) $chkResult = "Error committing transaction.\n";
+      }
 
       return $chkResult;
     } 
@@ -494,6 +561,20 @@ class Participant {
             $strResult .= "You must specify a password.\n";
         if(strlen($this->_state->password) != MAX_PASS_LEN)
             $strResult .= "Your password must be exactly 8 characters.\n";
+        if($this->_state->listmode == 2 && strlen(trim($this->_state->contact_name)) <= 0)
+            $strResult .= "Contact Name must be filled to use Real Name list mode.\n";
+        if(strlen($this->_state->contact_name) > 50)
+            $strResult .= "Contact Name must be no more than 50 characters.\n";
+        if($this->_state->dem_gender != "M" &&
+           $this->_state->dem_gender != "F" &&
+           $this->_state->dem_gender != "-")
+            $strResult .= "Invalid gender specification.\n";
+        if(strlen($this->_state->dem_country) != 2 && $this->_state->dem_country != "")
+            $strResult .= "Invalid country selected.\n";
+        if(strlen($this->_state->contact_phone) > 20)
+            $strResult .= "Contact Phone must be no more than 20 characters.\n";
+        if(strlen($this->_state->motto) > 255)
+            $strResult .= "Motto must be no more than 255 characters.\n";
 
         return $strResult;
     }

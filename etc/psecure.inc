@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.21 2003/10/21 17:43:15 thejet Exp $
+  // $Id: psecure.inc,v 1.22 2003/10/21 22:02:25 thejet Exp $
 
 include_once "participant.php";
 
@@ -75,5 +75,8 @@ if ( ! $gpart->check_password($test_pass) ) {
 	authfail("pbadpass",$test_from,$test_id,$test_pass);
 }
 
+// The authentication passed, so let's set the page variables
+$id = $test_id;
+$pass = $test_pass;
 ?>
 
