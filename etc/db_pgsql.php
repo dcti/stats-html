@@ -50,7 +50,7 @@ class DB {
             } 
 			$this->_connected = true;
 
-            pg_query('SET STATEMENT_TIMEOUT=15000');
+            pg_query('SET STATEMENT_TIMEOUT=30000');
         } 
     } 
 
