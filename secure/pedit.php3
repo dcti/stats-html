@@ -186,6 +186,11 @@ include "../etc/project.inc";
      <tr>
       <td>retire_to:</td>
       <td><input name=\"retire_to\" value=\"$retire_to\" size=\"8\" maxlength=\"8\"></td>
+";
+  if ( $retire_to<>0 ) {
+	print "<td><a href=\"pedit.php3?id=$retire_to\">Edit participant #$retire_to</a></td>";
+  }
+  print "
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
