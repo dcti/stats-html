@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.10 2003/11/25 18:21:10 thejet Exp $
+  // $Id: pedit_save.php,v 1.11 2004/01/02 02:10:13 fiddles Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -11,7 +11,7 @@
   include "../etc/psecure.inc";
 
   if(isset($_POST['cookie'])) {
-    if($cookie == "yes" ) {
+    if($_POST['cookie'] == "yes" ) {
       SetCookie("sbid",$id,time()+3600*24*365,"/");
       SetCookie("sbpass",$pass,time()+3600*24*365,"/");
     }
