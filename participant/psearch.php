@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.19 2004/07/19 06:25:55 jlawson Exp $
+ # $Id: psearch.php,v 1.20 2004/07/19 07:16:48 jlawson Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -90,13 +90,9 @@ $rows = count($result);
 	  <td class="tfoot" align="right"><? echo number_format($totalblocks, 0) ?></td>
 	 </tr>
 	</table>
-<?
- if( $rows == 0 ) {
-?>   
+
 	<p>
-	 <a href="http://www.distributed.net/FAQ/">Confused?  Look here</a>
+	 Only e-mail addresses were searched.  <a href="http://www.distributed.net/FAQ/">Confused?  Look here</a>.
 	</p>
-<?
- }
-?>
+
 <?include "../templates/footer.inc";?>
