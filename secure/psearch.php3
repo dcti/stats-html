@@ -35,9 +35,7 @@ for ($i = 0; $i<$rows; $i++) {
 	}
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
-	$totalblocks = $totalblocks + $par->blocks;
 	$decimal_places=0;
-	$blocks=number_style_convert( $par->blocks );
 
 	$id = 0+$par->id;
 
@@ -45,8 +43,6 @@ for ($i = 0; $i<$rows; $i++) {
 	echo "   <TD><a href=\"pedit.php3?id=$id\">$par->email</a></TR>\n";
 #	echo "   <TD align=\"right\">$par->contact_name&nbsp;</td></TR>\n";
 }
-	$totalblocks = number_format($totalblocks, 0, ".", ",");
-	echo "<TR BGCOLOR=\"#ffffff\"><TD align=\"right\"><strong>Total</strong></TR><TD>$totalblocks</TR>\n";
 
 echo " </table>\n";
 
