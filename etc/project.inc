@@ -1,9 +1,10 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.12 2002/12/06 14:37:27 decibel Exp $
+# $Id: project.inc,v 1.13 2002/12/06 15:24:52 decibel Exp $
 
 include "limit.inc";
 
+# Formatting options
 $bgcolor = "\"#ffffff\"";
 $text = "\"#000000\"";
 $link = "\"#777777\"";
@@ -30,7 +31,7 @@ if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){
   timer_start();
 }
 
- $myname = $_SERVER['PHP_SELF'];
+$myname = $_SERVER['PHP_SELF'];
 
 if (isset($_GET['project_id'])) {
   $project_id = (int)$_GET['project_id'];
@@ -71,20 +72,24 @@ if (isset($_REQUEST['id'])) {
 }
 
 if (isset($_REQUEST['st'])) {
-        $st = $_REQUEST['st'];
+  $st = $_REQUEST['st'];
 } else {
-        $st = "";
+  $st = "";
 }
 
 if (isset($_GET['team'])) {
-        $tm = (int)$_GET['team'];
+  $tm = (int)$_GET['team'];
 } else {
-        $tm = 1;
+  $tm = 1;
 }
 
 sybase_pconnect($interface, $username, $password);
-$qs = "select name, dist_unit_qty, work_unit_scale, work_unit_name from
-        projects where project_id = $project_id";
+$qs = "select name, work_unit_qty, work_unit_disp_multiplier, work_unit_disp_divisor,
+              scaled_work_unit_name, unscaled_work_unit_name
+              -- Deprecated
+              , work_unit_scale, work_unit_name
+          from Projects
+          where PROJECT_ID = $project_id";
 sybase_query("set rowcount 1");
 $result = sybase_query($qs);
 
@@ -94,15 +99,22 @@ if($result == "") {
   } else {
     include "templates/error.inc";
   }
-  exit();
+    exit();
 }
 
 // get project_info object
 sybase_data_seek($result,0);
 $prj_info = sybase_fetch_object($result);
+debug_text("<!-- Project Info -- qs: $qs, result: $result, prj_info: $prj_info -->\n",$debug);
 
 $proj_name= $prj_info->name;
-$proj_totalunits = (double)$prj_info->dist_unit_qty;
+$proj_totalunits = (double)$prj_info->work_unit_qty;
+$proj_scale = (double)$prj_info->work_unit_disp_multiplier / $prj_info->work_unit_disp_divisor;
+$proj_scaled_unit_name = $prj_info->scaled_work_unit_name;
+$proj_unscaled_unit_name = $prj_info->unscaled_work_unit_name;
+
+
+# Deprecated
 $proj_divider = (double)$prj_info->work_unit_scale;
 $proj_unitname = $prj_info->work_unit_name;
 
