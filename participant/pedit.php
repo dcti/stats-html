@@ -1,41 +1,16 @@
 <?php
-  // $Id: pedit.php,v 1.1 1999/07/11 19:09:31 nugget Exp $
+  // $Id: pedit.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/psecure.inc";
   include "etc/config.inc";
   include "etc/project.inc";
+  include "etc/modules.inc";
+  include "etc/psecure.inc";
 
-  sybase_connect($interface,$username,$password);
-  if(isset($id)) {
-    $qs = "select * from STATS_participant where id = $id and password = '$pass'";
-  } else {
-    $qs = "select * from STATS_participant where email = '$email' and password = '$pass'";
-  }
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-
-  if( $rows <> 1) {
-//	Header("HTTP/1.1 401 Authorization Required");
-//      Header("WWW-Authenticate: Basic realm="distributed.net stats");
-    include "templates/pbadpass.inc";
-
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-
-  $retire_to = 0+$par->retire_to;
-  if ($retire_to > 0) {
-    include "templates/pretired.inc";
-    exit;
-  }
-
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
-<?
+  # psecure.inc leaves us with $result containing * from STATS_Participant
+  # and $par being the fetched object.
 
   $id = 0+$par->id;
   $team = 0+$par->team;
@@ -303,7 +278,7 @@
         This will store your password on the machine.</font>
         <hr>
        <input name=\"id\" type=\"hidden\" value=\"$id\">
-       <input name=\"pass\" type=\"hidden\" value=\"$pass\">
+       <input name=\"pass\" type=\"hidden\" value=\"$test_pass\">
        <input value=\"Update my information\" type=\"submit\">
       </td>
      </tr>

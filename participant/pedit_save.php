@@ -8,42 +8,14 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.1 1999/07/11 19:09:31 nugget Exp $
+  // $Id: pedit_save.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "etc/psecure.inc";
   include "etc/config.inc";
   include "etc/project.inc";
-
-  sybase_connect($interface,$username,$password);
-  if(isset($id)) {
-    $qs = "select * from STATS_participant where id = $id and password = '$pass'";
-  } else {
-    $qs = "select * from STATS_participant where email = '$email' and password = '$pass'";
-  }
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-
-  if( $rows <> 1) {
-    include "templates/pbadpass.inc";
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-
-  $retire_to = 0+$par->retire_to;
-  if ($retire_to > 0) {
-    include "templates/pretired.inc";
-    exit;
-  }
-
-  $listmode = 0+$par->listmode;
-  if ($listmode == 8 or $listmode == 9 or $listmode == 18 or $listmode == 19) {
-    include "templates/plocked.inc";
-    exit;
-  }
+  include "etc/psecure.inc";
 
   if ($dem_yob == "") {
     $dem_yob = 0;
@@ -71,7 +43,7 @@ if ($debug == yes) print $qs;
 	<html>
 	 <head>
 	  <title>Updating $par->email data</title>
-	 </head>"
+	 </head>";
 if ($debug != yes) print "	 <meta http-equiv=\"refresh\" content=\"4; URL=http://stats.distributed.net/\">";
 print "
 	 <body>

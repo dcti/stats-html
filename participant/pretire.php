@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.1 1999/07/11 19:09:31 nugget Exp $
+  // $Id: pretire.php,v 1.2 1999/07/19 17:38:22 nugget Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -12,39 +12,6 @@
   include "etc/psecure.inc";
   include "etc/config.inc";
   include "etc/project.inc";
-
-  sybase_connect($interface,$username,$password);
-  if(isset($id)) {
-    $qs = "select * from STATS_participant where id = $id and password = '$pass'";
-  } else {
-    $qs = "select * from STATS_participant where email = '$email' and password = '$pass'";
-  }
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-
-  if( $rows <> 1) {
-    include "templates/pbadpass.inc";
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-
-  $id = 0+$par->id;
-  $password = $par->password;
-
-  $retire_to = 0+$par->retire_to;
-  if ($retire_to > 0) {
-    include "templates/pretired.inc";
-    exit;
-  }
-
-  $listmode = 0+$par->listmode;
-  if ($listmode > 5) {
-    print "
-	  <h2>Error: Locked Participant</h2>
-	  <p>This participant has been locked and cannot be retired.</p>";
-    exit;
-  }
 
   $title = "Retiring $par->email";
 

@@ -1,24 +1,131 @@
 <?php
-  // $Id: psecure.inc,v 1.1 1999/07/11 19:20:49 nugget Exp $
+  // $Id: psecure.inc,v 1.2 1999/07/19 17:38:22 nugget Exp $
 
-  if(!isset($id)) {
-    if(!isset($sbid)) {
-      if(!isset($PHP_AUTH_USER)) {
-        Header("WWW-Authenticate: Basic realm=\"Participant Configuration\"");
-        Header("HTTP/1.0 401 Unauthorized");
-        exit;
-      }
-      $email = $PHP_AUTH_USER;
-      $pass = $PHP_AUTH_PW;
-      $authfrom = "headers";
-    } else {
-      $id = $sbid;
-      $pass = $sbpass;
-      $authfrom = "cookie";
-    }
-  } else {
-    $authfrom = "url";
-    $pass = substr($pass,0,8);
+  function authenticate() {
+    Header("WWW-authenticate: basic realm=\"Participant Password\"");
+    Header("HTTP/1.0 401 Unauthorized");
+    authfail("pbadpass","NULL","NULL","NULL");
   }
+
+  function authfail($why,$tfrom,$tid,$tpass) {
+    if(!($tfrom == "NULL")) {
+      # This might be a bit verbose.  Disabled normally.
+      # error_log("$why $tfrom [$tid/$tpass]",0);
+    }
+    if($tfrom == "cookie") {
+      # If the cookie failed, that means it's stale.  Let's clear it
+      # so the luser has a chance at logging in manually...
+      SetCookie("sbid","",time()+3600*24*365,"/");
+      SetCookie("sbpass","",time()+3600*24*365,"/");
+       authenticate();
+    }
+    if($tfrom == "auth" and $why == "pbadpass") {
+      # The user has actually keyed in their ID, let's ask again.
+      authenticate();
+    }
+    include "etc/project.inc";
+    include "templates/header.inc";
+    include "templates/$why.inc";
+    include "templates/footer.inc";
+    exit;
+  }
+
+  # Although we don't advertise this, it's possible that someone will
+  # Try to use EM=email@domain in the url since the old statsbox used
+  # that format.  We'll cover them, just in case.
+  if(isset($em)) {
+    $id = $em;
+  }
+
+  if(isset($id) and isset($pass)) {
+    # ID and PASS provided in url, use these over all other options
+
+    $test_id = $id;
+    $test_pass = $pass;
+    $test_from = "url";
+
+  } else {
+    if(isset($sbid)) {
+      # We have a cookie set, use this
+
+      $test_id = $sbid;
+      $test_pass = $sbpass;
+      $test_from = "cookie";
+    } else {
+      # No choice but to ask...
+
+      if(!isset($PHP_AUTH_USER)) {
+        authenticate();
+      } else {
+        $test_id = $PHP_AUTH_USER;
+        $test_pass = $PHP_AUTH_PW;
+        $test_from = "auth";
+      }
+    }
+  }
+
+  # Let's try to connect to the database...
+  if(!sybase_connect($interface, $username, $password)) {
+    authfail("dberror",$test_from,$test_id,$test_pass);
+  }
+
+  # Let's see what the luser has provided for us...
+  $ta = $test_id;
+  $tb = (int) $test_id;
+  if("$ta" <> "$tb") {
+    # $test_id is not an integer, assume that it is a full email address.
+    $qs = "select id, email from STATS_Participant where email = '$test_id'";
+    $result = sybase_query($qs);
+    if (!$result) {
+      authfail("dberror",$test_from,$test_id,$test_pass);
+    }
+    $rows = sybase_num_rows($result);
+    if ($rows <> 1) {
+      authfail("dberror",$test_from,$test_id,$test_pass);
+    }
+    # OK, We've retrieved the id for this email address.
+    $par = sybase_fetch_object($result);
+    $test_id = (int) $par->id;
+  }
+
+  $test_pass = substr($test_pass,0,8);
+
+  # OK, now we've got an id and a password to work with, lets try to authorize the luser.
+  $qs = "select * from STATS_Participant where id = $test_id and password = '$test_pass'";
+  $result = sybase_query($qs);
+  if(!$result) {
+    authfail("dberror",$test_from,$test_id,$test_pass);
+  }
+  $rows = sybase_num_rows($result);
+  $par = sybase_fetch_object($result);
+  if ($rows > 1) {
+    authfail("dberror",$test_from,$test_id,$test_pass);
+  }
+  if ($rows == 0) {
+    authfail("pbadpass",$test_from,$test_id,$test_pass);
+  }
+  if (!($test_id == (int) $par->id) or !($test_pass == $par->password)) {
+    authfail("pbadpass",$test_from,$test_id,$test_pass);
+  }
+
+  # At this point, we know we've got the right record, and the password is
+  # correct.  However, there are still issues which can make us fail the
+  # authorization.
+
+  $retire_to = (int) $par->retire_to;
+  if ($retire_to > 0) {
+    # Cannot edit a participant if it has been retired.
+    authfail("pretired",$test_from,$test_id,$test_pass);
+  }
+
+  $listmode = (int) $par->listmode;
+  if ($listmode > 7) {
+    # Cannot edit a participant that has been locked by the stats admins.
+    authfail("plocked",$test_from,$test_id,$test_pass);
+  }
+
+  # OK, We made it through without a problem.  
+  # Now back to our regularly scheduled programming...
+
 ?>
 
