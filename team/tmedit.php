@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.8 2003/05/27 18:38:29 thejet Exp $
+  // $Id: tmedit.php,v 1.9 2003/09/05 15:28:47 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -9,25 +9,14 @@
   include "../etc/project.inc";
   include "../etc/team.php";
 
+  unset($gproj);
+  $gproj = new Project($gdb, 0);
   $tmptr = new Team($gdb, $gproj, $team);
   if($tmptr->get_password() != $tpass)
   {
     include "../templates/tmbadpass.inc";
     exit;
   }
-  /*
-  sybase_connect($interface,$username,$password);
-  $qs = "select * from STATS_team where team = $team and password = '$tpass'";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-
-  if( $rows <> 1) {
-    include "../templates/tmbadpass.inc";
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-  */
 
   if($tmptr->get_listmode() <= 2) {
     switch ($tmptr->get_listmode()) {
@@ -76,6 +65,7 @@
   }
 
   $lastupdate = last_update('t');
+  $title = "Edit Team Information";
   include "../templates/header.inc";
 ?>
   <div style="text-align: center;">
