@@ -1,6 +1,8 @@
 <?php
   // vi: ts=2 sw=2 tw=120 syntax=php
-  // $Id: modules.inc,v 1.14 2002/12/07 20:32:11 decibel Exp $
+  // $Id: modules.inc,v 1.15 2002/12/07 20:33:01 decibel Exp $
+
+  include "debug.inc";
 
   function plural($num) {
     if (abs($num) > 1 or $num == 0) {
