@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.9 2000/06/13 04:08:05 decibel Exp $
+  // $Id: psecure.inc,v 1.10 2000/06/13 20:20:19 decibel Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -83,7 +83,7 @@
     }
     $rows = sybase_num_rows($result);
     if ($rows <> 1) {
-      authfail("dberror",$test_from,$test_id,$test_pass,"No rows returned");
+      authfail("pbademail",$test_from,$test_id,$test_pass);
     }
     # OK, We've retrieved the id for this email address.
     $par = sybase_fetch_object($result);
