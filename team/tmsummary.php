@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.22 2003/03/10 23:32:50 paul Exp $
+// $Id: tmsummary.php,v 1.23 2003/03/12 21:37:22 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -63,22 +63,21 @@ $yest_totals = sybase_fetch_object($result);
 debug_text("<!-- Neighbors -- qs: $qs, neighbors: $neighbors, numneighbors: $numneighbors -->\n",$debug);
 
 if (private_markupurl_safety($par->logo) != "") {
-  $logo = "<img src=\"$par->logo\">";
+  $logo = "<img src=\"$par->logo\" alt=\"team logo\">";
 } else {
   $logo = "";
 }
 ?>
-<h1><center><?= safe_display($par->name) ?></center></h1>
+<h1 class="phead"><center><?= safe_display($par->name) ?></center></h1>
 <center>
   <table>
     <tr>
       <td><?= $logo ?></td>
-      <td><center><?= markup_to_html($par->description) ?><center></td>
+      <td align="center"><?= markup_to_html($par->description) ?></td>
     </tr>
     <tr>
-    <tr>
-      <td colspan=2>
-        <center>Contact: <?= safe_display($par->contactemail) ?><center>
+      <td colspan="2" align="center">
+        Contact: <?= safe_display($par->contactemail) ?>
       </td>
     </tr>
   </table>
@@ -87,71 +86,71 @@ if (private_markupurl_safety($par->logo) != "") {
   <table cellspacing="4">
     <tr>
       <td></td>
-      <td align="center"><font <?= $fontd ?> size="+1">Overall</font></td>
+      <td align="center" class="phead2">Overall</td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="center"><font <?= $fontd ?> size="+1">Yesterday</font></td>
+      <td align="center" class="phead2">Yesterday</td>
 <? } ?>
     </tr>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1">Rank:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= $par->OVERALL_RANK . " " . html_rank_arrow($par->Overall_Change) ?></font></td>
+      <td align="left" class="phead2">Rank:</td>
+      <td align="right"><?= $par->OVERALL_RANK . " " . html_rank_arrow($par->Overall_Change) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= $par->DAY_RANK . " " . html_rank_arrow($par->Day_Change) ?></font></td>
+      <td align="right"><?= $par->DAY_RANK . " " . html_rank_arrow($par->Day_Change) ?></td>
 <? } ?>
     </tr>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale) ?></td>
 <? } ?>
     </tr>
     <? if ($par->Days_Working > 0) { ?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/sec:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / (86400 * $par->Days_Working), 3) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>/sec:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale / (86400 * $par->Days_Working), 3) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / 86400, 3) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale / 86400, 3) ?></td>
     <? } ?>
     </tr>
 <? } ?>
     <?if($par->MEMBERS_OVERALL > 0) {?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/member:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / $par->MEMBERS_OVERALL) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>/member:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale / $par->MEMBERS_OVERALL) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / $par->MEMBERS_TODAY) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale / $par->MEMBERS_TODAY) ?></td>
 <? } ?>
     </tr>
     <?}?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_unscaled_unit_name ?>:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY) ?></td>
 <? } ?>
     </tr>
     <?if ($par->Days_Working > 0) { ?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/sec:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working)) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_unscaled_unit_name ?>/sec:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working)) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / 86400) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY / 86400) ?></td>
 <? } ?>
     </tr>
     <?}?>
     <?if($par->MEMBERS_OVERALL > 0) {?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/member:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / $par->MEMBERS_OVERALL) ?></font></td>
+      <td align="left" class="phead2"><?= $proj_unscaled_unit_name ?>/member:</td>
+      <td align="right"><?= number_style_convert($par->WORK_TOTAL / $par->MEMBERS_OVERALL) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / $par->MEMBERS_TODAY) ?></font></td>
+      <td align="right"><?= number_style_convert($par->WORK_TODAY / $par->MEMBERS_TODAY) ?></td>
 <? } ?>
     </tr>
     <?}?>
     <tr>
-      <td align="left"><font <?= $fontd ?> size="+1">Time Working:</font></td>
-      <td align="right" colspan="<?= ($par->WORK_TODAY > 0) ? 3 : 2 ?>" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->Days_Working) ?> days</font></td>
+      <td align="left" class="phead2">Time Working:</td>
+      <td align="right" colspan="<?= ($par->WORK_TODAY > 0) ? 3 : 2 ?>"><?= number_style_convert($par->Days_Working) ?> days</td>
     </tr>
   </table>
   <br>
@@ -174,34 +173,33 @@ if (private_markupurl_safety($par->logo) != "") {
   //Some buttons to view team history will go here
   if ($par->showmembers=="NO") {
     ?>	
-    <center><p>This team wishes to keep its membership private.<p>
+    <center><p>This team wishes to keep its membership private.<p></center>
   <? } else {  
     if ($par->WORK_TODAY == 0) {
       print "<center><p>Click here to view this team's 
-      <a href=\"tmember.php?project_id=$project_id&team=$tm\">overall</a> participant stats";
+      <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a> participant stats";
     } else {
       print "<center><p>Click here to view this team's participant stats for
-      <a href=\"tmember.php?project_id=$project_id&team=$tm&source=y\">yesterday</a> or
-      <a href=\"tmember.php?project_id=$project_id&team=$tm\">overall</a>";
+      <a href=\"tmember.php?project_id=$project_id&amp;team=$tm&amp;source=y\">yesterday</a> or
+      <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a>";
     }
 	
     if ($par->showmembers=="PAS") {
       print " (Password required)";
     }
 
-    print ".</p>";
+    print ".</p></center>";
   }
 
   //A list of teams goes here
   ?> 
-  </p>
 	<center>
     <table border="1" cellspacing="0">
       <tr>
-        <th>Rank</th>
-        <th>Team</th>
-        <th align="right">Days</th>
-        <th align="right"><?= $proj_scaled_unit_name ?></th>
+        <th class="thead">Rank</th>
+        <th class="thead">Team</th>
+        <th class="thead" align="right">Days</th>
+        <th class="thead" align="right"><?= $proj_scaled_unit_name ?></th>
       </tr>
       <?
       $totalwork = 0;
@@ -215,9 +213,7 @@ if (private_markupurl_safety($par->logo) != "") {
         ?>
           <td><?= $teamrec->OVERALL_RANK . " " . html_rank_arrow($teamrec->Change) ?></td>
           <td>
-            <font color="#cc0000">
-              <a href="tmsummary.php?project_id=<?= $project_id ?>&team=<?= $teamrec->TEAM_ID + 0 ?>"><?= $teamrec->name ?></a>
-            </font>
+              <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $teamrec->TEAM_ID + 0 ?>"><?= $teamrec->name ?></a>
           </td>
           <td align="right"><?= number_style_convert($teamrec->Days_Working) ?></td>
           <td align="right"><?= number_style_convert($teamrec->WORK_TOTAL * $proj_scale) ?></td>
@@ -225,9 +221,9 @@ if (private_markupurl_safety($par->logo) != "") {
       <?
       }
       ?>
-      <tr bgcolor=<?= $footer_bg ?>>
-        <td align="right" colspan="3"><font <?= $footer_font ?>>Total</font></td>
-        <td align="right"><font <?= $footer_font ?>><?= number_style_convert($totalwork * $proj_scale) ?></td>
+      <tr>
+        <td class="tfoot" align="right" colspan="3">Total</td>
+        <td class="tfoot" align="right"><?= number_style_convert($totalwork * $proj_scale) ?></td>
       </tr>
     </table>
     <hr>
@@ -243,12 +239,12 @@ if (private_markupurl_safety($par->logo) != "") {
         <input value="Edit" type="submit">
       </p>
     </form>
-    <p>
-    If you are the team coordinator, and you've forgotten your team password, click
-    <form action="tmpass.php"><input type="hidden" name="team" value="<?=$team?>">
-    <input type="submit" value="here"></form> and the password will be mailed to
+    <form action="tmpass.php"><p>
+    If you are the team coordinator, and you've forgotten your team password,<br> click
+    <input type="hidden" name="team" value="<?=$team?>">
+    <input type="submit" value="here"> and the password will be mailed to
     <?=$par->contactemail?>.
-    </p>
+    </p></form>
   </center>
 
 <? include "../templates/footer.inc"; ?>

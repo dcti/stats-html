@@ -57,15 +57,15 @@ $rows = sybase_num_rows($result);
 
 // Figure out what navagation buttons we should have
 if ( $lo > $rows ) {
- $btn_back = "<a href=\"$myname?project_id=$project_id&low=$prev_lo&limit=$limit&source=$source\">Back $limit</a>";
+ $btn_back = "<a href=\"$myname?project_id=$project_id&amp;low=$prev_lo&amp;limit=$limit&amp;source=$source\">Back $limit</a>";
 } else if ( $lo > 1 and $lo < $limit ) {
- $btn_back = "<a href=\"$myname?project_id=$project_id&low=1&limit=$limit&source=$source\">Back " . ($lo-1) ."</a>";
+ $btn_back = "<a href=\"$myname?project_id=$project_id&amp;low=1&amp;limit=$limit&amp;source=$source\">Back " . ($lo-1) ."</a>";
 } else {
  $btn_back = "&nbsp;";
 }
 
 if ( $rows >= $limit ) {
- $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$next_lo&limit=$limit&source=$source\">Next $limit</a>";
+ $btn_fwd = "<a href=\"$myname?project_id=$project_id&amp;low=$next_lo&amp;limit=$limit&amp;source=$source\">Next $limit</a>";
 } else {
  $btn_fwd = "&nbsp;";
 }
@@ -74,10 +74,10 @@ if ( $rows >= $limit ) {
 <center>
   <br>
   <table border="1" cellspacing="0" >
-    <tr bgcolor=<?=$footer_bg?>>
-       <td><font <?=$footer_font?>><?=$btn_back?></font></td>
-       <td colspan="6"><font <?=$footer_font?>>&nbsp;</font></td>
-       <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
+    <tr>
+       <td><?=$btn_back?></td>
+       <td colspan="6">&nbsp;</td>
+       <td align="right"><?=$btn_fwd?></td>
     </tr>
     <tr>
       <th>Rank</th>
@@ -109,7 +109,7 @@ if ( $rows >= $limit ) {
       ?>
       <tr class="<?=$row_bgnd_color?>">
         <td><?=$par->Rank?><?=html_rank_arrow($par->Change)?></td>
-        <td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=$par->name?></font></a></td>
+        <td><a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$teamid?>"><?=$par->name?></a></td>
         <td align="right"><?=$first?></td>
         <td align="right"><?=$last?></td>
         <td align="right"><?=number_format($par->Days_Working, 0)?></td>
@@ -120,16 +120,16 @@ if ( $rows >= $limit ) {
       <?
     }
     ?>
-    <tr bgcolor=<?=$footer_bg?>>
-      <td><font <?=$footer_font?>><? echo "$lo-$hi"?></font></td>
-      <td align="right" colspan="5"><font <?=$footer_font?>>Total</font></td>
-      <td align="right"><font <?=$footer_font?>><?=number_format($totalblocks)?></font></td>
-      <td align="right"><font <?=$footer_font?>><?=number_format($totalblocksy)?></font></td>
+    <tr>
+      <td><? echo "$lo-$hi"?></td>
+      <td align="right" colspan="5">Total</td>
+      <td align="right"><?=number_format($totalblocks)?></td>
+      <td align="right"><?=number_format($totalblocksy)?></td>
     </tr>
-      <tr bgcolor=<?=$footer_bg?>>
-      <td><font <?=$footer_font?>><?=$btn_back?></font></td>
-      <td colspan="6"><font <?=$footer_font?>>&nbsp;</font></td>
-      <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
+      <tr>
+      <td><?=$btn_back?></td>
+      <td colspan="6">&nbsp;</td>
+      <td align="right"><?=$btn_fwd?></td>
     </tr>
   </table>
 </center>

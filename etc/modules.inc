@@ -1,6 +1,6 @@
 <?php
   // vi: ts=2 sw=2 tw=120 syntax=php
-  // $Id: modules.inc,v 1.16 2002/12/07 20:39:03 decibel Exp $
+  // $Id: modules.inc,v 1.17 2003/03/12 21:40:22 thejet Exp $
 
   function plural($num) {
     if (abs($num) > 1 or $num == 0) {
@@ -26,11 +26,11 @@
 
   function html_rank_arrow($change) {
     if ($change > 0) {
-	return "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</font>";
+	return "<span style=\"color: #009900\">(<img src=\"/images/up.gif\" alt=\"+\">$change)</span>";
     } else {
 	if ($change < 0) {
 	    $offset = -$change;
-	    return "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font>";
+	    return "<span style=\"color: #990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</span>";
 	}
     }
   }

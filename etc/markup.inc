@@ -15,7 +15,7 @@
 // This requires at least PHP 4.0.6 due to the use of array_map(),
 // and the PREG_SPLIT_DELIM_CAPTURE flag on preg_split().
 //
-// $Id: markup.inc,v 1.6 2002/03/17 01:27:39 paul Exp $
+// $Id: markup.inc,v 1.7 2003/03/12 21:40:22 thejet Exp $
 
 
 // This is the only function that is meant to be publicly callable.
@@ -58,7 +58,7 @@ function private_markup_walker($element) {
   elseif (preg_match('/^\[IMG=(.*?)\]$/i', $element, $matches))
     {
       $newurl = private_markupurl_safety($matches[1]);
-      if ($newurl != '') return "<img src=\"$newurl\">";
+      if ($newurl != '') return "<img src=\"$newurl\" alt=\"\">";
       else return "<br><b><i>Unsafe URL specified</i></b><br>";
     }
 

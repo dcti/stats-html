@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.23 2003/03/09 12:08:33 paul Exp $
+// $Id: tmember.php,v 1.24 2003/03/12 21:37:22 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -76,11 +76,13 @@ if ($info->showmembers == "PAS") {
     }
       ?>
       <form action="<?=$myname?>" method="get">
+      <p>
       Password: <input type="password" length="16" name="pass">
       <input type="hidden" name="team" value="<?=$tm?>">
       <input type="hidden" name="source" value="<?=$source?>">
       <input type="hidden" name="project_id" value="<?=$project_id?>">
       <input type="submit" value="Go">
+      </p>
       </form></center>
       <?
     include "../templates/footer.inc";
@@ -180,20 +182,19 @@ include "../templates/header.inc";
 
 // Display how many members
 print "
-<br>
 <table border=\"0\"><tr>
   <td align=left>Total Members:</td>
   <td align=right>$rows</td>
-  </tr></table><br>";
+  </tr></table><p>";
 
   // Provide a link back to tmsummary.php
-  print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>";
+  print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</center>";
 
   // Start the table
   ?>
+  </p>
   <center>
-    <br>
-      <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
+      <table border="1" cellspacing="0">
         <tr>
           <th>Team Rank</th>
           <th>Participant</th>
@@ -208,7 +209,7 @@ print "
           <th>Total</th>
           <?
           if ($totblocks) { ?>
-            <th>%</font></th>
+            <th>%</th>
           <? } ?>
         </tr>
 
@@ -236,9 +237,7 @@ print "
           <tr class=" . row_background_color($i, $color_a, $color_b) . ">
             <td>$rnk</td>
             <td>
-              <a href=\"/participant/psummary.php?project_id=$project_id&id=$linkid\">
-                <font color=\"#cc0000\">$listas</font>
-              </a>
+              <a href=\"/participant/psummary.php?project_id=$project_id&amp;id=$linkid\">$listas</a>
             </td>";
           if ($n_yesterday < 1 and $source == y) {
             print "
@@ -265,7 +264,7 @@ print "
     </table>
   </center>
   <!-- Navigation Buttons here -->
-  <table border="0" width=100%>
+  <table border="0" width="100%">
     <tr>
       <?
       if ($low > 0) {
@@ -279,9 +278,9 @@ print "
           $newlow=1;
         }
         print "
-          <a href=\"$myname?project_id=$project_id&pass=" .
+          <a href=\"$myname?project_id=$project_id&amp;pass=" .
             urlencode($pass) .
-            "&team=$tm&source=$source&low=$newlow&limit=$newlimit\">$newlow - $low</a>
+            "&amp;team=$tm&amp;source=$source&amp;low=$newlow&amp;limit=$newlimit\">$newlow - $low</a>
         </td>";
       } else {
         // needed for alignment
@@ -301,9 +300,9 @@ print "
         }
         $high = $newlow + $newlimit - 1;
         print "
-          <a href=\"$myname?project_id=$project_id&pass=" .
+          <a href=\"$myname?project_id=$project_id&amp;pass=" .
             urlencode($pass) .
-            "&team=$tm&source=$source&low=$newlow&limit=$lim\">$newlow - $high</a>
+            "&amp;team=$tm&amp;source=$source&amp;low=$newlow&amp;limit=$lim\">$newlow - $high</a>
         </td>";
       } else {
         // Needed for alignment
@@ -318,8 +317,7 @@ print "
   // Provide a link back to tmsummary.php
   if ($rows > 25) {
     ?>
-    <center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>
-  </table>
+    <center>Return to the <a href="tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</center>
   <?
 }
 

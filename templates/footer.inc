@@ -1,5 +1,6 @@
 <? 
 $query_string = str_replace ("project_id=$project_id","",$_SERVER['QUERY_STRING']);
+$query_string = str_replace("&","&amp;",$query_string);
 if (!isset($proj_list)) { ?>
 <center> This page in other projects: <br>
 <?if ($project_id!=5)  {?> <a href="<?=$myname?>?project_id=5<?=$query_string?>">RC5-64</a>  <? } ?>
