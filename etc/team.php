@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.20 2004/04/08 15:13:26 nugget Exp $
+// $Id: team.php,v 1.21 2004/04/28 01:33:09 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -170,6 +170,7 @@ class Team
 	 	{
 	 		if($team_id > MAX_OLD_TEAM_ID)
 	    	{
+			echo 'here!';
 	        	$this->_state = $this->_db->query_first("SELECT stats_team.* FROM stats_team INNER JOIN new_team_id ON stats_team.team = new_team_id.new_id WHERE new_team_id.old_id = $team_id");
 	        }
 	        	else
@@ -397,13 +398,14 @@ class Team
          function &get_neighbors()
          {
            $this->get_current_stats();
-           $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= (".$this->_stats->get_stats_item('overall_rank')." -5)";
-           $sql .= " AND overall_rank <= (".$this->_stats->get_stats_item('overall_rank')." +5)";
-           $sql .= " AND project_id = " . $this->_project->get_id();
-           //$sql .= " AND team_id != " . $this->get_id();
+           $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= ($1 -5)";
+           $sql .= " AND overall_rank <= ($1 +5)";
+           $sql .= " AND project_id = $2";
+           //$sql .= " AND team_id != $3";
            $sql .= " AND listmode <= 9 ORDER BY overall_rank ASC ";
 
-           $queryData = $this->_db->query($sql);
+           $queryData = $this->_db->query_bound($sql, array($this->_stats->get_stats_item('overall_rank'),
+								$this->_project->get_id()) );
 
            $result = $this->_db->fetch_paged_result($queryData);
            $cnt = count($result);
