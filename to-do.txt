@@ -1,0 +1,45 @@
+# $Id: to-do.txt,v 1.1 1999/07/11 19:09:32 nugget Exp $
+
+Standardized function names
+I'm probably gonna be creating a shitload of functions as part of code consolodation, so we should come up with a
+standard for naming stuff
+
+
+Get rid of 'Last stats update: Moo'
+
+
+done - Finish tmember.php3
+
+
+Expand function library, consolodate code
+Many .php3's use a lot of similar code... we should figure out a way to commonize it
+
+
+Improve reporting of objects being updated
+It'd be nice to use more than just the generic error.inc ... maybe touch a file somewhere
+as each section of the update starts
+
+
+Add the graphs back in
+
+
+Figure out a better way to rank
+
+
+Set it up so that pedit and teamedit know what page they were called from and return the user there
+
+
+Redo pedit so that it gets the choices out of the database instead of hard-coded
+Or, we might be able to put all the choice info into one place in php3, but we shouldn't have it spread all
+over the place.
+
+
+Look into using a 'view'/stored query to do the listmode logic instead of doing it in php
+
+
+Benchmark to see if we should include stuff like email in the ranking tables
+
+
+online list that proxy analizer's can use
+many of the proxy log analizers provide links to stats pages... it would be nice if we had a file somewhere
+where we could point those programs at different files... like for when we did the sbI to sbII move
