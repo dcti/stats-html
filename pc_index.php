@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.29 2004/07/29 00:18:27 decibel Exp $
+  # $Id: pc_index.php,v 1.30 2004/10/17 07:36:26 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -203,6 +203,15 @@
      <?=$yest_teams?> of them submitted work units yesterday.<br>
      (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
    </p>
+   <?php if ($project_id == 8) { ?>
+   <p>
+   <a href="http://nocgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a>
+   </p>
+   <?php } elseif ($project_id == 24 || $project_id == 25) { ?>
+   <p>
+   <a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a>
+   </p>
+   <?php } ?>
    <hr>
    <?if( $showOGRcomplete ){?>
    <A NAME="footnote"></A>
