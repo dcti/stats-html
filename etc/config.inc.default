@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc.default,v 1.2 2003/05/19 19:13:09 paul Exp $
+// $Id: config.inc.default,v 1.3 2003/07/31 18:36:53 thejet Exp $
 ///////////////////////////
 // Database Connectivity //
 ///////////////////////////
@@ -10,8 +10,8 @@ $conn_string = "";
 // Layout Style Elements //
 ///////////////////////////
 
-$bar_color_a = "#dddddd";
-$bar_color_b = "#ffffdd";
+$bar_color_a = "row1";
+$bar_color_b = "row2";
 
 $fo_default = "<font face=\"arial,helvetica\">";
 $fo_fixed   = "<font face=\"lucida console, courier\">";
