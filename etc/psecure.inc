@@ -1,5 +1,8 @@
 <?php
-  // $Id: psecure.inc,v 1.15 2003/08/30 17:53:21 paul Exp $
+  // $Id: psecure.inc,v 1.16 2003/08/30 23:47:32 paul Exp $
+
+include_once "participant.php";
+
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
