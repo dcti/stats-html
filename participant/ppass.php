@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.5 1999/08/30 14:50:12 nugget Exp $
+  // $Id: ppass.php,v 1.6 1999/08/30 14:52:09 nugget Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -56,7 +56,12 @@
 	   </p>
 	  </body>
 	 </html>";
-  exit; 
+  
+    $fh = fopen("/var/log/ppass.log","a+");
+    $ts = gmdate("M d Y H:i:s",time());
+    fputs($fh,"$ts password for id $id ($par->email) denied to $REMOTE_HOST [$REMOTE_ADDR]\n");
+    fclose($fh);
+    exit(); 
   }
 
   if (!$par->password) {
