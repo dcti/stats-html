@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.22 2003/10/27 14:08:57 thejet Exp $
+  // $Id: pjointeam.php,v 1.23 2003/12/16 16:15:00 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -26,12 +26,15 @@
   }
 
   if( $team > 0 ) {
+      //***BJG[12/16/2003]: Fix to take into account team renumbering
       $pteam = new Team($gdb, $gproj, $team);
-      if($team != $pteam->get_id())
+      if($team != $pteam->get_id() && !$pteam->get_id_mismatch())
           $newteamname = "Invalid team";
       else
           $newteamname = $pteam->get_name();
 
+      // reset the $team variable based on the newly loaded new team
+      $team = $pteam->get_id();
       if( $pteam->get_listmode() > 0 ) {
           $title = "This team has been revoked";
           include "../templates/header.inc";
