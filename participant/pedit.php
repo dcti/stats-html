@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.6 1999/12/24 17:44:18 nugget Exp $
+  // $Id: pedit.php,v 1.7 1999/12/24 17:48:34 nugget Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -204,7 +204,8 @@
      </tr>
      <tr>
       <td>Motto:</td>
-      <td><input name=\"motto\" value=\"$par->motto\" size=\"50\"></td>
+      <td>
+       <textarea name=\"motto\" cols=\"50\" rows=\"1\">$par->motto</textarea>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
