@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.8 2003/10/21 22:02:12 thejet Exp $
+  // $Id: pedit_save.php,v 1.9 2003/10/23 02:39:28 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -70,7 +70,7 @@
 <html>
  <head>
   <title>Updating <?=$gpart->get_email()?> data</title>
- <?if($debug <= 0){?><meta http-equiv="refresh" content="4; URL=http://stats.distributed.net/"><?}?>
+ <?if($debug <= 0){?><meta http-equiv="refresh" content="4; URL=http://stats.distributed.net/participant/psummary.php?id=<?=$id?>"><?}?>
  </head>
  <body>
   <div style="text-align: center">
