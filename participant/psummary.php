@@ -1,130 +1,67 @@
 <?
-# vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.46 2003/04/20 21:31:37 paul Exp $
-
+// vi: ts=2 sw=2 tw=120 syntax=php
+// $Id: psummary.php,v 1.47 2003/05/25 20:24:38 paul Exp $
 // Variables Passed in url:
-//   id == Participant ID
-
+// id == Participant ID
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/markup.inc";
+include "../etc/participant.php";
+include "../etc/participantstats.php";
 
-function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "") {
-  global $project_id;
-  $parid = 0+$par->id;
-  $totaltoday += $par->TODAY;
-  $totaltotal += $par->TOTAL;
-  $decimal_places=0;
-  $participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
-  ?>
-    <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
-      <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td>
+function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "")
+{
+    global $project_id;
+    $parid = 0 + $par -> id;
+    $totaltoday += $par -> today;
+    $totaltotal += $par -> total;
+    $decimal_places = 0;
+    $participant = participant_listas($par -> listmode, $par -> email, $parid, $par -> contact_name);
+
+    ?>
+    <tr class=<?echo row_background_color($i, $color_a, $color_b);
+
+    ?>>
+      <td><?echo $par -> overall_rank . html_rank_arrow($par -> overall_change) ?></td>
       <td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
-      <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
-      <td align="right"><?echo number_style_convert( $par->TOTAL * $proj_scale) ?> </td>
-      <td align="right"><?echo number_style_convert( $par->TODAY * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert($par -> days_working);
+
+    ?> </td>
+      <td align="right"><?echo number_style_convert($par -> total * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert($par -> today * $proj_scale) ?> </td>
     </tr>
   <?
-}
-function par_footer($footer_font, $totaltoday, $totaltotal, $proj_scale) {
-?>
+} 
+function par_footer($footer_font, $totaltoday, $totaltotal, $proj_scale)
+{
+
+    ?>
   <tr>
     <td align="right" colspan="3">Total</td>
-    <td align="right"><?echo number_style_convert( $totaltotal * $proj_scale )?></td>
-    <td align="right"><?echo number_style_convert( $totaltoday * $proj_scale )?></td>
+    <td align="right"><?echo number_style_convert($totaltotal * $proj_scale)?></td>
+    <td align="right"><?echo number_style_convert($totaltoday * $proj_scale)?></td>
   </tr>
 <?
-}
-
+} 
 // Get the participant's record from STATS_Participant and store it in $person
+$gpart = new Participant($gdb, $project_id, $id);
+$gpartstats = new ParticipantStats($gdb, $id, $project_id, null);
+// ###
+// Is this person retired?
+if($gpart -> getRetireTo() > 0) {
+    header("Location: psummary.php?project_id=$project_id&amp;id=$retire_to");
+    exit();
+} 
 
-//$qs = "p_participant_all $id";
-$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e
-        from STATS_Participant
-        where id = $id and listmode < 10";
-sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-sybase_data_seek($result,0);
-$person = sybase_fetch_object($result);
-err_check_query_results($person);
+$title = "Participant Summary for " . $gpart -> GetDisplayName();
 
-####
-# Is this person retired?
-$retire_to = 0+$person->retire_to;
-if( $retire_to > 0 ) {
-  header("Location: psummary.php?project_id=$project_id&amp;id=$retire_to");
-  exit();
-}
-
-####
-# Find out how to list this participant's name
-$participant = participant_listas($person->listmode,$person->email,$id,$person->contact_name);
-
-$title = "Participant Summary for $participant";
-
-if($person->motto <> "") {
-   $motto="<i>".markup_to_html($person->motto)."</i><hr>";
-}
-
+if($gpart -> getMotto() <> "") {
+    $motto = "<i>" . markup_to_html($gpart -> getMotto()) . "</i><hr>";
+} 
 
 $lastupdate = last_update('e');
-
 include "../templates/header.inc";
-
-// Get the participant's ranking info, store in $rs_rank
-
-$qs = "select DAY_RANK, OVERALL_RANK, datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-          WORK_TODAY as TODAY,
-          WORK_TOTAL as TOTAL,
-          OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
-          DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
-        from Email_Rank
-        where id = $id
-          and PROJECT_ID = $project_id";
-sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-sybase_data_seek($result,0);
-$rs_rank = sybase_fetch_object($result);
-
-// Grab the participant's neighbors and store in $neighbors (number of neighbors in $numneighbors)
-
-$qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK,
-          datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-          WORK_TODAY as TODAY,
-          WORK_TOTAL as TOTAL,
-          (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
-          (r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
-        from STATS_Participant p, Email_Rank r
-        where p.id = r.id
-          and PROJECT_ID = $project_id
-          and (r.OVERALL_RANK < ($rs_rank->OVERALL_RANK+5))
-          and (r.OVERALL_RANK > ($rs_rank->OVERALL_RANK-5))
-        order by r.OVERALL_RANK";
-sybase_query("set rowcount 18");
-$neighbors = sybase_query($qs);
-$numneighbors = sybase_num_rows($neighbors);
-
-// Grab the participant's list of friends, store in $friends (number of friends in $numfriends)
-
-$qs = "select r.*, p.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-          WORK_TODAY as TODAY,
-          WORK_TOTAL as TOTAL,
-          (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change
-        from STATS_Participant p, Email_Rank r
-        where (r.id = $person->friend_a or
-               r.id = $person->friend_b or
-               r.id = $person->friend_c or
-               r.id = $person->friend_d or
-               r.id = $person->friend_e or
-               r.id = $id                 )
-          and p.id = r.id
-          and PROJECT_ID = $project_id
-        order by r.OVERALL_RANK";
-sybase_query("set rowcount 0");
-$friends = sybase_query($qs);
-$numfriends = sybase_num_rows($friends);
-
 // Get the participant's best day, store result in $best_day
 /* removed for now - killing sybase
 $qs = "p_phistory @project_id = $project_id, @id = $id, @sort_field = 'WORK_UNITS', @sort_dir = 'desc'";
@@ -134,24 +71,19 @@ $best_day = sybase_fetch_object($result);
 $best_day_units = (double) $best_day->WORK_UNITS;
 $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
 */
-// Get the latest record from Daily_Summary, store in $yest_totals
-
-$qs = "select *
-        from Daily_Summary nolock
-        where PROJECT_ID = $project_id
-          and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id)";
-sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-$yest_totals = sybase_fetch_object($result);
 
 ?>
     <table>
       <tr>
         <td colspan="3">
           <br>
-          <strong><?=$participant?>'s stats</strong>
+          <strong><?=$gpart -> GetDisplayName()?>'s stats</strong>
           <hr>
-          <? if(isset($motto)) {echo $motto;}?>
+          <? if(isset($motto)) {
+    echo $motto;
+} 
+
+?>
       </td>
       </tr>
       <tr>
@@ -162,44 +94,70 @@ $yest_totals = sybase_fetch_object($result);
       <tr>
         <td align="left">Rank:</td>
         <td align="right">
-            <?echo $rs_rank->OVERALL_RANK.  html_rank_arrow($rs_rank->Overall_Change); ?>
+            <?echo $gpartstats -> getStatsItem('overall_rank') . html_rank_arrow($gpartstats -> getStatsItem('overall_change'));
+
+?>
         </td>
         <td align="right">
-          <? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?>
-        </td>
-      </tr>
-      <tr>
-        <td align="left"><?=$proj_scaled_unit_name?>:</td>
-        <td align="right"><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></td>
-        <td align="right"><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></td>
-      </tr>
-      <tr>
-        <td align="left"><?=$proj_scaled_unit_name?>/sec:</td>
-        <td align="right">
-          <?=number_style_convert($rs_rank->TOTAL * $proj_scale / (86400 * $rs_rank->Days_Working), 3);?>
-        </td>
-        <td align="right">
-          <? echo number_style_convert($rs_rank->TODAY * $proj_scale / 86400, 3);?>
+          <? echo $gpartstats -> getStatsItem('day_rank') . html_rank_arrow($gpartstats -> getStatsItem('day_change'));
+
+?>
         </td>
       </tr>
       <tr>
-        <td align="left"><?=$proj_unscaled_unit_name?>:</td>
-        <td align="right"><?=number_style_convert($rs_rank->TOTAL);?></td>
-        <td align="right"><? echo number_style_convert($rs_rank->TODAY);?></td>
+        <td align="left"><?=$gproj -> get_scaled_unit_name()?>:</td>
+        <td align="right"><?=number_style_convert($gpartstats -> getStatsItem('total') * $gproj -> get_scale());
+
+?></td>
+        <td align="right"><? echo number_style_convert($gpartstats -> getStatsItem('today') * $gproj -> get_scale());
+
+?></td>
       </tr>
       <tr>
-        <td align="left"><?=$proj_unscaled_unit_name?>/sec:</td>
+        <td align="left"><?=$gproj -> get_scaled_unit_name()?>/sec:</td>
         <td align="right">
-          <?=number_style_convert($rs_rank->TOTAL / (86400 * $rs_rank->Days_Working), 0);?>
+          <? if ($gpartstats -> getStatsItem('days_working') > 0) {
+    number_style_convert($gpartstats -> getStatsItem('total') * $gproj -> get_scale() / (86400 * $gpartstats -> getStatsItem('days_working')), 3);
+} 
+
+?>
         </td>
         <td align="right">
-          <? echo number_style_convert($rs_rank->TODAY / 86400, 0);?>
+          <? echo number_style_convert($gpartstats -> getStatsItem('today') * $gproj -> get_scale() / 86400, 3);
+
+?>
+        </td>
+      </tr>
+      <tr>
+        <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
+        <td align="right"><?=number_style_convert($gpartstats -> getStatsItem('total'));
+
+?></td>
+        <td align="right"><? echo number_style_convert($gpartstats -> getStatsItem('today'));
+
+?></td>
+      </tr>
+      <tr>
+        <td align="left"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
+        <td align="right">
+          <? if ($gpartstats -> getStatsItem('days_working') > 0) {
+    number_style_convert($gpartstats -> getStatsItem('total') / (86400 * $gpartstats -> getStatsItem('days_working')), 0);
+} 
+
+?>
+        </td>
+        <td align="right">
+          <? echo number_style_convert($gpartstats -> getStatsItem('today') / 86400, 0);
+
+?>
         </td>
       </tr>
       <tr>
         <td>Time Working:</td>
         <td colspan="2" align="right">
-            <? echo number_format($rs_rank->Days_Working) . " day" . plural($rs_rank->Days_Working); ?>
+            <? echo number_format($gpartstats -> getStatsItem('days_working')) . " day" . plural($gpartstats -> getStatsItem('days_working'));
+
+?>
         </td>
       </tr>
       <tr>
@@ -212,7 +170,7 @@ $yest_totals = sybase_fetch_object($result);
 
 <?
 /*
-  $pct_of_best = (double) $rs_rank->TODAY * $proj_scale / $best_day_units;
+  $pct_of_best = (double) $rs_rank->TODAY * $gproj->get_scale() / $best_day_units;
   if($pct_of_best == 1) {
 ?>
   <br>
@@ -239,67 +197,70 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
     <?
-    if (($proj_type == 'RC5' or $proj_type == 'R72') && ($rs_rank->TODAY > 0)) {
-      $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
-      ?>
+if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> getStatsItem('TODAY') > 0)) {
+    $odds = number_format($yest_totals -> WORK_UNITS / $gpartstats -> getStatsItem('TODAY'));
+
+    ?>
         <p>
         The odds are 1 in <?=$odds?> that this participant will find the key before anyone else does.
         </p>
       <?
-    }
-    ?>
+} 
+
+?>
 
     <table border="1" cellspacing="0">
       <tr>
-        <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
+        <th colspan="6" align="center"><strong><?=$gpart -> GetDisplayName()?>'s neighbors</strong></th>
       </tr>
       <tr>
         <th>Rank</th>
         <th>Participant</th>
         <th align="right">Days</th>
-        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
-        <th align="right">Current <?=$proj_scaled_unit_name?></th>
+        <th align="right">Overall <?=$gproj -> get_scaled_unit_name()?></th>
+        <th align="right">Current <?=$gproj -> get_scaled_unit_name()?></th>
       </tr>
       <?
-      $totaltoday = 0;
-      $totaltotal = 0;
-      for ($i = 0; $i < $numneighbors; $i++) {
-        sybase_data_seek($neighbors,$i);
-        $par = sybase_fetch_object($neighbors);
-        if($id<>$par->id) {
-          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale);
-        } else {
-          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale, "row3","row3");
-        }
-      }
-      par_footer($footer_font,$totaltoday,$totaltotal, $proj_scale);
-      if($numfriends>1) {
-      ?>
+$totaltoday = 0;
+$totaltotal = 0;
+$neighbors = $gpartstats -> getNeighborsObj();
+for ($i = 0; $i < count($neighbors); $i++) {
+    if($id <> $neighbors[$i] -> id) {
+        par_list($i, $neighbors[$i], &$totaltoday, &$totaltotal, $gproj -> get_scale());
+    } else {
+        par_list($i, $neighbors[$i], &$totaltoday, &$totaltotal, $gproj -> get_scale(), "row3", "row3");
+    } 
+} 
+par_footer($footer_font, $totaltoday, $totaltotal, $gproj -> get_scale());
+if($numfriends > 1) {
+
+    ?>
       <tr>
-        <th colspan="6" align="center"><strong><?=$participant?>'s friends</strong></th>
+        <th colspan="6" align="center"><strong><?=$gpart -> GetDisplayName()?>'s friends</strong></th>
       </tr>
       <tr>
         <th>Rank</th>
         <th>Participant</th>
         <th align="right">Days</th>
-        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
-        <th align="right">Current <?=$proj_scaled_unit_name?></th>
+        <th align="right">Overall <?=$gproj -> get_scaled_unit_name()?></th>
+        <th align="right">Current <?=$gproj -> get_scaled_unit_name()?></th>
       </tr>
       <?
-      $totaltoday = 0;
-      $totaltotal = 0;
-      for ($i = 0; $i < $numfriends; $i++) {
-        sybase_data_seek($friends,$i);
+    $totaltoday = 0;
+    $totaltotal = 0;
+    for ($i = 0; $i < $numfriends; $i++) {
+        sybase_data_seek($friends, $i);
         $par = sybase_fetch_object($friends);
-        if($id<>$par->id) {
-          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale);
+        if($id <> $par -> id) {
+            par_list($i, $par, &$totaltoday, &$totaltotal, $gproj -> get_scale());
         } else {
-          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale, "row3","row3");
-        }
-      }
-      par_footer($footer_font,$totaltoday,$totaltotal, $proj_scale);
-      }
-      ?>
+            par_list($i, $par, &$totaltoday, &$totaltotal, $gproj -> get_scale(), "row3", "row3");
+        } 
+    } 
+    par_footer($footer_font, $totaltoday, $totaltotal, $gproj -> get_scale());
+} 
+
+?>
     </table>
     <hr>
     <p>
@@ -310,4 +271,6 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 		</div>
 	</form>
     </p>
-<?include "../templates/footer.inc";?>
+<?include "../templates/footer.inc";
+
+?>
