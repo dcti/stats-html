@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.22 2003/10/21 22:02:25 thejet Exp $
+  // $Id: psecure.inc,v 1.23 2003/10/22 04:13:25 thejet Exp $
 
 include_once "participant.php";
 
@@ -35,14 +35,14 @@ function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
 }
 
 if(isset($id) && isset($pass) && $pass != "") {
-   print "Authenticating through URL.\n";
+   if($debug > 0) print "Authenticating through URL.\n";
     # ID and PASS provided in url, use these over all other options
    	$test_id = $id;
    	$test_pass = $pass;
    	$test_from = "url";
 } else {
     if(isset($_COOKIE['sbid'])) {
-      print "Authenticating through Cookie.\n";
+      if($debug > 0) print "Authenticating through Cookie.\n";
    		# We have a cookie set, use this
 		$test_id = $_COOKIE['sbid'];
     	$test_pass = $_COOKIE['sbpass'];
@@ -52,14 +52,14 @@ if(isset($id) && isset($pass) && $pass != "") {
    		if(!isset($_SERVER['PHP_AUTH_USER'])) {
        		authenticate();
    		} else {
-                print "Authenticating through PHP headers.\n";
+                if($debug > 0) print "Authenticating through PHP headers.\n";
       		$test_id = $_SERVER['PHP_AUTH_USER'];
        		$test_pass = $_SERVER['PHP_AUTH_PW'];
        		$test_from = "auth";
    		}
    	}
 }
-print "<!-- Username: $test_id, Password: $test_pass -->\n";
+if($debug > 0) print "<!-- Username: $test_id, Password: $test_pass -->\n";
 
 // @TODO - pass null or gproj here?
 $gpart = new Participant($gdb, $gproj, $test_id);
