@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.6 2003/06/12 20:43:34 thejet Exp $
+// $Id: team.php,v 1.7 2003/08/31 16:10:56 paul Exp $
 
 //==========================================
 // file: team.php
@@ -446,7 +446,7 @@ class Team
 
            $queryData = $db->query($qs);
            $total = $db->num_rows($queryData);
-           $result =& $db->fetch_paged_result($queryData, $start, $limit);
+           $result =& $db->fetch_paged_result($queryData, 0, $limit);
            $cnt = count($result); 
            for($i = 0; $i < $cnt; $i++)
            {

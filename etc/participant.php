@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.11 2003/08/30 23:45:51 paul Exp $
+// $Id: participant.php,v 1.12 2003/08/31 16:10:56 paul Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -535,10 +535,9 @@ class Participant {
 						where overall_rank <= $start + $limit and overall_rank >= $start and p.listmode <	10 and r.project_id = " . $project->get_id() . "
 						order by r.overall_rank, r.work_total desc";
         } 
-
         $queryData = $db->query($qs);
         $total = $db->num_rows($queryData);
-        $result =& $db->fetch_paged_result($queryData, $start, $limit);
+        $result =& $db->fetch_paged_result($queryData, 0, $limit);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
             $partTmp =& new Participant($db, $project, null);
@@ -549,7 +548,6 @@ class Participant {
             unset($partTmp);
             unset($statsTmp);
         } 
-
         return $retVal;
     } 
 
