@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.28 2003/07/31 18:02:10 thejet Exp $
+// $Id: tmember.php,v 1.29 2003/09/01 03:30:28 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -188,12 +188,12 @@ print "
           $listas = $teamMembers[$i]->get_display_name();
 
           print "
-          <tr class=" . row_background_color($i, $color_a, $color_b) . ">
+          <tr class=" . row_background_color($i) . ">
             <td>$rnk</td>
             <td>
               <a href=\"/participant/psummary.php?project_id=$project_id&amp;id=$linkid\">$listas</a>
             </td>";
-          if ($n_yesterday < 1 and $source == y) {
+          if ($n_yesterday < 1 and $source == 'y') {
             print "
             <td align=\"center\">--</td>";
           } else {
