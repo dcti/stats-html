@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.42 2004/07/19 03:25:37 jlawson Exp $
+// $Id: tmsummary.php,v 1.43 2004/07/19 06:41:20 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -50,7 +50,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       <td><?= markup_to_html($team->get_description()) ?></td>
     </tr>
   </table>
-  Contact: <?= safe_display($team->get_contact_email()) ?>
+  Team Contact: <a href="mailto:<?= safe_display($team->get_contact_email()) ?>"><?=$team->get_contact_name()?></a>.
   <br>
   <br>
   <table cellspacing="4" style="margin: auto;">
