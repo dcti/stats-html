@@ -1,5 +1,5 @@
 <?
-// $Id: timing.inc,v 1.3 2004/07/16 21:25:54 decibel Exp $
+// $Id: timing.inc,v 1.4 2004/07/21 00:13:41 decibel Exp $
 
 function timer_start ($name = 'default') {
     global $timer_start_times;
@@ -28,8 +28,15 @@ function timer_current ($name = 'default') {
     return $current;
 }
 
-function log_timing() {
-    timer_stop('log');
+function log_timing(&$dbPtr) {
+    $sql = 'SELECT page_log.log( $1, $2 )';
+    $queryId = $dbPtr->query_bound( $sql, array( $_SERVER['PHP_SELF'], (string) timer_current('log') ) );
+
+    if ( !isset($queryId) OR $queryId < 0 ) {
+        trigger_error("query_bound returned invalid query ID in timing.inc");
+    } else {
+        $dbPtr->fetch_object( $dbPtr->query_bound( $sql, array( $_SERVER['PHP_SELF'], (string) timer_current('log') ) ) );
+    }
 }
     
 // vi: expandtab sw=4 ts=4
