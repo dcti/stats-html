@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: motto.php3,v 1.3 2000/01/18 03:51:59 decibel Exp $
+ // $Id: motto.php3,v 1.4 2003/05/20 20:01:54 paul Exp $
  //
  // Not a production script.
 
@@ -16,9 +16,6 @@
  $result = sybase_query($qs);
 
  if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
      include "templates/error.inc";
    }
    exit();

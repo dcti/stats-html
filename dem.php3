@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: dem.php3,v 1.5 2000/01/18 03:51:59 decibel Exp $
+ // $Id: dem.php3,v 1.6 2003/05/20 20:01:54 paul Exp $
 
  $myname = "demographics.php3";
 
@@ -14,9 +14,6 @@
  $result = sybase_query($qs);
 
  if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
      include "templates/error.inc";
    }
    exit();
