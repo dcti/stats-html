@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.18 2000/01/18 04:31:20 decibel Exp $
+# $Id: to-do.txt,v 1.19 2000/03/20 20:53:41 nugget Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -65,6 +65,7 @@ o <tibim> Nugget94M: on stats for the overall daily rate... you should use
 
 o HDML stats server.
 
+o List past team allocations in pedit or on a secure psummary page
 
 ******** SQL stuff ********
 o Finish setting up DDL scripts. They should allow for using a database other than stats (ie: use a ${1}),
@@ -87,3 +88,5 @@ o Decide on how many sets of tables we're gonna use
 
 
 o Rank history for participants/teams (what rank a person was for each day)
+
+Cows are cool.
