@@ -88,6 +88,27 @@ class DB {
         return $this -> _query_id;
     }
 
+    /**
+      * Run Bound Query
+      *
+      * @param string $query_string Databasename to use
+      * @return int Query id
+      * @access public
+      */
+      function query_bound($p_query, $arr_parms)
+      {
+	  $this -> _query_id = @pg_query_params($this -> _link_id, $p_query, $arr_parms);
+
+	  if(!$this -> _query_id) {
+	      $this -> _error ($p_query);
+	      array_push ( $this->g_queries_array, array($p_query,false) );
+	      return false;
+	  }
+	  array_push ( $this->g_queries_array, array($p_query,true) );
+	  return $this -> _query_id;
+      }
+
+
 
     /* Fetch result as an array
 	*/
