@@ -1,5 +1,5 @@
 <?php
- // $Id $
+ // $Id: limit.inc,v 1.2 1999/07/28 02:06:50 nugget Exp $
 
  if ( $limit > 100 || $limit < 0 ) {
    $limit = 100;
