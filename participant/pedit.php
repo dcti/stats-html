@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.21 2003/11/25 18:21:10 thejet Exp $
+// $Id: pedit.php,v 1.22 2003/12/01 21:04:06 thejet Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -195,7 +195,6 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
       <td align=\"top\">Team:</td>
       <td>$team: $teamname</td>
      </tr>
-     <!--
      <tr>
       <td>&nbsp;</td>
       <td>
@@ -207,7 +206,6 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
        </font>
       </td>
      </tr>
-     -->
      <tr>
       <td>Non-Profit:</td>
       <td>
