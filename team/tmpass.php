@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.10 2003/09/01 17:32:47 thejet Exp $
+  // $Id: tmpass.php,v 1.11 2003/10/03 17:50:59 thejet Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -17,7 +17,7 @@
   include "../templates/header.inc";
 
   display_last_update('t');
-  $team = 0+$team;
+  $team = 0+$tm;
 
   if ($team < 1) {
     print "
