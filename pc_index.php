@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.32 2004/10/17 08:44:06 fiddles Exp $
+  # $Id: pc_index.php,v 1.33 2004/11/02 04:52:24 jlawson Exp $
 
   $title = "Overall Project Stats";
 
@@ -41,8 +41,8 @@
   $tot_scaled_units_to_search = number_style_convert($gproj->get_total_units() * $gproj->get_scale());
   $total_remaining = $gproj->get_total_units() - $gprojstats->get_tot_units();
   if ( $gproj->get_total_units() > 0 ) {
-  	$per_searched = number_format(100*($gprojstats->get_tot_units()/$gproj->get_total_units()),3);
-  	$bar_width = number_format(300*($gprojstats->get_tot_units()/$gproj->get_total_units()),0);
+      $pct_searched = number_format(100*($gprojstats->get_tot_units()/$gproj->get_total_units()),3);
+      $bar_width = number_format(300*($gprojstats->get_tot_units()/$gproj->get_total_units()),0);
   }
    
   ####
@@ -55,7 +55,7 @@
   $yest_unscaled_work_units = number_format($gprojstats->get_stats_item('work_units'));
   $yest_scaled_work_units = number_format($gprojstats->get_stats_item('work_units') * $gproj->get_scale());
   if ( $gproj->get_total_units() > 0 ) {
-  	$yest_per =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
+      $yest_per =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
   }
   $yest_unscaled_rate = number_format(( ($gprojstats->get_stats_item('work_units')) / (86400) ),0);
   $yest_scaled_rate = number_format(( ($gprojstats->get_stats_item('work_units') * $gproj->get_scale()) / (86400) ),0);
@@ -63,23 +63,33 @@
 
   $odds = number_format($total_remaining / $gprojstats->get_stats_item('work_units'),0);
 
-  $showOGRcomplete = false;
-  if(strtolower(substr($gproj->get_name(), 0, 3)) == "ogr")
-  {
+  ###
+  # Percentage for OGR Phase 1 and Phase 2
+  if ($gproj->get_id() == 24 || $gproj->get_id() == 25) {
     $ogrdb = new DB("dbname=ogr");
     $ogrstats = $ogrdb->query_first("SELECT * FROM recent_complete WHERE project_id = " . $gproj->get_id());
-    if($ogrstats)
-    {
-      $showOGRcomplete = true;
-      $per_searched = $ogrstats->tot_pct;
+    if($ogrstats) {
       $ogr_rundate = $ogrstats->rundate;
-      $bar_width = number_format(3*$per_searched, 0);
+      $ogrp1_pct_searched = $ogrstats->tot_pct;
+    } else {
+      $ogrp1_pct_searched = 100;   // if failed, then just assume 100 since we know its done.
     }
+    $ogrp1_bar_width = number_format(3*$ogrp1_pct_searched, 0);
+    $ogrp1_pct_link = "cache/ogr_graph_" . $gproj->get_id() . ".png";
+  }
+  if ($gproj->get_id() == 24) {
+    $ogrp2_pct_searched = 100;
+    $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
+    $ogrp2_pct_link = "http://n0cgi.distributed.net/statistics/ogr/ogr24p2-percent.png";
+  } elseif ($gproj->get_id() == 25) {
+    $ogrp2_pct_searched = 10;        // @todo: Hardcoded manual estimate as of Nov/1/2004
+    $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
+    $ogrp2_pct_link = "#ogrfootnote";
   }
 
 ?>
    <div style="text-align:center">
-   <br>
+   <br />
    <p class="phead">
      Aggregate Statistics
    </p>
@@ -112,54 +122,52 @@
      <td align="left" class="phead2">Overall Rate:</td>
      <td align="right"><?=$overall_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec</td>
     </tr>
-<? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
-    <?if($showOGRcomplete) {?>
+<? if ($gproj->get_id() == 24 || $gproj->get_id() == 25) { ?>
      <tr>
      <td align="left" class="phead2">Percent Complete (Phase 1):</td>
-     <td align="right"><a href="cache/ogr_graph_<?=$gproj->get_id()?>.png"><?=$per_searched?>%</a></td>
+     <td align="right"><a href="<?=$ogrp1_pct_link?>"><?=$ogrp1_pct_searched?>%</a></td>
      </tr>
+     <tr>
      <td align="left" class="phead2">Percent Complete (Phase 2):</td>
-<td align="right"> N/A</td>
-    </tr>
-   <?} else {?>
+     <td align="right"><a href="<?=$ogrp2_pct_link?>"><?= $gproj->get_id() == 25 ? "~" : "" ?><?=$ogrp2_pct_searched?>%</a></td>
+     </tr>
+<? } elseif ($gproj->get_total_units() > 0) { ?>
      <tr>
      <td align="left" class="phead2">Percent Complete:</td>
-     <td align="right"><?=$per_searched?>%</td>
+     <td align="right"><?=$pct_searched?>%</td>
      </tr>
-   <?}?>
 <? } ?>
    <tr>
      <td align="left" class="phead2">Time Working:</td>
      <td align="right"><?=$time_working?> days</td>
     </tr>
    </table>
-   <br>
+   <br />
 
-<? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
+<? if ($gproj->get_total_units() > 0 || $gproj->get_id() == 24 || $gproj->get_id() == 25) { ?>
    <p class="phead2">
      Progress Meters
    </p>
    <table style="margin: auto" width="300" border="1" cellspacing="0" cellpadding="0">
 
-   <? if ($showOGRcomplete) { ?>
+   <? if ($gproj->get_id() == 24 || $gproj->get_id() == 25) { ?>
     <tr>
-     <td align="left">Phase1</td>
-     <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
+     <td align="left">Phase 1</td>
+     <td align="left"><img src="/images/bar.jpg" width="<?=max($ogrp1_bar_width,1)?>" height="14" /></td>
     </tr>
     <tr>
-     <td align="left">Phase2</td>
-     <td align="Center">N/A</td>
+     <td align="left">Phase 2</td>
+     <td align="left"><img src="/images/bar.jpg" width="<?=max($ogrp2_bar_width,1)?>" height="14" /></td>
     </tr>
-
    <? } else { ?>
-
     <tr>
-     <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
+     <td align="left"><img src="/images/bar.jpg" width="<?=max($bar_width,1)?>" height="14" /></td>
     </tr>
    <? } ?>
 
    </table>
-   <br>
+
+   <br />
 <? } ?>
 
 
@@ -169,57 +177,58 @@
   <p>
       <?=$yest_scaled_work_units?> <?=$gproj->get_scaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_per?>% of the keyspace)<br>
+        (<?=$yest_per?>% of the keyspace)<br />
         <? } ?>
        at a sustained rate of <?=$yest_scaled_rate?> <?=$gproj->get_scaled_unit_name()?>/sec.
   </p>
   <p>
       <?=$yest_unscaled_work_units?> <?=$gproj->get_unscaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_per?>% of the keyspace)<br>
+        (<?=$yest_per?>% of the keyspace)<br />
         <? } ?>
        at a sustained rate of <?=$yest_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec.
   </p>
-  <? if ($gproj->get_total_units() > 0 ) { ?>
+<? if ($gproj->get_total_units() > 0 ) { ?>
   <p>
-     The odds are 1 in <?=$odds?> that we will wrap this thing<br>
-     up in the next 24 hours. (This also means that we'll<br>
+     The odds are 1 in <?=$odds?> that we will wrap this thing<br />
+     up in the next 24 hours. (This also means that we'll<br />
      hit 100% in <?=$odds?> days at yesterday's rate.)
   </p>
 <? } ?>
-  <p>
-      There have been <?=$total_emails?> participants<br>
-      since the beginning of this project.<br>
-      <?=$yest_emails?> of them were active yesterday<br>
+   <p>
+      There have been <?=$total_emails?> participants<br />
+      since the beginning of this project.<br />
+      <?=$yest_emails?> of them were active yesterday<br />
       and of those, <?=$new_emails?>
       <? if($new_emails=='1') {
-        echo 'was a brand-new participant.';
+        echo ' was a brand-new participant.';
       } else {
-        echo' were brand-new participants.';
+        echo ' were brand-new participants.';
       }?> 
    </p>
    <p>
-     There are <?=$total_teams?> registered teams.<br>
-     <?=$yest_teams?> of them submitted work units yesterday.<br>
-     (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
+     There are <?=$total_teams?> registered teams.<br />
+     <?=$yest_teams?> of them submitted work units yesterday.<br />
+     (<?=$new_teams?> of them <?=($new_teams==1 ? 'is' : 'are')?> brand new!)
    </p>
-   <?php if ($project_id == 8) { ?>
-   <p>
-   <a href="http://n0cgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a>
-   </p>
-   <?php } elseif ($project_id == 24 || $project_id == 25) { ?>
-   <p>
-   <a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a>
-   </p>
-   <?php } elseif ($project_id == 3) { ?>
+
+   <? if ($gproj->get_id() == 8) { ?>
+   <p><a href="http://n0cgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a></p>
+   <? } elseif ($gproj->get_id() == 24 || $gproj->get_id() == 25) { ?>
+   <p><a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a></p>
+   <? } elseif ($gproj->get_id() == 3) { ?>
    <p><a href="http://n0cgi.distributed.net/statistics/rc5-56/index.html">Additional Stats</a></p>
-   <?php } ?>
-   <hr>
-   <?if( $showOGRcomplete ){?>
-   <A NAME="footnote"></A>
-   <font size="-2">
-		For more information about Phase 1 and Phase 2 go <a href=http://n0cgi.distributed.net/faq/cache/230.html>here</a>.
-   </font>
-   <br><br>
+   <? } ?>
+
+   <hr />
+
+   <?if( $gproj->get_id() == 24 || $gproj->get_id() == 25 ){?>
+   <a name="ogrfootnote"></a>
+   <p><font size="-2">
+      For more information about OGR Phase 1 and Phase 2, please <a href="http://n0cgi.distributed.net/faq/cache/230.html">read our FAQ page</a>.
+   </font></p>
+   <br /><br />
    <?}?>
+
+
    </div>
