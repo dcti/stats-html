@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.52 2004/07/28 23:55:35 decibel Exp $
+// $Id: participant.php,v 1.53 2004/08/29 03:00:31 fiddles Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -612,8 +612,9 @@ class Participant {
           '              dem_country = $7, ' .
           '              contact_name = $8, ' .
           '              contact_phone = $9, ' .
-          '              motto = $10 ' .
-          '              WHERE id = $11;';
+          '              motto = $10, ' .
+          '              nonprofit = $11 ' .
+          '              WHERE id = $12;';
 
         $params = array( $this->_state->password,
                          (int)$this->_state->listmode,
@@ -625,6 +626,7 @@ class Participant {
                          $this->_state->contact_name,
                          $this->_state->contact_phone,
                          $this->_state->motto,
+                         $this->_state->nonprofit,
                          (int)$this->_state->id
                          );
         $res = $this->_db->query_bound($qs, $params);
