@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.8 2000/06/13 03:45:06 decibel Exp $
+  // $Id: psecure.inc,v 1.9 2000/06/13 04:08:05 decibel Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -7,10 +7,10 @@
     authfail("pbadpass","NULL","NULL","NULL");
   }
 
-  function authfail($why,$tfrom,$tid,$tpass) {
+  function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
     if(!($tfrom == "NULL")) {
       # This might be a bit verbose.  Disabled normally.
-      error_log("$why $tfrom [$tid/$tpass]",0);
+      error_log("$why $tfrom [$tid/$tpass] $desc",0);
     }
     if($tfrom == "cookie") {
       # If the cookie failed, that means it's stale.  Let's clear it
@@ -26,6 +26,7 @@
     include "etc/project.inc";
     include "templates/header.inc";
     include "templates/$why.inc";
+    print 'datestamp: ' . date("M d Y H:i:s");
     include "templates/footer.inc";
     exit;
   }
@@ -78,13 +79,11 @@
     $qs = "select id, email, password from STATS_Participant where email = '$test_id'";
     $result = sybase_query($qs);
     if (!$result) {
-      authfail("dberror",$test_from,$test_id,$test_pass);
-      error_log("No result returned",0);
+      authfail("dberror",$test_from,$test_id,$test_pass,"No result returned");
     }
     $rows = sybase_num_rows($result);
     if ($rows <> 1) {
-      authfail("dberror",$test_from,$test_id,$test_pass);
-      error_log("No rows returned",0);
+      authfail("dberror",$test_from,$test_id,$test_pass,"No rows returned");
     }
     # OK, We've retrieved the id for this email address.
     $par = sybase_fetch_object($result);
@@ -94,8 +93,7 @@
     $qs = "p_participant_all $test_id";
     $result = sybase_query($qs);
     if(!$result) {
-      authfail("dberror",$test_from,$test_id,$test_pass);
-      error_log("Unable to retrieve user's record.",0);
+      authfail("dberror",$test_from,$test_id,$test_pass,"Unable to retrieve user's record.");
     }
     $rows = sybase_num_rows($result);
     $par = sybase_fetch_object($result);
@@ -111,8 +109,7 @@
 
   # Did we sucessfully grab a single record?
   if ($rows > 1) {
-    authfail("dberror",$test_from,$test_id,$test_pass);
-    errorlog("Unable to retrieve COMPLETE record for user.",0);
+    authfail("dberror",$test_from,$test_id,$test_pass,"Unable to retrieve COMPLETE record for user.");
   }
 
   # Did we find a record for this ID? (This should return a different error message,
