@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.4 1999/07/28 20:38:18 nugget Exp $
+  // $Id: tmpass.php,v 1.5 1999/12/12 07:06:32 nitehawk Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -56,7 +56,7 @@ password this way.
 
  Your password: $pass
 
-You may edit your personal information by visiting:
+You may edit your team information by visiting:
 
  http://stats.distributed.net/tmedit.php3?team=$team&pass=$pass
 
