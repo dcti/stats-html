@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.24 2003/08/31 16:09:43 paul Exp $
+// $Id: plist.php,v 1.25 2003/09/01 19:58:07 paul Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
@@ -36,7 +36,7 @@ include "../templates/header.inc";
 <?
 
 $totalrows = 0;
-$plist = Participant::get_ranked_list($source, $lo, $limit, &$totalrows, $gdb, $gproj);
+$plist = Participant::get_ranked_list($source, $lo, $limit, $totalrows, $gdb, $gproj);
 $totalblocks = (double) 0;
 $i = 0;
 foreach ($plist as $par) {
