@@ -1,13 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.14 2002/05/14 22:17:32 paul Exp $
+  // $Id: ppass.php,v 1.15 2003/08/20 20:06:02 paul Exp $
 
   // Variables Passed in url:
   //  id == email id
-
-  $title = "Password request: individual email [$id]";
-  
+ 
   $myname = "ppass.php";
 
   include "../etc/config.inc";
@@ -32,7 +28,6 @@
     exit();
   }
 
-  sybase_pconnect($interface, $username, $password);
   sybase_query("set rowcount 50");
   $qs = "select * from stats_PARTICIPANT where id = $id";
 

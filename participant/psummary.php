@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.48 2003/08/01 23:51:51 paul Exp $
+// $Id: psummary.php,v 1.49 2003/08/20 20:05:37 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -46,7 +46,7 @@ function par_footer($totaltoday, $totaltotal, $proj_scale)
 } 
 // Get the participant's record from STATS_Participant and store it in $person
 $gpart = new Participant($gdb, $project_id, $id);
-$gpartstats = new ParticipantStats($gdb, $id, $project_id, null);
+$gpartstats = new ParticipantStats($gdb, $project_id, $id, null);
 // ###
 // Is this person retired?
 if($gpart -> get_retire_to() > 0) {
@@ -122,18 +122,14 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
       </tr>
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
-        <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('total'));
-
-?></td>
-        <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('today'));
-
-?></td>
+        <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('total')) ?></td>
+        <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('today')) ?></td>
       </tr>
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
         <td align="right">
           <? if ($gpartstats -> get_stats_item('days_working') > 0) {
-    number_style_convert($gpartstats -> get_stats_tem('total') / (86400 * $gpartstats -> get_stats_item('days_working')), 0);
+    number_style_convert($gpartstats -> get_stats_item('total') / (86400 * $gpartstats -> get_stats_item('days_working')), 0);
 } 
 
 ?>
