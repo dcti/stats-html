@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.54 2005/01/05 10:30:45 fiddles Exp $
+// $Id: participant.php,v 1.55 2005/01/08 01:30:13 fiddles Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -527,7 +527,7 @@ class Participant {
      *                                  ProjectClass The current project
      *                                  int The ID of the participant to load
      */
-    function Participant($dbPtr, $prjPtr, $id = -1 )
+    function Participant($dbPtr, $prjPtr, $id = -1, $include_banned = false )
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
@@ -537,7 +537,7 @@ class Participant {
             $id = (int)$id;
             if($id > 0)
             {
-                $this -> load($id);
+                $this -> load($id, $include_banned);
             } else {
                 // Load default values
             }
@@ -545,7 +545,7 @@ class Participant {
         else
         {
             // Try to load by email
-            $this->load_by_email(stripslashes($id));
+            $this->load_by_email(stripslashes($id), $include_banned);
         }
     }
 
@@ -556,10 +556,14 @@ class Participant {
      * @access public
      * @return bool
      * @param int $ The ID of the participant to load
+     * @param int $include_banned Include participants with listmode >= 10
      */
-    function load($id)
+    function load($id, $include_banned = false)
     {
-        $qs = 'SELECT * FROM stats_participant WHERE id = $1 AND listmode < 10';
+        if ($include_banned)
+            $qs = 'SELECT * FROM stats_participant WHERE id = $1';
+        else
+            $qs = 'SELECT * FROM stats_participant WHERE id = $1 AND listmode < 10';
         $this -> _state = $this -> _db -> query_bound_first ($qs, array( $id ));
     }
 
@@ -570,9 +574,12 @@ class Participant {
      * @return bool
      * @param string $ The email of the participant to load
      */
-    function load_by_email($email)
+    function load_by_email($email, $include_banned = false)
     {
-        $qs = 'SELECT * FROM stats_participant WHERE lower(email) = lower($1) AND listmode < 10';
+        if ($include_banned)
+            $qs = 'SELECT * FROM stats_participant WHERE lower(email) = lower($1)';
+        else
+            $qs = 'SELECT * FROM stats_participant WHERE lower(email) = lower($1) AND listmode < 10';
         $this -> _state = $this -> _db -> query_bound_first ($qs, array( $email ));
     }
 
