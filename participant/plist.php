@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: plist.php,v 1.17 2002/12/10 23:52:50 paul Exp $
+# $Id: plist.php,v 1.18 2003/03/21 23:08:08 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -44,9 +44,8 @@ if ("$source" == "y") {
 	where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
 	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
 }
-
+ $lastupdate = last_update('e');
  include "../templates/header.inc";
- display_last_update('e');
  sybase_query("set rowcount 100");
  $result = sybase_query($QSlist);
 
@@ -56,16 +55,15 @@ if ("$source" == "y") {
  $rows = sybase_num_rows($result);
 
 ?>
-    <center>
-     <br>
-     <table border="1" cellspacing="0">
-      <tr bgcolor=<?=$header_bg?>>
-       <th><font <?=$footer_font?>>Rank</font></th>
-       <th><font <?=$footer_font?>>Participant</font></th>
-       <th align="right"><font <?=$footer_font?>>First Unit</font></th>
-       <th align="right"><font <?=$footer_font?>>Last Unit</font></th>
-       <th align="right"><font <?=$footer_font?>>Days</font></th>
-       <th align="right"><font <?=$footer_font?>><?=$proj_scaled_unit_name?></font></th>
+     <div><br></div>
+      <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">     
+      <tr>
+       <th>Rank</th>
+       <th>Participant</th>
+       <th align="right">First Unit</th>
+       <th align="right">Last Unit</th>
+       <th align="right">Days</th>
+       <th align="right"><?=$proj_scaled_unit_name?></th>
       </tr>
 <?
 
@@ -99,8 +97,8 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
 <?=html_rank_arrow($par->change);?>
 
 <td>
-<a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=participant_listas($par->listas,
-			$par->email,$par->id,$par->contact_name)?></font></a></td>
+<a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$parid?>"><?=participant_listas($par->listas,
+			$par->email,$par->id,$par->contact_name)?></a></td>
 		<td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
 		<td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
 		<td align="right"><?=$par->Days_Working?></td>
@@ -110,27 +108,27 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
 }
  $totalblocks = number_format($totalblocks, 0);
  if ( $lo > $rows ) {
-   $btn_back = "<a href=\"$myname?project_id=$project_id&low=$prev_lo&limit=$limit&source=$source\">Back $limit</a>";
+   $btn_back = "<a href=\"$myname?project_id=$project_id&amp;low=$prev_lo&amp;limit=$limit&amp;source=$source\">Back $limit</a>";
  } else {
    $btn_back = "&nbsp;";
  }
 
  if ( 2 > 1 ) {
-   $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$next_lo&limit=$limit&source=$source\">Next $limit</a>";
+   $btn_fwd = "<a href=\"$myname?project_id=$project_id&amp;low=$next_lo&amp;limit=$limit&amp;source=$source\">Next $limit</a>";
  } else {
    $btn_fwd = "&nbsp;";
  }
 
 ?> 
-	 <tr bgcolor=<?=$footer_bg?>>
-	  <td><font <?=$footer_font?>><? echo "$lo-$hi"?></font></td>
-	  <td align="right" colspan="4"><font <?=$footer_font?>>Total</font></td>
-	  <td align="right"><font <?=$footer_font?>><?=$totalblocks?></font></td>
+	 <tr>
+	  <td><? echo "$lo-$hi"?></td>
+	  <td align="right" colspan="4">Total</td>
+	  <td align="right"><?=$totalblocks?></td>
 	 </tr>
-	 <tr bgcolor=<?=$footer_bg?>>
-	  <td><font <?=$footer_font?>><?=$btn_back?></font></td>
-	  <td colspan="4"><font <?=$footer_font?>>&nbsp;</font></td>
-	  <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
+	 <tr>
+	  <td><?=$btn_back?></td>
+	  <td colspan="4">&nbsp;</td>
+	  <td align="right"><?=$btn_fwd?></td>
 	 </tr>
 	</table>
 <?include "../templates/footer.inc";?>
