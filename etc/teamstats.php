@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.17 2005/04/01 16:43:39 decibel Exp $
+// $Id: teamstats.php,v 1.18 2005/04/01 16:52:14 decibel Exp $
 
 /***
  * This class represents a team stats entry
@@ -51,12 +51,12 @@ class TeamStats
 
         $qs  = 'SELECT first_date, last_date, day_rank, day_rank_previous, overall_rank, overall_rank_previous';
         if ( $random_stats == 1 ) {
-            $qs .= '        , members_today$random_function AS members_today, members_overall$random_function AS members_overall';
-            $qs .= '        , members_current$random_function AS members_current';
-            $qs .= '        , work_today$random_function AS work_today, work_total$random_function AS work_total';
+            $qs .= "        , members_today$random_function AS members_today, members_overall$random_function AS members_overall";
+            $qs .= "        , members_current$random_function AS members_current";
+            $qs .= "        , work_today$random_function AS work_today, work_total$random_function AS work_total";
         } else {
-            $qs .= '        , members_today, members_overall, members_current';
-            $qs .= '        , work_today, work_total';
+            $qs .= "        , members_today, members_overall, members_current";
+            $qs .= "        , work_today, work_total";
         }
         $qs .= '        , last_date::DATE - first_date::DATE + 1 AS days_working ';
         $qs .= '    FROM team_rank ';
