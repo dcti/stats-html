@@ -1,5 +1,8 @@
 <?php 
-// $Id: participant.php,v 1.9 2003/08/25 21:45:42 thejet Exp $
+// $Id: participant.php,v 1.10 2003/08/30 17:53:21 paul Exp $
+
+define(MAX_PASS_LEN,8);
+
 /**
  * This class represents a participant
  * 
@@ -24,7 +27,8 @@ class Participant {
     var $_project;
     var $_state;
     var $_friends;
-
+	var $_authed = false;
+	
     /**
      * ** End Internal class variables **
      */
@@ -66,6 +70,37 @@ class Participant {
     {
         $this -> _state -> password = $value;
     } 
+
+	function check_password($pass)
+    {
+    	$pass = substr($pass,0,MAX_PASS_LEN);
+    	
+		if ($this->get_password() == "") {
+    		//auth fail - no pass set -> mail pass to user
+  		}
+    	
+    	// @ TODO - NEED TO CHECK users is not suspended, retired etc
+        if ( $this -> get_password() == $pass ) {
+       		if ($this->get_retire_to() > 0) {
+    		//authfail("pretired",$test_from,$test_id,$test_pass);
+  			return false;
+  			}
+ 			if ($this->get_list_mode() > 7) {
+    		//authfail("plocked",$test_from,$test_id,$test_pass);
+  			return false;
+  			}
+        	$this ->_authed = true; 
+        	return true;
+        } else {
+        	// authfail("pbadpass",$test_from,$test_id,$test_pass);
+        	return false;
+        }
+    } 
+
+    function is_authed()
+    {
+		return $this->_authed;
+    }
 
     /**
      * The listmode of this user
