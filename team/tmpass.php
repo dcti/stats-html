@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.2 1999/07/11 19:23:26 nugget Exp $
+  // $Id: tmpass.php,v 1.3 1999/07/19 19:11:48 nugget Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -43,24 +43,6 @@
   print "<h2>Your request has been processed.</h2><br>\n";
   print "<h3>The password will be mailed to $par->email and should arrive within 10 minutes.</h3>\n";
   print "</body></html>\n";
-
-  function send_mail($to_address, $from_address, $subject, $message) {
-    $path_to_sendmail = "/usr/lib/sendmail";
-    $fp = popen("$path_to_sendmail -t -f $from_address", "w");
-    $num = fputs($fp, "To: $to_address\n");
-    $num += fputs($fp, "From: $from_address\n");
-    $num += fputs($fp, "X-Errors-To: passmail@distributed.net\n");
-    $num += fputs($fp, "X-Distributed: Join the cows!  http://www.distributed.net/ ]:8)\n");
-    $num += fputs($fp, "X-Mailer: distributed.net stats password mailer 1.0\n");
-    $num += fputs($fp, "Subject: $subject\n\n");
-    $num += fputs($fp, "$message");
-    pclose($fp);
-    if ($num > 0) {
-      return 1;
-    } else {
-     return 0;
-    }
-  }
 
   $message = "Greetings, $par->contactname:
 
