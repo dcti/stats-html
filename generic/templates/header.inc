@@ -24,7 +24,7 @@
       </font>
       <br>
       <font <?=$fontd?> size="-1" color=<?=$colorb?>>
-       <a href="/<?=strtolower($project)?>/">Overall Project Stats</a><br>
+       <a href="/<?=strtolower($proj_name)?>/">Overall Project Stats</a><br>
        Keyrate History<br>
        Participation History<br>
        <a href="platformlist.php?project_id=<?=$project_id?>&view=tco">CPU/OS Distribution</a><br>
