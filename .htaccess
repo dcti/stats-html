@@ -5,6 +5,11 @@
  Allow from .slacker.com
 </FilesMatch>
 
+<Files "*.inc">
+ Order Deny,Allow
+ Deny from All
+</Files>
+
 RewriteEngine On
 RewriteBase /
 
