@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.42 2004/03/06 12:29:43 paul Exp $
+// $Id: participant.php,v 1.43 2004/03/06 13:14:54 paul Exp $
 
 include_once "participantstats.php";
 
@@ -775,6 +775,41 @@ class Participant {
 
            return $retVal;
          }
+
+		/***
+         * Returns a list of participants' id and email
+         *
+         * This routine retrieves a list of participants' id and email-string
+         * You specify the number to return
+         *
+         * @access public
+         * @return (id,email)[]
+         * @param string The search string
+         *        int The maximum number to return
+         ***/
+         function &get_search_list_no_stats($sstr, $limit = 50, &$db)
+         {
+           $sstr = strtolower($sstr);
+
+           // The query to run...
+           $qs = "SELECT id, lower(email) AS email
+                    FROM stats_participant
+                   WHERE lower(email) like '%$sstr%'
+                     AND listmode <= 10
+                   LIMIT $limit";
+                   //WHERE stats_participant_display_name_l(listmode,p.id,email,contact_name) like $sstr
+
+           // Actually run the query...
+           $queryData = $db->query($qs);
+           $total = $db->num_rows($queryData);
+           for($i = 0; $i < $total; $i++)
+           {
+              $retVal[] = $db->fetch_object($queryData);
+           }
+
+           return $retVal;
+         }
+
 
         /***
          * Returns a list of participants for a team

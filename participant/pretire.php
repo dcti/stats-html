@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.21 2004/03/06 12:21:09 paul Exp $
+  // $Id: pretire.php,v 1.22 2004/03/06 13:14:35 paul Exp $
 
   include "../etc/config.inc";
   include "../etc/project.inc";
@@ -50,7 +50,7 @@
   } else {
       if (isset($_REQUEST['ems']) && $_REQUEST['ems'] <> "") {
       $ems = $_REQUEST['ems'];
-      $result = Participant::get_search_list($ems, 50, $gdb, $gproj);
+      $result = Participant::get_search_list_no_stats($ems, 50, $gdb);
       $rows = count($result);
       if ($rows == 0)
       {
