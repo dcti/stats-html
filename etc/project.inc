@@ -1,29 +1,9 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.25 2003/06/03 21:46:41 paul Exp $
+// $Id: project.inc,v 1.26 2003/06/11 19:33:37 paul Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
-// Formatting options
-$bgcolor = "\"#ffffff\"";
-$text = "\"#000000\"";
-$link = "\"#777777\"";
-
-$fonth = "face=\"verdana,helvetica,arial\"";
-$fontd = "face=\"verdana,helvetica,arial\"";
-$fontf = "face=\"lucida console,courier,courier new\"";
-$fontt = "face=\"verdana,helvetica,arial\" size=\"+2\"";
-
-$colora = "\"#0077aa\"";
-$colorb = "\"#aaaaaa\"";
-$colorc = "\"#ffff77\"";
-
-$header_bg = "\"#222222\"";
-$header_font = "face=\"verdana,helvetica,arial\" size=\"+1\" color=\"#ffffff\"";
-$footer_bg = "\"#222222\"";
-$footer_font = "face=\"verdana,helvetica,arial\" color=\"#ffffff\"";
-$bar_color_a = "row1";
-$bar_color_b = "row2";
 
 $debug = 0;
 if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
@@ -44,7 +24,7 @@ if (isset($_GET['project_id'])) {
 } else {
     $project_id = 25;
 } 
-// $debug = (int) 0 + $_GET["debug"];
+
 if (isset($_GET['source'])) {
     $temp = $_GET['source'];
     switch ($temp) {
@@ -85,7 +65,7 @@ $gproj = new Project($gdb, $project_id);
 
 function last_update($type)
 {
-    global $lastupdate, $project_id;
+    global $lastupdate, $project_id, $gdb;
 
     switch ($type) {
     case 'e':
@@ -106,11 +86,9 @@ function last_update($type)
     case 'i';
         return $lastupdate;
     } 
-    // $result = sybase_query($qs);
-    $result = false;
-    if($result) {
-        $par = sybase_fetch_object($result);
-        $lastupdate = sybase_date_format_long($par -> lastupdate);
+    $par = $gdb -> query_first ($qs);
+    if($par) {
+        $lastupdate = $par -> lastupdate;
     } else {
         $lastupdate = "some day, not too long ago";
     } 
