@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.14 2003/09/01 14:42:55 decibel Exp $
+// $Id: participant.php,v 1.15 2003/09/01 20:43:50 paul Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -564,10 +564,6 @@ class Participant {
          ***/
          function &get_search_list($sstr, $limit = 50, &$db, &$project)
          {
-           // Ensure that the string is safe to pass to pgsql...
-           $sstr = stripslashes($sstr);
-           ini_alter("magic_quotes_sybase",0);
-           $sstr = addslashes($sstr);
            $sstr = strtolower($sstr);
 
            // The query to run...

@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.7 2003/08/31 16:10:56 paul Exp $
+// $Id: team.php,v 1.8 2003/09/01 20:43:50 paul Exp $
 
 //==========================================
 // file: team.php
@@ -473,10 +473,6 @@ class Team
          ***/
          function &get_search_list($sstr, $limit = 50, &$db, &$project)
          {
-           // Ensure that the string is safe to pass to pgsql...
-           $sstr = stripslashes($sstr);
-           ini_alter("magic_quotes_sybase",0);
-           $sstr = addslashes($sstr);
            $sstr = strtolower($sstr);
 
            // The query to run...
