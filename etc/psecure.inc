@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.10 2000/06/13 20:20:19 decibel Exp $
+  // $Id: psecure.inc,v 1.11 2002/01/24 23:31:38 paul Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -38,7 +38,7 @@
     $id = $em;
   }
 
-  if(isset($id) and isset($pass)) {
+  if(isset($id) or isset($pass)) {
     # ID and PASS provided in url, use these over all other options
 
     $test_id = $id;
