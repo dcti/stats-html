@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.8 2003/09/01 20:43:50 paul Exp $
+// $Id: team.php,v 1.9 2003/09/02 22:36:03 paul Exp $
 
 //==========================================
 // file: team.php
@@ -428,7 +428,7 @@ class Team
                        AND day_rank <= " . ($start + $limit -1) . "
                        AND day_rank >= $start
                        AND tr.project_id = " . $project->get_id() . "
-                     ORDER BY day_rank ASC, work_total DESC;";
+                     ORDER BY day_rank ASC, work_total DESC LIMIT 100;";
            }
            else
            {
@@ -441,7 +441,7 @@ class Team
                        AND overall_rank <= " . ($start + $limit -1) . "
                        AND overall_rank >= $start
                        AND tr.project_id = " . $project->get_id() . "
-                     ORDER BY overall_rank ASC, work_total DESC;";
+                     ORDER BY overall_rank ASC, work_total DESC LIMIT 100;";
            }
 
            $queryData = $db->query($qs);
