@@ -1,5 +1,5 @@
 <?
-# $Id: pc_money.php,v 1.5 2002/12/17 05:01:15 decibel Exp $
+# $Id: pc_money.php,v 1.6 2003/08/31 16:11:33 paul Exp $
 # vi: ts=2 sw=2 tw=120 syntax=php
 
 $title = "Disposition of Prize Money";
@@ -10,7 +10,7 @@ include "../etc/project.inc";
 
 display_last_update('e');
 
-if ( $proj_prize == 0 ) {
+if ( $gproj->get_prize() == 0 ) {
   print "
     <center>
       <p>
@@ -24,53 +24,25 @@ if ( $proj_prize == 0 ) {
  exit;
 }
 
-$fmt_prize = number_style_convert($proj_prize);
-$fmt_a = number_style_convert($proj_prize*.6);
-$fmt_b = number_style_convert($proj_prize*.1);
-$fmt_c = number_style_convert($proj_prize*.1);
-$fmt_d = number_style_convert($proj_prize*.2);
+$fmt_prize = number_style_convert($gproj->get_prize());
+$fmt_a = number_style_convert(($gproj->get_prize())*0.6);
+$fmt_b = number_style_convert(($gproj->get_prize())*0.1);
+$fmt_c = number_style_convert(($gproj->get_prize())*0.1);
+$fmt_d = number_style_convert(($gproj->get_prize())*0.2);
 
-sybase_pconnect($interface,$username,$password);
-/*
-$qs = "select distinct
- S.nonprofit, count(S.nonprofit) as people, sum(blocks) as votes
-into #MONEYa
-from
- stats.dbo.STATS_participant S,
- stats.statproc.CACHE_tm_MEMBERS M
-where
- (S.nonprofit <> 0 and S.nonprofit <> NULL) and
- (S.id = M.id) 
-group by
- S.nonprofit";
-*/
+$qs = "SELECT m.nonprofit, m.people, m.votes, n.name, n.url, n.comments
+FROM (  SELECT p.nonprofit, count(*) AS people, sum(r.work_total * 1) AS votes
+	FROM stats_participant p, email_rank r
+	WHERE p.id = r.id
+	AND r.project_id = 8
+	GROUP BY p.nonprofit
+	) m, stats_nonprofit n
+WHERE m.nonprofit = n.nonprofit
+ORDER BY votes desc";
 
-$qs = "select distinct
-          p.nonprofit, count(p.nonprofit) as people, sum(WORK_TOTAL * $proj_scale) as votes
-        into #MONEYa
-        from
-          STATS_participant p
-          , email_rank r
-        where
-          (p.NONPROFIT <> 0 and p.NONPROFIT <> NULL)
-          and r.id = convert(int, p.id)
-          and r.project_id = $project_id
-        group by
-          p.NONPROFIT";
-
-
-$result = sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-
-$qs = "select M.nonprofit, M.people, M.votes, S.name, S.url, S.comments
-        from #MONEYa M, stats.dbo.STATS_nonprofit S
-        where M.nonprofit = S.nonprofit
-        order by M.votes desc";
-$result = sybase_query($qs);
-$rows = sybase_num_rows($result);
-
-sybase_data_seek($result,0);
-$par = sybase_fetch_object($result);
+$result = $gdb->query($qs);
+$rows = $gdb->num_rows();
+$par = $gdb->fetch_object();
 $np_winner = $par->nonprofit;
 $nm_winner = $par->name;
 
@@ -78,8 +50,8 @@ if( $np_winner <> 1 ) {
  $np_runnerup = 1;
  $nm_runnerup = "distributed.net";
 } else {
- sybase_data_seek($result,1);
- $par = sybase_fetch_object($result);
+ $gdb->data_seek(1);
+ $par = $gdb->fetch_object($result);
  $np_runnerup = $par->nonprofit;
  $nm_runnerup = $par->name;
 }
@@ -88,7 +60,7 @@ print "
   <center>
    <br>
    <p>
-    <font $fontd size=\"+2\">
+    <font  size=\"+2\">
      The US\$$fmt_prize prize will be divided as follows:
     </font>
    </p>
@@ -112,7 +84,7 @@ print "
    </table>
    <hr>
    <p>
-    <font $fontd size=\"+2\">
+    <font size=\"+2\">
      How this is determined:
     </font>
    </p>
@@ -153,7 +125,7 @@ print "
    </table>
    <hr>
    <p>
-    <font $fontd size=\"+2\">
+    <font size=\"+2\">
      Current Voting Scoreboard
     </font>
    </p>
@@ -164,8 +136,8 @@ print "
      <td align=\"right\">Supporters</td>
     </tr>";
  for( $i=0; $i<$rows; $i++) {
-   sybase_data_seek($result,$i);
-   $par = sybase_fetch_object($result);
+   $gdb->data_seek($i);
+   $par = $gdb->fetch_object();
    $votes = number_style_convert($par->votes);
    $people = number_style_convert($par->people);
    print "
@@ -179,18 +151,18 @@ print "
    </table>
    <hr>
    <p>
-    <font $fontd size=\"+2\">
+    <font size=\"+2\">
      Non-Profit Information and Links
     </font>
    </p>
    <table width=\"80%\">";
  for( $i=$rows-1; $i>=0; $i--) {
-   sybase_data_seek($result,$i);
-   $par = sybase_fetch_object($result);
+   $gdb->data_seek($i);
+   $par = $gdb->fetch_object($result);
    print "
     <tr>
      <td colspan=\"2\" bgcolor=\"#ccccc\">
-      <a href=\"$par->url\"><font $fontd dize=\"+1\" color=\"#000044\">$par->name</font></a>
+      <a href=\"$par->url\"><font size=\"+1\" color=\"#000044\">$par->name</font></a>
      </td>
     </tr>
     <tr>
