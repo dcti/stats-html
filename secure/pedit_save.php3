@@ -38,9 +38,13 @@ include "../etc/project.inc";
         password = '$pword',
 	dem_country = '$dem_country'
 	where id = $id";
-
-
   $result = sybase_query($qs);
+
+  $qs =	"update stats.dbo.STATS_Participant
+	set listmode = $listmode
+	where retire_to = $id";
+  $result = sybase_query($qs);
+
   print "
 	<html>
 	 <head>
