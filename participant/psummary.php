@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.50 2003/08/25 18:17:14 thejet Exp $
+// $Id: psummary.php,v 1.51 2003/08/25 20:28:58 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -10,26 +10,24 @@ include "../etc/markup.inc";
 include "../etc/participant.php";
 include "../etc/participantstats.php";
 
-function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "")
+function par_list($i, $par, $stats, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "")
 {
-    global $project_id;
-    $parid = 0 + $par -> id;
-    $totaltoday += $par -> today;
-    $totaltotal += $par -> total;
+    global $gproj;
+    $parid = 0 + $par->get_id();
+    $totaltoday += $stats->get_stats_item("work_today");
+    $totaltotal += $stats->get_stats_item("work_total");
     $decimal_places = 0;
-    $participant = participant_listas($par -> listmode, $par -> email, $parid, $par -> contact_name);
+    $participant = $par->get_display_name();
 
     ?>
-    <tr class=<?echo row_background_color($i, $color_a, $color_b);
-
-    ?>>
-      <td><?echo $par -> overall_rank . html_rank_arrow($par -> overall_change) ?></td>
-      <td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
-      <td align="right"><?echo number_style_convert($par -> days_working);
+    <tr class="<?=row_background_color($i, $color_a, $color_b)?>">
+      <td align="left"><?echo $stats->get_stats_item("overall_rank") . html_rank_arrow($stats->get_stats_item("overall_change")) ?></td>
+      <td align="left"><a href="psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
+      <td align="right"><?echo number_style_convert($stats->get_stats_item("days_working"));
 
     ?> </td>
-      <td align="right"><?echo number_style_convert($par -> total * $proj_scale) ?> </td>
-      <td align="right"><?echo number_style_convert($par -> today * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert($stats->get_stats_item("work_total") * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert($stats->get_stats_item("work_today") * $proj_scale) ?> </td>
     </tr>
   <?
 } 
@@ -207,45 +205,49 @@ if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gparts
       <?
 $totaltoday = 0;
 $totaltotal = 0;
-$neighbors = $gpartstats -> getNeighborsObj();
-for ($i = 0; $i < count($neighbors); $i++) {
-    if($id <> $neighbors[$i] -> id) {
-        par_list($i, $neighbors[$i], &$totaltoday, &$totaltotal, $gproj -> get_scale());
+$neighbors = $gpart->get_neighbors();
+$numneighbors = count($neighbors);
+for ($i = 0; $i < $numneighbors; $i++) {
+    if($gpart->get_id() <> $neighbors[$i]->get_id()) {
+        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), &$totaltoday, &$totaltotal, $gproj->get_scale());
     } else {
-        par_list($i, $neighbors[$i], &$totaltoday, &$totaltotal, $gproj -> get_scale(), "row3", "row3");
+        par_list($i, $neighbors[$i], $neighbors[$i]->get_current_stats(), &$totaltoday, &$totaltotal, $gproj->get_scale(), "row3", "row3");
     } 
 } 
 par_footer($totaltoday, $totaltotal, $gproj->get_scale());
-if(count($gpart->get_friends()) > 1) {
-
+?>
+</table>
+<br /><br />
+<?
+$numfriends = count($gpart->get_friends());
+if($numfriends >= 1) {
     ?>
+    <table style="margin:auto;" border="1" cellspacing="0">
       <tr>
-        <th colspan="6" align="center"><strong><?=$gpart -> GetDisplayName()?>'s friends</strong></th>
+        <th class="phead2" colspan="6" align="center">Friends</th>
       </tr>
       <tr>
-        <th>Rank</th>
-        <th>Participant</th>
-        <th align="right">Days</th>
-        <th align="right">Overall <?=$gproj -> get_scaled_unit_name()?></th>
-        <th align="right">Current <?=$gproj -> get_scaled_unit_name()?></th>
+        <th class="thead">Rank</th>
+        <th class="thead">Participant</th>
+        <th class="thead" align="right">Days</th>
+        <th class="thead" align="right">Overall <?=$gproj->get_scaled_unit_name()?></th>
+        <th class="thead" align="right">Current <?=$gproj->get_scaled_unit_name()?></th>
       </tr>
       <?
     $totaltoday = 0;
     $totaltotal = 0;
     for ($i = 0; $i < $numfriends; $i++) {
-        sybase_data_seek($friends, $i);
-        $par = sybase_fetch_object($friends);
-        if($id <> $par -> id) {
-            par_list($i, $par, &$totaltoday, &$totaltotal, $gproj -> get_scale());
-        } else {
-            par_list($i, $par, &$totaltoday, &$totaltotal, $gproj -> get_scale(), "row3", "row3");
-        } 
+        $par = $gpart->get_friends($i);
+        $stats = $par->get_current_stats();
+        if($gpartstats->get_stats_item("work_total") >= $stats->get_stats_item("work_total")) {
+            par_list($i, $gpart, $gpartstats, &$totaltoday, &$totaltotal, $gproj->get_scale(), "row3", "row3");
+        }
+        par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $gproj->get_scale());
     } 
     par_footer($footer_font, $totaltoday, $totaltotal, $gproj -> get_scale());
+    echo("</table>\n");
 } 
-
 ?>
-    </table>
     <hr>
     <p>
     <form action="ppass.php">
