@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam2.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
+ // $Id: newteam2.php,v 1.6 2002/04/09 22:57:11 jlawson Exp $
 
  $title = "New Team Creation - Information";
 
@@ -32,7 +32,7 @@
        <p>
        <li>Each of the members of your team will need to have their own password assigned.  They
            will do this by viewing their own personal statistics page
-           (<a href="/rc5-64/psummary.php3?id=1">example</a>) and choosing the link at the
+           (<a href="/participant/psummary.php?id=1">example</a>) and choosing the link at the
            bottom of the page.  With this password, they will be able to choose which team they are 
            a member of.</li>
        <p>

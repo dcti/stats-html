@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.9 2002/04/09 22:48:58 jlawson Exp $
+// $Id: tmsummary.php,v 1.10 2002/04/09 22:57:11 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -182,11 +182,11 @@ if ($par->showmembers=="NO") {
 	</tr>
    </table>
    <hr>
-   <a href="/pjointeam.php?team=<?=$team?>">I want to join this team!</a>
+   <a href="/participant/pjointeam.php?team=<?=$team?>">I want to join this team!</a>
    <hr>
   </center>
   <center>
-   <form action="/tmedit.php" method="post">
+   <form action="tmedit.php" method="post">
     <p>
      Edit this team's information 
      <br>
@@ -198,7 +198,7 @@ if ($par->showmembers=="NO") {
    </form>
    <p>
     If you are the team coordinator, and you've forgotten your team password, click
-    <form action="/tmpass.php"><input type="hidden" name="team" value="<?=$team?>">
+    <form action="tmpass.php"><input type="hidden" name="team" value="<?=$team?>">
     <input type="submit" value="here"></form> and the password will be mailed to
     <?=$par->contactemail?>.
    </p>

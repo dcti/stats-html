@@ -1,12 +1,12 @@
 <?
 
- // $Id: pc_countries.php,v 1.7 2002/04/07 21:52:06 paul Exp $
+ // $Id: pc_countries.php,v 1.8 2002/04/09 22:58:41 jlawson Exp $
 
  $outname = "countries";
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
  sybase_query("set rowcount 0");
 
@@ -93,7 +93,7 @@
               <font size="-1">
                Note: Nationalities listed on this page are only reflective of
                those participants who have designated their nationality when
-               <a href="/pedit.php">editing</a> their participant information.
+               <a href="/participant/pedit.php">editing</a> their participant information.
                No attempt has been made to derive nationalities from participant
                email addresses.
               </font>

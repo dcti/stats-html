@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.7 2002/04/07 21:51:07 paul Exp $
+# $Id: platformlist.php,v 1.8 2002/04/09 22:58:41 jlawson Exp $
 
 $hour = 3;
 $now = getdate();
@@ -24,12 +24,12 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
- include "etc/project.inc";
+ include "../etc/project.inc";
 
  $lastupdate = last_update('e');
  $title = "CPU Participation";
 
- include "templates/header.inc";
+ include "../templates/header.inc";
  
  $selstr = "select";
  $frostr = "from Platform_Contrib p,";
@@ -157,4 +157,4 @@ $totalblocks = 0;
 	  <td align="right"><font <?=$footer_font?>><?=$ftotalwu?></font></td>
 	 </tr>
 	</table>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>
