@@ -1,15 +1,15 @@
 <?
- # $Id: psearch.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+ # $Id: psearch.php,v 1.7 2002/03/24 17:08:32 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
 
- $title = "Participant Search: [$st]";
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "etc/project.inc";
 
+ $title = "Participant Search: [".safe_display($st)."]";
  $QRSLTsearch = "";
 
 // Execute the procedure to get the results
@@ -51,19 +51,19 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
  // Print debug info from the first query we ran
  if ($debug == "yes") print "<!-- result: '$QRSLTsearch', par: '$ROWparticipant', rows: $rows -->";
 
- print "
+ ?> 
     <center>
      <br>
-     <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
       <tr>
-       <td><font $header_font>Rank</font></td>
-       <td><font $header_font>Participant</font></td>
-       <td align=\"right\"><font $header_font>First Block</font></td>
-       <td align=\"right\"><font $header_font>Last Block</font></td>
-       <td align=\"right\"><font $header_font>Days</font></td>
-       <td align=\"right\"><font $header_font>$proj_unitname</font></td>
+       <td><font <?=$header_font?>>Rank</font></td>
+       <td><font <?=$header_font?>>Participant</font></td>
+       <td align="right"><font <?=$header_font?>>First Block</font></td>
+       <td align="right"><font <?=$header_font?>>Last Block</font></td>
+       <td align="right"><font <?=$header_font?>>Days</font></td>
+       <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
       </tr>
- ";
+ <?
 
  $totalblocks = (double) 0;
  for ($i = 0; $i<$rows; $i++) {
@@ -88,8 +88,8 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 		. ", totalblocks: $totalblocks. --->\n";
 
 	print "
-		<td><a href=\"psummary.php?project_id=$project_id&id=$id\"><font color=\"#cc0000\">" . participant_listas($ROWparticipant->listmode,
-			$ROWparticipant->email,$id,$ROWparticipant->contact_name) . "</font></a></td>
+		<td><a href=\"psummary.php?project_id=$project_id&id=$id\"><font color=\"#cc0000\">" . safe_display(participant_listas($ROWparticipant->listmode,
+			$ROWparticipant->email,$id,$ROWparticipant->contact_name)) . "</font></a></td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>
 		<td align=\"right\">" . number_style_convert($ROWparticipant->Days_Working) . "</td>
@@ -107,10 +107,11 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	</table>
 	";
  if( $rows == 0 ) {
-   print "
+?>   
 	<p>
-	 <a href=\"http://www.distributed.net/FAQ/\"><font size=\"+3\" color=\"red\">Confused?  Look here</font></a>
-	</p>";
+	 <a href="http://www.distributed.net/FAQ/"><font size="+3" color="red">Confused?  Look here</font></a>
+	</p>
+<?
  }
 ?>
 <?include "templates/footer.inc";?>

@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+# $Id: plist.php,v 1.7 2002/03/24 17:08:14 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -26,7 +26,7 @@ include "etc/project.inc";
 
 if ("$source" == "y") {
   $title = "Participant Listing by Yesterday's Rank: $lo to $hi";
-  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY/$divider as blocks,
+  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY/$proj_divider as blocks,
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.DAY_RANK as rank, r.DAY_RANK_PREVIOUS - r.DAY_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
@@ -36,7 +36,7 @@ if ("$source" == "y") {
 } else {
   $source = "o";
   $title = "Participant Listing by Overall Rank: $lo to $hi";
-  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL/$divider as blocks,
+  $QSlist = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL/$proj_divider as blocks,
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.OVERALL_RANK as rank, r.OVERALL_RANK_PREVIOUS - r.OVERALL_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
@@ -67,19 +67,19 @@ if ("$source" == "y") {
  
  $rows = sybase_num_rows($result);
 
- print "
+?>
     <center>
      <br>
-     <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
       <tr>
-       <td><font $header_font>Rank</font></td>
-       <td><font $header_font>Participant</font></td>
-       <td align=\"right\"><font $header_font>First Unit</font></td>
-       <td align=\"right\"><font $header_font>Last Unit</font></td>
-       <td align=\"right\"><font $header_font>Days</font></td>
-       <td align=\"right\"><font $header_font>$proj_unitname</font></td>
+       <td><font <?=$header_font?>>Rank</font></td>
+       <td><font <?=$header_font?>>Participant</font></td>
+       <td align="right"><font <?=$header_font?>>First Unit</font></td>
+       <td align="right"><font <?=$header_font?>>Last Unit</font></td>
+       <td align="right"><font <?=$header_font?>>Days</font></td>
+       <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
       </tr>
- ";
+<?
 
  $totalblocks = (double) 0;
 
@@ -144,18 +144,16 @@ if ("$source" == "y") {
    $btn_fwd = "&nbsp;";
  }
 
- print "
-	 <tr bgcolor=$footer_bg>
-	  <td><font $footer_font>$lo-$hi</font></td>
-	  <td align=\"right\" colspan=\"4\"><font $footer_font>Total</font></td>
-	  <td align=\"right\"><font $footer_font>$totalblocks</font></td>
+?> 
+	 <tr bgcolor=<?=$footer_bg?>>
+	  <td><font <?=$footer_font?>><?=$lo-$hi?></font></td>
+	  <td align="right" colspan="4"><font <?=$footer_font?>>Total</font></td>
+	  <td align="right"><font <?=$footer_font?>><?=$totalblocks?></font></td>
 	 </tr>
-	 <tr bgcolor=$footer_bg>
-	  <td><font $footer_font>$btn_back</font></td>
-	  <td colspan=\"4\"><font $footer_font>&nbsp;</font></td>
-	  <td align=\"right\"><font $footer_font>$btn_fwd</font></td>
+	 <tr bgcolor=<?=$footer_bg?>>
+	  <td><font <?=$footer_font?>><?=$btn_back?></font></td>
+	  <td colspan="4"><font <?=$footer_font?>>&nbsp;</font></td>
+	  <td align="right"><font <?=$footer_font?>><?=$btn_fwd?></font></td>
 	 </tr>
 	</table>
-	";
-?>
 <?include "templates/footer.inc";?>
