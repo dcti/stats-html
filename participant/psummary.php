@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.26 2002/06/20 05:19:15 decibel Exp $
+ # $Id: psummary.php,v 1.27 2002/06/20 19:32:55 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -39,7 +39,7 @@
  // Get the participant's record from STATS_Participant and store it in $person
 
  //$qs = "p_participant_all $id";
-$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant where id = $id and listmode < 10 at isolation read uncommitted";
+$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant where id = $id and listmode < 10";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
@@ -75,7 +75,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
 	from Email_Rank
 	where id = $id
-		and PROJECT_ID = $project_id at isolation read uncommitted";
+		and PROJECT_ID = $project_id";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
@@ -94,7 +94,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 		and PROJECT_ID = $project_id
 		and (r.OVERALL_RANK < ($rs_rank->OVERALL_RANK+5))
 		and (r.OVERALL_RANK > ($rs_rank->OVERALL_RANK-5))
-	order by r.OVERALL_RANK at isolation read uncommitted";
+	order by r.OVERALL_RANK";
  sybase_query("set rowcount 18");
  $neighbors = sybase_query($qs);
  $numneighbors = sybase_num_rows($neighbors);
@@ -115,7 +115,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	       r.id = $id                 ) and
 	       p.id = r.id
 		and PROJECT_ID = $project_id
-        order by r.OVERALL_RANK at isolation read uncommitted";
+        order by r.OVERALL_RANK";
  sybase_query("set rowcount 0");
  $friends = sybase_query($qs);
  $numfriends = sybase_num_rows($friends);
@@ -134,7 +134,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  // Get the latest record from Daily_Summary, store in $yest_totals
 
  $qs = "select * from Daily_Summary nolock
-	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id) at isolation read uncommitted";
+	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id)";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  $yest_totals = sybase_fetch_object($result);

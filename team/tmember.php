@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.16 2002/06/20 05:19:15 decibel Exp $
+// $Id: tmember.php,v 1.17 2002/06/20 19:32:55 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -35,7 +35,7 @@ $lastupdate = last_update('t');
 // Query server for basic team information
 $qs = "select name, showpassword, showmembers
 	from STATS_team
-	where team = $tm at isolation read uncommitted";
+	where team = $tm";
 $result = sybase_query($qs);
 $info = sybase_fetch_object($result);
 
@@ -138,10 +138,10 @@ $qs.= "
 		and p.id = er.ID";
 if ($source == y) {
 $qs .= "
- 	ORDER BY	er.WORK_TODAY desc, tm.WORK_TOTAL desc at isolation read uncommitted";
+ 	ORDER BY	er.WORK_TODAY desc, tm.WORK_TOTAL desc";
 } else {
 $qs .= "
-	ORDER BY	tm.WORK_TOTAL desc, er.WORK_TODAY desc at isolation read uncommitted";
+	ORDER BY	tm.WORK_TOTAL desc, er.WORK_TODAY desc";
 }
 
 $result = sybase_query("set rowcount 0");
