@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.19 2003/10/23 01:38:39 thejet Exp $
+// $Id: pedit.php,v 1.20 2003/10/23 17:20:20 thejet Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -275,7 +275,7 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
       <td>Gender:</td>
       <td>
        <select name=\"dem_gender\">
-        <option value=\"-\">Private</option>
+        <option value=\"\">Private</option>
         <option value=\"M\" $gsel_male>Male</option>
         <option value=\"F\" $gsel_female>Female</option>
        </select>

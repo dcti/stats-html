@@ -1,5 +1,5 @@
 <?
-  // $Id: ppass.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
+  // $Id: ppass.php,v 1.18 2003/10/23 17:20:20 thejet Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -45,10 +45,15 @@
       $pass .= substr($passstring, mt_rand(0,strlen($passstring)-1), 1);
     }
     $par->set_password($pass);
-    if($par->save() != "")
+
+    // Need to be sure to "auth" to the object prior to save
+    $par->check_password($pass);
+    $result = $par->save();
+    if($result != "")
     {
       print "
         <h1>Error: Unable to save new participant password</h1>
+        <!-- Error: $result -->
         <h3>
          This probably means that there is a problem with the database server.  Please
          try again later. If you have further questions you can mail
