@@ -1,5 +1,5 @@
 <?
- # $Id: project.inc,v 1.9 2002/10/06 23:00:34 decibel Exp $
+ # $Id: project.inc,v 1.10 2002/12/03 19:47:34 paul Exp $
 
 include "limit.inc";
 
@@ -9,7 +9,7 @@ if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){
 	timer_start();
 }
 
- $myname = $PHP_SELF;
+ $myname = $_SERVER['PHP_SELF'];
 
 if (isset($_GET['project_id'])) {
 	$project_id = (int)$_GET['project_id'];
@@ -48,6 +48,14 @@ if (isset($_GET['project_id'])) {
  } else {
 	$id = 1;
  }
+
+ if (isset($_REQUEST['st'])) {
+        $st = $_REQUEST['st'];
+ } else {
+        $st = "";
+ }
+
+
 
 if (isset($_GET['team'])) {
         $tm = (int)$_GET['team'];
