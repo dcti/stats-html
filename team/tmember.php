@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.31 2003/09/01 22:16:57 paul Exp $
+// $Id: tmember.php,v 1.32 2003/09/01 23:11:22 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -270,7 +270,7 @@ print "
   // Provide a link back to tmsummary.php
   if ($rows > 25) {
     ?>
-    <p style="text-align:center">Return to the <a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$tm?>\">team summary page</a>.</p>
+    <p style="text-align:center">Return to the <a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$tm?>">team summary page</a>.</p>
   <?
 }
 
