@@ -1,4 +1,16 @@
-# $Id: to-do.txt,v 1.5 1999/08/30 03:23:45 decibel Exp $
+# $Id: to-do.txt,v 1.6 1999/08/30 04:59:43 decibel Exp $
+
+o Setup support for HTTP caching (ie: squid)
+This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
+sybase date reporting to a timestamp that php understands so that we can perform arithmetic on it. Also, I think
+we'll want to know when all of the tables a .php uses are finished from the update, otherwise there's a good
+chance that we'll see people caching error messages, etc. Of course, if we have this info, we should be able to...
+
+
+o Cache .php output on tally using sybase
+Basically, setup the .php scripts so that they can do their own caching. They'll need to be able to tell when the
+tables they rely on are being updated, and when they've finished being updated. This will be especially important
+for tmembers.php3, which uses just about every table we've got.
 
 o Standardized function names
 I'm probably gonna be creating a shitload of functions as part of code consolodation, so we should come up with a
