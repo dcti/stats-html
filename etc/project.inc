@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.39 2004/07/01 10:26:01 fiddles Exp $
+// $Id: project.inc,v 1.40 2004/07/19 06:12:23 jlawson Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
@@ -72,24 +72,24 @@ function last_update($type)
 
     switch ($type) {
     case 'e':
-        $qs = "SELECT TO_CHAR(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Email_Rank_Last_Update WHERE project_id = " . $gdb->prepare_int($project_id);
+        $qs = "SELECT TO_CHAR(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Email_Rank_Last_Update WHERE project_id = $1";
         break;
     case 'ec':
-        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate from Email_Contrib_Last_Update WHERE project_id = " . $gdb->prepare_int($project_id);
+        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate from Email_Contrib_Last_Update WHERE project_id = $1";
         break;
     case 't':
-        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM team_rank WHERE project_id = " . $gdb->prepare_int($project_id);
+        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM team_rank WHERE project_id = $1";
         break;
     case 'm':
-        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Email_Contrib_Last_Update WHERE project_id = " . $gdb->prepare_int($project_id);
+        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Email_Contrib_Last_Update WHERE project_id = $1";
         break;
     case 'pc':
-        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Platform_Contrib_Last_Update WHERE project_id = " . $gdb->prepare_int($project_id);
+        $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM Platform_Contrib_Last_Update WHERE project_id = $1";
         break;
     case 'i';
         return $lastupdate;
     }
-    $par = $gdb -> query_first ($qs);
+    $par = $gdb -> query_bound_first ($qs, array( (int)$project_id ));
     if($par) {
         $lastupdate = $par -> lastupdate;
     } else {
