@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.11 2002/01/24 23:31:38 paul Exp $
+  // $Id: psecure.inc,v 1.12 2002/04/12 21:41:13 paul Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -38,7 +38,8 @@
     $id = $em;
   }
 
-  if(isset($id) or isset($pass)) {
+  /* changed to and due to $id being set. This needs to be changed pre-production, else a different $id could be passed to $sbid/$sbpass combination */
+  if(isset($id) and isset($pass)) {
     # ID and PASS provided in url, use these over all other options
 
     $test_id = $id;
