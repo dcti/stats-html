@@ -1,6 +1,6 @@
 <?
 
- # $Id: pc_index.php,v 1.4 2002/03/16 15:47:26 paul Exp $
+ # $Id: pc_index.php,v 1.5 2002/03/23 12:38:18 paul Exp $
 
  $title = "Overall Project Stats";
 
@@ -49,53 +49,50 @@
  sybase_data_seek($result,0);
  $par = sybase_fetch_object($result);
  $total_teams = number_format($par->teams);
-
- print "
+?>
   <center>
    <br>
    <p>
-    <font $fontd size=\"+2\">
+    <font <?=$fontd;?> size="+2">
      Aggregate Statistics
     </font>
    </p>
    <table>
     <tr>
-     <td><font $fontd size=\"+1\">Total $proj_unitname Tested:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$tot_work_units</font></td>
+     <td><font <?=$fontd;?> size="+1">Total <?=$proj_unitname?> Tested:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_work_units?></font></td>
     </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Time Working:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$time_working days</font></td>
+     <td><font <?=$fontd?> size="+1">Time Working:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=$time_working?> days</font></td>
     </tr>
    </table>
    <br>
    <p>
-    <font $fontd size=\"+2\">
+    <font <?=$fontd?> size="+2">
      Current Information
     </font>
    </p>
    <p>
-    <font $fontd>
-     $yest_work_units $proj_unitname were completed yesterday.
+    <font <?=$fontd?>>
+     <?=$yest_work_units?> <?=$proj_unitname?> were completed yesterday.
     </font>
    </p>
    <p>
-    <font $fontd>
-     There have been $total_emails participants<br>
+    <font <?=$fontd?>>
+     There have been <?=$total_emails?> participants<br>
      since the beginning of this project.<br>
-     $yest_emails of them were active yesterday<br>
-     and of those, $new_emails were brand-new participants. 
+     <?=$yest_emails?> of them were active yesterday<br>
+     and of those, <?=$new_emails?> <? if($new_emails==1){echo 'was a brand-new participant.'; } else { echo' were brand-new participants.';}?> 
     </font>
    </p>
    <p>
-    <font $fontd>
-     There are $total_teams registered teams.<br>
-     $yest_teams of them submitted work units yesterday.<br>
-     ($new_teams of them are brand new!)
+    <font <?=$fontd?>>
+     There are <?=$total_teams?> registered teams.<br>
+     <?=$yest_teams?> of them submitted work units yesterday.<br>
+     (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
     </font>
    </p>
    <hr>
   </center>
-";
-?>
 <?include "templates/footer.inc";?>
