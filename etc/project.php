@@ -1,5 +1,5 @@
 <?php
-// $Id: project.php,v 1.3 2003/05/24 01:26:49 thejet Exp $
+// $Id: project.php,v 1.4 2003/05/25 20:18:06 paul Exp $
 // ==========================================
 // file: project.inc
 // This file contains the classes which
@@ -50,8 +50,8 @@ class Project {
      * @access public 
      * @type string
      */
-	 
-	var $_state;
+
+    var $_state;
     var $_name;
     var $_totalunits;
     var $_scale;
@@ -74,6 +74,10 @@ class Project {
       return $this->_id;
     }
 
+    function get_total_units()
+    {
+        return $this -> _totalunits;
+    } 
     function getprize()
     {
         return $this -> _state -> prize;
@@ -105,7 +109,7 @@ class Project {
      * @access public 
      * @return void 
      * @param DBClass $ The database connectivity to use
-     *            int The ID of the project to load
+     *             int The ID of the project to load
      */
     function Project($dbPtr, $id)
     {
@@ -157,7 +161,7 @@ class Project {
      * @access public 
      * @return ProjectStats []
      * @param date $ The date to start retrieval
-     *            int The number of days prior to $start to retrieve data for
+     *             int The number of days prior to $start to retrieve data for
      */
     function getStatsHistory($start, $getDays)
     {
@@ -177,6 +181,15 @@ class Project {
      */
     function explode($prjInfo)
     {
+    } 
+
+    var $_stats;
+    function get_current_stats()
+    {
+        if($this -> _stats == null) {
+            $this -> _stats = new ProjectStats($this -> _db, $this -> _id);
+        } 
+        return $this -> _stats;
     } 
 } 
 
