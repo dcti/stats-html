@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.23 2003/09/01 15:56:51 decibel Exp $
+# $Id: platformlist.php,v 1.24 2003/09/01 20:54:56 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -17,10 +17,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 //   source == "y" for yseterday, all other values ignored.
 //   view == display and sort order (t = total blocks, c = cpu, o = os, v = version)
 //           page will show those columns in view, sorted in view's order
-
- if (!$view) {
-   $view = "c";
- }
+//   		(DEFAULT value is 'c', set in project.inc
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
