@@ -1,5 +1,8 @@
 <?
-// $Id: config.inc.default,v 1.5 2003/11/25 21:46:14 paul Exp $
+// $Id: config.inc.default,v 1.6 2004/04/21 19:10:10 paul Exp $
+
+include "error.php";
+
 ///////////////////////////
 // Database Connectivity //
 ///////////////////////////
