@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.13 2002/06/04 23:02:29 decibel Exp $
+# $Id: platformlist.php,v 1.14 2002/06/04 23:05:30 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -61,7 +61,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  }
 
 
- $selstr .= " FIRST_DATE as first, LAST_DATE as last,";
+ $selstr .= " min(FIRST_DATE) as first, max(LAST_DATE) as last,";
 
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
