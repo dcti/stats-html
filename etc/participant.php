@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.17 2003/09/02 22:35:29 paul Exp $
+// $Id: participant.php,v 1.18 2003/09/10 02:39:56 thejet Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -573,7 +573,7 @@ class Participant {
                          last_date - first_date +1 AS days_working,
                          overall_rank_previous - overall_rank AS rank_change
                     FROM email_rank r INNER JOIN stats_participant p ON p.id = r.id
-                   WHERE email like '%$sstr%'
+                   WHERE lower(email) like '%$sstr%'
                      AND listmode <= 10
                      AND project_id = " . $project->get_id() . "
                    ORDER BY overall_rank ASC
