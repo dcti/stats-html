@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.66 2004/08/02 17:45:39 decibel Exp $
+// $Id: psummary.php,v 1.67 2004/09/27 20:52:34 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
