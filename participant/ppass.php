@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.3 1999/07/12 18:30:37 nugget Exp $
+  // $Id: ppass.php,v 1.4 1999/07/28 20:37:57 nugget Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -97,4 +97,10 @@ help@distributed.net.
 Thanks.";
 
   send_mail($par->email, "passmail@distributed.net", "Your distributed.net stats password", $message);
+
+  $fh = fopen("/var/log/ppass.log","a+");
+  $ts = gmdate("M d Y H:i:s",time());
+  fputs($fh,"$ts password for id $id ($par->email) requested by $REMOTE_HOST [$REMOTE_ADDR]\n");
+  fclose($fh);
+
 ?>
