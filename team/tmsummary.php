@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.30 2003/08/31 16:02:32 decibel Exp $
+// $Id: tmsummary.php,v 1.31 2003/08/31 22:34:41 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -24,14 +24,13 @@ if($team->get_id() == 0) {
 	exit;
 }
 
-/*$qs = "select *
+$qs = "select *
         from Daily_Summary nolock
         where PROJECT_ID = $project_id
           and DATE = (select max(DATE) from Daily_Summary where project_id=$project_id)";
-sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-$yest_totals = sybase_fetch_object($result);
-*/
+$result = $gdb->query($qs);
+$yest_totals = $gdb->fetch_object($result);
+
 $stats = $team->get_current_stats();
 
 $neighbors = $team->get_neighbors();
@@ -135,7 +134,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
    ?>
   The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
   <?} else if ($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') > 0) { ?>
-  The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $stats->get_stats_item('work_today')) ?> that this team will
+  The odds are 1 in <?= number_style_convert($yest_totals->work_units / $stats->get_stats_item('work_today')) ?> that this team will
     find the key before anyone else does. 
   <? } ?>
   <br>
@@ -216,7 +215,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     If you are the team coordinator, and you've forgotten your team password,<br> click
     <input type="hidden" name="team" value="<?=$team?>">
     <input type="submit" value="here"> and the password will be mailed to
-    <?=$par->contactemail?>.
+    <?=$team->get_contact_name()?>.
     </p></form>
   </div>
 
