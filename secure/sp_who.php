@@ -1,6 +1,6 @@
 <?
   include "security.inc";
-?>  
+?>
 	<div style="text-align:center">
 	<table border="1" cellpadding="4" cellspacing="0">
 	<tr align="center">
@@ -15,13 +15,14 @@
 		<td>current_query</td>
 	</tr>
 <?
-  	$ret = $gdb->query("select * from pg_stat_activity");
+	$qs = 'select * from pg_stat_activity';
+  	$ret = $gdb->query($qs);
 	$results = $gdb->fetch_paged_result($ret);
 	foreach ($results as $result) {
 	?>
 	<tr>
-		<td align=\"right\"><?=$result->datid?></td>
-		<td align=\"right\"><?=$result->datname?></td>
+		<td align="right"><?=$result->datid?></td>
+		<td align="right"><?=$result->datname?></td>
 		<td><?=$result->procpid?></td>
 		<td><?=$result->usesysid?></td>
 		<td><?=$result->usename?></td>
@@ -31,6 +32,3 @@
 </table>
 </div>
 <? 	include "footer.inc"; ?>
-
-
-
