@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.11 2003/10/03 17:50:59 thejet Exp $
+  // $Id: tmpass.php,v 1.12 2003/10/03 18:10:36 thejet Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -43,7 +43,7 @@
 
   $message = "Greetings, $teamcontact:
 
-You (or \"$REMOTE_HOST\" [$REMOTE_ADDR]) recently
+You (or \"".$_SERVER['REMOTE_HOST']."\" [".$_SERVER['REMOTE_ADDR']."]) recently
 requested the password for your distributed.net team account.  You
 should keep this information confidential.  If you did not just request
 your password, it just means that some confused person has clicked on
@@ -65,9 +65,9 @@ url:
 
 You will be prompted for your team's ID # and password. 
 
-To see your RC5-64 stats, visit:
+To see your team stats, visit:
 
- http://stats.distributed.net/team/tmsummary.php?project_id=6&team=$team
+ http://stats.distributed.net/team/tmsummary.php?team=$team
 
 Do not reply to this email.  Replies to this email will never be seen
 by a real, live person.  If you need further assistance, please mail
