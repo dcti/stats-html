@@ -1,4 +1,4 @@
-# $Id: README,v 1.1 1999/07/12 16:56:22 nugget Exp $
+# $Id: README,v 1.2 1999/07/12 16:59:16 nugget Exp $
 #
 # distributed.net stats-html tree
 #
@@ -18,3 +18,9 @@
 # When you're happy with the changes you've committed, you can do a 
 # "sudo wwwcvs" to update /htdocs/ with the current tree.
 #
+# Decibel has been keeping an informal "to-do.txt" list of the stuff
+# that needs to get done.  I committed that file and it makes sense 
+# to me that we'd use it as a general scratchpad of items to do and 
+# items we're each planning on tackling.  The format of the file 
+# could stand to get standardized a bit.
+# 
