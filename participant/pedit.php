@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.20 2003/10/23 17:20:20 thejet Exp $
+// $Id: pedit.php,v 1.21 2003/11/25 18:21:10 thejet Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -324,8 +324,9 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
         or on a machine that's not in a secure location.<br>
         This will store your password on the machine.</font>
         <hr>
-       <input name=\"id\" type=\"hidden\" value=\"$id\">
+       <input name=\"id\" type=\"hidden\" value=\"" . $gpart->get_id() . "\">
        <input name=\"pass\" type=\"hidden\" value=\"$pass\">
+       <input name=\"project_id\" type=\"hidden\" value=\"". $gproj->get_id() . "\">
        <input value=\"Update my information\" type=\"submit\">
       </td>
      </tr>

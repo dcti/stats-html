@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.61 2003/10/21 15:42:57 thejet Exp $
+// $Id: psummary.php,v 1.62 2003/11/25 18:21:10 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -261,6 +261,7 @@ if($numfriends >= 1) {
     <p>
     <form action="ppass.php">
 		<div>
+                        <input type="hidden" name="project_id" value="<?=$gproj->get_id()?>">
 			<input type="hidden" name="id" value="<?=$id?>">
 			<input type="submit" value="Please email me my password.">
 		</div>

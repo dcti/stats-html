@@ -1,14 +1,14 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.35 2003/09/26 03:09:12 thejet Exp $
+// $Id: project.inc,v 1.36 2003/11/25 18:23:44 thejet Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
 
 $myname = $_SERVER['PHP_SELF'];
 
-if (isset($_GET['project_id'])) {
-    $project_id = (int)$_GET['project_id'];
+if (isset($_REQUEST['project_id'])) {
+    $project_id = (int)$_REQUEST['project_id'];
 } else {
     $project_id = 25;
 } 

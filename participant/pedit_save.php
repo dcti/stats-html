@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.9 2003/10/23 02:39:28 thejet Exp $
+  // $Id: pedit_save.php,v 1.10 2003/11/25 18:21:10 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -56,21 +56,23 @@
   $result = $gpart->save();
   if($result != "")
   {
+    $title = "Error Saving Participant Data #$id";
     include "../templates/header.inc";
+    display_last_update();
     print "
        <h1>Error occurred</h2>
        <h3>There was an error saving your participant information, the error message(s)
            is below:</h3>
        " . str_replace("\n", "<br>", $result) . "<br><br>
        <a href=\"javascript:history.back()\">Correct the error</a><br><br>";
-    include "../templates/footer.inc";
+    // include "../templates/footer.inc";
     exit(0);
   }
 ?>
 <html>
  <head>
   <title>Updating <?=$gpart->get_email()?> data</title>
- <?if($debug <= 0){?><meta http-equiv="refresh" content="4; URL=http://stats.distributed.net/participant/psummary.php?id=<?=$id?>"><?}?>
+ <?if($debug <= 0){?><meta http-equiv="refresh" content="4; URL=http://stats.distributed.net/participant/psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$id?>"><?}?>
  </head>
  <body>
   <div style="text-align: center">
