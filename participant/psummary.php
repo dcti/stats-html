@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.19 2002/06/05 22:41:45 paul Exp $
+ # $Id: psummary.php,v 1.20 2002/06/05 23:35:05 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -248,7 +248,9 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 	<p>
 	<a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
 	</p>
-<? if ($proj_totalunits > 0 ) { ?>
+<? if ($proj_totalunits > 0 & $rs_rank->TODAY > 0) {
+$odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
+        ?>
 	<p>
 	The odds are 1 in <?=$odds?> that this participant will find the key before anyone else does.
 	</p>
