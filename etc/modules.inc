@@ -1,6 +1,6 @@
 <?php 
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.18 2003/06/03 21:39:40 paul Exp $
+// $Id: modules.inc,v 1.19 2003/09/14 02:07:49 paul Exp $
 function plural($num)
 {
     if (abs($num) > 1 or $num == 0) {
@@ -10,10 +10,10 @@ function plural($num)
     } 
 } 
 
-function row_background_color($rownum, $color_a = "", $color_b = "")
+function row_background_color($rownum, $color_a = '', $color_b = '')
 {
-    if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
-    if ($color_b == "") $color_b = $GLOBALS["bar_color_b"];
+    if ($color_a == '') $color_a = $GLOBALS['bar_color_a'];
+    if ($color_b == '') $color_b = $GLOBALS['bar_color_b'];
     if(($rownum / 2) == (round($rownum / 2))) {
         return $color_a;
     } else {
