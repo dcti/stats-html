@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.23 2003/08/25 18:17:14 thejet Exp $
+// $Id: plist.php,v 1.24 2003/08/31 16:09:43 paul Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
@@ -40,11 +40,8 @@ $plist = Participant::get_ranked_list($source, $lo, $limit, &$totalrows, $gdb, $
 $totalblocks = (double) 0;
 $i = 0;
 foreach ($plist as $par) {
-   $statspar =& $par->get_current_stats();
-
-//    $tpart = new Participant($gdb, $project_id, $par -> id);
+	$statspar =& $par->get_current_stats();
     $totalblocks = $totalblocks + (double) $statspar -> get_stats_item('blocks') * $gproj->get_scale();
-
     ?>
 	<tr class="<?=row_background_color($i)?>">
 		<td><?=$statspar -> get_stats_item('rank')?><?=html_rank_arrow($statspar -> get_stats_item('change')) ?></td>
@@ -69,7 +66,6 @@ if (sizeof($plist) >= $limit) {
 } else {
     $btn_fwd = "&nbsp;";
 } 
-
 ?>
 	 <tr>
 	  <td class="tfoot"><? echo "$lo-$hi"?></td>
@@ -82,5 +78,4 @@ if (sizeof($plist) >= $limit) {
 	  <td class="tfoot" align="right"><?=$btn_fwd?></td>
 	 </tr>
 	</table>
-<?include "../templates/footer.inc";
-?>
+<? include "../templates/footer.inc"; ?>
