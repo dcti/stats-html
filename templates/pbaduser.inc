@@ -1,5 +1,5 @@
 <?php
-  # $Id: pbadpass.inc,v 1.7 2003/10/23 01:55:43 thejet Exp $
+  # $Id: pbaduser.inc,v 1.1 2003/10/23 01:55:43 thejet Exp $
 
   print "
 	<div style=\"text-align: center\">
