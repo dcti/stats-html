@@ -1,18 +1,20 @@
 <?php
-  // $Id: pretire.php,v 1.22 2004/03/06 13:14:35 paul Exp $
 
-  include "../etc/config.inc";
-  include "../etc/project.inc";
-  include "../etc/psecure.inc";
-  include "../etc/team.php";
+// $Id: pretire.php,v 1.23 2004/04/29 20:48:51 paul Exp $
 
-  $title = "Retiring " . $gpart->get_email();
+include "../etc/config.inc";
+include "../etc/project.inc";
+include "../etc/psecure.inc";
+include "../etc/team.php";
 
-  include "../templates/header.inc";
-  display_last_update('t');
+$title = "Retiring " . $gpart->get_email();
 
-  if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) ) {
-  ?>
+include "../templates/header.inc";
+display_last_update('t');
+
+if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
+{
+	?>
 	  <h2>You are about to permanently retire the address <?=$gpart->get_email()?></h2>
 	  <p>
 	   You are about to completely and permanently remove this email from the stats database.
@@ -46,55 +48,45 @@
 	    <input type="submit" value="Search for this email">
 	   </form>
 	  </p>
-  <?
-  } else {
-      if (isset($_REQUEST['ems']) && $_REQUEST['ems'] <> "") {
-      $ems = $_REQUEST['ems'];
-      $result = Participant::get_search_list_no_stats($ems, 50, $gdb);
-      $rows = count($result);
-      if ($rows == 0)
-      {
-	  	trigger_error("No participants were found matching $ems. For more information, http://www.distributed.net/faqs",E_USER_ERROR);
-      }
-      else
-      {
-      ?>
-	  <h2>Please choose your new email address</h2>
-	  <p>
-	   Below are all the email addresses in stats that match what you just typed in.
-	   Please choose the appropriate email address by clicking on it.
-	  </p>
-	  <p>
-	   This <strong>will retire</strong><?=$gpart->get_email()?>.
-	  </p>
-	  <p>
-	   Clicking an email below will result in a permanent change to the stats database.
-	  </p>
-	  <table border="1">
-	   <tr bgcolor="#00aaaa">
-	    <td align="right">ID #</td>
-	    <td>Email Address</td>
-	   </tr>
-	  <?
-      for ($i=0;$i<$rows;$i++) {
-        $ROWparticipant = $result[$i];
+  	<?
+} else {
+	if (isset($_REQUEST['ems']) && $_REQUEST['ems'] <> "") {
+		$ems = $_REQUEST['ems'];
+      	$result = Participant::get_search_list_no_stats($ems, 50, $gdb);
+      	$rows = count($result);
+      	if ($rows == 0)
+      	{
+	  		trigger_error("No participants were found matching $ems. For more information, http://www.distributed.net/faqs",E_USER_ERROR);
+      	} else {
+      		?>
+	  		<h2>Please choose your new email address</h2>
+	  		<p>
+	  		Below are all the email addresses in stats that match what you just typed in. Please choose the appropriate email address by clicking on it.
+	  		</p>
+	  		<p>This <strong>will retire</strong><?=$gpart->get_email()?>.</p>
+	  		<p>Clicking an email below will result in a permanent change to the stats database.</p>
+	  		<table border="1">
+	  		 <tr bgcolor="#00aaaa">
+	  		  <td align="right">ID #</td>
+	  		  <td>Email Address</td>
+	  		 </tr>
+	  		<?
+      		for ($i=0;$i<$rows;$i++) {
+      			$ROWparticipant = $result[$i];
 
-        $tmpid = 0 + $ROWparticipant->get_id();
-        if ($tmpid != $id) {
-          echo "
-	     <tr><td align=\"right\">" . $tmpid . "</td>
-	         <td><a href=\"pretire.php?id=" . $id . "&pass=" . $pass . "&destid=" . $tmpid . "\">" . $ROWparticipant->get_email() . "</a></td>
-	     </tr>";
-        }
-
-      }
-      echo '</table>';
-    }
-
-    if ($_REQUEST['destid'] <> "") {
+      	  		$tmpid = 0 + $ROWparticipant->get_id();
+      	  		if ($tmpid != $id) {
+      	  			echo '<tr><td align="right">' . $tmpid . '</td>
+	  	       		<td><a href="pretire.php?id=' . $id . '&pass=' . $pass . '&destid=' . $tmpid . '">' . $ROWparticipant->get_email() . '</a></td></tr>';
+      	  		}
+			}
+      		echo '</table>';
+      	}
+	}
+    if ($_REQUEST['destid'] <> '') {
 		if ($retired = $gpart->retire($destid)) {
 			$destpart = new Participant($gdb, $gproj, $destid);
-		?>
+			?>
 			<h2>Retire Procedure successful</h2>
 			<p>
 	 		You have successfully retired the email address <?$gpart->retire($destid)?>.
@@ -110,12 +102,12 @@
 	 		If, in the future, you change teams, it will affect all retired emails as you'd expect it to.
 			</p>
 	 		<p><a href="/">Great, that rocks!</a></p>
-	 	<?
+	 		<?
 	 	} else {
 	 		trigger_error("Retired Procedure Failed");
 	 	}
     }
-  }
+}
 ?>
  </body>
 </html>
