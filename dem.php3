@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: dem.php3,v 1.2 1999/07/30 20:37:44 nugget Exp $
+ // $Id: dem.php3,v 1.3 1999/08/29 20:50:03 nugget Exp $
 
  $myname = "demographics.php3";
 
@@ -75,11 +75,11 @@
 	group by dem_country
 	order by blocks desc";
 
- $qs = "select distinct country, count(country) as recs
+ $qs = "select distinct code, country, count(country) as recs
 	from STATS_participant, STATS_country
 	where ((retire_to = 0 or retire_to = NULL) and dem_country <> NULL) and
 	      (dem_country = code)
-	group by country
+	group by code, country
 	order by count(country) desc";
  $country = sybase_query($qs);
  $countries = sybase_num_rows($country);
@@ -143,7 +143,11 @@
    sybase_data_seek($country,$i);
    $par = sybase_fetch_object($country);
    $recs = 0+$par->recs;
-   print "<tr><td>$par->country</td><td align=\"right\">$recs</td></tr>\n";
+   $icofn = "/images/icons/flags/$par->code.gif";
+   if(!file_exists(".$icofn")) {
+     $icofn = "/images/icons/flags/unknown.gif";
+   }
+   print "<tr><td><img src=\"$icofn\" alt=\"$par->code\"> $par->country</td><td align=\"right\">$recs</td></tr>\n";
  } 
 
 
