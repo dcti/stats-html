@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.2 2003/05/09 12:24:02 thejet Exp $
+// $Id: team.php,v 1.3 2003/05/18 20:37:47 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -184,7 +184,8 @@ class Team
            $queryData = $this->_db->query($sql);
 
            $result = $this->_db->fetch_paged_result($queryData);
-           for($i = 0; $i < count($result); $i++)
+           $cnt = count($result);
+           for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($this->_db, $this->_project);
              $teamTmp->explode($result[$i]);
@@ -228,11 +229,119 @@ class Team
          function get_stats_history($start, $getDays) { }     
          
         /***
+         * Returns a list of teams
+         *
+         * This routine retrieves a ranked list of teams (based on the source)
+         * You specify the source (overall/yesterday) and the number to return
+         *
+         * @access public
+         * @return Team[]
+         * @param string The source (yesterday, overall, etc)
+         *        int The rank to start with
+         *        int The number to return (starting at rank)
+         *        int [output] The total number of ranked teams
+         ***/
+         function get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total)
+         {
+           // First, we need to determine which query to run...
+           if($source == 'y')
+           {
+             $qs = "SELECT st.*, name, to_char(first_date, 'dd-Mon-YYYY') AS first_date, to_char(last_date, 'dd-Mon-YYYY') AS last_date,
+                           work_total, work_today, members_current, day_rank as rank,
+                           last_date::DATE - first_date::DATE + 1 as days_working,
+                           day_rank_previous - day_rank as rank_change
+                      FROM stats_team st INNER JOIN team_rank tr ON st.team = tr.team_id
+                     WHERE st.listmode <= 9
+                       AND day_rank <= " . ($start + $limit -1) . "
+                       AND day_rank >= $start
+                       AND tr.project_id = " . $this->_project->ID . "
+                     ORDER BY day_rank ASC, work_total DESC;";
+           }
+           else
+           {
+             $qs = "SELECT st.*, name, to_char(first_date, 'dd-Mon-YYYY') AS first_date, to_char(last_date, 'dd-Mon-YYYY') AS last_date,
+                           work_total, work_today, members_current, overall_rank as rank,
+                           last_date::DATE - first_date::DATE + 1 as days_working,
+                           overall_rank_previous - overall_rank as rank_change
+                      FROM stats_team st INNER JOIN team_rank tr ON st.team = tr.team_id
+                     WHERE st.listmode <= 9
+                       AND overall_rank <= " . ($start + $limit -1) . "
+                       AND overall_rank >= $start
+                       AND tr.project_id = " . $this->_project->ID . "
+                     ORDER BY overall_rank ASC, work_total DESC;";
+           }
+
+           $queryData = $this->_db->query($qs);
+           $total = $this->_db->num_rows($queryData);
+           $result =& $this->_db->fetch_paged_result($queryData, $start, $limit);
+           $cnt = count($result); 
+           for($i = 0; $i < $cnt; $i++)
+           {
+             $teamTmp = new Team($this->_db, $this->_project);
+             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $statsTmp->explode($result[$i]);
+             $teamTmp->explode($result[$i], $statsTmp);
+             $retVal[] = $teamTmp;
+           }
+           
+           return $retVal;
+         }
+
+        /***
+         * Returns a list of teams
+         *
+         * This routine retrieves a list of teams (based on the search string)
+         * You specify the number to return
+         *
+         * @access public
+         * @return Team[]
+         * @param string The search string
+         *        int The maximum number to return
+         ***/
+         function get_search_list($sstr, $limit = 50)
+         {
+           // Ensure that the string is safe to pass to pgsql...
+           $sstr = stripslashes($sstr);
+           ini_alter("magic_quotes_sybase",0);
+           $sstr = addslashes($sstr);
+           $sstr = strtolower($sstr);
+
+           // The query to run...
+           $qs = "SELECT st.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,
+                         to_char(last_date, 'dd-Mon-YYYY') as last_date,
+                         work_total, work_today, members_current, overall_rank,
+                         last_date::DATE - first_date::DATE +1 AS days_working,
+                         overall_rank_previous - overall_rank AS rank_change
+                    FROM team_rank tr INNER JOIN stats_team st ON tr.team_id = st.team
+                   WHERE (lower(name) like '%$sstr%' OR CAST(st.team as varchar) like '%$sstr%')
+                     AND listmode <= 9
+                     AND project_id = " . $this->_project->ID . "
+                   ORDER BY overall_rank ASC
+                   LIMIT $limit";
+
+           // Actually run the query...
+           $queryData = $this->_db->query($qs);
+           $total = $this->_db->num_rows($queryData);
+           $result =& $this->_db->fetch_paged_result($queryData, 1, $limit);
+           $cnt = count($result); 
+           for($i = 0; $i < $cnt; $i++)
+           {
+             $teamTmp = new Team($this->_db, $this->_project);
+             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $statsTmp->explode($result[$i]);
+             $teamTmp->explode($result[$i], $statsTmp);
+             $retVal[] = $teamTmp;
+           }
+
+           return $retVal;
+         }
+
+        /***
          * Explodes the object state from the database object
          *
          * @access public
          * @param object The database object to explode
          ***/
-         function explode($obj) { $this->_state = $obj; }
+         function explode($obj, $stats = null) { $this->_state =& $obj; $this->_stats =& $stats; }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.2 2003/05/09 12:24:02 thejet Exp $
+// $Id: teamstats.php,v 1.3 2003/05/18 20:37:47 thejet Exp $
 
 //==========================================
 // file: teamstats.inc
@@ -95,6 +95,14 @@ class TeamStats
       * @return string[]
       ***/
       function get_stats_items() { }
+
+     /***
+      * Explodes this object's internal state with the passed object
+      *
+      * @access protected
+      * @param DBObject The new state for this object
+      ***/
+      function explode($obj) { $this->_state = $obj; }
      
 }
 ?>
