@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.43 2003/03/22 18:50:02 paul Exp $
+# $Id: psummary.php,v 1.44 2003/03/22 18:55:10 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -20,7 +20,7 @@ function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = ""
   ?>
     <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
       <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
-      <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><?=$participant?></a></td>
+      <td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
       <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
       <td align="right"><?echo number_style_convert( $par->TOTAL * $proj_scale) ?> </td>
       <td align="right"><?echo number_style_convert( $par->TODAY * $proj_scale) ?> </td>
@@ -54,7 +54,7 @@ err_check_query_results($person);
 # Is this person retired?
 $retire_to = 0+$person->retire_to;
 if( $retire_to > 0 ) {
-  header("Location: psummary.php?project_id=$project_id&id=$retire_to");
+  header("Location: psummary.php?project_id=$project_id&amp;id=$retire_to");
   exit();
 }
 
@@ -150,7 +150,7 @@ $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
 
 ?>
-    <table align="center">
+    <table>
       <tr>
         <td colspan="3">
           <br>
@@ -166,44 +166,44 @@ $yest_totals = sybase_fetch_object($result);
       </tr>
       <tr>
         <td align="left">Rank:</td>
-        <td align="right" size="+2">
+        <td align="right">
             <?echo $rs_rank->OVERALL_RANK.  html_rank_arrow($rs_rank->Overall_Change); ?>
         </td>
-        <td align="right" size="+2">
+        <td align="right">
           <? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?>
         </td>
       </tr>
       <tr>
         <td align="left"><?=$proj_scaled_unit_name?>:</td>
-        <td align="right" size="+2"><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></td>
-        <td align="right" size="+2"><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></td>
+        <td align="right"><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></td>
+        <td align="right"><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></td>
       </tr>
       <tr>
         <td align="left"><?=$proj_scaled_unit_name?>/sec:</td>
-        <td align="right" size="+2">
+        <td align="right">
           <?=number_style_convert($rs_rank->TOTAL * $proj_scale / (86400 * $rs_rank->Days_Working), 3);?>
         </td>
-        <td align="right" size="+2">
+        <td align="right">
           <? echo number_style_convert($rs_rank->TODAY * $proj_scale / 86400, 3);?>
         </td>
       </tr>
       <tr>
         <td align="left"><?=$proj_unscaled_unit_name?>:</td>
-        <td align="right" size="+2"><?=number_style_convert($rs_rank->TOTAL);?></td>
-        <td align="right" size="+2"><? echo number_style_convert($rs_rank->TODAY);?></td>
+        <td align="right"><?=number_style_convert($rs_rank->TOTAL);?></td>
+        <td align="right"><? echo number_style_convert($rs_rank->TODAY);?></td>
       </tr>
       <tr>
         <td align="left"><?=$proj_unscaled_unit_name?>/sec:</td>
-        <td align="right" size="+2">
+        <td align="right">
           <?=number_style_convert($rs_rank->TOTAL / (86400 * $rs_rank->Days_Working), 0);?>
         </td>
-        <td align="right" size="+2">
+        <td align="right">
           <? echo number_style_convert($rs_rank->TODAY / 86400, 0);?>
         </td>
       </tr>
       <tr>
         <td>Time Working:</td>
-        <td colspan="2" align="right" size="+2">
+        <td colspan="2" align="right">
             <? echo number_format($rs_rank->Days_Working) . " day" . plural($rs_rank->Days_Working); ?>
         </td>
       </tr>
@@ -306,10 +306,11 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
       }
       ?>
     </table>
-    <br>
     <hr>
     <p>
-    <form action="ppass.php"><input type="hidden" name="id" value="<?=$id?>"><input type="submit" value="Please email me my password."></form>
+    <form action="ppass.php">
+		<input type="hidden" name="id" value="<?=$id?>">
+		<input type="submit" value="Please email me my password.">
+	</form>
     </p>
-  </center>
 <?include "../templates/footer.inc";?>

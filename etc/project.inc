@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.18 2003/03/09 11:54:59 paul Exp $
+# $Id: project.inc,v 1.19 2003/03/22 18:51:04 paul Exp $
 
 include "limit.inc";
 include "debug.inc";
@@ -164,8 +164,7 @@ function display_last_update($type) {
 }
 ?>
    <tr>
-     <td colspan="4" align="center" bgcolor="#777777">
-       <font face="Arial,Helvetica" color=<?=$colorc?> size="-2">
+     <td colspan="4" align="center" class="lastupdate"> 
 <? if(isset($type)) { ?>
   <? if($lastupdate<>"") { ?>
         Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
