@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.10 2002/03/16 18:05:53 paul Exp $
+  // $Id: modules.inc,v 1.11 2002/03/24 16:54:06 paul Exp $
 
   function row_background_color($rownum, $color_a = "", $color_b = "") {
 	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
@@ -14,6 +14,10 @@
   function debug_text($text, $debug) {
     if ($debug == "yes") print $text;
   }
+
+  function safe_display($string) {
+ 	return stripslashes(htmlspecialchars($string));
+  } 
 
   function html_rank_arrow($change) {
     if ($change > 0) {
