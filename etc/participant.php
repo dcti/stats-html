@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.31 2003/10/21 22:02:25 thejet Exp $
+// $Id: participant.php,v 1.32 2003/10/22 15:44:04 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -209,7 +209,7 @@ class Participant {
             {
                 $sql = "INSERT INTO stats_participant_friend (id, friend)
                             VALUES (" . $this->_state->id . ", " . $friend . ")";
-                print $sql . "<br>";
+                //print $sql . "<br>";
                 $res = $this->_db->query($sql);
                 if($res == FALSE) return false; 
            }
@@ -533,12 +533,10 @@ class Participant {
       else
         $this->_state = $res;
       
-      /* @TODO: re-enable this when permissions are correct
       if(!$this->save_friends())
         $chkResult = "Error Saving Friend Information.\n";
       else
         $this->_friends = null; // reset the friends array, current is invalid 
-      */
       
       if($chkResult != "")
       {
