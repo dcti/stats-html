@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.68 2004/09/27 20:53:38 decibel Exp $
+// $Id: psummary.php,v 1.69 2004/09/27 20:59:54 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -122,15 +122,15 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
         </td>
       </tr>
       <tr>
-        <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
+        <td align="left" class="phead2"><?=$gproj -> get_unscaled_unit_name()?>:</td>
         <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('work_total')) ?></td>
         <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('work_today')) ?></td>
       </tr>
       <tr>
-        <td align="left"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
+        <td align="left" class="phead2"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
         <td align="right">
           <? if ($gpartstats->get_stats_item('days_working') > 0) {
-    number_style_convert($gpartstats->get_stats_item('work_total') / (86400 * $gpartstats->get_stats_item('days_working')), 0);
+              echo number_style_convert($gpartstats->get_stats_item('work_total') / (86400 * $gpartstats->get_stats_item('days_working')), 0);
 }
 ?>
         </td>
