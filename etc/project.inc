@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.31 2003/09/01 21:02:06 paul Exp $
+// $Id: project.inc,v 1.32 2003/09/13 22:50:53 paul Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
@@ -10,14 +10,9 @@ if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
     if (isset($_GET['debug'])) {
         $debug = (int)$_REQUEST['debug'];
     } 
-    if($debug > 0 && !file_exists(getenv('DOCUMENT_ROOT').'/xdebug.so'))
-    {
-      echo "I can't find xdebug.so to enable debugging!\n";
-      $debug = 0;
-    }
     if($debug >= 1)
     {
-      if(!dl('/xdebug.so'))
+      if(!dl('xdebug.so'))
       {
         echo "Unable to load dynamic library for debugging!\n";
         $debug = 0;
