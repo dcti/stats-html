@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.14 2003/04/20 21:37:07 paul Exp $
+# $Id: tsearch.php,v 1.15 2003/05/18 20:38:25 thejet Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -8,30 +8,18 @@
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
+include "../etc/team.php";
+include "../etc/teamstats.php";
 
 $title = "Team Search: [".safe_display($st)."]";
+$team = new Team($gdb, $gproj);
+$result = $team->get_search_list($st, 50);
+$rows = count($result);
 
-$qs = "select tr.TEAM_ID, name, FIRST_DATE, LAST_DATE,
-          WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY,
-          MEMBERS_CURRENT, OVERALL_RANK,
-          datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-          OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change
-        from  Team_Rank tr, STATS_team st
-        where  (name like '%$st%' or convert(char(10),st.team) like '%$st%')
-          and st.team = tr.TEAM_ID
-          and listmode <= 9
-          and PROJECT_ID = $project_id
-        order by  OVERALL_RANK";
-sybase_query("set rowcount 50");
-$QRSLTteams = sybase_query($qs);
-
-err_check_query_results($QRSLTteams);
-
-$rows = sybase_num_rows($QRSLTteams);
 if($rows == 1) {
-  # Only one hit, let's jump straight to psummary
-  $par = sybase_fetch_object($QRSLTteams);
-  $id = (int) $par->TEAM_ID;
+  # Only one hit, let's jump straight to tmsummary
+  $team = $result[0];
+  $id = (int) $team->get_id();
   header("Location: tmsummary.php?project_id=$project_id&team=$id");
   exit;
 }
@@ -41,57 +29,49 @@ $lastupdate = last_update('t');
 include "../templates/header.inc";
 
 ?>
-<center>
-  <br>
-  <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
+  <div class="phead"><br></div>
+  <table border="1" cellspacing="0" width="100%">
     <tr>
-      <td><font <?=$header_font?>>Rank</font></td>
-      <td><font <?=$header_font?>>Team</font></td>
-      <td align="right"><font <?=$header_font?>>First Unit</font></td>
-      <td align="right"><font <?=$header_font?>>Last Unit</font></td>
-      <td align="right"><font <?=$header_font?>>Days</font></td>
-      <td align="right"><font <?=$header_font?>>Current Members</font></td>
-      <td align="right"><font <?=$header_font?>><?=$proj_scaled_unit_name?> Overall</font></td>
-      <td align="right"><font <?=$header_font?>><?=$proj_scaled_unit_name?> Yesterday</font></td>
+      <td class="thead">Rank</td>
+      <td class="thead">Team</td>
+      <td align="right" class="thead">First Unit</td>
+      <td align="right" class="thead">Last Unit</td>
+      <td align="right" class="thead">Days</td>
+      <td align="right" class="thead">Current Members</td>
+      <td align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Overall</td>
+      <td align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Yesterday</td>
     </tr>
     <? 
 
     $totalblocks = 0;
     $totalblocksy = 0;
-    for ($i = 0; $i<$rows; $i++) {
-      sybase_data_seek($QRSLTteams,$i);
-      $par = sybase_fetch_object($QRSLTteams);
-      $firstd = substr($par->FIRST_DATE,4,2);
-      $firstm = substr($par->FIRST_DATE,0,3);
-      $firsty = substr($par->FIRST_DATE,7,4);
-      $lastd = substr($par->LAST_DATE,4,2);
-      $lastm = substr($par->LAST_DATE,0,3);
-      $lasty = substr($par->LAST_DATE,7,4);
-      $members = number_format($par->MEMBERS_CURRENT);
-      $teamid = 0 + $par->TEAM_ID;
-      $totalblocks += (double) $par->WORK_TOTAL * $proj_scale;
-      $totalblocksy += (double) $par->WORK_TODAY * $proj_scale;
+    for ($i = 0; $i < $rows; $i++) {
+      $teamTmp =& $result[$i];
+      $statsTmp =& $teamTmp->get_current_stats();
+      $members = number_format($statsTmp->get_stats_item('members_current'));
+      $teamid = $teamTmp->get_id();
+      $totalblocks += (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
+      $totalblocksy += (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
 
     ?>
     <tr class="<?=row_background_color($i)?>">
-      <td><? echo $par->OVERALL_RANK. html_rank_arrow($par->Overall_Change)?></td>
-      <td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=safe_display($par->name)?></font></a></td>
-      <td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
-      <td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
-      <td align="right"><? echo number_format($par->Days_Working)?></td>
+      <td><?= $statsTmp->get_stats_item('overall_rank') . html_rank_arrow($statsTmp->get_stats_item('rank_change'))?></td>
+      <td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=safe_display($teamTmp->get_name())?></font></a></td>
+      <td align="right"><?= $statsTmp->get_stats_item('first_date')?></td>
+      <td align="right"><?= $statsTmp->get_stats_item('last_date')?></td>
+      <td align="right"><?= number_format($statsTmp->get_stats_item('days_working'))?></td>
       <td align="right"><?=$members?></td>
-      <td align="right"><? echo number_format( (double) $par->WORK_TOTAL * $proj_scale)?> </td>
-      <td align="right"><? echo number_format( (double) $par->WORK_TODAY * $proj_scale)?> </td>
+      <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale())?> </td>
+      <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale())?> </td>
     </tr>
     <?
     }
     ?>
-    <tr bgcolor=<?=$footer_bg?>>
-      <td><font <?=$footer_font?>><?=$rows?></font></td>
-      <td colspan="5" align="right"><font <?=$footer_font?>>Total</font></td>
-      <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocks, 0)?> </font></td>
-      <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocksy, 0)?> </font></td>
+    <tr>
+      <td class="tfoot"><?=$rows?></td>
+      <td class="tfoot" colspan="5" align="right">Total</td>
+      <td class="tfoot" align="right"><?=number_format($totalblocks, 0)?></td>
+      <td class="tfoot" align="right"><?=number_format($totalblocksy, 0)?></td>
     </tr>
   </table>
-</center>
 <?include "../templates/footer.inc";?>
