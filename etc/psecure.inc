@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.3 1999/12/14 04:47:26 decibel Exp $
+  // $Id: psecure.inc,v 1.4 1999/12/23 17:45:08 nugget Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -74,7 +74,7 @@
   $tb = (int) $test_id;
   if("$ta" <> "$tb") {
     # $test_id is not an integer, assume that it is a full email address.
-    $qs = "select id, email from STATS_Participant where email = '$test_id'";
+    $qs = "select id, email, password from STATS_Participant where email = '$test_id'";
     $result = sybase_query($qs);
     if (!$result) {
       authfail("dberror",$test_from,$test_id,$test_pass);
