@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.41 2004/07/16 20:45:27 decibel Exp $
+// $Id: tmsummary.php,v 1.42 2004/07/19 03:25:37 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -181,7 +181,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         ?>
           <td><?= $tmpStats->get_stats_item('overall_rank') . " " . html_rank_arrow($tmpStats->get_stats_item('overall_rank_previous') - $tmpStats->get_stats_item('overall_rank')) ?></td>
           <td>
-              <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $neighbors[$i]->get_id() ?>"><?= $neighbors[$i]->get_name() ?></a>
+              <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $neighbors[$i]->get_id() ?>"><?= safe_display($neighbors[$i]->get_name()) ?></a>
           </td>
           <td align="right"><?= number_style_convert($tmpStats->get_stats_item('days_working')) ?></td>
           <td align="right"><?= number_style_convert($tmpStats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
