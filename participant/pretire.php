@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.10 2000/06/16 23:00:44 decibel Exp $
+  // $Id: pretire.php,v 1.11 2000/07/19 01:48:58 decibel Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -131,7 +131,8 @@
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
       $result = sybase_query($qs);
 # BW: Prevent the retired e-mail from being ranked
-      $qs = "delete Email_Rank where id = $id";
+# JN: You have to move the blocks before you delete! Disabled for now.
+#      $qs = "delete Email_Rank where id = $id";
       $result = sybase_query($qs);
       $qs = "select * from STATS_participant where id = $destid";
       $result = sybase_query($qs);
