@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.33 2003/09/02 04:20:34 decibel Exp $
+// $Id: tmsummary.php,v 1.34 2003/09/05 20:16:23 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -194,6 +194,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     <hr>
     <!--
     <a href="/participant/pjointeam.php?team=<?=$tm?>">I want to join this team!</a>
+    -->
     <hr>
     <form action="tmedit.php" method="post">
       <p>
@@ -211,7 +212,6 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     <input type="submit" value="here"> and the password will be mailed to
     <?=$team->get_contact_name()?>.
     </p></form>
-    -->
   </div>
 
 <? include "../templates/footer.inc"; ?>
