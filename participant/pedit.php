@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.9 2000/01/18 03:51:59 decibel Exp $
+  // $Id: pedit.php,v 1.10 2000/12/02 19:13:49 decibel Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -13,8 +13,18 @@
   # and $par being the fetched object.
 
   $id = 0+$par->id;
-  $team = 0+$par->team;
   $nonprofit = 0+$par->nonprofit;
+
+  $qs = "select team_id from Team_Joins where id=$id and last_date=null";
+  $result = sybase_query($qs);
+  $rows = sybase_num_rows($result);
+  if( $rows == 1 ) {
+    sybase_data_seek($result,0);
+    $RS_teamid = sybase_fetch_object($result);
+    $team = (int) $RS_teamid->team_id;
+  } else {
+    $team = 0;
+  }
 
   $teamname = "Not a team member";
   if( $team > 0 ) {
