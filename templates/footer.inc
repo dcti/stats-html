@@ -45,7 +45,7 @@ if($debug > 0 ) {
     ?>
 		<p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
 		<?
-    echo xdebug_dump_function_trace();
+    if($debug >= 2) { echo xdebug_dump_function_trace(); }
     echo xdebug_dump_function_profile();
 } 
 
