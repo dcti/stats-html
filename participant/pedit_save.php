@@ -1,14 +1,7 @@
-<?php
-  if(isset($cookie)) {
-    if( $cookie == "yes" ) {
-      SetCookie("sbid",$id,time()+3600*24*365,"/");
-      SetCookie("sbpass",$pass,time()+3600*24*365,"/");
-    }
-  }
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.7 2003/04/20 21:31:37 paul Exp $
+  // $Id: pedit_save.php,v 1.8 2003/10/21 22:02:12 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -17,47 +10,71 @@
   include "../etc/project.inc";
   include "../etc/psecure.inc";
 
-  if ($dem_yob == "") {
-    $dem_yob = 0;
+  if(isset($_POST['cookie'])) {
+    if($cookie == "yes" ) {
+      SetCookie("sbid",$id,time()+3600*24*365,"/");
+      SetCookie("sbpass",$pass,time()+3600*24*365,"/");
+    }
   }
-  $friend_a = (int) $friend_a;
-  $friend_b = (int) $friend_b;
-  $friend_c = (int) $friend_c;
-  $friend_d = (int) $friend_d;
-  $friend_e = (int) $friend_e;
 
-  $contact_name = htmlspecialchars($contact_name);
+  $dem_yob = (int) $_POST['dem_yob'];
+  $dem_heard = (int) $_POST['dem_heard'];
+  $dem_motivation = (int) $_POST['dem_motivation'];
+  $dem_gender = $_POST['dem_gender'];
+  $dem_country = $_POST['dem_country'];
 
-  $qs = "update STATS_participant set
-	listmode = $listas,
-	nonprofit = $nonprofit,
-	dem_yob = $dem_yob,
-	dem_heard = $dem_heard,
-	dem_gender = '$dem_gender',
-	dem_motivation = $dem_motivation,
-	contact_name = '$contact_name',
-	contact_phone = '$contact_phone',
-        motto = '$motto',
-	dem_country = '$dem_country',
-	friend_a = $friend_a,
-	friend_b = $friend_b,
-	friend_c = $friend_c,
-	friend_d = $friend_d,
-	friend_e = $friend_e
-	where id = $id and password = '$pass'";
+  $friend_a = (int) $_POST['friend_a'];
+  $friend_b = (int) $_POST['friend_b'];
+  $friend_c = (int) $_POST['friend_c'];
+  $friend_d = (int) $_POST['friend_d'];
+  $friend_e = (int) $_POST['friend_e'];
 
-  $result = sybase_query($qs);
-  print "
-	<html>
-	 <head>
-	  <title>Updating $par->email data</title>
-	 </head>";
-if ($debug != yes) print "	 <meta http-equiv=\"refresh\" content=\"4; URL=http://stats.distributed.net/\">";
-print "
-	 <body>
-	  <center>
-	   <h2>Saving your information...</h2>
-	  </center>
-	 </body>";
+  $contact_name = htmlspecialchars($_POST['contact_name']);
+  $contact_phone = $_POST['contact_phone'];
+  $motto = $_POST['motto'];
+
+  $listas = (int) $_POST['listas'];
+
+  // Update main participant info
+  if($gpart->get_list_mode() <= 2 && $listas <= 2)
+    $gpart->set_list_mode($listas);
+  $gpart->set_non_profit($nonprofit);
+  $gpart->set_dem_yob($dem_yob);
+  $gpart->set_dem_heard($dem_heard);
+  $gpart->set_dem_gender($dem_gender);
+  $gpart->set_dem_motivation($dem_motivation);
+  $gpart->set_dem_country($dem_country);
+  $gpart->set_contact_name($contact_name);
+  $gpart->set_contact_phone($contact_phone);
+  $gpart->set_motto($motto);
+
+  // Update friend info
+  $friend_list = "$friend_a,$friend_b,$friend_c,$friend_d,$friend_e";
+  $gpart->set_friends($friend_list);
+
+  // Save the object
+  $result = $gpart->save();
+  if($result != "")
+  {
+    include "../templates/header.inc";
+    print "
+       <h1>Error occurred</h2>
+       <h3>There was an error saving your participant information, the error message(s)
+           is below:</h3>
+       " . str_replace("\n", "<br>", $result) . "<br><br>
+       <a href=\"javascript:history.back()\">Correct the error</a><br><br>";
+    include "../templates/footer.inc";
+    exit(0);
+  }
 ?>
+<html>
+ <head>
+  <title>Updating <?=$gpart->get_email()?> data</title>
+ <?if($debug <= 0){?><meta http-equiv="refresh" content="4; URL=http://stats.distributed.net/"><?}?>
+ </head>
+ <body>
+  <div style="text-align: center">
+   <h2>Saving your information...</h2>
+  </div>
+ </body>
 </html>

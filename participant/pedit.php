@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
+// $Id: pedit.php,v 1.18 2003/10/21 22:02:12 thejet Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -20,13 +20,10 @@ $team = $gpart -> get_team_id();
 $teamname = "Not a team member";
 if( $team > 0 ) {
 	$teamname = "Invalid team";
-	// @TODO if valid team, set teamname to team name, and team info
         $teamptr = new Team($gdb, $gproj, $team);
         if($teamptr->get_id() > 0)
           $teamname = $teamptr->get_name();
         $teamptr = null;
-	//  $teaminfo = sybase_fetch_object($result);
-	//  $teamname = $teaminfo->name;
 }
 
 $qs = "select * from STATS_nonprofit order by nonprofit";
@@ -43,7 +40,7 @@ for( $i = 0; $i < $nonprofits; $i++) {
 	} else {
 		$selstring = "";
 	}
-	$npoptions = "$npoptions
+	$npoptions .= "
 	<option value=\"$npbuf\" $selstring>$npdata->name</option>";
 }
   
@@ -60,7 +57,7 @@ for( $i = 0; $i < $countries; $i++) {
 	} else {
 		$selstring = "";
 	}
-	$countryoptions = "$countryoptions
+	$countryoptions .= "
 		<option value=\"$country->code\" $selstring>$country->country</option>";
 }
 
@@ -326,12 +323,13 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
         This will store your password on the machine.</font>
         <hr>
        <input name=\"id\" type=\"hidden\" value=\"$id\">
-       <input name=\"pass\" type=\"hidden\" value=\"$test_pass\">
+       <input name=\"pass\" type=\"hidden\" value=\"$pass\">
        <input value=\"Update my information\" type=\"submit\">
       </td>
      </tr>
     </table>
     <hr>
+    <!--
     <p>
      If this address is no longer current/valid, you may \"retire\" its blocks into another email address.
      <br>
@@ -340,6 +338,7 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      <br>
      Once you've done that, you may then <a href=\"pretire.php?id=$id&pass=$test_pass\">retire this email address permanently</a>.
     </p>
+    -->
     <hr>
     <h2>
      All information is *completely* confidential.
