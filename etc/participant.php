@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.35 2003/10/24 16:27:59 thejet Exp $
+// $Id: participant.php,v 1.36 2003/10/27 14:09:42 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -50,6 +50,23 @@ class Participant {
             else
               return 0;
 	}
+        function join_team($team_id)
+        {
+            $team_id = (int) $team_id;
+            // Only call team join if they are not already on this team
+            if($team_id == $this->get_team_id()) return true;
+
+            if(!$this->_authed) return false;
+
+            if($team_id < 0) return false;
+
+            $sql = "SELECT p_teamjoin(" . $this->get_id() . ", " . $team_id . ");";
+            $res = $this->_db->query($sql);
+            if($res == FALSE)
+                return false;
+            else
+                return true;
+        }
 
  	function get_id()
     {

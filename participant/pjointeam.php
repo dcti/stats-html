@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.21 2003/10/14 19:12:20 paul Exp $
+  // $Id: pjointeam.php,v 1.22 2003/10/27 14:08:57 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -8,77 +8,70 @@
   include "../etc/modules.inc";
   include "../etc/project.inc";
   include "../etc/psecure.inc";
+  include "../etc/team.php";
 
-?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
-<?
+  $id = $gpart->get_id();
+  $team = $tm+0;
 
-  $id = 0+$par->id;
-  $team = $team+0;
-
-  $qs = "select team_id from Team_Joins where id=$id and last_date=null";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-  if( $rows == 1 ) {
-    sybase_data_seek($result,0);
-    $RS_teamid = sybase_fetch_object($result);
-    $oldteam = (int) $RS_teamid->team_id;
-  } else {
-    $oldteam = 0;
-  }
-
-  $oldteamname = "No Team";
-  if( $oldteam > 0 ) {
-    $oldteamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $oldteam";
-    $result = sybase_query($qs);
-    $rows = sybase_num_rows($result);
-    if( $rows == 1 ) {
-      sybase_data_seek($result,0);
-      $teaminfo = sybase_fetch_object($result);
-      $oldteamname = $teaminfo->name;
-    }
+  $oldteamid = $gpart->get_team_id();
+  if($oldteamid <= 0)
+      $oldteamname = "No Team";
+  else
+  {
+      $pteam = new Team($gdb, $gproj, $oldteamid);
+      if($oldteamid != $pteam->get_id())
+          $oldteamname = "Invalid Team";
+      else
+          $oldteamname = $pteam->get_name();
   }
 
   if( $team > 0 ) {
-    $newteamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $team";
-    $result = sybase_query($qs);
-    $rows = sybase_num_rows($result);
-    if( $rows == 1 ) {
-      sybase_data_seek($result,0);
-      $teaminfo = sybase_fetch_object($result);
-      $newteamname = $teaminfo->name;
-    }
+      $pteam = new Team($gdb, $gproj, $team);
+      if($team != $pteam->get_id())
+          $newteamname = "Invalid team";
+      else
+          $newteamname = $pteam->get_name();
+
+      if( $pteam->get_listmode() > 0 ) {
+          $title = "This team has been revoked";
+          include "../templates/header.inc";
+          display_last_update('t');
+          print "<div style=\"text-align:center\">
+                     <h2>This team has been revoked</h2>
+                     <p>Team #$team ($newteamname) is no longer valid.</p>
+                     <p><a href=\"/\">Oh well, I'll find another team...</a></p>
+                 </div>
+             </body>";
+          exit;
+      }
   }
 
-  if( $teaminfo->listmode > 0 ) {
-    $title = "This team has been revoked";
-    include "../templates/header.inc";
-    display_last_update();
-    print "<center>
-          <h2>This team has been revoked</h2>
-          <p>Team #$team ($teaminfo->name) is no longer valid.</p>
-          <p><a href=\"/\">Oh well, I'll find another team...</a></p>
-         </center>
-        </body>";
-    exit;
-  }
+  $result = $gpart->join_team($team);
+  if(!$result)
+  {
+      $title = "Error joining team #$team";
+      include "../templates/header.inc";
+      display_last_update('t');
+      print "<div style=\"text-align:center\">
+             <!-- $oldteamid, $oldteamname, $team, $newteamname -->
+                 <h2>There was an error when joining team</h2>
+                 <p><a href=\"/\">Oh well, I'll try again later...</a></p>
+             </div>
+             </body>";
+      exit;
+   }
 
-  $qs = "p_teamjoin @id=$id, @team=$team";
-  $result = sybase_query($qs);
-
-  $title = "$par->email has joined $newteamname";
+  $title = $gpart->get_email()." has joined $newteamname";
 
   include "../templates/header.inc";
-  display_last_update();
+  display_last_update('t');
 
-  print "<center>
-          <h2>You have joined $teamname</h2>
-	  <table cellpadding=\"1\" cellspacing=\"1\" bgcolor=\"#dddddd\">
+  print "<div style=\"text-align: center\">
+          <h2>You have joined $newteamname</h2>
+	  <table cellpadding=\"1\" cellspacing=\"1\" style=\"background-color: #dddddd; margin: auto;\">
 	   <tr>
 	    <td>Email Address:</td>
-	    <td>$par->email</td>
+	    <td>" . $gpart->get_email() . "</td>
 	   </tr>
 	   <tr>
 	    <td>Participant Number:</td>
@@ -86,7 +79,7 @@
 	   </tr>
 	   <tr>
 	    <td>Old Team Affiliation</td>
-	    <td>$oldteam: $oldteamname</td>
+	    <td>$oldteamid: $oldteamname</td>
 	   </tr>
 	   <tr>
 	    <td>New Team Affiliation</td>
@@ -114,7 +107,7 @@
 	   Stats runs typically occur daily at 00:00 UTC.
 	  </p>
 	  <p><a href=\"/\">Cool!  It's about damn time</a></p>
-	 </center>
+	 </div>
 	</body>";
 ?>
 </html>
