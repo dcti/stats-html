@@ -1,6 +1,6 @@
-<? 
+<?
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.19 2003/11/25 18:41:37 thejet Exp $
+// $Id: phistory.php,v 1.20 2004/03/06 12:21:09 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -13,19 +13,17 @@ include "../etc/participant.php";
 
 if(isset($lockfile)) {
     if(file_exists($lockfile)) {
-        $title = "Participant History (Unavailable)";
-        include "../templates/header.inc";
-        include "../templates/updating.inc";
+		trigger_error("Participant History is Unavailable During Update",E_USER_ERROR);
         exit;
-    } 
-} 
+    }
+}
 
 $gpart = new Participant($gdb, $gproj, $id);
 
 if($gpart->get_retire_to() > 0) {
     header("Location: http://stats.distributed.net/participant/phistory.php?project_id=".$gproj->get_id()."&id=".$gpart->get_retire_to());
     exit();
-} 
+}
 $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 $history = $gpartstats -> get_stats_history();
 
@@ -35,7 +33,7 @@ $title = "Participant History for ".$gpart->get_display_name();
 
 include "../templates/header.inc";
 
-?> 
+?>
 
 <!-- IMPORTANT NOTE TO SCRIPTERS!
 This page, like many stats pages, has a version which is far more suitable
@@ -56,15 +54,14 @@ foreach ($history as $histrow)
 {
     if($histrow->work_units > $maxwork_units) {
         $maxwork_units = $histrow->work_units;
-    } 
+    }
 }
 
-$i = 0; 
+$i = 0;
 foreach ($history as $histrow)
 {
     $work_units_fmt = number_format($histrow->work_units*$gproj->get_scale(), 0);
     $date_fmt = $histrow->stats_date;
-    //$date_fmt = sybase_date_format_long($date);
     $width = (int) (((double)$histrow->work_units / $maxwork_units) * 200) + 1;
     ?>
       <tr class=<?=row_background_color($i);?>>
@@ -74,7 +71,7 @@ foreach ($history as $histrow)
       </tr>
 <?
 	$i++;
-	} 
+	}
 ?>
     </table>
     <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->get_display_name()?>'s Participant Summary</a></p>

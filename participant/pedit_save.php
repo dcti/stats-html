@@ -1,11 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.12 2004/01/03 03:49:39 fiddles Exp $
+  // $Id: pedit_save.php,v 1.13 2004/03/06 12:23:28 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
-  
+
   include "../etc/config.inc";
   include "../etc/project.inc";
   include "../etc/psecure.inc";
@@ -58,16 +58,7 @@
   $result = $gpart->save();
   if($result != "")
   {
-    $title = "Error Saving Participant Data #$id";
-    include "../templates/header.inc";
-    display_last_update();
-    print "
-       <h1>Error occurred</h2>
-       <h3>There was an error saving your participant information, the error message(s)
-           is below:</h3>
-       " . str_replace("\n", "<br>", $result) . "<br><br>
-       <a href=\"javascript:history.back()\">Correct the error</a><br><br>";
-    // include "../templates/footer.inc";
+	trigger_error("There was an error saving your participant information. <a href=\"javascript:history.back()\">Correct the error</a><br><br>");
     exit(0);
   }
 ?>
