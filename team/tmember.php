@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.7 2002/03/25 15:52:01 paul Exp $
+// $Id: tmember.php,v 1.8 2002/03/25 22:54:54 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -59,7 +59,6 @@ if ($info->showmembers == "NO") {
 if ($info->showmembers == "PAS") {
 	if ($pass != $info->showpassword ) {
 	
-		include "etc/lastupdate.inc";
 		include "templates/header.inc";
 		if ($pass == "") {
 			?>
@@ -86,15 +85,7 @@ if ($info->showmembers == "PAS") {
 	}
 }
 
-// Check when this info was last updated
-$qs = "p_lastupdate t, new, @project_id=$project_id";
-$result = sybase_query($qs);
-if($result) {
-	$par = sybase_fetch_object($result);
-	$lastupdate = sybase_date_format_long($par->lastupdate);
-} else {
-	$lastupdate = "some day, not too long ago";
-}
+$lastupdate = last_update('t');
 
 // See how many blocks this team did
 $qs = "	SELECT	WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY

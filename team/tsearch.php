@@ -1,5 +1,5 @@
 <?
- # $Id: tsearch.php,v 1.7 2002/03/24 17:03:40 paul Exp $
+ # $Id: tsearch.php,v 1.8 2002/03/25 22:54:54 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -44,11 +44,7 @@ $title = "Team Search: [".safe_display($st)."]";
 	exit;
  }
 
- // Find out when the last update was
- $qs = "p_lastupdate @section=t, @project_id=$project_id, @contest=new";
- $result = sybase_query($qs);
- $par = sybase_fetch_object($result);
- $lastupdate = sybase_date_format_long($par->lastupdate);
+ $lastupdate = last_update('t');
 
  include "templates/header.inc";
 
@@ -85,7 +81,7 @@ $title = "Team Search: [".safe_display($st)."]";
 	$totalblocksy += (double) $par->WORK_TODAY;
 
 ?>
-		<tr bgcolor=<?=row_background_color($i)?>>
+		<tr class="<?=row_background_color($i)?>">
 		<td><? echo $par->OVERALL_RANK. html_rank_arrow($par->Change)?></td>
 		<td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=safe_display($par->name)?></font></a></td>
 		<td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
