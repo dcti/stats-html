@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.15 2005/04/01 16:03:54 decibel Exp $
+// $Id: participantstats.php,v 1.16 2005/04/01 16:19:31 decibel Exp $
 
 /**
  * This class represents a participant stats entry
@@ -67,7 +67,7 @@ class ParticipantStats {
     function load($id, &$project, $date)
     {
         $qs  = "SELECT day_rank, overall_rank, last_date + 1 - first_date as Days_Working,";
-        if $randdom_stats = 1 {
+        if ( $random_stats = 1 ) {
             $qs .= "                work_today*(0.5+random()*2), work_total*(0.5+random()*2),";
         } else {
             $qs .= "                work_today, work_total,";
@@ -103,7 +103,7 @@ class ParticipantStats {
     function get_stats_history($lastdays = -1)
     {
         $qs  = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,";
-        if $random_stats = 1 {
+        if ( $random_stats = 1 ) {
             $qs .= "              SUM(work_units)*(0.5+random()*2) as work_units";
         } else {
             $qs .= "              SUM(work_units) as work_units";

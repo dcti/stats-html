@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.12 2005/04/01 16:03:54 decibel Exp $
+// $Id: teamstats.php,v 1.13 2005/04/01 16:19:31 decibel Exp $
 
 /***
  * This class represents a team stats entry
@@ -48,7 +48,7 @@ class TeamStats
     function load($id, $date)
     {
         $qs  = 'SELECT first_date, last_date, day_rank, day_rank_previous, overall_rank, overall_rank_previous';
-        if $random_stats = 1 {
+        if ( $random_stats = 1 ) {
             $qs .= '        , members_today*(0.5+random()*2), members_overall*(0.5+random()*2), members_current*(0.5+random()*2)';
             $qs .= '        , work_today*(0.5+random()*2), work_total*(0.5+random()*2)';
         } else {
