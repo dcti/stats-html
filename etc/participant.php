@@ -1,6 +1,5 @@
 <?php
-// $Id: participant.php,v 1.3 2003/05/25 20:20:01 paul Exp $
-
+// $Id: participant.php,v 1.4 2003/07/10 20:11:07 paul Exp $
 /**
  * This class represents a participant
  * 
@@ -10,21 +9,23 @@
  * public interface, as private methods and signatures
  * can change at any time.
  * 
+ * 
+ *  retire_date    | date                   |
+ * contact_name   | character varying(50)  | not null default ''
+ * contact_phone  | character varying(20)  | not null default ''
+ * motto          | character varying(255) | not null default ''
+ * 
+ * 
  * @access public 
  */
 class Participant {
-    /**
-     * The Id for the current participant (read only)
-     * 
-     * @access public (readonly)
-     * @type int
-     */
-    var $_ID;
-	var $_state;
-	
+
+    var $_state;
+    var $_friends;
+
     function get_id()
     {
-        return $this -> _ID;
+        return $this -> _state -> id;
     } 
 
     /**
@@ -96,7 +97,7 @@ class Participant {
      * @access public 
      * @type int
      */
-/*    function getTeamID()
+    /*    function getTeamID()
     {
         return $this -> _teamID;
     } 
@@ -113,7 +114,7 @@ class Participant {
      */
     function get_retire_to()
     {
-        return $this -> _state ->retire_to;
+        return $this -> _state -> retire_to;
     } 
     function set_retire_to($value)
     {
@@ -126,13 +127,12 @@ class Participant {
      * @access public 
      * @type int[]
      */
-    var $_friends;
     /**
      * ** NOTE: We need to ensure the index is valid in both of these ... **
      */
     function getFriends($index)
     {
-	/* @todo friends */
+        /* @todo friends */
         return $this -> _friends[$index];
     } 
     function setFriends($index, $value)
@@ -150,9 +150,9 @@ class Participant {
     {
         return $this -> _state -> dem_yob;
     } 
-    function setYearOfBirth($value)
+    function set_dem_yob($value)
     {
-        $this -> _state ->dem_yob = $value;
+        $this -> _state -> dem_yob = $value;
     } 
 
     /**
@@ -161,11 +161,11 @@ class Participant {
      * @access public 
      * @type smallint
      */
-    function getHeard()
+    function get_dem_heard()
     {
-        return $this -> _state -> dem_Heard;
+        return $this -> _state -> dem_heard;
     } 
-    function setHeard($value)
+    function set_dem_heard($value)
     {
         $this -> _state -> dem_heard = $value;
     } 
@@ -176,14 +176,13 @@ class Participant {
      * @access public 
      * @type string
      */
-    var $_demoGender;
-    function getGender()
+    function get_dem_gender()
     {
-        return $this -> _demoGender;
+        return $this -> _state -> dem_gender;
     } 
-    function setGender($value)
+    function set_dem_gender($value)
     {
-        $this -> _demoGender = $value;
+        $this -> _state -> dem_gender = $value;
     } 
 
     /**
@@ -192,14 +191,13 @@ class Participant {
      * @access public 
      * @type smallint
      */
-    var $_demoMotivation;
-    function getMotivation()
+    function get_dem_motivation()
     {
-        return $this -> _demoMotivation;
+        return $this -> _state -> dem_motivation;
     } 
-    function setMotivation($value)
+    function set_dem_motivation($value)
     {
-        $this -> _demoMotivation = int($value);
+        $this -> _state -> dem_motivation = $value;
     } 
 
     /**
@@ -208,14 +206,13 @@ class Participant {
      * @access public 
      * @type string
      */
-    var $_demoCountry;
-    function getCountry()
+    function get_dem_country()
     {
-        return $this -> _demoCountry;
+        return $this -> _state -> dem_country;
     } 
-    function setCountry($value)
+    function set_dem_country($value)
     {
-        $this -> _demoCountry = $value;
+        $this -> _state -> dem_country = $value;
     } 
 
     /**
@@ -289,17 +286,18 @@ class Participant {
 
     function getDisplayName()
     {
-        if ($this -> _state -> listmode == 0 || $this -> _state -> listmode == 8 || $this -> _state -> listmode == 9) 
+        if ($this -> _state -> listmode == 0 || $this -> _state -> listmode == 8 || $this -> _state -> listmode == 9) {
             $listas = $this -> get_email();
-         else if ($this -> _state -> listmode == 1) 
+        } else if ($this -> _state -> listmode == 1) {
             $listas = "Participant #" . number_style_convert($this -> get_id());
-         else if ($this -> _state -> listmode == 2) 
-            if ($this ->getContactName() == "")
+        } else if ($this -> _state -> listmode == 2) {
+            if ($this -> getContactName() == "")
                 $listas = "Participant #" . number_style_convert($this -> get_id());
             else
                 $listas = $this -> getContactName();
-            else
-                $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
+        } else {
+            $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
+        } 
         return $listas;
     } 
     /**
@@ -308,14 +306,13 @@ class Participant {
      * @access public 
      * @return void 
      * @param DBClass $ The database connectivity to use
-     *                      ProjectClass The current project
-     *                      int The ID of the participant to load
+     *                                 ProjectClass The current project
+     *                                 int The ID of the participant to load
      */
     function Participant($dbPtr, $prjPtr, $id)
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
-		$this -> _ID = $id;
         $this -> load($id);
     } 
 
@@ -387,8 +384,6 @@ class Participant {
     {
     } 
 
-
-
     /**
      * Returns the current ParticipantStats object for this participant
      * 
@@ -412,10 +407,46 @@ class Participant {
      * @access public 
      * @return ParticipantStats []
      * @param date $ The date to start retrieval
-     *                      int The number of days prior to $start to retrieve data for
+     *                                 int The number of days prior to $start to retrieve data for
      */
     function getStatsHistory($start, $getDays)
     {
+    } 
+
+    function get_ranked_list($source = 'o', $lo, $hi, $limit)
+    { 
+        // First, we need to determine which query to run...
+        if($source == 'y') {
+            $qs = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TODAY as blocks,
+						LAST_DATE + 1 - FIRST_DATE as Days_Working,
+						r.DAY_RANK as rank, r.DAY_RANK_PREVIOUS - r.DAY_RANK as change,
+						p.email, p.listmode as listas, p.contact_name
+						from Email_Rank r, STATS_Participant p
+						where DAY_RANK <= $hi and DAY_RANK >= $lo and r.id = p.id and p.listmode < 10 and 	r.PROJECT_ID = " . $this -> _project . "
+						order by r.DAY_RANK, r.WORK_TODAY desc";
+        } else {
+            $qs = "select r.id, r.first_date as first, r.LAST_DATE as last, r.WORK_TOTAL as blocks,
+						LAST_DATE + 1 - FIRST_DATE as Days_Working,
+						r.OVERALL_RANK as rank, r.OVERALL_RANK_PREVIOUS - r.OVERALL_RANK as change,
+						p.email, p.listmode as listas, p.contact_name
+						from Email_Rank r, STATS_Participant p
+						where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 	10 and r.PROJECT_ID = " . $this -> _project . "
+						order by r.OVERALL_RANK, r.WORK_TOTAL desc";
+        } 
+
+        $queryData = $this -> _db -> query($qs);
+        $total = $this -> _db -> num_rows($queryData);
+        $result = &$this -> _db -> fetch_paged_result($queryData, $start, $limit);
+        $cnt = count($result);
+        for($i = 0; $i < $cnt; $i++) {
+            $partTmp = new Participant($this -> _db, $this -> _project);
+            $statsTmp = new ParticipantStats($this -> _db, $this -> _project);
+            $statsTmp -> explode($result[$i]);
+            $partTmp -> explode($result[$i], $statsTmp);
+            $retVal[] = $teamTmp;
+        } 
+
+        return $retVal;
     } 
 
     /**
@@ -430,31 +461,11 @@ class Participant {
      * @return bool 
      * @param DBVariant $ This is the object/array from the database server which contains the data for the desired participant
      */
-    function explode($ptPtr)
+
+    function explode($obj, $stats = null)
     {
-        $this -> _ID = $ptPtr -> ID;
-        $this -> _email = $ptPtr -> email;
-        $this -> _password = $ptPtr -> password;
-        $this -> _listmode = $ptPtr -> listmode;
-        $this -> _nonProfit = $ptPtr -> nonprofit;
-        $this -> _teamID = $ptPtr -> team;
-        $this -> _retireTo = $ptPtr -> retire_to;
-        $this -> _friends[0] = $ptPtr -> friend_a;
-        $this -> _friends[1] = $ptPtr -> friend_b;
-        $this -> _friends[2] = $ptPtr -> friend_c;
-        $this -> _friends[3] = $ptPtr -> friend_d;
-        $this -> _friends[4] = $ptPtr -> friend_e;
-        $this -> _demoYOB = $ptPtr -> dem_yob;
-        $this -> _demoHeard = $ptPtr -> dem_heard;
-        $this -> _demoGender = $ptPtr -> dem_gender;
-        $this -> _demoMotivation = $ptPtr -> dem_motivation;
-        $this -> _demoCountry = $ptPtr -> dem_country;
-        $this -> _contactName = $ptPtr -> contact_name;
-        $this -> _contactPhone = $ptPtr -> contact_phone;
-        $this -> _retireDate = $ptPtr -> retire_date;
-
-        return true;
+        $this -> _state = &$obj;
+        $this -> _stats = &$stats;
     } 
-} 
 
-?>
+    ?>
