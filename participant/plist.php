@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.10 2002/04/09 22:54:19 jlawson Exp $
+# $Id: plist.php,v 1.11 2002/05/25 11:13:10 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -45,9 +45,8 @@ if ("$source" == "y") {
 	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
 }
 
-$lastupdate = last_update('e');
  include "../templates/header.inc";
-
+ display_last_update('e');
  sybase_query("set rowcount 100");
  $result = sybase_query($QSlist);
 
