@@ -1,9 +1,10 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.20 2003/04/20 21:33:22 paul Exp $
+# $Id: project.inc,v 1.21 2003/05/20 19:29:02 paul Exp $
 
 include "limit.inc";
-include "debug.inc";
+include "db_pgsql.php";
+include "project.php";
 
 # Formatting options
 $bgcolor = "\"#ffffff\"";
@@ -28,8 +29,11 @@ $bar_color_b = "row2";
 
 
 if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ 
-  include "timing.inc";
-  timer_start();
+	dl('../xdebug.so');
+	xdebug_start_trace();
+	xdebug_start_profiling();
+ 	include "timing.inc";
+  	timer_start();
 }
 
 $myname = $_SERVER['PHP_SELF'];
@@ -84,39 +88,8 @@ if (isset($_GET['team'])) {
   $tm = 1;
 }
 
-sybase_pconnect($interface, $username, $password);
-$qs = "select name, project_type, work_unit_qty, work_unit_disp_multiplier, work_unit_disp_divisor,
-              scaled_work_unit_name, unscaled_work_unit_name, PRIZE
-              -- Deprecated
-              , work_unit_scale, work_unit_name
-          from Projects
-          where PROJECT_ID = $project_id";
-sybase_query("set rowcount 1");
-$result = sybase_query($qs);
-
-if($result == "") {
-  if($debug == "yes") {
-    include "templates/debug.inc";
-  } else {
-    include "templates/error.inc";
-  }
-    exit();
-}
-
-// get project_info object
-sybase_data_seek($result,0);
-$prj_info = sybase_fetch_object($result);
-$proj_name = $prj_info->name;
-$proj_type = $prj_info->project_type;
-$proj_totalunits = (double)$prj_info->work_unit_qty;
-$proj_scale = (double)$prj_info->work_unit_disp_multiplier / $prj_info->work_unit_disp_divisor;
-$proj_scaled_unit_name = $prj_info->scaled_work_unit_name;
-$proj_unscaled_unit_name = $prj_info->unscaled_work_unit_name;
-$proj_prize = $prj_info->PRIZE;
-
-# Deprecated
-$proj_divider = (double)$prj_info->work_unit_scale;
-$proj_unitname = $prj_info->work_unit_name;
+$gdb = new DB('dbname=stats');
+$gproj = new Project($gdb,$project_id);
 
 function last_update($type)
 {
@@ -142,8 +115,8 @@ function last_update($type)
       return $lastupdate;
   }
 
-  $result = sybase_query($qs);
-
+  //$result = sybase_query($qs);
+	$result = false;
   if($result) {
     $par = sybase_fetch_object($result);
     $lastupdate = sybase_date_format_long($par->lastupdate);
