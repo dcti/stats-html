@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.10 2003/09/05 15:47:32 thejet Exp $
+// $Id: team.php,v 1.11 2003/09/26 03:09:12 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -8,6 +8,7 @@
 // system.  It abstracts the concept of a
 // team and its stats into objects.
 //==========================================
+define('MAX_PASS_LEN', 8);
 
 /***
  * This class represents a team
@@ -27,6 +28,7 @@ class Team
      var $_db;
      var $_project;
      var $_state;
+     var $_authed;
      /*** END Internal Class variables ***/
      
      /***
@@ -135,6 +137,7 @@ class Team
 	 {
 	    $this->_db =& $dbPtr;
 	    $this->_project =& $prjPtr;
+            $this->_authed = false;
 		
 	    if($team_id != -1)
 	    {
@@ -260,6 +263,12 @@ class Team
            // Setup the return value
            $retVal = "";
 
+           if($this->_authed != true)
+           {
+             $retVal = "You must be authenticated to edit team information.";
+             return $retVal;
+           }
+
            // Required Fields
            if($this->_state->password == '' || 
               $this->_state->password == null ||
@@ -292,11 +301,6 @@ class Team
            // Uniqueness
            if($retVal == "")
            {
-             // make sure we've got proper escaping here...
-             $tmp = stripslashes($this->_state->name);
-             ini_alter("magic_quotes_sybase",0);
-             $tmp = addslashes($tmp);
-
              $sql = "SELECT * FROM stats_team WHERE team != " . $this->_state->team . " AND lower(name) = '" . strtolower($tmp) . "'::char(64)";
              $queryData = $this->_db->query_first($sql);
 
@@ -333,6 +337,31 @@ class Team
            }
 
            return $retVal;
+         }
+
+        /***
+         * This function checks that the passed password matches the team password.
+         *
+         * If the proper password is passed to this routine, the class becomes "authed" which enables
+         * the save logic, and is part of the is valid check.
+         *
+         * @access public
+         * @return boolean
+         ***/
+         function check_password($test_pass)
+         {
+           $pass = substr($test_pass, 0, MAX_PASS_LEN);
+           if($pass == "")
+             $this->_authed = false;
+           else
+           {
+             if($pass == $this->get_password())
+               $this->_authed = true;
+             else
+               $this->_authed = false;
+           }
+
+           return $this->_authed;
          }
   
         /***
