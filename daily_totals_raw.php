@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-# $Id: daily_totals_raw.php,v 1.4 2002/03/16 15:47:26 paul Exp $
+# $Id: daily_totals_raw.php,v 1.5 2002/05/14 22:18:54 paul Exp $
 
- include "../etc/config.inc";
+ include "etc/config.inc";
  include "etc/project.inc";
 
  $qs = "SELECT	convert(char(10),DATE,101) as datefmt, *
@@ -14,7 +14,7 @@
  $result = sybase_query($qs);
  $rows = sybase_num_rows($result);
 
-print "
+?>
 <html>
 <head>
 <title>Daily Counts RAW</title> 
@@ -28,7 +28,7 @@ result in additional fields added to each line.
 
 --BEGIN DATA--
 DATE,UNITS,PARTICIPANTS,TEAMS
-";
+<?
 
 for ($i = 0; $i<$rows; $i++) {
 	sybase_data_seek($result,$i);
@@ -36,8 +36,8 @@ for ($i = 0; $i<$rows; $i++) {
 	print "$par->datefmt," . (double) $par->WORK_UNITS . "," . (int) $par->PARTICIPANTS . ","
 		. (int) $par->TEAMS. "\n";
 }
-print "--END DATA--\n";
 ?>
+--END DATA--
 </pre>
 </body> 
 </html>
