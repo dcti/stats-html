@@ -5,7 +5,7 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 
 sybase_connect($interface, $ss_login, $ss_passwd);
-$qs = "select id, email from stats.dbo.STATS_participant where email like \"%%$st%%\" order by id";
+$qs = "select id, email from stats.dbo.STATS_participant where email like \"$st%%\" order by id";
 $result = sybase_query($qs);
 $rows = sybase_num_rows($result);
 
