@@ -1,6 +1,6 @@
 <?php
 
-# $Id: money.php,v 1.2 2002/10/31 17:26:26 nugget Exp $
+# $Id: money.php,v 1.3 2002/10/31 17:30:26 nugget Exp $
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
@@ -10,7 +10,7 @@
    $project_id = 5;
  }
 
- $filename = "money-$project_id.inc";
+ $filename = "../cache/money-$project_id.inc";
  $title = "Disposition of Prize Money";
 
  include "../templates/header.inc";
