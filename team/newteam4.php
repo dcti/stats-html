@@ -1,5 +1,5 @@
 <?php
-  // $Id: newteam4.php,v 1.12 2003/10/07 21:26:02 thejet Exp $
+  // $Id: newteam4.php,v 1.13 2003/10/27 21:28:28 thejet Exp $
   
   include "../etc/config.inc";
   include "../etc/project.inc";
@@ -12,7 +12,7 @@
   include "../templates/header.inc";
 
   // Create the team object to save the information
-  $newteam = new Team($gdb, null);
+  $newteam = new Team($gdb, $gproj);
   $newteam->set_name(htmlspecialchars($_GET['name']));
   $newteam->set_contact_name($_GET['contactname']);
   $newteam->set_contact_email($_GET['contactemail']);
