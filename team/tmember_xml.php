@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.1 2003/09/05 20:16:23 thejet Exp $
+// $Id: tmember_xml.php,v 1.2 2003/09/10 02:56:08 thejet Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -93,6 +93,7 @@ if ($team->get_show_members() == "PAS") {
 
 
 // See how many blocks this team did
+/** Don't do this anymore because we don't need pcts
 $teamStats =& $team->get_current_stats();
 if ($teamStats == null) {
   $totblocks = FALSE;
@@ -102,6 +103,7 @@ if ($teamStats == null) {
   if ( $yblocks == 0 ) $yblocks = 1;
   $oblocks = (double) $teamStats->get_stats_item("work_total") * $gproj->get_scale();
 }
+**/
 
 //debug_text("<!-- TOTAL BLOCKS -- qs: $qs, totblocks: $totblocks, yblocks: ${yblocks}, oblocks: ${oblocks}. -->\n",$debug);
 
@@ -144,9 +146,9 @@ $lo = $low + 1;
       $prnk = $statsTmp->get_stats_item("rank");
       $prnkchg = $statsTmp->get_stats_item("rank_change");
       $n_yesterday = (double) $statsTmp->get_stats_item("work_today") * $gproj->get_scale();
-      $yesterday = number_style_convert($n_yesterday);
+      $yesterday = round($n_yesterday,0);
       $n_blocks = (double) $statsTmp->get_stats_item("work_total") * $gproj->get_scale();
-      $blocks = number_style_convert($n_blocks);
+      $blocks = round($n_blocks,0);
       $first = $statsTmp->get_stats_item("first_date");
       $last = $statsTmp->get_stats_item("last_date");
       $linkid = (int) $teamMembers[$i]->get_id();
@@ -161,10 +163,8 @@ $lo = $low + 1;
       <stats>
         <stat name="rank-overall" unit="" value="<?= $rnk ?>" change=""/>
         <stat name="rank-project" unit="" value="<?= $prnk ?>" change="<?= $prnkchg ?>"/>
-        <stat name="work-overall" unit="<?= $gproj->get_scaled_unit_name() ?>" value="<?= $n_blocks ?>"/>
-        <stat name="work-day" unit="<?= $gproj->get_scaled_unit_name() ?>" value="<?= $n_yesterday ?>"/>
-        <stat name="work-overall-pct" unit="%" value="<?= number_style_convert($n_blocks/$oblocks*100, 2) ?>"/>
-        <stat name="work-day-pct" unit="%" value="<?= number_style_convert($n_yesterday/$yblocks*100 ,2) ?>"/>
+        <stat name="work-overall" unit="<?= $gproj->get_scaled_unit_name() ?>" value="<?= $blocks ?>"/>
+        <stat name="work-day" unit="<?= $gproj->get_scaled_unit_name() ?>" value="<?= $yesterday ?>"/>
         <stat name="work-first" unit="" value="<?= $first ?>"/>
         <stat name="work-last" unit="" value="<?= $last ?>"/>
       </stats>
