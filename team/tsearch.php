@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.18 2004/07/16 20:45:27 decibel Exp $
+# $Id: tsearch.php,v 1.19 2004/07/19 06:26:00 jlawson Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -12,8 +12,13 @@ include "../etc/team.php";
 include "../etc/teamstats.php";
 
 $title = "Team Search: [".safe_display($st)."]";
-#$team = new Team($gdb, $gproj);
-$result = Team::get_search_list($st, 50, $gdb, $gproj);
+
+if (is_numeric($st)) {
+  $team = new Team($gdb, $gproj, (int)$st);
+  $result = $team->get_id_mismatch() ? array() : array($team);
+} else {
+  $result = Team::get_search_list($st, 50, $gdb, $gproj);
+}
 $rows = count($result);
 
 if($rows == 1) {

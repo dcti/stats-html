@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.18 2004/07/16 20:45:27 decibel Exp $
+ # $Id: psearch.php,v 1.19 2004/07/19 06:25:55 jlawson Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -13,20 +13,29 @@
 
  $lastupdate = last_update('e');
 
-if (strlen($st) < 3) {
- include "../templates/header.inc";
-	?>
-    <table align="center" width="400" border="0"><tr><td>
-	<h2>There was an error processing your request</h2>
-	<p>Search Text must be at least 3 characters</p>
-	</p></td></tr></table>
-	<?
-	include "../templates/footer.inc";
-	exit;
-}
+if (is_numeric($st)) {
+  $onepp = new Participant($gdb, $gproj, (int)$st);
+  if ($onepp->get_id() != (int)$st) {
+    $result = array();
+  } else {
+    $result = array($onepp);
+  }
+} else {
+  if (strlen($st) < 3) {
+    include "../templates/header.inc";
+      ?>
+      <table align="center" width="400" border="0"><tr><td>
+         <h2>There was an error processing your request</h2>
+         <p>Search Text must be at least 3 characters</p>
+         </p></td></tr></table>
+         <?
+         include "../templates/footer.inc";
+    exit;
+  }
 
-// Execute the procedure to get the results
-$result = Participant::get_search_list($st, 50, $gdb, $gproj);
+  // Execute the procedure to get the results
+  $result = Participant::get_search_list($st, 50, $gdb, $gproj);
+}
 $rows = count($result);
 
  if($rows == 1) {
