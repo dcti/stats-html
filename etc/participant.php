@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.33 2003/10/23 17:21:00 thejet Exp $
+// $Id: participant.php,v 1.34 2003/10/23 18:22:11 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -195,6 +195,12 @@ class Participant {
     } 
     function save_friends()
     {
+        // If friends is not yet set, then don't try to save it
+        if($this->_friends == null) return "";
+        // If the first item in the friends array is an object, don't save
+        // since this means that set_friends was never called, so no change could be made
+        if(is_object($this->_friends[0])) return "";
+
         // This routine saves current friend data to the database
         $sql = "DELETE FROM stats_participant_friend 
                     WHERE id = " . $this->_state->id . ";";
@@ -533,10 +539,14 @@ class Participant {
       else
         $this->_state = $res;
       
-      if(!$this->save_friends())
-        $chkResult = "Error Saving Friend Information.\n";
-      else
-        $this->_friends = null; // reset the friends array, current is invalid 
+      // If the _friends var is not an array, we can't save it
+      if(is_array($this->_friends))
+      {
+          if(!$this->save_friends())
+            $chkResult = "Error Saving Friend Information.\n";
+          else
+            $this->_friends = null; // reset the friends array, current is invalid 
+      }
       
       if($chkResult != "")
       {
