@@ -1,7 +1,5 @@
 <?
-// $Id: config.inc.default,v 1.8 2004/07/16 20:12:49 decibel Exp $
-
-include "error.php";
+// $Id: config.inc.default,v 1.9 2004/07/16 20:45:26 decibel Exp $
 
 ///////////////////////////
 // Database Connectivity //
@@ -20,7 +18,6 @@ define("DEBUG_PROFILE", DEBUG_TIME+1);
 define("DEBUG_TRACE", DEBUG_PROFILE+1);
 
 $debug = 0;
-include "debug.inc";
 
 
 ///////////////////////////

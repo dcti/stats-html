@@ -1,13 +1,13 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.28 2004/07/01 10:26:01 fiddles Exp $
+// $Id: plist.php,v 1.29 2004/07/16 20:45:27 decibel Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
 // source == "y" for yseterday, all other values ignored.
 include "../etc/limit.inc"; // Handles low, high, limit calculations
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";

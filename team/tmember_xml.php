@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.7 2004/04/21 16:01:49 thejet Exp $
+// $Id: tmember_xml.php,v 1.8 2004/07/16 20:45:27 decibel Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -12,7 +12,7 @@
 //  pass == Password for viewing member listing
 //  source == y for yesterday's contributors only
 //error_reporting(0);
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/team.php";

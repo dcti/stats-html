@@ -1,10 +1,10 @@
 <?
 
- // $Id: pc_countries.php,v 1.15 2003/09/01 15:35:33 decibel Exp $
+ // $Id: pc_countries.php,v 1.16 2004/07/16 20:45:27 decibel Exp $
 
  $outname = "countries";
 
- include "../etc/config.inc";
+ include "../etc/global.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
 

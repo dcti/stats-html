@@ -1,9 +1,9 @@
 <?
- // $Id: newteam3.php,v 1.9 2003/05/27 18:38:29 thejet Exp $
+ // $Id: newteam3.php,v 1.10 2004/07/16 20:45:27 decibel Exp $
 
  $title = "New Team Creation - Information";
 
- include "../etc/config.inc";
+ include "../etc/global.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
  unset($proj_name);

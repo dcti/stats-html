@@ -1,10 +1,10 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.63 2004/04/29 23:17:10 paul Exp $
+// $Id: psummary.php,v 1.64 2004/07/16 20:45:27 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
-include '../etc/config.inc';
+include '../etc/global.inc';
 include '../etc/modules.inc';
 include '../etc/project.inc';
 include '../etc/projectstats.php';

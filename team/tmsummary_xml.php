@@ -1,11 +1,11 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.10 2004/04/21 19:43:06 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.11 2004/07/16 20:45:27 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
 //error_reporting(0);
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/markup.inc";
 include "../etc/project.inc";

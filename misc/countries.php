@@ -1,8 +1,8 @@
 <?
-# $Id: countries.php,v 1.5 2003/11/25 21:51:14 paul Exp $
+# $Id: countries.php,v 1.6 2004/07/16 20:45:27 decibel Exp $
 # vi: ts=2 sw=2 tw=120
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 

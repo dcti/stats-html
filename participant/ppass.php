@@ -1,12 +1,12 @@
 <?
-  // $Id: ppass.php,v 1.18 2003/10/23 17:20:20 thejet Exp $
+  // $Id: ppass.php,v 1.19 2004/07/16 20:45:27 decibel Exp $
 
   // Variables Passed in url:
   //  id == email id
  
   $myname = "ppass.php";
 
-  include "../etc/config.inc";
+  include "../etc/global.inc";
   include "../etc/modules.inc";
   include "../etc/project.inc";
   include "../etc/participant.php";

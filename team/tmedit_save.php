@@ -1,7 +1,7 @@
 <?php
-  // $Id: tmedit_save.php,v 1.8 2003/11/25 22:06:50 paul Exp $
+  // $Id: tmedit_save.php,v 1.9 2004/07/16 20:45:27 decibel Exp $
 
-  include "../etc/config.inc";
+  include "../etc/global.inc";
   include "../etc/project.inc";
   include "../etc/tmsecure.inc";
 

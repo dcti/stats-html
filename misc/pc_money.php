@@ -1,10 +1,10 @@
 <?
-# $Id: pc_money.php,v 1.6 2003/08/31 16:11:33 paul Exp $
+# $Id: pc_money.php,v 1.7 2004/07/16 20:45:27 decibel Exp $
 # vi: ts=2 sw=2 tw=120 syntax=php
 
 $title = "Disposition of Prize Money";
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 

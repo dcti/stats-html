@@ -1,9 +1,9 @@
 <?php
 
-# $Id: money.php,v 1.6 2004/07/01 10:26:01 fiddles Exp $
+# $Id: money.php,v 1.7 2004/07/16 20:45:27 decibel Exp $
 # vi: ts=2 sw=2 tw=120
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 

@@ -1,12 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.14 2004/07/01 10:26:01 fiddles Exp $
+  // $Id: pedit_save.php,v 1.15 2004/07/16 20:45:27 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
 
-  include "../etc/config.inc";
+  include "../etc/global.inc";
   include "../etc/project.inc";
   include "../etc/psecure.inc";
 

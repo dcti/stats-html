@@ -7,7 +7,7 @@
 // ************ Version: 1.0a                        ***
 
 // ************ Setup any USE statements and initialize variables
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/db_pgsql.php";
 include "../etc/jpgraph/jpgraph.php";
 include "../etc/jpgraph/jpgraph_line.php";

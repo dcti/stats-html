@@ -1,10 +1,10 @@
 <?
- # $Id: psearch.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
+ # $Id: psearch.php,v 1.18 2004/07/16 20:45:27 decibel Exp $
 
  // Variables Passed in url:
  //   st == Search Term
 
- include "../etc/config.inc";
+ include "../etc/global.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
  include "../etc/participant.php";

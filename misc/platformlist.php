@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.24 2003/09/01 20:54:56 paul Exp $
+# $Id: platformlist.php,v 1.25 2004/07/16 20:45:27 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -19,7 +19,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 //           page will show those columns in view, sorted in view's order
 //   		(DEFAULT value is 'c', set in project.inc
 
- include "../etc/config.inc";
+ include "../etc/global.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
 

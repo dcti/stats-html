@@ -1,11 +1,11 @@
 <?php
 
-// $Id: pedit.php,v 1.23 2003/12/28 18:56:32 decibel Exp $
+// $Id: pedit.php,v 1.24 2004/07/16 20:45:27 decibel Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
   
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/project.inc";
 include "../etc/modules.inc";
 include "../etc/psecure.inc";

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.36 2003/11/19 14:43:24 decibel Exp $
+// $Id: tmember.php,v 1.37 2004/07/16 20:45:27 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -9,7 +9,7 @@
 //  pass == Password for viewing member listing
 //  source == y for yesterday's contributors only
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/team.php";

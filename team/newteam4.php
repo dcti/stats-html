@@ -1,7 +1,7 @@
 <?php
-  // $Id: newteam4.php,v 1.13 2003/10/27 21:28:28 thejet Exp $
+  // $Id: newteam4.php,v 1.14 2004/07/16 20:45:27 decibel Exp $
   
-  include "../etc/config.inc";
+  include "../etc/global.inc";
   include "../etc/project.inc";
   include "../etc/team.php";
   include "../etc/teamstats.php";

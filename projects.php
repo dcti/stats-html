@@ -1,6 +1,6 @@
 <?
 
-include "etc/config.inc";
+include "etc/global.inc";
 include "etc/modules.inc";
 include "etc/project.inc";
 

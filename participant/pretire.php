@@ -1,8 +1,8 @@
 <?php
 
-// $Id: pretire.php,v 1.26 2004/07/15 17:44:15 decibel Exp $
+// $Id: pretire.php,v 1.27 2004/07/16 20:45:27 decibel Exp $
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/project.inc";
 include "../etc/psecure.inc";
 include "../etc/team.php";

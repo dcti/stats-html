@@ -1,10 +1,10 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.26 2004/05/22 13:30:41 nerf Exp $
+  # $Id: pc_index.php,v 1.27 2004/07/16 20:45:26 decibel Exp $
 
   $title = "Overall Project Stats";
 
-  include "etc/config.inc";
+  include "etc/global.inc";
   include "etc/modules.inc";
   include "etc/project.inc";
   include "etc/projectstats.php";

@@ -1,10 +1,10 @@
 <?php
-  // $Id: tmedit.php,v 1.11 2003/10/07 22:10:47 thejet Exp $
+  // $Id: tmedit.php,v 1.12 2004/07/16 20:45:27 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "../etc/config.inc";
+  include "../etc/global.inc";
   include "../etc/project.inc";
   include "../etc/tmsecure.inc";
 

@@ -1,9 +1,9 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-# $Id: daily_totals_raw.php,v 1.5 2002/05/14 22:18:54 paul Exp $
+# $Id: daily_totals_raw.php,v 1.6 2004/07/16 20:45:26 decibel Exp $
 
- include "etc/config.inc";
+ include "etc/global.inc";
  include "etc/project.inc";
 
  $qs = "SELECT	convert(char(10),DATE,101) as datefmt, *

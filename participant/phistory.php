@@ -1,12 +1,12 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.21 2004/07/01 10:26:01 fiddles Exp $
+// $Id: phistory.php,v 1.22 2004/07/16 20:45:27 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
 // @todo -c Implement .scale units
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";

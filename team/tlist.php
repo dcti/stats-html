@@ -1,5 +1,5 @@
 <?
-// $Id: tlist.php,v 1.20 2004/07/01 10:26:01 fiddles Exp $
+// $Id: tlist.php,v 1.21 2004/07/16 20:45:27 decibel Exp $
 
 # vi: ts=2 sw=2 tw=120 syntax=php
 
@@ -9,7 +9,7 @@
 //   source == "y" for yesterday, all other values ignored.
 
 include "../etc/limit.inc";  // Handles low, high, limit calculations
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/team.php";

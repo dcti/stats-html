@@ -1,11 +1,11 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.17 2003/09/01 17:09:52 thejet Exp $
+# $Id: tsearch.php,v 1.18 2004/07/16 20:45:27 decibel Exp $
 
 // Variables Passed in url:
 //   st == Search Term
 
-include "../etc/config.inc";
+include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/team.php";
