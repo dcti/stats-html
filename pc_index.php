@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.10.2.2 2003/05/27 17:52:26 nerf Exp $
+  # $Id: pc_index.php,v 1.10.2.3 2003/07/10 19:52:14 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -153,7 +153,13 @@ $bar_width = number_format(3*($per_searched),0);
     </tr>
      <tr>
      <td><font <?=$fontd?> size="+1"> Percent Complete<? if ($proj_totalunits == 0 ) { ?><sup><A href=#footnote>*</A></sup><? } ?>:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
+    <td align="right" size="+2"><font <?=$fontf?>>
+      <? if ($proj_totalunits == 0) { ?>
+        <a href=cache/ogr_graph_<?=$project_id?>.png><?=$per_searched?>%</a>
+      <? } else { ?>
+        <?=$per_searched?>%
+      <? } ?>
+    </font></td>
     </tr>
    <tr>
      <td><font <?=$fontd?> size="+1">Time Working:</font></td>
