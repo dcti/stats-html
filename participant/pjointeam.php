@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.11 2000/08/22 08:58:43 decibel Exp $
+  // $Id: pjointeam.php,v 1.12 2000/08/23 21:49:42 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -7,16 +7,11 @@
   include "etc/config.inc";
   include "etc/modules.inc";
   include "etc/project.inc";
-#  include "etc/psecure.inc";
+  include "etc/psecure.inc";
 
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-
-  include "templates/header.inc";
-print "<h1>Temporarily <a href=\"http://n0cgi.distributed.net/cgi/dnet-finger.cgi?user=decibel\">disabled</a>.
-Please try again later.</h1></html>";
-exit;
 
   $id = 0+$par->id;
   $oldteam = 0+$par->team;
@@ -60,6 +55,9 @@ exit;
   }
 
   if ( $team != $oldteam ) {
+/*
+	<OLD CODE>
+
     $date = getdate();
     $TJqs = "select * from Team_Joins where JOIN_DATE=\"$date[month] $date[mday] $date[year]\" and ID = $id";
     $result = sybase_query($TJqs);
@@ -74,6 +72,11 @@ exit;
     $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
     $result = sybase_query($qs);
     $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
+    $result = sybase_query($qs);
+
+	</OLD CODE>
+*/
+    $qs = "p_teamjoin @id=$id, @team=$team";
     $result = sybase_query($qs);
   }
 
