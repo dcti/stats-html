@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.24 2004/07/01 10:26:01 fiddles Exp $
+// $Id: pretire.php,v 1.25 2004/07/08 08:18:18 fiddles Exp $
 
 include "../etc/config.inc";
 include "../etc/project.inc";
@@ -74,28 +74,29 @@ if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
       		for ($i=0;$i<$rows;$i++) {
       			$ROWparticipant = $result[$i];
 
-      	  		$tmpid = 0 + $ROWparticipant->get_id();
+      	  		$tmpid = 0 + $ROWparticipant->id;
       	  		if ($tmpid != $id) {
       	  			echo '<tr><td align="right">' . $tmpid . '</td>
-	  	       		<td><a href="pretire.php?id=' . $id . '&pass=' . $pass . '&destid=' . $tmpid . '">' . $ROWparticipant->get_email() . '</a></td></tr>';
+	  	       		<td><a href="pretire.php?id=' . $id . '&pass=' . $pass . '&destid=' . $tmpid . '">' . $ROWparticipant->email . '</a></td></tr>';
       	  		}
-			}
+		}
       		echo '</table>';
       	}
 	}
     if ($_REQUEST['destid'] <> '') {
-		if ($retired = $gpart->retire($destid)) {
+                $destid = $_REQUEST['destid'];
+                if ($retired = $gpart->retire($destid)) {
 			$destpart = new Participant($gdb, $gproj, $destid);
 			?>
 			<h2>Retire Procedure successful</h2>
 			<p>
-	 		You have successfully retired the email address <?$gpart->retire($destid)?>.
+	 		You have successfully retired the email address <?$gpart->get_email()?>.
 			</p>
 			<p>
 	 		This will take effect during the next stats run.
 			</p>
 			<p>
-			All past blocks, and any future blocks submitted from <?$gpart->retire($destid)?> will be allocated to the stats for <?$destpart->get_email()?> instead.
+			All past blocks, and any future blocks submitted from <?$gpart->get_email()?> will be allocated to the stats for <?$destpart->get_email()?> instead.
 			</p>
 			<p>
 	 		All future blocks from this address will be attributed to team <?$destpart->get_team_id()?>, which is your current team.

@@ -8,6 +8,7 @@
 <Files "*.inc">
  Order Deny,Allow
  Deny from All
+ Allow from localhost .distributed.net
 </Files>
 
 RewriteEngine On

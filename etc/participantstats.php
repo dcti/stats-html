@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.13 2004/07/01 10:26:01 fiddles Exp $
+// $Id: participantstats.php,v 1.14 2004/07/08 08:17:50 fiddles Exp $
 
 /**
  * This class represents a participant stats entry
@@ -100,8 +100,8 @@ class ParticipantStats {
         $qs  = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,";
         $qs .= "              SUM(work_units) as work_units";
         $qs .= "       FROM email_contrib ec, stats_participant sp";
-        $qs .= "       WHERE ec.project_id=".$this->_db->prepare_int($this->_project->get_id())
-        $qs .= "         AND (sp.id=".$this->_id." or sp.retire_to=".$this->_db->prepare_int($this->_id).")";
+        $qs .= "       WHERE ec.project_id=" . $this->_db->prepare_int($this->_project->get_id());
+        $qs .= "         AND (sp.id=".$this->_id." or sp.retire_to=" . $this->_db->prepare_int($this->_id).")";
         $qs .= "         AND ec.id=sp.id";
         $qs .= "       GROUP BY date";
         $qs .= "       ORDER BY date DESC";

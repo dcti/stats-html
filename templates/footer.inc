@@ -39,7 +39,7 @@ if (!isset($proj_list)) {
 */
     if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }
     if($debug >= DEBUG_PROFILE) { echo xdebug_dump_function_profile(); }
-} 
+//} 
 
 ?>
  </body>

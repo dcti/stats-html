@@ -246,6 +246,17 @@ class DB {
         return pgsql_close($this -> _link_id);
     }
 
+
+    function prepare_int($integer)
+    {
+        return $integer;
+    }
+
+    function prepare_string($string)
+    {
+        return $string;
+    }
+
 }
 
 ?>

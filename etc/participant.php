@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.47 2004/04/29 23:11:16 paul Exp $
+// $Id: participant.php,v 1.48 2004/07/08 08:17:50 fiddles Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -181,17 +181,19 @@ class Participant {
 
     function retire($value)
     {
-        if (is_int($value) && $value > 0 && $this->is_authed() ) {
-            if ( $this -> _state -> id > 0 ) {
-                $qs = "select p_retire(". $this->_db->prepare_int($this -> _state -> id).", " . $this->_db->prepare_int($value) . ")";
-                $res =$this -> _db -> query ($qs);
-                if($res == FALSE) {
-                    return false;
-                } else {
-                    return true;
-                }
+	if ($this->_authed != true)
+            return false;
+	if (!is_numeric($value))
+	    return false;
+	if ($value <= 0)
+	    return false;
+        if ( $this ->_state->id > 0 ) {
+            $qs = "select p_retire(". $this->_db->prepare_int($this->_state->id) . ", " . $this->_db->prepare_int($value) . ")";
+	    $res = $this->_db->query($qs);
+            if($res == FALSE) {
+		return false;
             } else {
-                return false;
+                return true;
             }
         } else {
             return false;
@@ -315,7 +317,7 @@ class Participant {
         $qs .= "         FROM email_rank r, stats_participant p";
         $qs .= "        WHERE r.overall_rank >= ($baserank -3)";
         $qs .= "          AND r.overall_rank <= ($baserank +3)";
-        $qs .= "          AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id())
+        $qs .= "          AND p.listmode < 10 AND r.project_id = " . $this->_db->prepare_int($this->_project->get_id());
         $qs .= "          AND r.id = p.id";
         $qs .= "        ORDER BY r.overall_rank ASC, r.work_total ASC";
 
@@ -586,7 +588,7 @@ class Participant {
         $qs .= "              dem_gender = " . ((trim($this->_state->dem_gender) == "" || is_null($this->_state->dem_gender))?"NULL":("'".$this->_db->prepare_string($this->_state->dem_gender)."'")) . ",";
         $qs .= "              dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".$this->_db->prepare_string($this->_state->dem_country)."'")) . ",";
         $qs .= "              contact_name = '" . $this->_db->prepare_string($this->_state->contact_name) . "',";
-        $qs .= "              contact_phone = '" . $this->_db->prepare_string(($this->_state->contact_phone) . "',";
+        $qs .= "              contact_phone = '" . $this->_db->prepare_string($this->_state->contact_phone) . "',";
         $qs .= "              motto = '" . $this->_db->prepare_string($this->_state->motto, false) . "'";
         $qs .= "              WHERE id = " . $this->_db->prepare_int($this->_state->id) . ";";
 
@@ -759,11 +761,11 @@ class Participant {
         $qs .= "                 overall_rank_previous - overall_rank AS rank_change";
         $qs .= "        FROM email_rank r,stats_participant p";
         $qs .= "        WHERE p.id = r.id";
-        $qs .= "            AND lower(email) like '%" . $this->_db->prepare_string($sstr) . "%'";
+        $qs .= "            AND lower(email) like '%" . $db->prepare_string($sstr) . "%'";
         $qs .= "            AND listmode <= 10";
-        $qs .= "            AND project_id = " . $this->_db->prepare_int($project->get_id()) ;
+        $qs .= "            AND project_id = " . $db->prepare_int($project->get_id()) ;
         $qs .= "        ORDER BY overall_rank ASC";
-        $qs .= "         LIMIT ". $this->_db->prepare_int($limit);
+        $qs .= "         LIMIT ". $db->prepare_int($limit);
 
         // Actually run the query...
         $queryData = $db->query($qs);
@@ -803,9 +805,9 @@ class Participant {
         // The query to run...
         $qs = "SELECT id, lower(email) AS email
                 FROM stats_participant
-                WHERE lower(email) like '%" . $this->_db->prepare_string($sstr) . "%'
+                WHERE lower(email) like '%" . $db->prepare_string($sstr) . "%'
                     AND listmode <= 10
-                LIMIT " . $this->_db->prepare_int($limit);
+                LIMIT " . $db->prepare_int($limit);
 
         // Actually run the query...
         $queryData = $db->query($qs);
