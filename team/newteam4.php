@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: newteam4.php,v 1.1 1999/07/11 19:09:31 nugget Exp $
+  // $Id: newteam4.php,v 1.2 1999/07/13 16:18:30 nugget Exp $
   
   include "etc/config.inc";
   include "etc/project.inc";
@@ -63,6 +63,10 @@
 	 <body>
 	  <center>
 	   <h2>Saving your new team...</h2>
+	   <h1>Your team number is:</h1>
+           <p>
+            <font color=\"#770000\" size=\"+2\">$teamnum</font>
+	   </p>
 	   <h1>Your team configuration password is:</h1>
            <p>
             <font color=\"#770000\" size=\"+2\">$pass</font>
