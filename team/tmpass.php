@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.12 2003/10/03 18:10:36 thejet Exp $
+  // $Id: tmpass.php,v 1.13 2003/10/21 17:42:32 thejet Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -43,7 +43,7 @@
 
   $message = "Greetings, $teamcontact:
 
-You (or \"".$_SERVER['REMOTE_HOST']."\" [".$_SERVER['REMOTE_ADDR']."]) recently
+You (or \"".gethostbyaddr($_SERVER['REMOTE_ADDR'])."\" [".$_SERVER['REMOTE_ADDR']."]) recently
 requested the password for your distributed.net team account.  You
 should keep this information confidential.  If you did not just request
 your password, it just means that some confused person has clicked on
@@ -79,7 +79,7 @@ Thanks.";
 
   $fh = fopen("/var/log/tmpass.log","a+");
   $ts = gmdate("M d Y H:i:s",time());
-  fputs($fh,"$ts password for team $team requested by $REMOTE_HOST [$REMOTE_ADDR]\n");
+  fputs($fh,"$ts password for team $team requested by ".gethostbyaddr($_SERVER['REMOTE_ADDR'])."  [".$_SERVER['REMOTE_ADDR']."]\n");
   fclose($fh);
 
   include "../templates/footer.inc";
