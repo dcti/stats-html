@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.11 2002/03/24 16:54:06 paul Exp $
+  // $Id: modules.inc,v 1.12 2002/06/04 11:10:38 paul Exp $
 
   function row_background_color($rownum, $color_a = "", $color_b = "") {
 	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
@@ -33,9 +33,9 @@
   function err_check_query_results($result) {
     if ($result == "") {
 	if ($debug=="yes") {
-	  include "templates/debug.inc";
+	  include "../templates/debug.inc";
 	} else {
-	  include "templates/error.inc";
+	  include "../templates/error.inc";
 	}
 	exit();
      }
