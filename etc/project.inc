@@ -1,5 +1,5 @@
 <?
- # $Id: project.inc,v 1.6 2002/04/10 22:25:40 paul Exp $
+ # $Id: project.inc,v 1.7 2002/04/21 18:15:17 paul Exp $
 
 include "limit.inc";
 
@@ -76,8 +76,8 @@ if (isset($_GET['team'])) {
  $prj_info = sybase_fetch_object($result);
 
  $proj_name= $prj_info->name;
- $proj_totalunits = (int)$prj_info->dist_unit_qty;
- $proj_divider = (int)$prj_info->work_unit_scale;
+ $proj_totalunits = (double)$prj_info->dist_unit_qty;
+ $proj_divider = (double)$prj_info->work_unit_scale;
  $proj_unitname = $prj_info->work_unit_name;
 
 
@@ -134,17 +134,22 @@ if($result) {
 return $lastupdate;
 }
 
-function display_last_update() {
+function display_last_update($type) {
 global $lastupdate;
 global $colorc;
+if(isset($type)) {$lastupdate = last_update($type);}
 ?>
    <tr>
     <td colspan="4" align="center" bgcolor="#777777">
      <font face="Arial,Helvetica" color=<?=$colorc?> size="-2">
-<? if($lastupdate<>"") { ?>
-      Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
+<? if(isset($type)) { ?>
+	<? if($lastupdate<>"") { ?>
+      	Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
+	<? } else { ?>
+ 	 Update currently in progress...
+	<? } ?>
 <? } else { ?>
-      Update currently in progress...
+	&nbsp;
 <? } ?>
      </font>
     </td>
