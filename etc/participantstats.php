@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.5 2003/08/25 18:35:50 thejet Exp $
+// $Id: participantstats.php,v 1.6 2003/08/25 20:28:38 thejet Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -94,39 +94,6 @@ class ParticipantStats {
      */
     function loadHistorical($id, $project, $start, $days_back)
     {
-    } 
-
-    /**
-     * This function returns an array of participant objects representing the neighbors of the current participant
-     * 
-     * This function is a "load on demand" function, so the first call loads the
-     * participant's neighbors from the database, and subsequent calls access the local
-     * data.
-     * 
-     * @access public 
-     * @return Participant []
-     */
-    function getNeighborsObj()
-    {
-        $qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK,
-          r.LAST_DATE + 1 - r.FIRST_DATE as Days_Working,
-          WORK_TODAY as TODAY,
-          WORK_TOTAL as TOTAL,
-          (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
-          (r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
-        from STATS_Participant p, Email_Rank r
-        where p.id = r.id
-          and PROJECT_ID = ".$this->_project->get_id()."
-          and (r.OVERALL_RANK < (" . $this -> rs_rank -> overall_rank . "+5))
-          and (r.OVERALL_RANK > (" . $this -> rs_rank -> overall_rank . "-5))
-        order by r.OVERALL_RANK LIMIT 18";
-
-        $dbneighbors = $this -> _db -> query($qs);
-        $i = 0;
-        while ($temp = $this -> _db -> fetch_object($dbneighbors)) {
-            $neighbors[$i++] = $temp;
-        } 
-        return $neighbors;
     } 
 
     function get_stats_history($lastdays = -1)

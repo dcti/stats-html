@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.7 2003/08/25 18:35:50 thejet Exp $
+// $Id: participant.php,v 1.8 2003/08/25 20:28:38 thejet Exp $
 /**
  * This class represents a participant
  * 
@@ -115,15 +115,17 @@ class Participant {
 
     /**
      * The friends of this participant (up to 6)
+     * NOTE: This routine is "load-on-demand" so the friend data is not loaded until
+     *       it is requested by the user interface.
      * 
      * @access public 
      * @type int[]
      */
-    /**
-     * ** NOTE: We need to ensure the index is valid in both of these ... **
-     */
     function get_friends($index = -1)
     {
+        if($this->_friends == null)
+          $this->_friends =& $this->load_friend_data();
+
         /* @todo friends */
         if($index == -1)
           return $this->_friends;
@@ -134,6 +136,82 @@ class Participant {
     {
         $this -> _friends[$index] = $value;
     } 
+    function &load_friend_data()
+    {
+        $qs = "SELECT p.*, r.*, r.last_date - r.first_date -1 AS days_working,
+                      r.overall_rank_previous - r.overall_rank as overall_change,
+                      r.day_rank_previous - r.day_rank as day_change
+                 FROM stats_participant_friend pf INNER JOIN email_rank r ON pf.friend = r.id
+                      INNER JOIN stats_participant p ON pf.friend = p.id
+                WHERE pf.id = " . $this->get_id() . " AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
+                ORDER BY r.overall_rank ASC, r.work_total ASC";
+
+        $queryData = $this->_db->query($qs);
+        $total = $this->_db->num_rows($queryData);
+        $result =& $this->_db->fetch_paged_result($queryData);
+        $cnt = count($result);
+        for($i = 0; $i < $cnt; $i++) {
+            $partTmp =& new Participant($this->_db, $this->_project, null);
+            $statsTmp =& new ParticipantStats($this->_db, $this->_project);
+            $statsTmp->explode($result[$i]);
+            $partTmp->explode($result[$i], $statsTmp);
+            $retVal[] = $partTmp;
+            unset($partTmp);
+            unset($statsTmp);
+        }
+
+        return $retVal;
+    }
+
+    /**
+     * The neighbors of this participant
+     * NOTE: This routine is "load-on-demand" so the neighbor data is not loaded until
+     *       it is requested by the user interface.
+     * 
+     * @access public 
+     * @type int[]
+     */
+    var $_neighbors;
+    function get_neighbors($index = -1)
+    {
+        if($this->_neighbors == null)
+          $this->_neighbors =& $this->load_neighbor_data();
+
+        if($index == -1)
+          return $this->_neighbors;
+        else
+          return $this -> _neighbors[$index];
+    }
+    function &load_neighbor_data()
+    {
+        $mystats = $this->get_current_stats();
+        $baserank = $mystats->get_stats_item("overall_rank");
+        $qs = "SELECT p.*, r.*, r.last_date - r.first_date -1 AS days_working,
+                      r.overall_rank_previous - r.overall_rank as overall_change,
+                      r.day_rank_previous - r.day_rank as day_change
+                 FROM email_rank r INNER JOIN stats_participant p ON r.id = p.id 
+                WHERE r.overall_rank >= ($baserank -3) 
+                  AND r.overall_rank <= ($baserank +3)
+                  AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
+                ORDER BY r.overall_rank ASC, r.work_total ASC";
+
+        $queryData = $this->_db->query($qs);
+        $total = $this->_db->num_rows($queryData);
+        $result =& $this->_db->fetch_paged_result($queryData);
+        $cnt = count($result);
+        for($i = 0; $i < $cnt; $i++) {
+            $partTmp =& new Participant($this->_db, $this->_project, null);
+            $statsTmp =& new ParticipantStats($this->_db, $this->_project);
+            $statsTmp->explode($result[$i]);
+            $partTmp->explode($result[$i], $statsTmp);
+            $retVal[] = $partTmp;
+            unset($partTmp);
+            unset($statsTmp);
+        }
+
+        return $retVal;
+    }
+
 
     /**
      * Demographic: Year of birth
@@ -358,20 +436,6 @@ class Participant {
      * @param int $ The participant to retire this participant into
      */
     function retire($new_id)
-    {
-    } 
-
-    /**
-     * This function returns an array of participant objects representing the friends of the current participant
-     * 
-     * This function is a "load on demand" function, so the first call loads the
-     * participant's friends from the database, and subsequent calls access the local
-     * data.
-     * 
-     * @access public 
-     * @return Participant []
-     */
-    function getFriendsObj()
     {
     } 
 
