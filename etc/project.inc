@@ -1,18 +1,56 @@
 <?
- # $Id: project.inc,v 1.4 2002/03/09 18:31:29 paul Exp $
+ # $Id: project.inc,v 1.5 2002/04/07 21:43:55 paul Exp $
+
+include "timing.inc";
+include "limit.inc";
+timer_start();
 
  $myname = $PHP_SELF;
 
- $project_id = (int) 0 + $_GET["project_id"];
- if($project_id == "" or $project_id == 0) {
-  $project_id = 25;
+if (isset($_GET['project_id'])) {
+	$project_id = (int)$_GET['project_id'];
+} else {
+	$project_id = 25;
+}
+
+
+// $debug = (int) 0 + $_GET["debug"];
+
+ if (isset($_GET['source'])){
+	$temp = $_GET['source'];
+	switch ($temp) {
+		case 'o':
+		 $source = 'o';
+		 break;
+		case 'y':
+		 $source = 'y';
+		 break;
+		default:
+ 		 $source = 'o';
+		 break;
+	}
+ } else {
+ 	$source ='o';
  }
 
- 
- $id = (int) 0+$_GET["id"];
- if ( $id == "" or $id == 0) {
-  $id = 1;
+ if (isset($_GET['debug'])) {
+	$debug = 'yes';
+ } else { 
+	$debug = 'no';
+ } 
+
+ if (isset($_GET['id'])) {
+	$id = (int)$_GET['id'];
+ } else {
+	$id = 1;
  }
+
+if (isset($_GET['team'])) {
+        $tm = (int)$_GET['team'];
+ } else {
+        $tm = 1;
+ }
+
 
  sybase_pconnect($interface, $username, $password);
  $qs = "select name, dist_unit_qty, work_unit_scale, work_unit_name from
@@ -57,7 +95,58 @@
  $header_font = "face=\"verdana,helvetica,arial\" size=\"+1\" color=\"#ffffff\"";
  $footer_bg = "\"#222222\"";
  $footer_font = "face=\"verdana,helvetica,arial\" color=\"#ffffff\"";
- $bar_color_a = "\"#dddddd\"";
- $bar_color_b = "\"#ffffdd\"";
+ $bar_color_a = "row1";
+ $bar_color_b = "row2";
+
+function last_update($type)
+{
+ global $project_id;
+
+ switch ($type) { 
+  case 'e':
+   $qs = "p_lastupdate_new_e @project_id=$project_id";
+   break;
+  case 'm':
+   $qs = "select max(date) as lastupdate 
+                from email_contrib
+                where date>dateadd(day,-10,getdate())
+                        and project_id=$project_id ";
+   break;
+  case 't':
+   $qs = "p_lastupdate_new_t @project_id=$project_id";
+   break;
+  case 'p':
+   $qs = "p_lastupdate_new_p @project_id=$project_id";
+   break;
+ }
+
+ $result = sybase_query($qs);
+if($result) {
+   $par = sybase_fetch_object($result);
+   $lastupdate = sybase_date_format_long($par->lastupdate);
+ } else {
+  $lastupdate = "some day, not too long ago";
+ }
+return $lastupdate;
+}
+
+function display_last_update() {
+global $lastupdate;
+global $colorc;
+?>
+   <tr>
+    <td colspan="4" align="center" bgcolor="#777777">
+     <font face="Arial,Helvetica" color=<?=$colorc?> size="-2">
+<? if($lastupdate<>"") { ?>
+      Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
+<? } else { ?>
+      Update currently in progress...
+<? } ?>
+     </font>
+    </td>
+   </tr>
+</table>
+<?
+}
 
 ?>
