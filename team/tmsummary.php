@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.35 2003/10/03 17:05:06 decibel Exp $
+// $Id: tmsummary.php,v 1.36 2003/10/22 18:06:58 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -71,9 +71,9 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     <? if ($stats->get_stats_item('days_working') > 0) { ?>
     <tr>
       <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>/sec:</td>
-      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $stats->get_stats_item('days_working'))) ?></td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $stats->get_stats_item('days_working')), 3) ?></td>
 <? if ($stats->get_stats_item('work_today') > 0) { ?>
-      <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale() / 86400) ?></td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale() / 86400, 3) ?></td>
     <? } ?>
     </tr>
 <? } ?>
