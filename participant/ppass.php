@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.7 1999/09/09 03:29:49 nugget Exp $
+  // $Id: ppass.php,v 1.8 2000/01/04 20:32:55 nugget Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -58,7 +58,7 @@
   }
 
   print "<h2>Your request has been processed.</h2><br>\n";
-  print "<h3>The password will be mailed to $par->email and should arrive within 10 minutes.</h3>\n";
+  print "<h3>The password will be mailed and should arrive within 10 minutes.</h3>\n";
   print "</body></html>\n";
 
   $message = "Greetings, $par->email.
