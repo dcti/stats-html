@@ -15,13 +15,13 @@
 // This requires at least PHP 4.0.6 due to the use of array_map(),
 // and the PREG_SPLIT_DELIM_CAPTURE flag on preg_split().
 //
-// $Id: markup.inc,v 1.5 2002/01/26 23:20:02 jlawson Exp $
+// $Id: markup.inc,v 1.6 2002/03/17 01:27:39 paul Exp $
 
 
 // This is the only function that is meant to be publicly callable.
 function markup_to_html($markup) {
   $marr = preg_split('/(\[.*?\])/', $markup, -1, PREG_SPLIT_DELIM_CAPTURE);
-  return join('', array_map(private_markup_walker, $marr));
+  return join('', array_map('private_markup_walker', $marr));
 }
 
 // Internal helper function.
