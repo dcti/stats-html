@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.52 2003/08/31 16:02:32 decibel Exp $
+// $Id: psummary.php,v 1.53 2003/08/31 16:41:24 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -33,7 +33,6 @@ function par_list($i, $par, $stats, $totaltoday, $totaltotal, $proj_scale, $colo
 } 
 function par_footer($totaltoday, $totaltotal, $proj_scale)
 {
-
     ?>
   <tr>
     <td class="tfoot" align="right" colspan="3">Total</td>
@@ -96,19 +95,19 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
       </tr>
       <tr>
         <td align="left" class="phead2"><?=$gproj->get_scaled_unit_name()?>:</td>
-        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('total') * $gproj->get_scale()) ?></td>
-        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('today') * $gproj->get_scale())?></td>
+        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
+        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('work_today') * $gproj->get_scale())?></td>
       </tr>
       <tr>
         <td align="left" class="phead2"><?=$gproj->get_scaled_unit_name()?>/sec:</td>
         <td align="right">
           <? if ($gpartstats->get_stats_item('days_working') > 0) {
-               echo number_style_convert($gpartstats->get_stats_item('total') * $gproj->get_scale() / (86400 * $gpartstats->get_stats_item('days_working')), 3);
+               echo number_style_convert($gpartstats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $gpartstats->get_stats_item('days_working')), 3);
              } 
            ?>
         </td>
         <td align="right">
-          <? echo number_style_convert($gpartstats -> get_stats_item('today') * $gproj -> get_scale() / 86400, 3);
+          <? echo number_style_convert($gpartstats -> get_stats_item('work_today') * $gproj -> get_scale() / 86400, 3);
 
 ?>
         </td>
@@ -116,19 +115,19 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
       <!-- 
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
-        <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('total')) ?></td>
-        <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('today')) ?></td>
+        <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('work_total')) ?></td>
+        <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('work_today')) ?></td>
       </tr>
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
         <td align="right">
           <? if ($gpartstats->get_stats_item('days_working') > 0) {
-    number_style_convert($gpartstats->get_stats_item('total') / (86400 * $gpartstats->get_stats_item('days_working')), 0);
+    number_style_convert($gpartstats->get_stats_item('work_total') / (86400 * $gpartstats->get_stats_item('days_working')), 0);
 } 
 ?>
         </td>
         <td align="right">
-          <? echo number_style_convert($gpartstats -> get_stats_item('today') / 86400, 0);
+          <? echo number_style_convert($gpartstats -> get_stats_item('work_today') / 86400, 0);
 
 ?>
         </td>
@@ -179,8 +178,8 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
     <?
-if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> get_stats_item('TODAY') > 0)) {
-    $odds = number_format($yest_totals -> WORK_UNITS / $gpartstats -> get_stats_item('TODAY'));
+if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> get_stats_item('work_today') > 0)) {
+    $odds = number_format($yest_totals -> WORK_UNITS / $gpartstats -> get_stats_item('work_today'));
 
     ?>
         <p>
@@ -239,12 +238,12 @@ if($numfriends >= 1) {
     for ($i = 0; $i < $numfriends; $i++) {
         $par = $gpart->get_friends($i);
         $stats = $par->get_current_stats();
-        if($gpartstats->get_stats_item("work_total") >= $stats->get_stats_item("work_total")) {
+        if($gpartstats->get_stats_item('work_total') >= $stats->get_stats_item('work_total')) {
             par_list($i, $gpart, $gpartstats, &$totaltoday, &$totaltotal, $gproj->get_scale(), "row3", "row3");
         }
         par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $gproj->get_scale());
     } 
-    par_footer($footer_font, $totaltoday, $totaltotal, $gproj -> get_scale());
+    par_footer($totaltoday, $totaltotal, $gproj -> get_scale());
     echo("</table>\n");
 } 
 ?>
