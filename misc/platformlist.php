@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.18 2003/03/09 12:36:56 paul Exp $
+# $Id: platformlist.php,v 1.19 2003/05/19 19:15:53 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -30,7 +30,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  $title = "CPU Participation";
 
  include "../templates/header.inc";
- 
+
  $selstr = "select";
  $frostr = "from Platform_Summary p,";
  $whestr = "where p.PROJECT_ID = $project_id";
@@ -99,9 +99,8 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  sybase_query("set rowcount 0");
  $result = sybase_query($QSlist);
 
- debug_text("<!-- QSlist: $QSlist, result: $result -->", $debug);
  err_check_query_results($result);
- 
+
  $rows = sybase_num_rows($result);
 
  # Total number of columns in table, not counting yesterday or total columns. Start at 2 to account for first and last.
@@ -126,7 +125,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
      $cols++;
    }
  }
-?> 
+?>
        <th align="right">First Unit</th>
        <th align="right">Last Unit</th>
 <?
@@ -171,7 +170,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 }
 
  if($show_yesterday or $show_total) {
-  
+
    $padding = (int) $cols - 1;
    print "
    <tr bgcolor=$footer_bg>
