@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.50 2004/07/19 00:52:49 jlawson Exp $
+// $Id: participant.php,v 1.51 2004/07/28 23:32:52 decibel Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -310,18 +310,32 @@ class Participant {
     {
         $mystats = $this->get_current_stats();
         $baserank = $mystats->get_stats_item("overall_rank");
-        $qs  = 'SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,';
-        $qs .= '              r.overall_rank_previous - r.overall_rank as overall_change,';
-        $qs .= '              r.day_rank_previous - r.day_rank as day_change';
-        $qs .= '         FROM email_rank r, stats_participant p';
-        $qs .= '        WHERE r.overall_rank >= ($1 -3)';
-        $qs .= '          AND r.overall_rank <= ($1 +3)';
-        $qs .= '          AND p.listmode < 10 AND r.project_id = $2';
-        $qs .= '          AND r.id = p.id';
-        $qs .= '        ORDER BY r.overall_rank ASC, r.work_total ASC';
+        $qs  = 'SELECT *, last_date - first_date + 1 AS days_working,';
+        $qs .= '              overall_rank_previous - overall_rank as overall_change,';
+        $qs .= '              day_rank_previous - day_rank as day_change';
+        $qs .= '         FROM (';
+        $qs .= '                SELECT *';
+        $qs .= '                    FROM (SELECT *';
+        $qs .= '                                FROM email_rank r, stats_participant p';
+        $qs .= '                                WHERE r.overall_rank >= ($1 -3)';
+        $qs .= '                                    AND r.overall_rank <= ($1 +3)';
+        $qs .= '                                    AND p.listmode < 10 AND r.project_id = $2';
+        $qs .= '                                    AND r.id = p.id';
+        $qs .= '                                LIMIT 7';
+        $qs .= '                            ) a';
+        $qs .= '                UNION';
+        $qs .= '                SELECT *';
+        $qs .= '                    FROM email_rank r, stats_participant p';
+        $qs .= '                    WHERE p.id = $3';
+        $qs .= '                        AND p.listmode < 10 AND r.project_id = $2';
+        $qs .= '                        AND r.id = p.id';
+        $qs .= '              ) a';
+        $qs .= '        ORDER BY overall_rank ASC, work_total ASC';
 
         $queryData = $this->_db->query_bound($qs, array( (int)$baserank, 
-                                                         (int)$this->_project->get_id() ));
+                                                         (int)$this->_project->get_id(),
+                                                         (int)$this->_state->id
+                                                     ));
         $total = $this->_db->num_rows($queryData);
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
