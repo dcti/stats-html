@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.56 2003/09/01 20:57:55 paul Exp $
+// $Id: psummary.php,v 1.57 2003/09/01 22:32:31 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -48,7 +48,7 @@ $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 // ###
 // Is this person retired?
 if($gpart -> get_retire_to() > 0) {
-    header("Location: psummary.php?project_id=$project_id&amp;id=".$gpart -> get_retire_to());
+    header("Location: psummary.php?project_id=$project_id&id=".$gpart -> get_retire_to());
     exit();
 } 
 
