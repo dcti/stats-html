@@ -1,9 +1,8 @@
 <?
- # $Id: psearch.php,v 1.12 2002/12/10 23:52:50 paul Exp $
+ # $Id: psearch.php,v 1.13 2003/03/22 18:42:53 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
-
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
@@ -17,8 +16,7 @@
 if (strlen($st) < 3) {
  include "../templates/header.inc";
 	?>
-       <center>
-        <table width="400" border="0"><tr><td>
+    <table align="center" width="400" border="0"><tr><td>
 	<h2>There was an error processing your request</h2>
 	<p>Search Text must be at least 3 characters</p>
 	</p></td></tr></table>
@@ -39,7 +37,7 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	# Only one hit, let's jump straight to psummary
 	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
 	$id = (int) $ROWparticipant->id;
-	header("Location: psummary.php?project_id=$project_id&id=$id");
+	header("Location: psummary.php?project_id=$project_id&amp;id=$id");
 	exit;
  }
 
@@ -73,8 +71,8 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 <?
 
 	print "
-		<td><a href=\"psummary.php?project_id=$project_id&id=$id\"><font color=\"#cc0000\">" . safe_display(participant_listas($ROWparticipant->listmode,
-			$ROWparticipant->email,$id,$ROWparticipant->contact_name)) . "</font></a></td>
+		<td><a href=\"psummary.php?project_id=$project_id&amp;id=$id\">" . safe_display(participant_listas($ROWparticipant->listmode,
+			$ROWparticipant->email,$id,$ROWparticipant->contact_name)) . "</a></td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
 		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>
 		<td align=\"right\">" . number_style_convert($ROWparticipant->Days_Working) . "</td>
@@ -84,17 +82,17 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
  }
 
 ?>
-	 <tr bgcolor=<?=$footer_bg?>>
-	  <td><font <?=$footer_font?>><?=$i?></font></td>
-	  <td colspan="4" align="right"><font <?=$footer_font?>>Total</font></td>
-	  <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocks, 0) ?></font></td>
+	 <tr>
+	  <td><?=$i?></td>
+	  <td colspan="4" align="right">Total</td>
+	  <td align="right"><? echo number_format($totalblocks, 0) ?></td>
 	 </tr>
 	</table>
 <?
  if( $rows == 0 ) {
 ?>   
 	<p>
-	 <a href="http://www.distributed.net/FAQ/"><font size="+3" color="red">Confused?  Look here</font></a>
+	 <a href="http://www.distributed.net/FAQ/">Confused?  Look here</a>
 	</p>
 <?
  }

@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.13 2003/03/21 23:13:38 paul Exp $
+ # $Id: phistory.php,v 1.14 2003/03/22 18:42:53 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -29,7 +29,7 @@
 
  $retire_to = (int) $person->retire_to;
  if( $retire_to > 0 ) {
-   header("Location: http://stats.distributed.net/generic/phistory.php?project_id=$project_id&id=$retire_to");
+   header("Location: http://stats.distributed.net/participant/phistory.php?project_id=$project_id&amp;id=$retire_to");
    exit();
  }
 
@@ -44,7 +44,7 @@
 <!-- IMPORTANT NOTE TO SCRIPTERS!
 This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
-http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$id
+http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id&id=$id
 -->
     <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
       <table align="center" border="1" cellspacing="0" cellpadding="1" >

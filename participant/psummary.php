@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.41 2003/03/10 23:20:39 paul Exp $
+# $Id: psummary.php,v 1.42 2003/03/22 18:42:53 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -29,10 +29,10 @@ function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = ""
 }
 function par_footer($footer_font, $totaltoday, $totaltotal, $proj_scale) {
 ?>
-  <tr bgcolor="#222222">
-    <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
-    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal * $proj_scale )?> </font></td>
-    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday * $proj_scale )?> </font></td>
+  <tr>
+    <td align="right" colspan="3">Total</td>
+    <td align="right"><?echo number_style_convert( $totaltotal * $proj_scale )?></td>
+    <td align="right"><?echo number_style_convert( $totaltoday * $proj_scale )?></td>
   </tr>
 <?
 }
@@ -162,54 +162,50 @@ $yest_totals = sybase_fetch_object($result);
       </tr>
       <tr>
         <td></td>
-        <td align="center"><font <?=$fontd?> size="+1">Overall</font></td>
-        <td align="center"><font <?=$fontd?> size="+1">Yesterday</font></td>
+        <td align="center">Overall</td>
+        <td align="center">Yesterday</td>
       </tr>
       <tr>
-        <td align="left"><font <?=$fontd?> size="+1">Rank:</font></td>
+        <td align="left">Rank:</td>
         <td align="right" size="+2">
-          <font <?=$fontf?>>
             <?echo $rs_rank->OVERALL_RANK.  html_rank_arrow($rs_rank->Overall_Change); ?>
-          </font>
         </td>
         <td align="right" size="+2">
-          <font <?=$fontf?>><? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?> </font>
+          <? echo $rs_rank->DAY_RANK.  html_rank_arrow($rs_rank->Day_Change);?>
         </td>
       </tr>
       <tr>
-        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_scaled_unit_name?>:</font></td>
-        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></font></td>
-        <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></font></td>
+        <td align="left"><?=$proj_scaled_unit_name?>:</td>
+        <td align="right" size="+2"><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></td>
+        <td align="right" size="+2"><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></td>
       </tr>
       <tr>
-        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_scaled_unit_name?>/sec:</font></td>
+        <td align="left"><?=$proj_scaled_unit_name?>/sec:</td>
         <td align="right" size="+2">
-          <font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL * $proj_scale / (86400 * $rs_rank->Days_Working), 3);?></font>
+          <?=number_style_convert($rs_rank->TOTAL * $proj_scale / (86400 * $rs_rank->Days_Working), 3);?>
         </td>
         <td align="right" size="+2">
-          <font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY * $proj_scale / 86400, 3);?></font>
-        </td>
-      </tr>
-      <tr>
-        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_unscaled_unit_name?>:</font></td>
-        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
-        <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
-      </tr>
-      <tr>
-        <td align="left"><font <?=$fontd?> size="+1"><?=$proj_unscaled_unit_name?>/sec:</font></td>
-        <td align="right" size="+2">
-          <font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL / (86400 * $rs_rank->Days_Working), 0);?></font>
-        </td>
-        <td align="right" size="+2">
-          <font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY / 86400, 0);?></font>
+          <? echo number_style_convert($rs_rank->TODAY * $proj_scale / 86400, 3);?>
         </td>
       </tr>
       <tr>
-        <td><font <?=$fontd?> size="+1">Time Working:</font></td>
+        <td align="left"><?=$proj_unscaled_unit_name?>:</td>
+        <td align="right" size="+2"><?=number_style_convert($rs_rank->TOTAL);?></td>
+        <td align="right" size="+2"><? echo number_style_convert($rs_rank->TODAY);?></td>
+      </tr>
+      <tr>
+        <td align="left"><?=$proj_unscaled_unit_name?>/sec:</td>
+        <td align="right" size="+2">
+          <?=number_style_convert($rs_rank->TOTAL / (86400 * $rs_rank->Days_Working), 0);?>
+        </td>
+        <td align="right" size="+2">
+          <? echo number_style_convert($rs_rank->TODAY / 86400, 0);?>
+        </td>
+      </tr>
+      <tr>
+        <td>Time Working:</td>
         <td colspan="2" align="right" size="+2">
-          <font <?=$fontf?>>
             <? echo number_format($rs_rank->Days_Working) . " day" . plural($rs_rank->Days_Working); ?>
-          </font>
         </td>
       </tr>
       <tr>
