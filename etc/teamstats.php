@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.5 2003/06/12 20:43:34 thejet Exp $
+// $Id: teamstats.php,v 1.6 2004/01/14 17:39:39 decibel Exp $
 
 //==========================================
 // file: teamstats.inc
@@ -59,7 +59,7 @@ class TeamStats
       ***/
       function load($id, $date)
       {
-        $sql = "SELECT *, last_date::DATE - first_date::DATE AS days_working FROM team_rank WHERE team_id = $id AND project_id = ".$this->_project->get_id();
+        $sql = "SELECT *, last_date::DATE - first_date::DATE + 1 AS days_working FROM team_rank WHERE team_id = $id AND project_id = ".$this->_project->get_id();
         if($date == -1)
         {
           $sql .= " AND last_date = (SELECT MAX(last_date) FROM team_rank t2 WHERE t2.team_id = team_rank.team_id AND t2.project_id = team_rank.project_id)";
