@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.32 2003/10/22 15:44:04 thejet Exp $
+// $Id: participant.php,v 1.33 2003/10/23 17:21:00 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -514,8 +514,8 @@ class Participant {
                       dem_yob = " . $this->_state->dem_yob . ",
                       dem_heard = " . $this->_state->dem_heard . ",
                       dem_motivation = " . $this->_state->dem_motivation . ",
-                      dem_gender = '" . $this->_state->dem_gender . "',
-                      dem_country = " . (($this->_state->dem_country == "")?"NULL":("'".$this->_state->dem_country."'")) . ",
+                      dem_gender = " . ((trim($this->_state->dem_gender) == "" || is_null($this->_state->dem_gender))?"NULL":("'".$this->_state->dem_gender."'")) . ",
+                      dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".$this->_state->dem_country."'")) . ",
                       contact_name = '" . $this->_state->contact_name . "',
                       contact_phone = '" . $this->_state->contact_phone . "',
                       motto = '" . $this->_state->motto . "'
@@ -565,8 +565,9 @@ class Participant {
             $strResult .= "Contact Name must be no more than 50 characters.\n";
         if($this->_state->dem_gender != "M" &&
            $this->_state->dem_gender != "F" &&
-           $this->_state->dem_gender != "-")
-            $strResult .= "Invalid gender specification.\n";
+           trim($this->_state->dem_gender) != "" &&
+           !is_null($this->_state->dem_gender))
+            $strResult .= "Invalid gender specification(".$this->_state->dem_gender.").\n";
         if(strlen($this->_state->dem_country) != 2 && $this->_state->dem_country != "")
             $strResult .= "Invalid country selected.\n";
         if(strlen($this->_state->contact_phone) > 20)
