@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.10 2000/01/18 03:51:59 decibel Exp $
+  // $Id: ppass.php,v 1.11 2000/03/01 07:11:00 decibel Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -37,20 +37,23 @@
   $par = sybase_fetch_object($result);
   $id = 0+$par->id;
 
+  // If we don't have a password assigned yet, then generate one
   if (!$par->password) {
-    $qs = "select char(convert(int,rand(datepart(mi,getdate())*datepart(ss,getdate())*datepart(ms,getdate()))*25)+97) + 
-	char(convert(int,rand()*25)+97) + 
-	char(convert(int,rand()*25)+97) + 
-	char(convert(int,rand()*25)+97) + 
-	char(convert(int,rand()*25)+97) + 
-	char(convert(int,rand()*25)+97) +
-	char(convert(int,rand()*25)+97) +
-	char(convert(int,rand()*25)+97) as password";
-    $result = sybase_query($qs);
-    sybase_data_seek($result,0);
-    $result = sybase_fetch_object($result);
-    $pass = $result->password;
+    mt_srand((double)microtime()*1000000);
+    $pass = "";
+    for ($i = 1; $i <= 8; $i++) {
+      // Generate a random number and convert it to the ASCII value for 0-9, A-Z, or a-z
+      $rand = mt_rand(0, 61);	// 10 ('0'-'9') + 26 ('A' - 'Z') + 26 ('a' - 'z') = 62 - 1 (we start at 0) = 61
+      if ($rand > 35) {		// 10           + 26             - 1 = 35
+        $rand += 61; 		// 97 (asc('a')) - 36 ( 35 + 1 ) = 61
+      } elseif ($rand > 9) {	// 10           - 1 = 9
+        $rand += 55;		// 65 (asc('A')) - 10 ( 9 + 1 ) = 55
+      } else {
+	$rand += 48;
+      }
 
+      $pass .= chr($rand);	// Append the resulting ASCII code to the password string
+    }
     sybase_query("update STATS_participant set password = \"$pass\" where id = $id");
     $result = sybase_query($query);
   } else {
@@ -96,7 +99,7 @@ help@distributed.net.
 
 Thanks.";
 
-  send_mail($par->email, "passmail@distributed.net", "Your distributed.net stats password", $message);
+  send_mail($par->email, "statspass@distributed.net", "Your distributed.net stats password", $message);
 
   $fh = fopen("/var/log/ppass.log","a+");
   $ts = gmdate("M d Y H:i:s",time());
