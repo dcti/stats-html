@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.11 2002/06/03 13:14:43 paul Exp $
+ # $Id: psummary.php,v 1.12 2002/06/03 21:09:37 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -181,16 +181,16 @@ $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
     </tr>
     <tr>
      <td><font <?=$fontd?> size="+1">Total Blocks to Search:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
+     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($proj_totalunits)?></font></td>
     </tr>
 
     <tr>
      <td><font <?=$fontd?> size="+1">Keyspace Checked:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
+     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
     </tr>
     <tr>
      <td><font <?=$fontd?> size="+1">Total Keys Tested:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
+     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$tot_keys_searched?></font></td>
     </tr>
 
 <? } ?>
