@@ -1,8 +1,28 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.11 2002/12/06 14:36:33 decibel Exp $
+# $Id: project.inc,v 1.12 2002/12/06 14:37:27 decibel Exp $
 
 include "limit.inc";
+
+$bgcolor = "\"#ffffff\"";
+$text = "\"#000000\"";
+$link = "\"#777777\"";
+
+$fonth = "face=\"verdana,helvetica,arial\"";
+$fontd = "face=\"verdana,helvetica,arial\"";
+$fontf = "face=\"lucida console,courier,courier new\"";
+$fontt = "face=\"verdana,helvetica,arial\" size=\"+2\"";
+
+$colora = "\"#0077aa\"";
+$colorb = "\"#aaaaaa\"";
+$colorc = "\"#ffff77\"";
+
+$header_bg = "\"#222222\"";
+$header_font = "face=\"verdana,helvetica,arial\" size=\"+1\" color=\"#ffffff\"";
+$footer_bg = "\"#222222\"";
+$footer_font = "face=\"verdana,helvetica,arial\" color=\"#ffffff\"";
+$bar_color_a = "row1";
+$bar_color_b = "row2";
 
 
 if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ 
@@ -85,28 +105,6 @@ $proj_name= $prj_info->name;
 $proj_totalunits = (double)$prj_info->dist_unit_qty;
 $proj_divider = (double)$prj_info->work_unit_scale;
 $proj_unitname = $prj_info->work_unit_name;
-
-
-
-$bgcolor = "\"#ffffff\"";
-$text = "\"#000000\"";
-$link = "\"#777777\"";
-
-$fonth = "face=\"verdana,helvetica,arial\"";
-$fontd = "face=\"verdana,helvetica,arial\"";
-$fontf = "face=\"lucida console,courier,courier new\"";
-$fontt = "face=\"verdana,helvetica,arial\" size=\"+2\"";
-
-$colora = "\"#0077aa\"";
-$colorb = "\"#aaaaaa\"";
-$colorc = "\"#ffff77\"";
-
-$header_bg = "\"#222222\"";
-$header_font = "face=\"verdana,helvetica,arial\" size=\"+1\" color=\"#ffffff\"";
-$footer_bg = "\"#222222\"";
-$footer_font = "face=\"verdana,helvetica,arial\" color=\"#ffffff\"";
-$bar_color_a = "row1";
-$bar_color_b = "row2";
 
 function last_update($type)
 {
