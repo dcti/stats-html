@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.20 2003/09/02 04:05:25 decibel Exp $
+  # $Id: pc_index.php,v 1.21 2003/09/23 20:50:36 paul Exp $
 
   $title = "Overall Project Stats";
 
@@ -181,7 +181,7 @@
      (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
    </p>
    <hr>
-   <?if($showOGRcomplete){?>
+   <?if(isset($showOGRcomplete)){?>
    <A NAME="footnote"></A>
    <font size="-2">
      * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
