@@ -106,16 +106,22 @@ class DB {
 		}
 		else
 		{
-			for($i = 0; $i < count($arr_parms); $i++)
-			{
-				if(is_string($arr_parms[$i]))
-					$p_query = str_replace("\$".($i+1), "'" . pg_escape_string($arr_parms[$i]) . "'", $p_query);
-				else if(is_integer($arr_parms[$i]) || is_float($arr_parms[$i]))
-					$p_query = str_replace("\$".($i+1), (float)$arr_parms[$i], $p_query);
-				else
-				{
-					echo('Invalid argument type passed to query_bound(): $i');
-					exit(1);
+			$lastoffset = 0;
+			while (preg_match('/\$(\d+)/', $p_query, $matches, PREG_OFFSET_CAPTURE, $lastoffset)) {
+    				$i = (int)$matches[1][0];
+				if ($i >= 1 && $i <= count($arr_parms)) {
+					if(is_string($arr_parms[$i-1]))
+						$replace = "'" . pg_escape_string($arr_parms[$i-1]) . "'";
+					else if(is_integer($arr_parms[$i-1]) || is_float($arr_parms[$i-1]))
+						$replace = (float)$arr_parms[$i-1];
+					else {
+						echo("Invalid argument type passed to query_bound(): $i");
+						exit(1);
+					}
+					$p_query = substr($p_query, 0, $matches[1][1]-1) . $replace . substr($p_query, $matches[1][1] + strlen($matches[1][0]));
+					$lastoffset = $matches[1][1] + strlen($replace);
+				} else {
+					$lastoffset = $matches[1][1] + strlen($matches[1][0]);
 				}
 			}
 			$this -> _query_id = @pg_query($this -> _link_id, $p_query);
