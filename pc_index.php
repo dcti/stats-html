@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.21 2003/09/23 20:50:36 paul Exp $
+  # $Id: pc_index.php,v 1.22 2004/04/23 17:08:10 nerf Exp $
 
   $title = "Overall Project Stats";
 
@@ -185,7 +185,7 @@
    <A NAME="footnote"></A>
    <font size="-2">
      * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
-       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.
+       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.  Note that this is only for stubs with leading marks totalling less than 70.
    </font>
    <br><br>
    <?}?>
