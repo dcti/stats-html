@@ -1,6 +1,6 @@
 <?php 
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.23 2004/04/21 19:16:57 paul Exp $
+// $Id: modules.inc,v 1.24 2004/04/21 19:18:42 paul Exp $
 function plural($num)
 {
     if (abs($num) > 1 or $num == 0) {
@@ -44,49 +44,6 @@ function html_rank_arrow($change)
     } 
 } 
 
-function sybase_date_format_long($arg_1)
-{
-    $parts = explode(" ", ltrim($arg_1));
-    if($parts[0] == "") {
-        $formatted_date = "&nbsp;";
-    } else {
-        if($parts[1] == "") {
-            $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
-        } else {
-            $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
-        } 
-    } 
-    return trim($formatted_date);
-} 
-
-function sybase_date_format_short($arg_1)
-{
-    $parts = explode(" ", ltrim($arg_1));
-    if($parts[0] == "") {
-        $formatted_date = "&nbsp;";
-    } else {
-        if($parts[1] == "") {
-            $formatted_date = "$parts[2]-$parts[0]-$parts[3]";
-        } else {
-            $formatted_date = "$parts[1]-$parts[0]-$parts[2]";
-        } 
-    } 
-    return trim($formatted_date);
-} 
-
-function sybase_time_format($arg_1)
-{
-    $timestr = substr($arg_1, 12);
-    $ap = strtolower(substr($arg_1, 24, 1));
-    $parts = explode(":", $timestr);
-    if($parts[0] == "") {
-        $formatted_time = "an unknown time";
-    } else {
-        $formatted_time = "$parts[0]:$parts[1]$ap";
-    } 
-    return trim($formatted_time);
-} 
-
 function number_style_convert($number, $decimal_places = 0)
 {
     global $number_style;
@@ -117,6 +74,5 @@ function send_mail($to_address, $from_address, $subject, $message)
         return 0;
     } 
 } 
-
 
 ?>
