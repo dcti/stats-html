@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.65 2004/07/19 00:59:37 jlawson Exp $
+// $Id: psummary.php,v 1.66 2004/08/02 17:45:39 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -184,9 +184,11 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 */
 ?>
     <p>
+    <!--
     <? if ( $gpartstats->get_stats_item('work_total') > 0 ) { ?>
       <img src="graph_phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>" /><br>
     <? } ?>
+    -->
     <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
         <? if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> get_stats_item('work_today') > 0)) {
