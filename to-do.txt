@@ -1,5 +1,6 @@
-# $Id: to-do.txt,v 1.12 1999/12/09 01:46:37 decibel Exp $
+# $Id: to-do.txt,v 1.13 1999/12/10 04:15:19 decibel Exp $
 
+******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
 This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
 sybase date reporting to a timestamp that php understands so that we can perform arithmetic on it. Also, I think
@@ -18,9 +19,6 @@ I'm probably gonna be creating a shitload of functions as part of code consoloda
 standard for naming stuff
 
 
-o Add a method for team participants to request the team password be emailed to them via psummary.php3
-
-
 o Expand function library, consolodate code
 Many .php3's use a lot of similar code... we should figure out a way to commonize it
 
@@ -30,29 +28,31 @@ It'd be nice to use more than just the generic error.inc ... maybe touch a file 
 as each section of the update starts
 
 
-o Add the graphs back in
-
-
-o Figure out a better way to rank
-
-
-o Set it up so that pedit and teamedit know what page they were called from and return the user there
-
-
 o Redo pedit so that it gets the choices out of the database instead of hard-coded
 Or, we might be able to put all the choice info into one place in php3, but we shouldn't have it spread all
 over the place.
 
 
+o Benchmark to see if we should include stuff like email in the ranking tables
+
+
 o Look into using a 'view'/stored query to do the listmode logic instead of doing it in php
 
 
-o Benchmark to see if we should include stuff like email in the ranking tables
+******** PHP features ******** 
+o Add a method for team participants to request the team password be emailed to them via psummary.php3
+
+
+o Add the participant history graphs back in
+
+
+o Set it up so that pedit and teamedit know what page they were called from and return the user there
 
 
 o online list that proxy analizer's can use
 many of the proxy log analizers provide links to stats pages... it would be nice if we had a file somewhere
 where we could point those programs at different files... like for when we did the sbI to sbII move
+
 
 o <tibim> Nugget94M: on stats for the overall daily rate... you should use
           the little arrows that you use to show if an email went up or down
