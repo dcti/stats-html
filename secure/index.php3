@@ -34,10 +34,12 @@
   echo "<tr align=\"center\"><td><a href=\"server-status\">Apache Status</a></td></tr>\n";
   echo "<tr align=\"center\"><td><a href=\"phpinfo.php3\">PHP Configuration</a></td></tr>\n";
   echo "<tr align=\"center\"><td><a href=\"analog.html\">Analog Stats</a></td></tr>\n";
-  echo "<tr align=\"center\"><td bgcolor=\"#777777\"><font size=\"+3\">RC5-64</font></td></tr>\n";
-  echo "<tr align=\"center\"><td><a href=\"rc5log.cgi\">Last 50 Log Entries</a></td></tr>\n";
   echo "<tr align=\"center\"><td><form action=\"psearch.php3\" method=\"get\">Participant: <input type=\"text\" name=\"st\" size=\"10\" maxlength=\"60\"><input type=\"submit\" value=\"go!\"></form></td></tr>\n";
   echo "<tr align=\"center\"><td><form action=\"tmsearch.php3\" method=\"get\">Team: <input type=\"text\" name=\"st\" size=\"10\" maxlength=\"60\"><input type=\"submit\" value=\"go!\"></form></td></tr>\n";
+  echo "<tr align=\"center\"><td bgcolor=\"#777777\"><font size=\"+3\">RC5-64</font></td></tr>\n";
+  echo "<tr align=\"center\"><td><a href=\"rc5log.cgi\">Last 50 Log Entries</a></td></tr>\n";
+  echo "<tr align=\"center\"><td bgcolor=\"#777777\"><font size=\"+3\">CSC</font></td></tr>\n";
+  echo "<tr align=\"center\"><td><a href=\"csclog.cgi\">Last 50 Log Entries</a></td></tr>\n";
   echo "</table>\n";
 ?>
 </html>
