@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.14 2001/08/23 00:46:40 bwilson Exp $
+  // $Id: pretire.php,v 1.15 2001/08/25 22:52:56 paul Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -119,11 +119,11 @@
       $qs = "select count(*) as numemails from STATS_participant where retire_to = $destid or retire_to = $id";
       $result = sybase_query($qs);
       $par = sybase_fetch_object($result);
-      if ( $par->numemails >= 8 ) {
+      if ( $par->numemails >= 10 ) {
         print "
 	  <h2>Error: Too many retires to that email</h2>
-	  <p>To prevent abuse of the this facility, there is a limit of 8 email addresses which may be retired into a single participant using this form.</p>
-	  <p>If you have a legitimate need to retire more than 8 participants, please send mail to help@distributed.net from the account you wish to retire specifying the participant you want it retired into and the circumstances of your request.  After investigating your request we may, at our discretion, retire the address for you.</p>";
+	  <p>To prevent abuse of the this facility, there is a limit of 10 email addresses which may be retired into a single participant using this form.</p>
+	  <p>If you have a legitimate need to retire more than 10 participants, please send mail to help@distributed.net from the account you wish to retire specifying the participant you want it retired into and the circumstances of your request.  After investigating your request we may, at our discretion, retire the address for you.</p>";
         exit;
       }
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam, retire_date = '" .
