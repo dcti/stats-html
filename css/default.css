@@ -1,5 +1,31 @@
+.row1 {border-color:#AAAAAA;background-color:#dddddd }
+.row2 {border-color:#AAAAAA;background-color:#ffffdd }
+.row3 {border-color:#AAAAAA;background-color:#ffffff }
+.row1 a, .row2 a, .row3 a { color: #CC0000; }
+
+.thead {border-color:#AAAAAA;font-size:medium;font-weight:bold;color:#FFFFFF;background-color:#222222;}
+.tfoot {border-color:#AAAAAA;color:#FFFFFF;background-color:#222222;}
+.tcontent {border-color:#000000;color:#000000;font-size:small;}
+.thead a, .thead a:visited, .thead a:hover {font-weight:bold;color:#AAAAAA;background-color:#222222;}
+.tfoot a, .tfoot a:visited, .tfoot a:hover {font-weight:bold;color:#AAAAAA;background-color:#222222;}
+.tborder {border-color:#000000;border-width:1px;}
+
+.phead {text-align:center;font-family:verdana,helvetica,arial;font-size:x-large;}
+.phead2 {font-family:verdana,helvetica,arial;font-size:medium;font-weight:bold;}
+
+.htitle {font-size: x-large; color: #ffff77; background-color: #777777;}
+.hcontent {font-size: small; color: #aaaaaa; background-color: #000000;}
+.hcontent a, .hcontent a:visited, .hcontent a:hover {font-size: small; color: #FFFFFF; background-color: #000000;text-decoration: underline}
+.hsubtitle {font-size: medium; color: #0077aa;}
+
+.lastupdate {font-size: xx-small; color: #ffff77; background-color: #777777;}
+
+body { font-family:verdana,helvetica,arial;font-size:small;color:#000000;background-color:#FFFFFF; }
+body a, body a:visited, body a:hover { color: #777777 }
+img { border: 0px; }
+
+/*
 A:hover { background-color: red; text-decoration: none; color: white }
 A:active { background-color: white; text-decoration: none; color: red }
-TD { font-family: Arial,Helvetica }
-TH { font-family: Verdana; color: red }
-HR { color: #0000FF } -->
+HR { color: #0000FF }
+*/
