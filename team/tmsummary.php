@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.19 2002/12/24 22:23:56 decibel Exp $
+// $Id: tmsummary.php,v 1.19.2.1 2003/03/10 14:52:20 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -106,13 +106,16 @@ if (private_markupurl_safety($par->logo) != "") {
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale) ?></font></td>
 <? } ?>
     </tr>
+    <? if ($par->Days_Working > 0) { ?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/sec:</font></td>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / (86400 * $par->Days_Working), 3) ?></font></td>
 <? if ($par->WORK_TODAY > 0) { ?>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / 86400, 3) ?></font></td>
-<? } ?>
+    <? } ?>
     </tr>
+<? } ?>
+    <?if($par->MEMBERS_OVERALL > 0) {?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/member:</font></td>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / $par->MEMBERS_OVERALL) ?></font></td>
@@ -120,6 +123,7 @@ if (private_markupurl_safety($par->logo) != "") {
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / $par->MEMBERS_TODAY) ?></font></td>
 <? } ?>
     </tr>
+    <?}?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>:</font></td>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL) ?></font></td>
@@ -127,6 +131,7 @@ if (private_markupurl_safety($par->logo) != "") {
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY) ?></font></td>
 <? } ?>
     </tr>
+    <?if ($par->Days_Working > 0) { ?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/sec:</font></td>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working)) ?></font></td>
@@ -134,6 +139,8 @@ if (private_markupurl_safety($par->logo) != "") {
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / 86400) ?></font></td>
 <? } ?>
     </tr>
+    <?}?>
+    <?if($par->MEMBERS_OVERALL > 0) {?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/member:</font></td>
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / $par->MEMBERS_OVERALL) ?></font></td>
@@ -141,6 +148,7 @@ if (private_markupurl_safety($par->logo) != "") {
       <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / $par->MEMBERS_TODAY) ?></font></td>
 <? } ?>
     </tr>
+    <?}?>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1">Time Working:</font></td>
       <td align="right" colspan="<?= ($par->WORK_TODAY > 0) ? 3 : 2 ?>" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->Days_Working) ?> days</font></td>
@@ -148,11 +156,15 @@ if (private_markupurl_safety($par->logo) != "") {
   </table>
   <br>
   <br>
-  <? if ($proj_totalunits > 0) { ?>
+  <? if($proj_totalunits > 0 && $par->WORK_TODAY == 0)
+     {
+   ?>
+  The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
+  <?} else if ($proj_totalunits > 0 && $par->WORK_TODAY > 0) { ?>
   The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $par->WORK_TODAY) ?> that this team will
-    find the key before anyone else does. <br>
+    find the key before anyone else does. 
   <? } ?>
-
+  <br>
   <p>
     This team has had <?= number_style_convert($par->MEMBERS_OVERALL) ?> participants contribute blocks.
     Of those, <?= number_style_convert($par->MEMBERS_CURRENT) ?> are still on this team,
@@ -184,7 +196,7 @@ if (private_markupurl_safety($par->logo) != "") {
   ?> 
   </p>
 	<center>
-    <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
+    <table border="1" cellspacing="0">
       <tr>
         <th>Rank</th>
         <th>Team</th>

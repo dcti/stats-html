@@ -73,7 +73,7 @@ if ( $rows >= $limit ) {
 ?>
 <center>
   <br>
-  <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
+  <table border="1" cellspacing="0" >
     <tr bgcolor=<?=$footer_bg?>>
        <td><font <?=$footer_font?>><?=$btn_back?></font></td>
        <td colspan="6"><font <?=$footer_font?>>&nbsp;</font></td>

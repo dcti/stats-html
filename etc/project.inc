@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.17 2002/12/17 04:48:56 decibel Exp $
+# $Id: project.inc,v 1.17.2.1 2003/03/10 14:52:20 decibel Exp $
 
 include "limit.inc";
 include "debug.inc";
@@ -122,7 +122,7 @@ $proj_unitname = $prj_info->work_unit_name;
 
 function last_update($type)
 {
-  global $lastupdate,$project_id;
+  global $debug,$lastupdate,$project_id;
 
   debug_text("<!-- last_update: type: $type -->\n",$debug);
   switch ($type) { 

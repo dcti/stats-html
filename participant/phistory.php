@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.9.2.1 2003/01/29 03:42:14 decibel Exp $
+ # $Id: phistory.php,v 1.9.2.2 2003/03/10 14:52:20 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -9,11 +9,13 @@
  include "../etc/modules.inc";
  include "../etc/project.inc";
 
- if(file_exists($lockfile)) {
-   $title = "Participant History (Unavailable)";
-   include "../templates/header.inc";
-   include "../templates/updating.inc";
-   exit;
+ if(isset($lockfile)){
+   if(file_exists($lockfile)) {
+    $title = "Participant History (Unavailable)";
+    include "../templates/header.inc";
+    include "../templates/updating.inc";
+    exit;
+   }
  }
 
  $qs = "p_participant_all $id";
@@ -46,7 +48,7 @@ http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=
 -->
   <center>
     <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
-    <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
+    <table border="1" cellspacing"0">
       <tr>
        <th>Date</th>
        <th align="right"><?=$proj_unitname?></th>

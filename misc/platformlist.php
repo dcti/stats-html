@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.17 2002/06/05 22:56:54 decibel Exp $
+# $Id: platformlist.php,v 1.17.2.1 2003/03/10 14:52:20 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -171,7 +171,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 }
 
  if($show_yesterday or $show_total) {
-   $totalblocks = number_format($totalblocks, 0);
   
    $padding = (int) $cols - 1;
    print "

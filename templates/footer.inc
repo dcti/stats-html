@@ -19,7 +19,7 @@ if (!isset($proj_list)) { ?>
     <a href="http://www.sybase.com/"><img src="/images/sybase.gif" alt="Sybase" border="0"></a>
    </p>
 <? if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ ?>
-   <p> Page generated in <?=timer_current()?> </p>
+   <p> Page generated in <?=timer_current()?> seconds </p>
 <? } ?>
   </center>
  </body>
