@@ -1,9 +1,13 @@
 <?
- # $Id: project.inc,v 1.5 2002/04/07 21:43:55 paul Exp $
+ # $Id: project.inc,v 1.6 2002/04/10 22:25:40 paul Exp $
 
-include "timing.inc";
 include "limit.inc";
-timer_start();
+
+
+if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ 
+	include "timing.inc";
+	timer_start();
+}
 
  $myname = $PHP_SELF;
 
