@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.67 2004/09/27 20:52:34 decibel Exp $
+// $Id: psummary.php,v 1.68 2004/09/27 20:53:38 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -121,7 +121,6 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 ?>
         </td>
       </tr>
-      <!--
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
         <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('work_total')) ?></td>
@@ -141,7 +140,6 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 ?>
         </td>
       </tr>
-      -->
       <tr>
         <td align="left" class="phead2">Time Working:</td>
         <td colspan="2" align="right">
