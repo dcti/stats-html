@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.8 2000/07/06 18:52:16 nugget Exp $
+  // $Id: pjointeam.php,v 1.9 2000/07/21 18:45:57 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -53,6 +53,16 @@
     exit;
   }
 
+  $qs = "select * from Team_Joins where JOIN_DATE=getdate() and ID = $id";
+  $result = sybase_query($qs);
+  $rows = sybase_num_rows($result);
+  if( $rows >= 1 ) {
+    $qs = "update stats.dbo.Team_Joins set TEAM_ID = $team where JOIN_DATE=getdate() and ID = $id";
+    $result = sybase_query($qs);
+  } else {
+    $qs = "insert into stats.dbo.Team_Joins(JOIN_DATE, ID, TEAM_ID) select  getdate(), $id, $team";
+    $result = sybase_query($qs);
+  }
   $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
   $result = sybase_query($qs);
   $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
