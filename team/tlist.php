@@ -42,7 +42,6 @@ if ("$source" == "y") {
  $lastupdate = last_update('t');
 
  include "../templates/header.inc";
- debug_text("<!-- Last Update -- qs: $qs, result: $result, par: $par -->\n",$debug);
 
  // Get the results
  sybase_query("set rowcount $limit");
@@ -88,7 +87,9 @@ if ("$source" == "y") {
 	<th align="right"><?=$proj_unitname?> Yesterday</th>
       </tr>
 <?
-	
+ $totalblocks=0;
+ $totalblocksy=0;	
+
  for ($i = 0; $i<$rows; $i++) {
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
