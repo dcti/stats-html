@@ -73,6 +73,14 @@ class DB {
      */
     function query($query_string)
     {
+        if ($GLOBALS['debug'] >= DEBUG_SHOW_QUERY) {
+            ?>
+<!-- **** QUERY STRING ****
+<?=$query_string?>
+-->
+<?
+        }
+
         $this -> query_id = pg_query (/*$this -> link_id,*/ $query_string);
         if(!$this -> query_id) {
            // $this -> halt("Invalid SQL: " . $query_string);
