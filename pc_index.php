@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.18 2003/09/01 20:50:20 thejet Exp $
+  # $Id: pc_index.php,v 1.19 2003/09/01 22:06:51 thejet Exp $
 
   $title = "Overall Project Stats";
 
@@ -68,6 +68,20 @@
 
 
   $odds = number_format($total_remaining / $par->work_units,0);
+
+  if(strtolower(substr($gproj->get_name(), 0, 3)) == "ogr")
+  {
+    $ogrdb = new DB("dbname=ogr");
+    $ogrstats = $ogrdb->query_first("SELECT * FROM recent_complete WHERE project_id = " . $gproj->get_id());
+    if($ogrstats)
+    {
+      $showOGRcomplete = true;
+      $per_searched = $ogrstats->tot_pct;
+      $ogr_rundate = $ogrstats->rundate;
+      $bar_width = number_format(3*$per_searched, 0);
+    }
+  }
+
 ?>
    <div style="text-align:center">
    <br>
@@ -103,10 +117,15 @@
      <td align="left" class="phead2">Overall Rate:</td>
      <td align="right"><?=$overall_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec</td>
     </tr>
-<? if ($gproj->get_total_units() > 0 ) { ?>
+<? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
      <tr>
+     <?if($showOGRcomplete) {?>
+     <td align="left" class="phead2">Percent Complete<sup><A href="#footnote">*</A></sup>:</td>
+     <td align="right"><a href="cache/ogr_graph_<?=$gproj->get_id()?>.png"><?=$per_searched?>%</a> *</td>
+     <?} else {?>
      <td align="left" class="phead2">Percent Complete:</td>
      <td align="right"><?=$per_searched?>%</td>
+     <?}?>
     </tr>
 <? } ?>
    <tr>
@@ -115,13 +134,13 @@
     </tr>
    </table>
    <br>
-<? if ($gproj->get_total_units() > 0 ) { ?>
+<? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
    <p class="phead2">
-     Progress Meter
+     Progress Meter<?if($showOGRcomplete){?><sup><A href="#footnote">*</A></sup><?}?>
    </p>
-   <table width="300" border="1" cellspacing="0" cellpadding="0">
+   <table style="margin: auto" width="300" border="1" cellspacing="0" cellpadding="0">
     <tr>
-     <td align="left"><img src="/images/bar.jpg" width="<?=$bar_width?>" height="14"></td>
+     <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
     </tr>
    </table>
    <br>
@@ -168,4 +187,12 @@
      (<?=$new_teams?> of them <? if ($new_teams==1) { echo 'is'; } else {echo 'are';}?> brand new!)
    </p>
    <hr>
+   <?if($showOGRcomplete){?>
+   <A NAME="footnote"></A>
+   <font size="-2">
+     * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
+       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.
+   </font>
+   <br><br>
+   <?}?>
    </div>
