@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.15 2002/06/05 20:23:36 paul Exp $
+# $Id: platformlist.php,v 1.16 2002/06/05 22:53:22 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -39,7 +39,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  $show_yesterday = 0;
  $show_total = 0;
  if("$source" == "y") {
-   $whestr .= " and WORK_YESTERDAY > 0";
+   $whestr .= " and WORK_TODAY > 0";
  }
 
  for($i=0; $i < strlen($view); $i++) {
@@ -48,7 +48,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    if($ch == 'o') $fieldname = "p.OS";
    if($ch == 'v') $fieldname = "p.VER";
    if($ch == 'y') {
-     $fieldname = "sum(p.WORK_YESTERDAY)/$proj_divider as yesterday";
+     $fieldname = "sum(p.WORK_TODAY)/$proj_divider as yesterday";
      $show_yesterday = 1;
    }
    if($ch == 't') {
