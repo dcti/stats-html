@@ -40,7 +40,13 @@ if (!isset($proj_list)) {
     if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }
     if($debug >= DEBUG_PROFILE) { echo xdebug_dump_function_profile(); }
     if($log_timing == 1) {
-        if ( !isset( $other ) ) { $other = ''; }
+        if ( !isset( $other ) ) {
+            if ( isset( $source ) ) {
+                $other = $source;
+            } else {
+                $other = '';
+            }
+        }
         log_timing($gdb, $project_id, $other);
     }
 //} 
