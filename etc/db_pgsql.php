@@ -85,6 +85,7 @@ class DB {
 
         $this -> query_id = pg_query (/*$this -> link_id,*/ $query_string);
         if(!$this -> query_id) {
+           echo "<h2>A database error occured.</h2>";
            // $this -> halt("Invalid SQL: " . $query_string);
         } 
         return $this -> query_id;
