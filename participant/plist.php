@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.8 2002/03/25 15:53:46 paul Exp $
+# $Id: plist.php,v 1.9 2002/04/03 17:30:20 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -18,7 +18,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 //   limit == how many lines to retuwn
 //   source == "y" for yseterday, all other values ignored.
 
-include "../etc/limit.inc";	// Handles low, high, limit calculations
+include "etc/limit.inc";	// Handles low, high, limit calculations
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
@@ -45,25 +45,14 @@ if ("$source" == "y") {
 	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
 }
 
- $qs = "p_lastupdate @section='e', @contest='new', @project_id=$project_id";
- $result = sybase_query($qs);
- $par = sybase_fetch_object($result);
- $lastupdate = sybase_date_format_long($par->lastupdate);
+$lastupdate = last_update('e');
  include "templates/header.inc";
 
  sybase_query("set rowcount 100");
  $result = sybase_query($QSlist);
 
  debug_text("<!-- QSlist: $QSlist, result: $result -->", $debug);
-
- if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($result);
  
  $rows = sybase_num_rows($result);
 
@@ -121,23 +110,21 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
  <?
 }
  $totalblocks = number_format($totalblocks, 0);
- $pr_lo = $lo-$limit;
- $nx_lo = $lo+$limit;
  if ( $lo > $rows ) {
-   $btn_back = "<a href=\"$myname?project_id=$project_id&low=$pr_lo&limit=$limit&source=$source\">Back $limit</a>";
+   $btn_back = "<a href=\"$myname?project_id=$project_id&low=$prev_lo&limit=$limit&source=$source\">Back $limit</a>";
  } else {
    $btn_back = "&nbsp;";
  }
 
  if ( 2 > 1 ) {
-   $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$nx_lo&limit=$limit&source=$source\">Next $limit</a>";
+   $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$next_lo&limit=$limit&source=$source\">Next $limit</a>";
  } else {
    $btn_fwd = "&nbsp;";
  }
 
 ?> 
 	 <tr bgcolor=<?=$footer_bg?>>
-	  <td><font <?=$footer_font?>><?=$lo-$hi?></font></td>
+	  <td><font <?=$footer_font?>><? echo "$lo-$hi"?></font></td>
 	  <td align="right" colspan="4"><font <?=$footer_font?>>Total</font></td>
 	  <td align="right"><font <?=$footer_font?>><?=$totalblocks?></font></td>
 	 </tr>
