@@ -1,6 +1,6 @@
 <?
 
- # $Id: pc_index.php,v 1.5 2002/03/23 12:38:18 paul Exp $
+ # $Id: pc_index.php,v 1.6 2002/04/07 22:52:51 paul Exp $
 
  $title = "Overall Project Stats";
 
@@ -8,14 +8,12 @@
  include "../etc/modules.inc";
  include "etc/project.inc";
 
- sybase_query("set rowcount 1"); 
- $qs = "select * from Daily_Summary where PROJECT_ID=$project_id order by date desc";
+ $qs = "select * from daily_summary where project_id=$project_id and date = (select max(date) from daily_summary where project_id=$project_id)";
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
  $daysum = sybase_fetch_object($result);
  $lastupdate = sybase_date_format_long($daysum->DATE);
-
- include "templates/header.inc";
+ display_last_update();
 
  debug_text("<!-- Daily Summary -- qs: $qs, daysum: $daysum, par: $par -->\n",$debug);
 
@@ -95,4 +93,3 @@
    </p>
    <hr>
   </center>
-<?include "templates/footer.inc";?>
