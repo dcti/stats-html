@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.26 2003/05/09 04:02:16 thejet Exp $
+// $Id: tmsummary.php,v 1.27 2003/05/09 12:24:39 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -33,7 +33,6 @@ $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
 */
 $stats = $team->get_current_stats();
-$days_working = ($stats->get_stats_item('last_date') - $stats->get_stats_item('first_date'));
 
 $neighbors = $team->get_neighbors();
 
@@ -80,10 +79,10 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale()) ?></td>
 <? } ?>
     </tr>
-    <? if ($days_working > 0) { ?>
+    <? if ($stats->get_stats_item('days_working') > 0) { ?>
     <tr>
       <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>/sec:</td>
-      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $days_working)) ?></td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $stats->get_stats_item('days_working'))) ?></td>
 <? if ($stats->get_stats_item('work_today') > 0) { ?>
       <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale() / 86400) ?></td>
     <? } ?>
@@ -126,7 +125,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
     -->
     <tr>
       <td align="left" class="phead2">Time Working:</td>
-      <td align="right" colspan="<?= ($stats->get_stats_item('work_today') > 0) ? 3 : 2 ?>"><?= number_style_convert($days_working) ?> days</td>
+      <td align="right" colspan="<?= ($stats->get_stats_item('work_today') > 0) ? 3 : 2 ?>"><?= number_style_convert($stats->get_stats_item('days_working')) ?> days</td>
     </tr>
   </table>
   <br>
@@ -180,7 +179,6 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       $totalwork = 0;
       for ($i = 0; $i < count($neighbors); $i++) {
         $tmpStats = $neighbors[$i]->get_current_stats();
-        $tmpWorking = $tmpStats->get_stats_item('last_date') - $tmpStats->get_stats_item('first_date');
       ?>
         <tr class="<?= row_background_color($i) ?>">
         <?        
@@ -190,7 +188,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
           <td>
               <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $neighbors[$i]->get_id() ?>"><?= $neighbors[$i]->get_name() ?></a>
           </td>
-          <td align="right"><?= number_style_convert($tmpWorking) ?></td>
+          <td align="right"><?= number_style_convert($tmpStats->get_stats_item('days_working')) ?></td>
           <td align="right"><?= number_style_convert($tmpStats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
         </tr>
       <?
