@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.16 2002/12/16 20:00:31 decibel Exp $
+# $Id: project.inc,v 1.17 2002/12/17 04:48:56 decibel Exp $
 
 include "limit.inc";
 include "debug.inc";
@@ -86,7 +86,7 @@ if (isset($_GET['team'])) {
 
 sybase_pconnect($interface, $username, $password);
 $qs = "select name, project_type, work_unit_qty, work_unit_disp_multiplier, work_unit_disp_divisor,
-              scaled_work_unit_name, unscaled_work_unit_name
+              scaled_work_unit_name, unscaled_work_unit_name, PRIZE
               -- Deprecated
               , work_unit_scale, work_unit_name
           from Projects
@@ -114,7 +114,7 @@ $proj_totalunits = (double)$prj_info->work_unit_qty;
 $proj_scale = (double)$prj_info->work_unit_disp_multiplier / $prj_info->work_unit_disp_divisor;
 $proj_scaled_unit_name = $prj_info->scaled_work_unit_name;
 $proj_unscaled_unit_name = $prj_info->unscaled_work_unit_name;
-
+$proj_prize = $prj_info->PRIZE;
 
 # Deprecated
 $proj_divider = (double)$prj_info->work_unit_scale;
