@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.12 2002/06/04 22:29:43 paul Exp $
+# $Id: platformlist.php,v 1.13 2002/06/04 23:02:29 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -55,12 +55,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
      $fieldname = "sum(p.WORK_TOTAL)/$proj_divider as total";
      $show_total = 1;
    }
+
    $selstr .= " $fieldname,";
    if($ch != 'y' and $ch != 't') $grostr .= " $fieldname,";
  }
 
 
- $selstr .= " FIRST_DATE as first, LAST_DATE as last";
+ $selstr .= " FIRST_DATE as first, LAST_DATE as last,";
 
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
