@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.14 2002/06/04 23:05:30 decibel Exp $
+# $Id: platformlist.php,v 1.15 2002/06/05 20:23:36 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -129,11 +129,10 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 ?> 
        <th align="right">First Unit</th>
        <th align="right">Last Unit</th>
-       <th align="right">Total <?=$proj_unitname?></th>
-      </tr>
 <?
  if($show_yesterday){ print "<th>Yesterday</th>";}
- if($show_total) { print "<th>Total</th>";}
+ if($show_total) { print "<th>Total $proj_unitname</th>";}
+ print '</tr>';
  $total_yesterday = 0;
  $total_overall = 0;
  for ($i = 0; $i<$rows; $i++) {
@@ -158,7 +157,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  print "
  	<td align=\"right\">$firstd</td>
  	<td align=\"right\">$lastd</td>
- 	</tr>
  ";
 
  if($show_yesterday) {
@@ -169,6 +167,8 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    print "<td align=\"right\">" . number_style_convert( (double) $par->total ) . "</td>\n";
    $total_overall += (double) $par->total ;
  }
+ print "</tr>";
+}
 
  if($show_yesterday or $show_total) {
    $totalblocks = number_format($totalblocks, 0);
@@ -187,7 +187,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
     <td align=\"right\"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
    }
  }
-}
+
    print "
    </tr>
   </table>
