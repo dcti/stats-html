@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit_save.php,v 1.5 2003/05/27 18:38:29 thejet Exp $
+  // $Id: tmedit_save.php,v 1.6 2003/09/23 20:40:02 paul Exp $
 
   // tmsecure.inc will obtain $team and $tpass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -24,19 +24,6 @@
   }
 
   $listmode = $tmptr->get_listmode();
-  /*
-  sybase_connect($interface,$username,$password);
-  $qs = "select * from STATS_team where team = $team and password = '$tpass'";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-
-  if( $rows <> 1) {
-    include "../templates/tmbadpass.inc";
-    exit;
-  }
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-  */
 
   if ($listmode == 8 or $listmode == 9 or $listmode == 18 or $listmode == 19) {
     include "../templates/tmlocked.inc";
@@ -64,32 +51,16 @@
     print("</body></html>");
     exit;
   }
-
-  /*
-  $qs = "update STATS_team set
-	listmode = $listmode,
-	name = '$name',
-	url = '$url',
-	contactname = '$contactname',
-	contactemail = '$contactemail',
-	logo = '$logo',
-	showmembers = '$showmembers',
-	showpassword = '$showpassword',
-	description = '$description'
-	where team = $team and password = '$tpass'";
-
-  $result = sybase_query($qs);
-  */
-  print "
-	<html>
-	 <head>
-	  <title>Updating " . $tmptr->get_name() . " data</title>
-	  <meta http-equiv=\"refresh\" content=\"4; URL=tmsummary.php?team=" . $tmptr->get_id() . "\">
-	 </head>
-	 <body>
-	  <div style=\"text-align: center\">
-	   <h2>Saving your information...</h2>
-	  </div>
-	 </body>";
+  
 ?>
+<html>
+	<head>
+		<title>Updating <?=$tmptr->get_name()?> data</title>
+		<meta http-equiv="refresh" content="4; URL=tmsummary.php?team=<?=$tmptr->get_id()?>">
+	</head>
+	<body>
+		<div style="text-align: center">
+			<h2>Saving your information...</h2>
+		</div>
+	</body>
 </html>
