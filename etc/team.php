@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.16 2003/10/28 14:53:22 thejet Exp $
+// $Id: team.php,v 1.17 2003/11/10 22:33:19 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -9,6 +9,7 @@
 // team and its stats into objects.
 //==========================================
 define('MAX_PASS_LEN', 8);
+define('MAX_OLD_TEAM_ID', 39999);
 
 /***
  * This class represents a team
@@ -29,6 +30,7 @@ class Team
      var $_project;
      var $_state;
      var $_authed;
+     var $_IDMismatch;
      /*** END Internal Class variables ***/
 
      /***
@@ -42,6 +44,7 @@ class Team
       * @type int
       ***/
       function get_id() { return $this->_state->team; }
+      function get_id_mismatch() { return $this->_IDMismatch; }
 
      /***
 	 * The Name for the current team captain
@@ -166,7 +169,19 @@ class Team
          ***/
          function load($team_id)
 	 {
-	    $this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
+             if($team_id > MAX_OLD_TEAM_ID)
+             {
+	         $this->_state = $this->_db->query_first("SELECT stats_team.* FROM stats_team INNER JOIN new_team_id ON stats_team.team = new_team_id.new_id WHERE new_team_id.old_id = $team_id");
+             }
+             else
+             {
+	         $this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
+             }
+
+             if($this->get_id() != $team_id)
+                 $this->_IDMismatch = true;
+             else
+                 $this->_IDMismatch = false;
 	 }
 
         /***

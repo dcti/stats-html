@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.4 2003/09/23 21:19:46 paul Exp $
+// $Id: tmsummary_xml.php,v 1.5 2003/11/10 22:33:36 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -30,7 +30,7 @@ if ($team->get_id() == 0) {
 $neighbors = $team->get_neighbors();
 $numneighbors = count($neighbors);
 ?>
-<team-summary id="<?= $tm ?>" project="<?= $gproj->get_name() ?>" project-id="<?= $gproj->get_id() ?>" date="<?= $lastupdate ?>">
+<team-summary id="<?= $team->get_id() ?>" project="<?= $gproj->get_name() ?>" project-id="<?= $gproj->get_id() ?>" date="<?= $lastupdate ?>">
   <name><?= safe_display($team->get_name()) ?></name>
   <logo><?= safe_display($team->get_logo()) ?></logo>
   <description><![CDATA[<?= markup_to_html($team->get_description()) ?>]]></description>

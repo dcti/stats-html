@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.37 2003/10/27 14:08:21 thejet Exp $
+// $Id: tmsummary.php,v 1.38 2003/11/10 22:33:36 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -13,10 +13,6 @@ include "../etc/markup.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
 
-$title = "Team #$tm Summary";
-$lastupdate = last_update('t');
-include "../templates/header.inc";
-
 // Query server
 $team = new Team($gdb, $gproj, $tm);
 if($team->get_id() == 0) {
@@ -24,6 +20,10 @@ if($team->get_id() == 0) {
 	include "../templates/footer.inc";
 	exit;
 }
+
+$title = "Team #".$team->get_id()." Summary";
+$lastupdate = last_update('t');
+include "../templates/header.inc";
 
 $stats = $team->get_current_stats();
 
@@ -37,6 +37,10 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 ?>
 <div style="text-align:center;">
 <h1 class="phead"><?= safe_display($team->get_name()) ?></h1>
+<?if($team->get_id_mismatch() == true) {?>
+  <h2 class="phead2" style="color: red">WARNING: This team has been renumbered, the new
+  team ID is <?=$team->get_id()?>.</h2>
+<?}?>
   <table align="center">
     <tr>
       <td><?= $logo ?></td>
