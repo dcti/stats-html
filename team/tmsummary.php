@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.29 2003/08/01 23:57:24 paul Exp $
+// $Id: tmsummary.php,v 1.30 2003/08/31 16:02:32 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -130,11 +130,11 @@ if (private_markupurl_safety($team->get_logo()) != "") {
   </table>
   <br>
   <br>
-  <? if($proj_totalunits > 0 && $stats->get_stats_item('work_today') == 0)
+  <? if($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') == 0)
      {
    ?>
   The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
-  <?} else if ($proj_totalunits > 0 && $stats->get_stats_item('work_today') > 0) { ?>
+  <?} else if ($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') > 0) { ?>
   The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $stats->get_stats_item('work_today')) ?> that this team will
     find the key before anyone else does. 
   <? } ?>

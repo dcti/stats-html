@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.51 2003/08/25 20:28:58 thejet Exp $
+// $Id: psummary.php,v 1.52 2003/08/31 16:02:32 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -167,7 +167,7 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
   <br>
    <? echo sybase_date_format_long($best_day->DATE)?> when <? echo number_format($best_day->WORK_UNITS,0)?>
    units were completed.
-<? if ($proj_totalunits > 0 ) { ?>
+<? if ($gproj->get_total_units() > 0 ) { ?>
 were completed at a rate of <?=$best_rate?> Kkeys/sec.
 <? } ?>
   </p><!-- Thanks, Havard! -->
