@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.35 2003/01/11 22:07:23 paul Exp $
+# $Id: psummary.php,v 1.36 2003/01/12 00:22:35 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -76,8 +76,8 @@ include "../templates/header.inc";
 // Get the participant's ranking info, store in $rs_rank
 
 $qs = "select DAY_RANK, OVERALL_RANK, datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-          convert(char(20),WORK_TODAY) as TODAY,
-          convert(char(20),WORK_TOTAL) as TOTAL,
+          WORK_TODAY as TODAY,
+          WORK_TOTAL as TOTAL,
           OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
           DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
         from Email_Rank
@@ -93,8 +93,8 @@ debug_text("<!-- Participant ranking -- qs: $qs, result: $result, rs_rank: $rs_r
 
 $qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK,
           datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-           convert(char(20),WORK_TODAY) as TODAY,
-           convert(char(20),WORK_TOTAL) as TOTAL,
+          WORK_TODAY as TODAY,
+          WORK_TOTAL as TOTAL,
           (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
           (r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
         from STATS_Participant p, Email_Rank r
@@ -111,8 +111,8 @@ debug_text("<!-- Participant neighbors -- qs: $qs, neighbors: $neighbors, numnei
 // Grab the participant's list of friends, store in $friends (number of friends in $numfriends)
 
 $qs = "select r.*, p.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
-           convert(char(20),WORK_TODAY) as TODAY,
-           convert(char(20),WORK_TOTAL) as TOTAL,
+          WORK_TODAY as TODAY,
+          WORK_TOTAL as TOTAL,
           (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change
         from STATS_Participant p, Email_Rank r
         where (r.id = $person->friend_a or
@@ -178,7 +178,7 @@ $yest_totals = sybase_fetch_object($result);
       </tr>
       <tr>
         <td align="left"><font <?=$fontd?> size="+1"><?=$proj_scaled_unit_name?>:</font></td>
-        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert(((double)$rs_rank->TOTAL) * $proj_scale);?></font></td>
+        <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL * $proj_scale);?></font></td>
         <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY * $proj_scale);?></font></td>
       </tr>
       <tr>
