@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.26 2003/06/11 19:33:37 paul Exp $
+// $Id: project.inc,v 1.27 2003/09/01 16:22:21 thejet Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
@@ -10,11 +10,16 @@ if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
     if (isset($_GET['debug'])) {
         $debug = (int)$_REQUEST['debug'];
     } 
-    dl('../xdebug.so');
-    xdebug_start_trace();
-    xdebug_start_profiling();
-    include "timing.inc";
-    timer_start();
+    if($debug >= 1)
+    {
+      dl('/xdebug.so');
+      if($debug >= 2) {
+        xdebug_start_trace();
+      }
+      xdebug_start_profiling();
+      include "timing.inc";
+      timer_start();
+    }
 } 
 
 $myname = $_SERVER['PHP_SELF'];
