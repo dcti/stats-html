@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.23 2003/09/13 22:36:08 thejet Exp $
+// $Id: participant.php,v 1.24 2003/09/13 22:40:05 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -180,9 +180,9 @@ class Participant {
     function &load_friend_data()
     {
         $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
-                      r.overall_rank_previous - r.overall_rank as overall_change,
-                      r.day_rank_previous - r.day_rank as day_change
-                 FROM stats_participant_friend pf, email_rank r, stats_participant p 
+                        r.overall_rank_previous - r.overall_rank as overall_change,
+                        r.day_rank_previous - r.day_rank as day_change
+                    FROM stats_participant_friend pf, email_rank r, stats_participant p 
                 WHERE pf.id = " . $this->get_id() . " 
                   AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
 
@@ -680,5 +680,5 @@ class Participant {
     } 
 } 
 
-// vi: set expandtab sw=2 ts=2 tw=128
+// vi: expandtab sw=2 ts=2 tw=128
 ?>
