@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.13 2002/06/03 21:38:36 paul Exp $
+ # $Id: psummary.php,v 1.14 2002/06/04 11:14:48 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -45,7 +45,6 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  sybase_data_seek($result,0);
  $person = sybase_fetch_object($result);
  err_check_query_results($person);
-
  $retire_to = 0+$person->retire_to;
  if( $retire_to > 0 ) {
    header("Location: psummary.php?project_id=$project_id&id=$retire_to");
@@ -273,7 +272,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 	if($id<>$par->id) {
 	  par_list($i,$par,&$totaltoday,&$totaltotal);
 	} else {
-	  par_list($i,$par,&$totaltoday,&$totaltotal, "#ffffff","#ffffff");
+	  par_list($i,$par,&$totaltoday,&$totaltotal, "row3","row3");
 	}
  }
  par_footer($footer_font,$totaltoday,$totaltotal);
