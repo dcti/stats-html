@@ -2,7 +2,7 @@
 include "security.inc";
 
 include "../etc/config.inc";
-include "../misc/number_format.inc";
+include "../etc/modules.inc";
 
 sybase_connect($interface, $ss_login, $ss_passwd);
 $qs = "select * from stats.dbo.STATS_participant where email like \"%%$st%%\" order by id";
