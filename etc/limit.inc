@@ -1,5 +1,17 @@
-<?php
- // $Id: limit.inc,v 1.5 2000/07/14 03:42:41 decibel Exp $
+<?
+
+if (isset($_GET['low'])) {
+        $low = (int)$_GET['low'];
+ } else {
+        $low = 1;
+ }
+
+if (isset($_GET['limit'])) {
+        $limit = (int)$_GET['limit'];
+ } else {
+        $limit = 100;
+ }
+
 
  if ( $limit > 100 || $limit < 1 ) {
    $limit = 100;
