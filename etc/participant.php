@@ -1,7 +1,7 @@
 <?php 
-// $Id: participant.php,v 1.25 2003/09/14 01:23:59 decibel Exp $
+// $Id: participant.php,v 1.26 2003/09/17 21:39:40 paul Exp $
 
-define('MAX_PASS_LEN',8);
+define('MAX_PASS_LEN',9);
 
 /**
  * This class represents a participant
@@ -79,21 +79,21 @@ class Participant {
 
 	function check_password($pass)
     {
-    	$pass = substr($pass,0,'MAX_PASS_LEN');
+    	$pass = substr($pass,0,MAX_PASS_LEN);
     	
 		if ($this->get_password() == "") {
     		//auth fail - no pass set -> mail pass to user
   		}
-    	
+
     	// @ TODO - NEED TO CHECK users is not suspended, retired etc
         if ( $this -> get_password() == $pass ) {
        		if ($this->get_retire_to() > 0) {
-    		//authfail("pretired",$test_from,$test_id,$test_pass);
-  			return false;
+    			//authfail("pretired",$test_from,$test_id,$test_pass);
+  				return false;
   			}
  			if ($this->get_list_mode() > 7) {
-    		//authfail("plocked",$test_from,$test_id,$test_pass);
-  			return false;
+    			//authfail("plocked",$test_from,$test_id,$test_pass);
+  				return false;
   			}
         	$this ->_authed = true; 
         	return true;
