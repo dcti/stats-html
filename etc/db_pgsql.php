@@ -49,6 +49,8 @@ class DB {
                 $this -> halt("pgsql connection failed");
             } 
 			$this->_connected = true;
+
+            pg_query('SET STATEMENT_TIMEOUT=15000');
         } 
     } 
 
