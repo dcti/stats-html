@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.4 2000/01/18 03:52:00 decibel Exp $
+  // $Id: modules.inc,v 1.5 2000/05/31 23:16:59 decibel Exp $
 
   function row_background_color($rownum) {
         if( ($rownum/2) == (round($rownum/2)) ) {
@@ -7,6 +7,10 @@
         } else {
 		return $GLOBALS["bar_color_b"];
 	}
+  }
+
+  function debug_text($test) {
+    if ($debug == "yes") print $test;
   }
 
   function html_rank_arrow($change) {
