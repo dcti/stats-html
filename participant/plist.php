@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.22 2003/08/01 23:51:51 paul Exp $
+// $Id: plist.php,v 1.23 2003/08/25 18:17:14 thejet Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
@@ -35,8 +35,8 @@ include "../templates/header.inc";
       </tr>
 <?
 
-$gpart = new Participant($gdb, $project_id, $id);
-$plist = $gpart -> get_ranked_list($source, $lo, $hi, $limit);
+$totalrows = 0;
+$plist = Participant::get_ranked_list($source, $lo, $limit, &$totalrows, $gdb, $gproj);
 $totalblocks = (double) 0;
 $i = 0;
 foreach ($plist as $par) {
@@ -49,8 +49,8 @@ foreach ($plist as $par) {
 	<tr class="<?=row_background_color($i)?>">
 		<td><?=$statspar -> get_stats_item('rank')?><?=html_rank_arrow($statspar -> get_stats_item('change')) ?></td>
 		<td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$par -> get_id() ?>"><?=$par -> get_display_name() ?></a></td>
-		<td align="right"><?=$statspar -> get_stats_item('first') ?></td>
-		<td align="right"><?=$statspar -> get_stats_item('last') ?></td>
+		<td align="right"><?=$statspar -> get_stats_item('first_date') ?></td>
+		<td align="right"><?=$statspar -> get_stats_item('last_date') ?></td>
 		<td align="right"><?=$statspar -> get_stats_item('days_working')?></td>
 		<td align="right"><?=number_style_convert((double) $statspar -> get_stats_item('blocks') * $gproj->get_scale()) ?></td>
 	</tr>

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.49 2003/08/20 20:05:37 paul Exp $
+// $Id: psummary.php,v 1.50 2003/08/25 18:17:14 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -38,15 +38,15 @@ function par_footer($totaltoday, $totaltotal, $proj_scale)
 
     ?>
   <tr>
-    <td align="right" colspan="3">Total</td>
-    <td align="right"><?echo number_style_convert($totaltotal * $proj_scale)?></td>
-    <td align="right"><?echo number_style_convert($totaltoday * $proj_scale)?></td>
+    <td class="tfoot" align="right" colspan="3">Total</td>
+    <td class="tfoot" align="right"><?echo number_style_convert($totaltotal * $proj_scale)?></td>
+    <td class="tfoot" align="right"><?echo number_style_convert($totaltoday * $proj_scale)?></td>
   </tr>
 <?
 } 
 // Get the participant's record from STATS_Participant and store it in $person
-$gpart = new Participant($gdb, $project_id, $id);
-$gpartstats = new ParticipantStats($gdb, $project_id, $id, null);
+$gpart = new Participant($gdb, $gproj, $id);
+$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 // ###
 // Is this person retired?
 if($gpart -> get_retire_to() > 0) {
@@ -57,7 +57,7 @@ if($gpart -> get_retire_to() > 0) {
 $title = "Participant Summary for " . $gpart -> get_display_name();
 
 if($gpart -> get_motto() <> "") {
-    $motto = "<i>" . markup_to_html($gpart -> get_motto()) . "</i><hr>";
+    $motto = "<i>" . markup_to_html($gpart->get_motto()) . "</i><hr>";
 } 
 
 $lastupdate = last_update('e');
@@ -73,46 +73,41 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 */
 
 ?>
-    <table>
+  <div style="text-align:center">
+    <h1 class="phead"><?=$gpart->get_display_name()?>'s stats</h1>
+    <table border="0" style="margin: auto">
       <tr>
         <td colspan="3">
-          <br>
-          <strong><?=$gpart -> get_display_name()?>'s stats</strong>
           <hr>
           <? if(isset($motto)) { echo $motto; } ?>
       </td>
       </tr>
       <tr>
         <td></td>
-        <td align="center">Overall</td>
-        <td align="center">Yesterday</td>
+        <td class="phead2" align="center">Overall</td>
+        <td class="phead2" align="center">Yesterday</td>
       </tr>
       <tr>
-        <td align="left">Rank:</td>
+        <td align="left" class="phead2">Rank:</td>
         <td align="right">
-            <?echo $gpartstats -> get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'));
-
-?>
+            <?=$gpartstats->get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'))?>
         </td>
         <td align="right">
-          <? echo $gpartstats -> get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'));
-
-?>
+          <?=$gpartstats->get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'))?>
         </td>
       </tr>
       <tr>
-        <td align="left"><?=$gproj -> get_scaled_unit_name()?>:</td>
-        <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('total') * $gproj -> get_scale()) ?></td>
-        <td align="right"><? echo number_style_convert($gpartstats -> get_stats_item('today') * $gproj -> get_scale()); ?></td>
+        <td align="left" class="phead2"><?=$gproj->get_scaled_unit_name()?>:</td>
+        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('total') * $gproj->get_scale()) ?></td>
+        <td align="right"><?=number_style_convert($gpartstats->get_stats_item('today') * $gproj->get_scale())?></td>
       </tr>
       <tr>
-        <td align="left"><?=$gproj -> get_scaled_unit_name()?>/sec:</td>
+        <td align="left" class="phead2"><?=$gproj->get_scaled_unit_name()?>/sec:</td>
         <td align="right">
-          <? if ($gpartstats -> get_stats_item('days_working') > 0) {
-    number_style_convert($gpartstats -> get_stats_item('total') * $gproj -> get_scale() / (86400 * $gpartstats -> get_stats_item('days_working')), 3);
-} 
-
-?>
+          <? if ($gpartstats->get_stats_item('days_working') > 0) {
+               echo number_style_convert($gpartstats->get_stats_item('total') * $gproj->get_scale() / (86400 * $gpartstats->get_stats_item('days_working')), 3);
+             } 
+           ?>
         </td>
         <td align="right">
           <? echo number_style_convert($gpartstats -> get_stats_item('today') * $gproj -> get_scale() / 86400, 3);
@@ -120,6 +115,7 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 ?>
         </td>
       </tr>
+      <!-- 
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>:</td>
         <td align="right"><?=number_style_convert($gpartstats -> get_stats_item('total')) ?></td>
@@ -128,10 +124,9 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
       <tr>
         <td align="left"><?=$gproj -> get_unscaled_unit_name()?>/sec:</td>
         <td align="right">
-          <? if ($gpartstats -> get_stats_item('days_working') > 0) {
-    number_style_convert($gpartstats -> get_stats_item('total') / (86400 * $gpartstats -> get_stats_item('days_working')), 0);
+          <? if ($gpartstats->get_stats_item('days_working') > 0) {
+    number_style_convert($gpartstats->get_stats_item('total') / (86400 * $gpartstats->get_stats_item('days_working')), 0);
 } 
-
 ?>
         </td>
         <td align="right">
@@ -140,8 +135,9 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 ?>
         </td>
       </tr>
+      -->
       <tr>
-        <td>Time Working:</td>
+        <td class="phead2">Time Working:</td>
         <td colspan="2" align="right">
             <? echo number_format($gpartstats -> get_stats_item('days_working')) . " day" . plural($gpartstats -> get_stats_item('days_working'));
 
@@ -197,16 +193,16 @@ if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gparts
 
 ?>
 
-    <table border="1" cellspacing="0">
+    <table style="margin:auto;" border="1" cellspacing="0">
       <tr>
-        <th colspan="6" align="center"><strong><?=$gpart -> Get_display_name()?>'s neighbors</strong></th>
+        <th class="phead2" colspan="6" align="center">Neighbors</th>
       </tr>
       <tr>
-        <th>Rank</th>
-        <th>Participant</th>
-        <th align="right">Days</th>
-        <th align="right">Overall <?=$gproj -> get_scaled_unit_name()?></th>
-        <th align="right">Current <?=$gproj -> get_scaled_unit_name()?></th>
+        <th class="thead">Rank</th>
+        <th class="thead">Participant</th>
+        <th class="thead" align="right">Days</th>
+        <th class="thead" align="right">Overall <?=$gproj->get_scaled_unit_name()?></th>
+        <th class="thead" align="right">Current <?=$gproj->get_scaled_unit_name()?></th>
       </tr>
       <?
 $totaltoday = 0;
@@ -219,8 +215,8 @@ for ($i = 0; $i < count($neighbors); $i++) {
         par_list($i, $neighbors[$i], &$totaltoday, &$totaltotal, $gproj -> get_scale(), "row3", "row3");
     } 
 } 
-par_footer($totaltoday, $totaltotal, $gproj -> get_scale());
-if($numfriends > 1) {
+par_footer($totaltoday, $totaltotal, $gproj->get_scale());
+if(count($gpart->get_friends()) > 1) {
 
     ?>
       <tr>

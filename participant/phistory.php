@@ -1,6 +1,6 @@
 <? 
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.16 2003/05/23 20:31:29 paul Exp $
+// $Id: phistory.php,v 1.17 2003/08/25 18:17:14 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -21,8 +21,8 @@ if(isset($lockfile)) {
     } 
 } 
 
-$gpart = new Participant($gdb, $project_id, $id);
-$gpartstats = new ParticipantStats($gdb, $project_id, $id, null);
+$gpart = new Participant($gdb, $gproj, $id);
+$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 $history = $gpartstats -> get_stats_history();
 
 if($gpart->get_retire_to() > 0) {
@@ -32,7 +32,7 @@ if($gpart->get_retire_to() > 0) {
 
 $lastupdate = last_update('ec');
 
-$title = "Participant History for ".$gpart->getDisplayName();
+$title = "Participant History for ".$gpart->get_display_name();
 
 include "../templates/header.inc";
 
@@ -43,12 +43,12 @@ This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
 http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id&id=$id
 -->
-    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->getDisplayName()?>'s Participant Summary</a></p>
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->get_display_name()?>'s Participant Summary</a></p>
       <table align="center" border="1" cellspacing="0" cellpadding="1" >
       <tr>
-       <th>Date</th>
-       <th align="right"><?=$gproj->get_unscaled_unit_name()?></th>
-       <th>&nbsp;</th>
+       <th class="thead">Date</th>
+       <th class="thead" align="right"><?=$gproj->get_scaled_unit_name()?></th>
+       <th class="thead">&nbsp;</th>
       </tr>
 <?
 
@@ -63,8 +63,8 @@ foreach ($history as $histrow)
 $i = 0; 
 foreach ($history as $histrow)
 {
-    $work_units_fmt = number_format($histrow->work_units, 0);
-	$date_fmt = $histrow->date;
+    $work_units_fmt = number_format($histrow->work_units*$gproj->get_scale(), 0);
+    $date_fmt = $histrow->stats_date;
     //$date_fmt = sybase_date_format_long($date);
     $width = (int) (((double)$histrow->work_units / $maxwork_units) * 200) + 1;
     ?>
@@ -78,6 +78,6 @@ foreach ($history as $histrow)
 	} 
 ?>
     </table>
-    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->getDisplayName()?>'s Participant Summary</a></p>
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->get_display_name()?>'s Participant Summary</a></p>
 <?include "../templates/footer.inc";
 ?>
