@@ -1,10 +1,8 @@
-$Id: to-do-generic.txt,v 1.4 2002/06/03 13:17:58 paul Exp $
+$Id: to-do-generic.txt,v 1.5 2002/06/03 19:06:06 paul Exp $
 
 add rate (units/hour or units/day)
 
 add percent of total overall work done
-
-add support for rc5-64 progress meter / % done, which isn't included for ogr pages.
 
 reorganise include files (e.g. project.inc) now that stats-html + generic have been merged. 
 
