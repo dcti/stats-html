@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.4 2003/08/01 23:51:06 paul Exp $
+// $Id: participantstats.php,v 1.5 2003/08/25 18:35:50 thejet Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -41,10 +41,10 @@ class ParticipantStats {
      *             ProjectClass The project to retrieve stats for
      *             date The stats date to load
      */
-    function ParticipantStats($dbPtr, $project, $id = -1, $date = -1)
+    function ParticipantStats(&$dbPtr, &$project, $id = -1, $date = -1)
     {
-        $this -> _db = $dbPtr;
-        $this -> _project = $project;
+        $this -> _db =& $dbPtr;
+        $this -> _project =& $project;
 		$this -> _id = $id;
 
         if ($id != -1) {
@@ -63,7 +63,7 @@ class ParticipantStats {
      *             ProjectClass The project to load for
      *             date The date to load for
      */
-    function load($id, $project, $date)
+    function load($id, &$project, $date)
     {
         $qs = "select DAY_RANK, OVERALL_RANK, LAST_DATE + 1 - FIRST_DATE as Days_Working, 
           WORK_TODAY as TODAY,
@@ -72,7 +72,7 @@ class ParticipantStats {
           DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
         from Email_Rank
         where id = $id
-          and PROJECT_ID = $project";
+          and PROJECT_ID = " . $project->get_id();
         if ($date != -1) {
             // do..
         } 
@@ -116,7 +116,7 @@ class ParticipantStats {
           (r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
         from STATS_Participant p, Email_Rank r
         where p.id = r.id
-          and PROJECT_ID = $this->_project
+          and PROJECT_ID = ".$this->_project->get_id()."
           and (r.OVERALL_RANK < (" . $this -> rs_rank -> overall_rank . "+5))
           and (r.OVERALL_RANK > (" . $this -> rs_rank -> overall_rank . "-5))
         order by r.OVERALL_RANK LIMIT 18";
@@ -131,13 +131,20 @@ class ParticipantStats {
 
     function get_stats_history($lastdays = -1)
     {
-        $qs = "select date, sum(work_units) as work_units from email_contrib ec, stats_participant sp where ec.project_id=".$this -> _project." and ec.id=sp.id and (sp.id=".$this->_id." or sp.retire_to=".$this->_id.") group by date order by date";
+        $qs = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date, 
+                      SUM(work_units) as work_units
+               FROM email_contrib ec, stats_participant sp 
+               WHERE ec.project_id=".$this->_project->get_id()."
+                 AND ec.id=sp.id
+                 AND (sp.id=".$this->_id." or sp.retire_to=".$this->_id.")
+               GROUP BY date
+               ORDER BY date DESC";
         if ($lastdays > 0) {
-            $qs .= "DESC LIMIT $lastdays";
+            $qs .= " LIMIT $lastdays";
         } 
-        $dbstatshist = $this -> _db -> query($qs);
-        $this -> _history = $this -> _db -> fetch_paged_result($dbstatshist);
-		return $this -> _history;
+        $dbstatshist = $this->_db->query($qs);
+        $this->_history = $this->_db->fetch_paged_result($dbstatshist);
+	return $this->_history;
     } 
 
     /**
