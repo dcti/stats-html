@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.21 2003/05/20 19:29:02 paul Exp $
+# $Id: project.inc,v 1.22 2003/05/24 01:26:49 thejet Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
@@ -103,7 +103,7 @@ function last_update($type)
       $qs = "p_lastupdate_new_ec @project_id=$project_id";
       break;
     case 't':
-      $qs = "p_lastupdate_new_t @project_id=$project_id";
+      $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM team_rank WHERE project_id = $project_id";
       break;
     case 'm':
       $qs = "p_lastupdate_new_m @project_id=$project_id";

@@ -1,5 +1,5 @@
 <?php
-// $Id: project.php,v 1.2 2003/05/20 19:28:03 paul Exp $
+// $Id: project.php,v 1.3 2003/05/24 01:26:49 thejet Exp $
 // ==========================================
 // file: project.inc
 // This file contains the classes which
@@ -69,6 +69,10 @@ class Project {
     /**
      * ... Other properties of the Project object (too numerous to list) ...
      */
+    function get_id()
+    {
+      return $this->_id;
+    }
 
     function getprize()
     {
