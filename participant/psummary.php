@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.57 2003/09/01 22:32:31 paul Exp $
+// $Id: psummary.php,v 1.58 2003/09/01 23:06:43 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -44,6 +44,13 @@ function par_footer($totaltoday, $totaltotal, $proj_scale)
 } 
 // Get the participant's record from STATS_Participant and store it in $person
 $gpart = new Participant($gdb, $gproj, $id);
+if($gpart->get_id() == 0) {
+	$title = "Participant Summary - Error occured ";
+	include "../templates/header.inc";
+	include "../templates/error.inc";
+	include "../templates/footer.inc";
+	exit();
+}
 $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 // ###
 // Is this person retired?
