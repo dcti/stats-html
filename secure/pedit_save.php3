@@ -4,6 +4,7 @@ include "security.inc";
 include "../etc/config.inc";
 include "../etc/project.inc";
 
+if ($id == 0 ) { die;}
   sybase_connect($interface, $ss_login, $ss_passwd);
   if(isset($id)) {
     $qs = "select * from stats.dbo.STATS_participant where id = $id";
