@@ -1,7 +1,8 @@
 <FilesMatch "(pc_.*|dem.*|friends.*|motto.*)">
  Order Deny,Allow
  Deny from All
- Allow from localhost .distributed.net
+ Allow from localhost 10.70.40.11
+ Allow from .distributed.net
  Allow from .slacker.com
 </FilesMatch>
 
