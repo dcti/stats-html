@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.17 2002/04/09 23:18:49 jlawson Exp $
+  // $Id: pretire.php,v 1.18 2002/06/03 13:15:11 paul Exp $
 
   // Parameters passed to pretire.php
   // id = id to be retired
@@ -16,10 +16,11 @@
   $title = "Retiring $par->EMAIL";
 
   include "../templates/header.inc";
+  display_last_update();
 
   if ($destid == "" and $ems == "") {
-    print "
-	  <h2>You are about to permanently retire the address $par->EMAIL</h2>
+  ?>
+	  <h2>You are about to permanently retire the address <?=$par->EMAIL?></h2>
 	  <p>
 	   You are about to completely and permanently remove this email from the stats database.
 	   All past, current, and future work submitted by this email will be attributed to a new
@@ -34,7 +35,7 @@
 	  </p>
 	  <p>
 	   In order to retire this email address, you must first pick a destination email address.
-	   All past blocks, and any future blocks that are submitted from $par->EMAIL will be
+	   All past blocks, and any future blocks that are submitted from <?=$par->EMAIL?> will be
 	   treated as if they were submitted by the new email address you are about to choose.
 	  </p>
 	  <p>
@@ -45,13 +46,14 @@
 	  <p>
 	   Please enter your new email address below:
 	   <br>
-	   <form action=\"pretire.php\" method=\"post\">
-	    <input type=\"text\" name=\"ems\" size=\"64\" maxlength=\"64\">
-	    <input type=\"hidden\" name=\"id\" value=\"$id\">
-	    <input type=\"hidden\" name=\"pass\" value=\"$pass\">
-	    <input type=\"submit\" value=\"Search for this email\">
+	   <form action="pretire.php" method="post">
+	    <input type="text" name="ems" size="64" maxlength="64">
+	    <input type="hidden" name="id" value="<?=$id?>">
+	    <input type="hidden" name="pass" value="<?=$pass?>">
+	    <input type="submit" value="Search for this email">
 	   </form>
-	  </p>";
+	  </p>
+  <?
   } else {
     if ($ems <> "") {
       $qs = "	select	id, EMAIL
@@ -128,9 +130,11 @@
       }
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam, retire_date = '" .
 	gmdate("M d Y") . "' where id = $id and password = '$pass'";
-      $result = sybase_query($qs);
+
+      $result = sybase_query($qs); 
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
-      $result = sybase_query($qs);
+      $result = sybase_query($qs); 
+
 # BW: Prevent the retired e-mail from being ranked
 # JN: You have to move the blocks before you delete! Disabled for now.
 #      $qs = "delete Email_Rank where id = $id";
