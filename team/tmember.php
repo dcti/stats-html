@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.33 2003/09/13 22:40:59 thejet Exp $
+// $Id: tmember.php,v 1.34 2003/10/06 02:23:12 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -15,7 +15,6 @@ include "../etc/project.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
 include "../etc/participant.php";
-include "../etc/participantstats.php";
 
 if ($low == ""){
   $low = 0;
