@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.12 2000/11/15 03:19:20 decibel Exp $
+  // $Id: pretire.php,v 1.13 2000/11/15 14:43:34 decibel Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -127,7 +127,7 @@
         exit;
       }
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam, retire_date = '" .
-	gmtdate("M d Y") . "' where id = $id and password = '$pass'";
+	gmdate("M d Y") . "' where id = $id and password = '$pass'";
       $result = sybase_query($qs);
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
       $result = sybase_query($qs);
