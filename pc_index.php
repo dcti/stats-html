@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.19 2003/09/01 22:06:51 thejet Exp $
+  # $Id: pc_index.php,v 1.20 2003/09/02 04:05:25 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -52,22 +52,16 @@
 
   ####
   # Yesterday Rate
-
-  $qs = "select work_units from Daily_Summary where PROJECT_ID=$project_id order by date desc";
-  $result = $gdb->query($qs);
-  $gdb->data_seek(0);
-  $par = $gdb->fetch_object();
-  
-  $yest_unscaled_work_units = number_format($par->work_units);
-  $yest_scaled_work_units = number_format($par->work_units * $gproj->get_scale());
+  $yest_unscaled_work_units = number_format($gprojstats->get_stats_item('work_units'));
+  $yest_scaled_work_units = number_format($gprojstats->get_stats_item('work_units') * $gproj->get_scale());
   if ( $gproj->get_total_units() > 0 ) {
-  	$yest_per =  number_format(100*($par->work_units / $gproj->get_total_units()),6);
+  	$yest_per =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
   }
-  $yest_unscaled_rate = number_format(( ($par->work_units) / (86400) ),0);
-  $yest_scaled_rate = number_format(( ($par->work_units * $gproj->get_scale()) / (86400) ),0);
+  $yest_unscaled_rate = number_format(( ($gprojstats->get_stats_item('work_units')) / (86400) ),0);
+  $yest_scaled_rate = number_format(( ($gprojstats->get_stats_item('work_units') * $gproj->get_scale()) / (86400) ),0);
 
 
-  $odds = number_format($total_remaining / $par->work_units,0);
+  $odds = number_format($total_remaining / $gprojstats->get_stats_item('work_units'),0);
 
   if(strtolower(substr($gproj->get_name(), 0, 3)) == "ogr")
   {
