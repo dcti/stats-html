@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.5 2000/05/31 23:16:59 decibel Exp $
+  // $Id: modules.inc,v 1.6 2000/05/31 23:26:51 decibel Exp $
 
   function row_background_color($rownum) {
         if( ($rownum/2) == (round($rownum/2)) ) {
@@ -9,8 +9,8 @@
 	}
   }
 
-  function debug_text($test) {
-    if ($debug == "yes") print $test;
+  function debug_text($text, $debug) {
+    if ($debug == "yes") print $text;
   }
 
   function html_rank_arrow($change) {
