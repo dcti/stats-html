@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.9 1999/10/31 18:34:37 nugget Exp $
+# $Id: to-do.txt,v 1.10 1999/10/31 23:02:09 moonwick Exp $
 
 o Setup support for HTTP caching (ie: squid)
 This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
@@ -61,3 +61,4 @@ o <tibim> Nugget94M: on stats for the overall daily rate... you should use
 
 [12:31pm][Rayden242->] I had an idea for another stat on the main page... If we had been going at our current rate since the begining, it would have taken us x days to get where we are today
 
+o HDML stats server.
