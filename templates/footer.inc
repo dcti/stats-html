@@ -38,9 +38,13 @@ if (!isset($proj_list)) {
 		<?
 */
     if($debug >= DEBUG_SHOW_QUERY) {
+        echo '<table border=1>';
+        $queries = $gdb->get_queries();
+        echo "<tr><td>Total queries: " . count( $queries ) . "</td></tr>\n";
         foreach ( $gdb->get_queries() as $query ) {
-            echo $query[0] . "\n";
+            echo "<tr><td>" . $query[0] . "</td></tr>\n";
         }
+        echo "</table>\n";
     }
     if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }
     if($debug >= DEBUG_PROFILE) { echo xdebug_dump_function_profile(); }
