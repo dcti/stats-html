@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.16 2002/04/09 22:54:19 jlawson Exp $
+  // $Id: pjointeam.php,v 1.17 2002/04/15 04:49:14 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -58,7 +58,7 @@
     print "<center>
           <h2>This team has been revoked</h2>
           <p>Team #$team ($teaminfo->name) is no longer valid.</p>
-          <p><a href=\"http://stats.distributed.net/\">Oh well, I'll find another team...</a></p>
+          <p><a href=\"/\">Oh well, I'll find another team...</a></p>
          </center>
         </body>";
     exit;
