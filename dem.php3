@@ -2,7 +2,7 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: dem.php3,v 1.4 2000/01/18 03:49:14 decibel Exp $
+ // $Id: dem.php3,v 1.5 2000/01/18 03:51:59 decibel Exp $
 
  $myname = "demographics.php3";
 

@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.8 2000/01/18 03:49:15 decibel Exp $
+  // $Id: pedit.php,v 1.9 2000/01/18 03:51:59 decibel Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie

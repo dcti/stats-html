@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam2.php,v 1.3 2000/01/18 03:49:15 decibel Exp $
+ // $Id: newteam2.php,v 1.4 2000/01/18 03:51:59 decibel Exp $
 
  $title = "New Team Creation - Information";
 

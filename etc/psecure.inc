@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.6 2000/01/18 03:49:16 decibel Exp $
+  // $Id: psecure.inc,v 1.7 2000/01/18 03:52:00 decibel Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");

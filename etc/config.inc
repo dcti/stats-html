@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc,v 1.2 2000/01/18 03:49:16 decibel Exp $
+// $Id: config.inc,v 1.3 2000/01/18 03:52:00 decibel Exp $
 
 ///////////////////////////
 // Database Connectivity //

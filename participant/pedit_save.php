@@ -8,7 +8,7 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.4 2000/01/18 03:49:15 decibel Exp $
+  // $Id: pedit_save.php,v 1.5 2000/01/18 03:51:59 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie

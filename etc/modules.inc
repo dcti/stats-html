@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.3 2000/01/18 03:49:16 decibel Exp $
+  // $Id: modules.inc,v 1.4 2000/01/18 03:52:00 decibel Exp $
 
   function row_background_color($rownum) {
         if( ($rownum/2) == (round($rownum/2)) ) {
