@@ -1,5 +1,5 @@
 <?
- # $Id: tsearch.php,v 1.8 2002/03/25 22:54:54 paul Exp $
+ # $Id: tsearch.php,v 1.9 2002/04/02 23:39:31 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -15,7 +15,7 @@ $title = "Team Search: [".safe_display($st)."]";
 		datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
 		OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change
 	from	Team_Rank tr, STATS_team st
-	where	(name like \"%$st%\" or convert(char(10),st.team) like \"%$st%\")
+	where	(name like '%$st%' or convert(char(10),st.team) like '%$st%')
 		and st.team = tr.TEAM_ID
 		and listmode <= 9
 		and PROJECT_ID = $project_id
@@ -25,15 +25,7 @@ $title = "Team Search: [".safe_display($st)."]";
 
  debug_text("<!-- qs: $qs, result: $result -->\n",$debug);
 
- if ($QRSLTteams == "") {
-   include "templates/header.inc";
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($QRSLTteams);
 
  $rows = sybase_num_rows($QRSLTteams);
  if($rows == 1) {
