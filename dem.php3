@@ -2,12 +2,11 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: dem.php3,v 1.1 1999/07/11 19:09:31 nugget Exp $
+ // $Id: dem.php3,v 1.2 1999/07/30 20:37:44 nugget Exp $
 
  $myname = "demographics.php3";
 
  include "etc/config.inc";
- include "etc/number_format.inc";
 
  sybase_pconnect($interface, $username, $password);
  $qs = "select count(*) as totp, max(id) as maxid from STATS_Participant where retire_to = 0 or retire_to = NULL";
@@ -76,6 +75,15 @@
 	group by dem_country
 	order by blocks desc";
 
+ $qs = "select distinct country, count(country) as recs
+	from STATS_participant, STATS_country
+	where ((retire_to = 0 or retire_to = NULL) and dem_country <> NULL) and
+	      (dem_country = code)
+	group by country
+	order by count(country) desc";
+ $country = sybase_query($qs);
+ $countries = sybase_num_rows($country);
+
  print "
 	<html>
 	 <head>
@@ -127,6 +135,17 @@
    $text = $reasondesc[$par->dem_motivation];
    print "<tr><td>$text</td><td align=\"right\">$recs</td></tr>\n";
  } 
+ print "
+	   <tr>
+	    <td colspan=\"2\" align=\"center\"><hr><strong>Nationality ($countries)</strong><hr></td>
+	   </tr>";
+ for ($i = 0; $i < $countries; $i++) {
+   sybase_data_seek($country,$i);
+   $par = sybase_fetch_object($country);
+   $recs = 0+$par->recs;
+   print "<tr><td>$par->country</td><td align=\"right\">$recs</td></tr>\n";
+ } 
+
 
  print "
 	  </table>
