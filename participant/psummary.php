@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.22 2002/06/08 10:44:31 paul Exp $
+ # $Id: psummary.php,v 1.23 2002/06/15 15:30:42 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -134,7 +134,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
  // Get the latest record from Daily_Summary, store in $yest_totals
 
  $qs = "select * from Daily_Summary nolock
-	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary)";
+	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id)";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  $yest_totals = sybase_fetch_object($result);
@@ -247,7 +247,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 	<p>
 	<a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
 	</p>
-<? if ($proj_totalunits > 0 & $rs_rank->TODAY > 0) {
+<? if (($proj_totalunits > 0) && ($rs_rank->TODAY > 0)) {
 $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
         ?>
 	<p>
