@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.29 2002/12/07 18:34:41 decibel Exp $
+# $Id: psummary.php,v 1.30 2002/12/07 18:39:43 decibel Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -12,19 +12,19 @@ include "../etc/markup.inc";
 
 function par_list($i, $par, $totaltoday, $totaltotal, $color_a = "", $color_b = "") {
   global $project_id;
-        $parid = 0+$par->id;
-        $totaltoday += $par->TODAY;
-        $totaltotal += $par->TOTAL;
-        $decimal_places=0;
+  $parid = 0+$par->id;
+  $totaltoday += $par->TODAY;
+  $totaltotal += $par->TOTAL;
+  $decimal_places=0;
   $participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
   ?>
-        <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
-  <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
-  <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
-  <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
-  <td align="right"><?echo number_style_convert( (double) $par->TOTAL) ?> </td>
-  <td align="right"><?echo number_style_convert( (double) $par->TODAY) ?> </td>
-  </tr>
+    <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
+      <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
+      <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
+      <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
+      <td align="right"><?echo number_style_convert( (double) $par->TOTAL) ?> </td>
+      <td align="right"><?echo number_style_convert( (double) $par->TODAY) ?> </td>
+    </tr>
   <?
 }
 function par_footer($footer_font, $totaltoday, $totaltotal) {
@@ -33,27 +33,33 @@ function par_footer($footer_font, $totaltoday, $totaltotal) {
     <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
     <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal )?> </font></td>
     <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday )?> </font></td>
-   </tr>
+  </tr>
 <?
 }
 
 // Get the participant's record from STATS_Participant and store it in $person
 
 //$qs = "p_participant_all $id";
-$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant where id = $id and listmode < 10";
+$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e
+        from STATS_Participant
+        where id = $id and listmode < 10";
 sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 sybase_data_seek($result,0);
 $person = sybase_fetch_object($result);
+debug_text("<!-- STATS_Participant returned: '$person' -->\n", $debug);
 err_check_query_results($person);
+
+####
+# Is this person retired?
 $retire_to = 0+$person->retire_to;
 if( $retire_to > 0 ) {
   header("Location: psummary.php?project_id=$project_id&id=$retire_to");
   exit();
 }
 
-debug_text("<!-- p_participant_all returned: '$person' -->\n", $debug);
-
+####
+# Find out how to list this participant's name
 $participant = participant_listas($person->listmode,$person->email,$id,$person->contact_name);
 
 $title = "Participant Summary for $participant";
