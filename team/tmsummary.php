@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.11 2002/06/03 13:09:34 paul Exp $
+// $Id: tmsummary.php,v 1.12 2002/06/03 21:44:59 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -56,7 +56,8 @@ sybase_query("set rowcount 18");
 $neighbors = sybase_query($qs);
 $numneighbors = sybase_num_rows($neighbors);
 
-$qs = "select * from STATS_dailies where date = (select max(date) from STATS_dailies)";
+$qs = "select * from Daily_Summary nolock
+	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary)";
 sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
