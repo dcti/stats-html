@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.10 2000/07/21 19:20:01 decibel Exp $
+  // $Id: pjointeam.php,v 1.11 2000/08/22 08:58:43 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -7,11 +7,16 @@
   include "etc/config.inc";
   include "etc/modules.inc";
   include "etc/project.inc";
-  include "etc/psecure.inc";
+#  include "etc/psecure.inc";
 
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
+
+  include "templates/header.inc";
+print "<h1>Temporarily <a href=\"http://n0cgi.distributed.net/cgi/dnet-finger.cgi?user=decibel\">disabled</a>.
+Please try again later.</h1></html>";
+exit;
 
   $id = 0+$par->id;
   $oldteam = 0+$par->team;
