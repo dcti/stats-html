@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.31 2004/10/17 08:01:03 fiddles Exp $
+  # $Id: pc_index.php,v 1.32 2004/10/17 08:44:06 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -211,6 +211,8 @@
    <p>
    <a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a>
    </p>
+   <?php } elseif ($project_id == 3) { ?>
+   <p><a href="http://n0cgi.distributed.net/statistics/rc5-56/index.html">Additional Stats</a></p>
    <?php } ?>
    <hr>
    <?if( $showOGRcomplete ){?>
