@@ -1,10 +1,11 @@
 <?php
-  // $Id: pjointeam.php,v 1.9 2000/07/21 18:45:57 decibel Exp $
+  // $Id: pjointeam.php,v 1.10 2000/07/21 19:20:01 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
 
   include "etc/config.inc";
+  include "etc/modules.inc";
   include "etc/project.inc";
   include "etc/psecure.inc";
 
@@ -53,24 +54,28 @@
     exit;
   }
 
-  $qs = "select * from Team_Joins where JOIN_DATE=getdate() and ID = $id";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-  if( $rows >= 1 ) {
-    $qs = "update stats.dbo.Team_Joins set TEAM_ID = $team where JOIN_DATE=getdate() and ID = $id";
+  if ( $team != $oldteam ) {
+    $date = getdate();
+    $TJqs = "select * from Team_Joins where JOIN_DATE=\"$date[month] $date[mday] $date[year]\" and ID = $id";
+    $result = sybase_query($TJqs);
+    $TJrows = sybase_num_rows($result);
+    if( $TJrows >= 1 ) {
+      $qs = "update stats.dbo.Team_Joins set TEAM_ID = $team where JOIN_DATE=\"$date[month] $date[mday] $date[year]\" and ID = $id";
+      $result = sybase_query($qs);
+    } else {
+      $qs = "insert into stats.dbo.Team_Joins(JOIN_DATE, ID, TEAM_ID) select \"$date[month] $date[mday] $date[year]\", $id, $team";
+      $result = sybase_query($qs);
+    }
+    $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
     $result = sybase_query($qs);
-  } else {
-    $qs = "insert into stats.dbo.Team_Joins(JOIN_DATE, ID, TEAM_ID) select  getdate(), $id, $team";
+    $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
     $result = sybase_query($qs);
   }
-  $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
-  $result = sybase_query($qs);
-  $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
-  $result = sybase_query($qs);
 
   $title = "$par->email has joined $newteamname";
 
   include "templates/header.inc";
+  debug_text("<!-- TJqs: $TJqs, TJrows: $TJrows. -->\n",$debug);
 
   print "<center>
           <h2>You have joined $teamname</h2>
