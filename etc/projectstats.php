@@ -1,5 +1,5 @@
 <?php
-// $Id: projectstats.php,v 1.2 2003/05/25 20:19:06 paul Exp $
+// $Id: projectstats.php,v 1.3 2003/09/02 04:05:51 decibel Exp $
 // ==========================================
 // file: projectstats.inc
 // This file contains the classes which
@@ -115,10 +115,7 @@ class ProjectStats {
     { 
 		global $project_id;
         // Get the latest record from Daily_Summary, store in $yest_totals
-        $qs = "select *
-        from Daily_Summary nolock
-        where PROJECT_ID = $project_id
-          and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id)";
+        $qs = "SELECT * FROM daily_summary NOLOCK WHERE project_id = $project_id ORDER BY date desc LIMIT 1";
         $this -> _state = $this -> _db -> query_first ($qs);
 
         $qs = "select sum(WORK_UNITS) as TOT_UNITS, max(date)+1-min(date) as TIME_WORKING
