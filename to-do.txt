@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.8 1999/10/31 18:32:51 nugget Exp $
+# $Id: to-do.txt,v 1.9 1999/10/31 18:34:37 nugget Exp $
 
 o Setup support for HTTP caching (ie: squid)
 This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
@@ -18,9 +18,6 @@ standard for naming stuff
 
 
 o Add a method for team participants to request the team password be emailed to them via psummary.php3
-
-
-o /secure team editor
 
 
 o Expand function library, consolodate code
