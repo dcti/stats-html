@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+// $Id: tmsummary.php,v 1.7 2002/03/24 17:07:21 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -76,13 +76,13 @@ if (private_markupurl_safety($par->logo) != "") {
   $logo = "";
 }
 ?>
-<H1><CENTER><?=$par->name?></CENTER></H1>
+<H1><CENTER><? echo safe_display($par->name)?></CENTER></H1>
 <CENTER><TABLE>
    <TR>
     <TD><?echo $logo?></TD>
     <TD><CENTER><?echo markup_to_html($par->description)?><CENTER></TD>
    <TR>
-   <TR><TD COLSPAN=2><CENTER>Contact: <?echo htmlspecialchars($par->contactemail)?><CENTER></TD></TR>
+   <TR><TD COLSPAN=2><CENTER>Contact: <?echo safe_display($par->contactemail)?><CENTER></TD></TR>
   </TABLE></CENTER>
 <BR><BR>
 <CENTER><TABLE cellspacing="4">
@@ -101,37 +101,37 @@ html_rank_arrow($par->Overall_Change) ?> </font></td>
 	<? echo number_style_convert( (double) $par->WORK_TOTAL/$proj_divider/$par->MEMBERS_OVERALL ) ;?> </font></td>
     </tr>
 <?
-if ( $par->WORK_TODAY > 0 ) print "
+if ( $par->WORK_TODAY > 0 ) 
+?>
     <tr>
-     <td><font $fontd size=\"+1\">Yesterday:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$par->DAY_RANK" .
-		html_rank_arrow($par->Day_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TODAY/$proj_divider ) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " .
-	number_style_convert( (double) $par->WORK_TODAY/$proj_divider/$par->MEMBERS_TODAY ) . "</font></td>
-    </tr>";
-print "
+     <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><? echo $par->DAY_RANK .
+		html_rank_arrow($par->Day_Change)?> </font></td>
+     <td align="right" size="+2"><font <?=$fontf?>> <?echo number_style_convert( (double) $par->WORK_TODAY/$proj_divider )?></font></td>
+     <td align="right" size="+2"><font <?=$fontf?>>
+	<?echo number_style_convert( (double) $par->WORK_TODAY/$proj_divider/$par->MEMBERS_TODAY )?></font></td>
+    </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Time Working: </font></td>
-     <td colspan=\"3\" align=\"right\" size=\"+2\"><font $fontf>" . number_format($par->Days_Working) . " days</font></td>
+     <td><font <?=$fontd?> size="+1">Time Working: </font></td>
+     <td colspan="3" align="right" size="+2"><font <?=$fontf?>><?echo  number_format($par->Days_Working)?> days</font></td>
     </tr>
     </tr>
    </table>
 <BR><BR>
 
   <p>
-    This team has had " . number_style_convert( $par->MEMBERS_OVERALL ) . " participants contribute blocks.
-    Of those, " . number_style_convert( $par->MEMBERS_CURRENT ) . " are still on this team,
-    and " . number_style_convert( $par->MEMBERS_TODAY ) . " submitted work today.
+    This team has had <?echo number_style_convert( $par->MEMBERS_OVERALL )?> participants contribute blocks.
+    Of those, <?echo number_style_convert( $par->MEMBERS_CURRENT )?> are still on this team,
+    and <?echo number_style_convert( $par->MEMBERS_TODAY )?> submitted work today.
   </p>
-";
+<?
 
 //Some buttons to view team history will go here
 
 if ($par->showmembers=="NO") {
-	print "
-		<center><p>This team wishes to keep its membership private.<p>";
-} else {  
+?>	
+  	<center><p>This team wishes to keep its membership private.<p>
+<? } else {  
 	if ($par->WORK_TODAY == 0) {
 		print "<center><p>Click here to view this team's 
 			<a href=\"tmember.php?project_id=$project_id&team=$tm\"><font color=\"#000000\">overall</font></a> participant stats";
@@ -199,27 +199,24 @@ if ($par->showmembers=="NO") {
    <hr>
   </center>
 	";
-
- print "
+?>
   <center>
-   <form action=\"/tmedit.php\" method=\"post\">
+   <form action="/tmedit.php" method="post">
     <p>
      Edit this team's information 
      <br>
      Password:
-     <input name=\"pass\" size=\"8\" maxlength=\"8\" type=\"password\">
-     <input name=\"team\" type=\"hidden\" value=\"$team\">
-     <input value=\"Edit\" type=\"submit\">
+     <input name="pass" size="8" maxlength="8" type="password">
+     <input name="team" type="hidden" value="$team">
+     <input value="Edit" type="submit">
     </p>
    </form>
    <p>
     If you are the team coordinator, and you've forgotten your team password, click
-    <form action=\"/tmpass.php\"><input type=\"hidden\" name=\"team\" value=\"$team\">
-    <input type=\"submit\" value=\"here\"></form> and the password will be mailed to
-    $par->contactemail.
+    <form action="/tmpass.php"><input type="hidden" name="team" value="$team">
+    <input type="submit" value="here"></form> and the password will be mailed to
+    <?=$par->contactemail?>.
    </p>
-  </center>";
+  </center>
 
-include "templates/footer.inc";
-
-?>
+<? include "templates/footer.inc"; ?>
