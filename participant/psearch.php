@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.10 2002/12/06 21:50:03 paul Exp $
+ # $Id: psearch.php,v 1.11 2002/12/07 20:15:02 decibel Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -13,9 +13,9 @@
  $QRSLTsearch = "";
 
  $lastupdate = last_update('e');
- include "../templates/header.inc";
 
 if (strlen($st) < 3) {
+ include "../templates/header.inc";
 	?>
        <center>
         <table width="400" border="0"><tr><td>
@@ -42,6 +42,9 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	header("Location: psummary.php?project_id=$project_id&id=$id");
 	exit;
  }
+
+ include "../templates/header.inc";
+
  ?> 
     <center>
      <br>
