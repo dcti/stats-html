@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.16 2003/09/13 22:17:38 decibel Exp $
+ # $Id: psearch.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -8,7 +8,6 @@
  include "../etc/modules.inc";
  include "../etc/project.inc";
  include "../etc/participant.php";
- include "../etc/participantstats.php";
 
  $title = "Participant Search: [".safe_display($st)."]";
 

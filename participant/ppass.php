@@ -1,5 +1,5 @@
 <?
-  // $Id: ppass.php,v 1.16 2003/10/21 15:42:57 thejet Exp $
+  // $Id: ppass.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -68,13 +68,14 @@
 
   $message = "Greetings, " . $par->get_email() . ".
 
-You (or \"". $_SERVER['REMOTE_HOST'] . "\" [". $_SERVER['REMOTE_ADDR'] . "]) recently
+You (or \"". gethostbyaddr($_SERVER['REMOTE_ADDR']) . "\" [". $_SERVER['REMOTE_ADDR'] . "]) recently
 requested the password for your distributed.net stats account.  You
 should keep this information confidential.  If you did not just request
 your password, it just means that some confused person has clicked on
 the \"mail me my password\" link on your personal stats page.  This is
 no reason to be alarmed, they cannot get to your password this way.
 
+ Your distributed.net ID: $id
  Your password: $pass
 
 You may edit your personal information by visiting:
@@ -105,7 +106,7 @@ Thanks.";
 
   $fh = fopen("/var/log/ppass.log","a+");
   $ts = gmdate("M d Y H:i:s",time());
-  fputs($fh,"$ts password for id $id (" . $par->get_email() . ") requested by " . $_SERVER['REMOTE_HOST'] . " [" . $_SERVER['REMOTE_ADDR'] . "]\n");
+  fputs($fh,"$ts password for id $id (" . $par->get_email() . ") requested by " . gethostbyaddr($_SERVER['REMOTE_ADDR']) . " [" . $_SERVER['REMOTE_ADDR'] . "]\n");
   fclose($fh);
 
 ?>

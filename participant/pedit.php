@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.16 2003/09/17 23:06:50 paul Exp $
+// $Id: pedit.php,v 1.17 2003/10/21 17:42:08 thejet Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -9,6 +9,7 @@ include "../etc/config.inc";
 include "../etc/project.inc";
 include "../etc/modules.inc";
 include "../etc/psecure.inc";
+include "../etc/team.php";
 
 $title = 'Participant Edit';  
 // @todo - nonprofit + global vars?
@@ -20,6 +21,10 @@ $teamname = "Not a team member";
 if( $team > 0 ) {
 	$teamname = "Invalid team";
 	// @TODO if valid team, set teamname to team name, and team info
+        $teamptr = new Team($gdb, $gproj, $team);
+        if($teamptr->get_id() > 0)
+          $teamname = $teamptr->get_name();
+        $teamptr = null;
 	//  $teaminfo = sybase_fetch_object($result);
 	//  $teamname = $teaminfo->name;
 }
@@ -231,23 +236,23 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      </tr>
      <tr>
       <td>Friend #1:</td>
-      <td><input name=\"friend_a\" value=\"".$gpart->get_friends(0)."\" size=\"7\"></td>
+      <td><input name=\"friend_a\" value=\"".get_friend_id($gpart,0)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #2:</td>
-      <td><input name=\"friend_b\" value=\"".$gpart->get_friends(1)."\" size=\"7\"></td>
+      <td><input name=\"friend_b\" value=\"".get_friend_id($gpart,1)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #3:</td>
-      <td><input name=\"friend_c\" value=\"".$gpart->get_friends(2)."\" size=\"7\"></td>
+      <td><input name=\"friend_c\" value=\"".get_friend_id($gpart,2)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #4:</td>
-      <td><input name=\"friend_d\" value=\"".$gpart->get_friends(3)."\" size=\"7\"></td>
+      <td><input name=\"friend_d\" value=\"".get_friend_id($gpart,3)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #5:</td>
-      <td><input name=\"friend_e\" value=\"".$gpart->get_friends(4)."\" size=\"7\"></td>
+      <td><input name=\"friend_e\" value=\"".get_friend_id($gpart,4)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
@@ -351,3 +356,13 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
   </form>";
 ?>
 </html>
+<?
+function get_friend_id(&$par, $index)
+{
+  $friend =& $par->get_friends($index);
+  if($friend == null)
+    return "";
+  else
+    return $friend->get_id();
+}
+?>
