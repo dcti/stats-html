@@ -15,7 +15,7 @@
 // This requires at least PHP 4.0.6 due to the use of array_map(),
 // and the PREG_SPLIT_DELIM_CAPTURE flag on preg_split().
 //
-// $Id: markup.inc,v 1.3 2002/01/24 21:11:29 jlawson Exp $
+// $Id: markup.inc,v 1.4 2002/01/25 21:46:13 jlawson Exp $
 
 
 // This is the only function that is meant to be publicly callable.
@@ -46,7 +46,7 @@ function private_markup_walker($element) {
   elseif (strcasecmp($element, '[HR]') == 0) return '<hr>';
   elseif (strcasecmp($element, '[CENTER]') == 0) return '<p align="center">';
   elseif (strcasecmp($element, '[/CENTER]') == 0) return '</p>';
-
+  elseif (strcasecmp($element, '[/URL]') == 0) return '</a>';
 
   $matches = array();
   if (preg_match('/^\[URL=(.*?)\]$/i', $element, $matches))
