@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.18 2002/12/10 21:39:27 decibel Exp $
+// $Id: tmsummary.php,v 1.19 2002/12/24 22:23:56 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -129,9 +129,9 @@ if (private_markupurl_safety($par->logo) != "") {
     </tr>
     <tr>
       <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/sec:</font></td>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working), 3) ?></font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working)) ?></font></td>
 <? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / 86400, 3) ?></font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / 86400) ?></font></td>
 <? } ?>
     </tr>
     <tr>
