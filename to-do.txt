@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.25 2003/03/22 18:12:53 paul Exp $
+# $Id: to-do.txt,v 1.26 2003/05/21 21:01:20 paul Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -69,10 +69,6 @@ o HDML stats server.
 o List past team allocations in pedit or on a secure psummary page
 
 o 1745: add state/session support for password requests
-
-o 924: update php on blower at some point to fix stripslashes bug (i.e. stripslashes(addslashes("''")) = emp
-ty string). And also build with gd support.
-
 
 
 ******** SQL stuff ********
