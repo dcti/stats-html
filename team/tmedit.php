@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.10 2003/09/26 03:09:29 thejet Exp $
+  // $Id: tmedit.php,v 1.11 2003/10/07 22:10:47 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -10,14 +10,6 @@
 
   unset($gproj);
   $gproj = new Project($gdb, 0);
-  /*
-  $geam = new Team($gdb, $gproj, $team);
-  if($gteam->get_password() != $tpass)
-  {
-    include "../templates/tmbadpass.inc";
-    exit;
-  }
-  */
 
   if($gteam->get_listmode() <= 2) {
     switch ($gteam->get_listmode()) {
@@ -77,7 +69,7 @@
     <table style="margin: auto; text-align: left;" width="75%">
      <tr>
       <td>Team Name:</td>
-      <td><input name="name" value="<?=$gteam->get_name()?>" size="50" maxlength="64"></td>
+      <td><input name="name" value="<?=htmlspecialchars($gteam->get_name())?>" size="50" maxlength="64"></td>
      </tr>
      <tr>
       <td>&nbsp;</td>
@@ -90,11 +82,11 @@
      </tr>
      <tr>
       <td>Team Web Page:</td>
-      <td><input name="url" value="<?=$gteam->get_url()?>" size="50" maxlength="64"></td>
+      <td><input name="url" value="<?=htmlspecialchars($gteam->get_url())?>" size="50" maxlength="64"></td>
      </tr>
      <tr>
       <td>Team Logo url:</td>
-      <td><input name="logo" value="<?=$gteam->get_logo()?>" size="50" maxlength="64"></td>
+      <td><input name="logo" value="<?=htmlspecialchars($gteam->get_logo())?>" size="50" maxlength="64"></td>
      </tr>
 <?include "../etc/markuplegend.inc";?>
      <tr>
@@ -107,11 +99,11 @@
      </tr>
      <tr>
       <td>Coordinator's Name:</td>
-      <td><input name="contactname" value="<?=$gteam->get_contact_name()?>" size="50" maxlength="64"></td>
+      <td><input name="contactname" value="<?=htmlspecialchars($gteam->get_contact_name())?>" size="50" maxlength="64"></td>
      </tr> 
      <tr>
       <td>Coordinator's Email:</td>
-      <td><input name="contactemail" value="<?=$gteam->get_contact_email()?>" size="50" maxlength="64"></td>
+      <td><input name="contactemail" value="<?=htmlspecialchars($gteam->get_contact_email())?>" size="50" maxlength="64"></td>
      </tr> 
      <tr>
       <td>Privacy:</td>
@@ -125,7 +117,7 @@
      </tr>
      <tr>
       <td>Team Members' Password:</td>
-      <td><input name="showpassword" value="<?=$gteam->get_show_password()?>" size="16" maxlength="16"></td>
+      <td><input name="showpassword" value="<?=htmlspecialchars($gteam->get_show_password())?>" size="16" maxlength="16"></td>
      </tr> 
      <tr>
       <td colspan="2" align="center">
