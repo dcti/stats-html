@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.8 2003/09/08 23:35:37 decibel Exp $
+// $Id: participantstats.php,v 1.9 2003/09/08 23:38:26 decibel Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -102,7 +102,7 @@ class ParticipantStats {
                       SUM(work_units) as work_units
                FROM email_contrib ec, stats_participant sp 
                WHERE ec.project_id=".$this->_project->get_id()."
-                 AND sp.id=".$this->_id." or sp.retire_to=".$this->_id."
+                 AND sp.id=(".$this->_id." or sp.retire_to=".$this->_id.")
                  AND ec.id=sp.id
                GROUP BY date
                ORDER BY date DESC";
