@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.27 2003/04/25 12:00:25 thejet Exp $
+// $Id: tmember.php,v 1.28 2003/07/31 18:02:10 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -12,6 +12,10 @@
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
+include "../etc/team.php";
+include "../etc/teamstats.php";
+include "../etc/participant.php";
+include "../etc/participantstats.php";
 
 if ($low == ""){
   $low = 0;
@@ -31,18 +35,19 @@ $lim = $limit;
 $lastupdate = last_update('m');
 
 // Query server for basic team information
-$qs = "select name, showpassword, showmembers
-        from STATS_team
-        where team = $tm";
-$result = sybase_query($qs);
-$info = sybase_fetch_object($result);
-$rows = sybase_num_rows($result);
+$team = new Team($gdb, $gproj, $tm);
+if($team->get_id() == 0)
+{
+  // This blew up!!!
+  print('Bah!');
+  exit(1);
+}
 
 // Verify the team exists
 $title = "Team Members Listing - Team #".$tm;
 
 // Do the password checking
-if ($info->showmembers == "NO") {
+if ($team->get_show_members() == "NO") {
 
   include "../templates/header.inc";
   ?>
@@ -54,18 +59,20 @@ if ($info->showmembers == "NO") {
   exit;
 }
 
-if ($info->showmembers == "PAS") {
-  if ($pass != $info->showpassword ) {
+if ($team->get_show_members() == "PAS") {
+  if ($pass != $info->get_show_password() ) {
 
     include "../templates/header.inc";
     if ($pass == "") {
       ?>
-        <center><h1>Password required</h1>
+        <div style="text-align: center">
+        <h1>Password required</h1>
         <p>Not so fast!  You need a password to view this page!</p>
       <?
     } else {
       ?>
-        <center><h1>Invalid password</h1>
+        <div style="text-align: center">
+        <h1>Invalid password</h1>
         <p>Sorry, but the password you entered doesn't match the one I'm
         looking for... please try again.</p>
       <?
@@ -79,7 +86,8 @@ if ($info->showmembers == "PAS") {
       <input type="hidden" name="project_id" value="<?=$project_id?>">
       <input type="submit" value="Go">
       </p>
-      </form></center>
+      </form>
+      </div>
       <?
     include "../templates/footer.inc";
     exit;
@@ -88,64 +96,28 @@ if ($info->showmembers == "PAS") {
 
 
 // See how many blocks this team did
-$qs = "SELECT  WORK_TOTAL as WORK_TOTAL, WORK_TODAY as WORK_TODAY
-        FROM Team_Rank
-        WHERE TEAM_ID = $tm
-          and PROJECT_ID = $project_id";
-$result = sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-if ($result == "") {
+$teamStats =& $team->get_current_stats();
+if ($teamStats == null) {
   $totblocks = FALSE;
 } else {
   $totblocks = TRUE;
-  $blocksresult = sybase_fetch_object($result);
-  $yblocks = (double) $blocksresult->WORK_TODAY * $proj_scale;
+  $yblocks = (double) $teamStats->get_stats_item("work_today") * $gproj->get_scale();
   if ( $yblocks == 0 ) $yblocks = 1;
-  $oblocks = (double) $blocksresult->WORK_TOTAL * $proj_scale;
+  $oblocks = (double) $teamStats->get_stats_item("work_total") * $gproj->get_scale();
 }
 
-// Query server for member listing
-if ($source == 'y') {    // $qs_source is an easy way around re-doing $qs based on $source
-  $qs_source = "";
-} else {
-  $qs_source = "*";
-}
-
-$qs = "SELECT  tm.WORK_TOTAL as WORK_TOTAL, tm.FIRST_DATE, tm.LAST_DATE,
-          p.id, p.listmode, p.contact_name, p.email, p.team,
-          tm.WORK_TODAY as WORK_TODAY,";
+// The source of the data...
+$title = $team->get_name() . " Members ";
 if ($source == 'y') {
-  $qs .= "
-          er.DAY_RANK as eRANK, (er.DAY_RANK_PREVIOUS - er.DAY_RANK) as eRANK_CHANGE";
-  } else {
-  $qs .= "
-          er.OVERALL_RANK as eRANK, (er.OVERALL_RANK_PREVIOUS - er.OVERALL_RANK) as eRANK_CHANGE";
-  }
-$qs .= "
-        FROM  Team_Members tm, STATS_Participant p, Email_Rank er
-        WHERE  tm.PROJECT_ID = $project_id
-          and er.PROJECT_ID = $project_id
-          and tm.PROJECT_ID = er.PROJECT_ID
-          and tm.TEAM_ID = $tm";
-if ($source =='y') {
-  $qs.= "
-          and tm.WORK_TODAY >0";
-}
-$qs.= "
-          and p.id = tm.ID
-          and er.ID = tm.ID
-          and p.id = er.ID";
-if ($source == 'y') {
-  $qs .= "
-        ORDER BY  er.WORK_TODAY desc, tm.WORK_TOTAL desc";
+  $title = $title . "Yesterday ";
+  $source = 'y';
 } else {
-  $qs .= "
-        ORDER BY  tm.WORK_TOTAL desc, er.WORK_TODAY desc";
+  $title = $title . "Overall ";
+  $source = 'o';
 }
+$title = $title . "$lo - $hi";
 
-$result = sybase_query("set rowcount 0");
-$result = sybase_query($qs);
-$rows = sybase_num_rows($result);
+$teamMembers =& Participant::get_team_list($tm, $source, $lo, $limit, &$rows, $gdb, $gproj);
 
 // Sanity check $low and $limit
 if ($low > $rows) {
@@ -162,13 +134,6 @@ if ($low + $limit > $rows)
 
 $hi = $low + $limit;
 $lo = $low + 1;
-$title = "$info->name Members ";
-if ($source == 'y') {
-  $title = $title . "Yesterday ";
-} else {
-  $title = $title . "Overall ";
-}
-$title = $title . "$lo - $hi";
 
 include "../templates/header.inc";
 
@@ -205,22 +170,22 @@ print "
 
         <?
         // Generate the listing here.
-        for ($i = $low; $i < $low + $limit; $i++) {
-          sybase_data_seek($result, $i);
-          $member = sybase_fetch_object($result);
-          $rnk = number_style_convert($i+1);
-          $prnk = $member->eRANK;
-          $prnkchg = $member->eRANK_CHANGE;
-          $n_yesterday = (double) $member->WORK_TODAY * $proj_scale;
+        $cnt = count($teamMembers);
+        for ($i = 0; $i < $cnt; $i++) {
+          $statsTmp =& $teamMembers[$i]->get_current_stats();
+          $rnk = number_style_convert($lo + $i);
+          $prnk = $statsTmp->get_stats_item("rank");
+          $prnkchg = $statsTmp->get_stats_item("rank_change");
+          $n_yesterday = (double) $statsTmp->get_stats_item("work_today") * $gproj->get_scale();
           $yesterday = number_style_convert($n_yesterday);
-          $n_blocks = (double) $member->WORK_TOTAL * $proj_scale;
+          $n_blocks = (double) $statsTmp->get_stats_item("work_total") * $gproj->get_scale();
           $blocks = number_style_convert($n_blocks);
-          $first = sybase_date_format_long($member->FIRST_DATE);
-          $last = sybase_date_format_long($member->LAST_DATE);
-          $linkid = (int) $member->id;
+          $first = $statsTmp->get_stats_item("first_date");
+          $last = $statsTmp->get_stats_item("last_date");
+          $linkid = (int) $teamMembers[$i]->get_id();
           $fmtid = number_style_convert($linkid);
 
-          $listas = participant_listas($member->listmode, $member->email, $member->id, $member->contact_name);
+          $listas = $teamMembers[$i]->get_display_name();
 
           print "
           <tr class=" . row_background_color($i, $color_a, $color_b) . ">
