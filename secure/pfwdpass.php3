@@ -17,6 +17,29 @@ include "../etc/modules.inc";
   sybase_data_seek($result,0);
   $par = sybase_fetch_object($result);
 
+  // If we don't have a password assigned yet, then generate one
+  if (!$par->password) {
+    mt_srand((double)microtime()*1000000);
+    $pass = "";
+    for ($i = 1; $i <= 8; $i++) {
+      // Generate a random number and convert it to the ASCII value for 0-9, A-Z, or a-z
+      $rand = mt_rand(0, 61);	// 10 ('0'-'9') + 26 ('A' - 'Z') + 26 ('a' - 'z') = 62 - 1 (we start at 0) = 61
+      if ($rand > 35) {		// 10           + 26             - 1 = 35
+        $rand += 61; 		// 97 (asc('a')) - 36 ( 35 + 1 ) = 61
+      } elseif ($rand > 9) {	// 10           - 1 = 9
+        $rand += 55;		// 65 (asc('A')) - 10 ( 9 + 1 ) = 55
+      } else {
+	$rand += 48;
+      }
+
+      $pass .= chr($rand);	// Append the resulting ASCII code to the password string
+    }
+    sybase_query("update STATS_participant set password = \"$pass\" where id = $id");
+    $result = sybase_query($query);
+  } else {
+   $pass = $par->password;
+  }
+
   $ltr_body = "Hello!
 
 Thanks for your participation in distributed.net.  We're sorry that you
@@ -26,7 +49,7 @@ or mispelled email addresses automatically.  This mailing was handled
 by one of our support representatives, and we apologize if it has
 taken longer than you'd hoped.
 
-   The password for $par->email is '$par->password'
+   The password for $par->email is '$pass'
    (without the quotes, of course)
 
 If you are wanting to retire this email address into a more current
@@ -34,7 +57,7 @@ address, then you can use this url, and then follow the link at
 the bottom that says \"retire this email address permanently.\"
 (It's way down at the bottom)
 
-   http://stats.distributed.net/pedit.php3?id=$id&pass=$par->password
+   http://stats.distributed.net/pedit.php3?id=$id&pass=$pass
 
 We hope that this solves your problem and hope that you don't 
 hesitate to contact us in the future if you have additional problems.
