@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.24 2004/05/21 21:46:33 jlawson Exp $
+  # $Id: pc_index.php,v 1.25 2004/05/21 21:52:11 jlawson Exp $
 
   $title = "Overall Project Stats";
 
@@ -133,19 +133,30 @@
     </tr>
    </table>
    <br>
+
 <? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
    <p class="phead2">
      Progress Meters
    </p>
    <table style="margin: auto" width="300" border="1" cellspacing="0" cellpadding="0">
+
+   <? if ($showOGRcomplete) { ?>
     <tr>
-		<td align="left">Phase1</td>
+     <td align="left">Phase1</td>
      <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
     </tr>
     <tr>
-		<td align="left">Phase2</td>
+     <td align="left">Phase2</td>
      <td align="Center">N/A</td>
     </tr>
+
+   <? } else { ?>
+
+    <tr>
+     <td align="left"><img src="/images/bar.jpg" width="<?=($bar_width <= 0)?1:$bar_width?>" height="14"></td>
+    </tr>
+   <? } ?>
+
    </table>
    <br>
 <? } ?>
@@ -195,10 +206,6 @@
    <?if(isset($showOGRcomplete)){?>
    <A NAME="footnote"></A>
    <font size="-2">
-   <!--  * The completion values are calculated in a separate stats run and may not be available at the same time as other values.
-       In this case, the values from the previous day will be used.  This data is from <?=$ogr_rundate?>.
-		* Note that this is only for stubs with leading marks totalling less than 70.
-	 --!>
 		For more information about Phase 1 and Phase 2 go <a href=http://n0cgi.distributed.net/faq/cache/230.html>here</a>.
    </font>
    <br><br>
