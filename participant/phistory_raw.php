@@ -1,5 +1,5 @@
 <? 
-// $Id: phistory_raw.php,v 1.11 2003/05/23 20:31:29 paul Exp $
+// $Id: phistory_raw.php,v 1.12 2003/09/01 23:16:58 paul Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .see phistory and implement during update lock code
@@ -12,8 +12,8 @@ include "../etc/project.inc";
 include "../etc/participant.php";
 include "../etc/participantstats.php";
 
-$gpart = new Participant($gdb, $project_id, $id);
-$gpartstats = new ParticipantStats($gdb, $project_id, $id, null);
+$gpart = new Participant($gdb, $gproj, $id);
+$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 $history = $gpartstats -> get_stats_history();
 
 if($gpart->get_retire_to() > 0) {
@@ -38,7 +38,7 @@ result in additional fields added to each line.
 
 ---BEGIN HEADER---
 ID=<?=$id?> 
-PARTICIPANT=<?=$gpart->getDisplayName()?> 
+PARTICIPANT=<?=$gpart->get_display_name()?> 
 LASTUPDATE=<?=$lastupdate?> 
 ---BEGIN DATA---
 DATE,UNITS
@@ -46,7 +46,7 @@ DATE,UNITS
 
 foreach ($history as $histrow)
 {
-	print $histrow->date . "," . number_format($histrow->work_units, 0) ."\n";
+	print $histrow->stats_date . "," . number_format($histrow->work_units, 0) ."\n";
 } 
 ?>
 ---END DATA---
