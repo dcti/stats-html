@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.34 2003/10/23 18:22:11 thejet Exp $
+// $Id: participant.php,v 1.35 2003/10/24 16:27:59 thejet Exp $
 
 include_once "participantstats.php";
 
@@ -515,21 +515,21 @@ class Participant {
         return "Error starting transaction for save.\n";
 
       $sql = "UPDATE stats_participant 
-                  SET password = '" . $this->_state->password . "',
-                      listmode = " . $this->_state->listmode . ",
-                      dem_yob = " . $this->_state->dem_yob . ",
-                      dem_heard = " . $this->_state->dem_heard . ",
-                      dem_motivation = " . $this->_state->dem_motivation . ",
+                  SET password = '" . addslashes($this->_state->password) . "',
+                      listmode = " . (int)$this->_state->listmode . ",
+                      dem_yob = " . (int)$this->_state->dem_yob . ",
+                      dem_heard = " . (int)$this->_state->dem_heard . ",
+                      dem_motivation = " . (int)$this->_state->dem_motivation . ",
                       dem_gender = " . ((trim($this->_state->dem_gender) == "" || is_null($this->_state->dem_gender))?"NULL":("'".$this->_state->dem_gender."'")) . ",
-                      dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".$this->_state->dem_country."'")) . ",
-                      contact_name = '" . $this->_state->contact_name . "',
-                      contact_phone = '" . $this->_state->contact_phone . "',
-                      motto = '" . $this->_state->motto . "'
+                      dem_country = " . ((trim($this->_state->dem_country) == "" || is_null($this->_state->dem_country))?"NULL":("'".addslashes($this->_state->dem_country)."'")) . ",
+                      contact_name = '" . addslashes($this->_state->contact_name) . "',
+                      contact_phone = '" . addslashes($this->_state->contact_phone) . "',
+                      motto = '" . addslashes($this->_state->motto) . "'
                       WHERE id = " . $this->_state->id . ";";
-      //print $sql . "<br>";
+      //print "<!-- $sql -->\n";
       $res = $this->_db->query($sql);
       if($res == FALSE)
-        $chkResult = "Error Updating Participant Record.\n";
+        $chkResult = "Error Updating Participant Record.$sql\n";
 
       $sql = "SELECT * FROM stats_participant WHERE id = " . $this->_state->id . ";";
       //print $sql . "<br>";

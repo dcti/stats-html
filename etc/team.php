@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.13 2003/10/14 16:16:09 thejet Exp $
+// $Id: team.php,v 1.14 2003/10/24 16:27:59 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -191,16 +191,16 @@ class Team
            {
              // Update
              $sql = "UPDATE stats_team " .
-                    "   SET name = '" . $this->_state->name . "'," .
-                    "       \"password\" = '" . $this->_state->password . "'," .
-                    "       url = '" . $this->_state->url . "'," .
-                    "       contactname = '" . $this->_state->contactname . "'," .
-                    "       contactemail = '" . $this->_state->contactemail . "'," .
-                    "       logo = '" . $this->_state->logo . "'," .
-                    "       showmembers = '" . $this->_state->showmembers . "'," .
-                    "       showpassword = '" . $this->_state->showpassword . "'," .
-                    "       listmode = " . $this->_state->listmode . "," .
-                    "       description = '" . $this->_state->description . "'" .
+                    "   SET name = '" . addslashes($this->_state->name) . "'," .
+                    "       \"password\" = '" . addslashes($this->_state->password) . "'," .
+                    "       url = '" . addslashes($this->_state->url) . "'," .
+                    "       contactname = '" . addslashes($this->_state->contactname) . "'," .
+                    "       contactemail = '" . addslashes($this->_state->contactemail) . "'," .
+                    "       logo = '" . addslashes($this->_state->logo) . "'," .
+                    "       showmembers = '" . addslashes($this->_state->showmembers) . "'," .
+                    "       showpassword = '" . addslashes($this->_state->showpassword) . "'," .
+                    "       listmode = " . (int)$this->_state->listmode . "," .
+                    "       description = '" . addslashes($this->_state->description) . "'" .
                     " WHERE team = " . $this->_state->team . "; SELECT * FROM stats_team WHERE team = " . $this->_state->team . ";";
            }
            else
@@ -209,15 +209,15 @@ class Team
              $sql = "INSERT INTO stats_team " .
                     " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
                     "VALUES" .
-                    " ('" . $this->_state->name . "'," .
-                    "'" . $this->_state->password . "'," .
-                    "'" . $this->_state->url . "'," .
-                    "'" . $this->_state->contactname . "'," .
-                    "'" . $this->_state->contactemail . "'," .
-                    "'" . $this->_state->logo . "'," .
-                    "'" . $this->_state->showmembers . "'," .
-                    "'" . $this->_state->showpassword . "'," .
-                    "" . $this->_state->listmode . "); SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
+                    " ('" . addslashes($this->_state->name) . "'," .
+                    "'" . addslashes($this->_state->password) . "'," .
+                    "'" . addslashes($this->_state->url) . "'," .
+                    "'" . addslashes($this->_state->contactname) . "'," .
+                    "'" . addslashes($this->_state->contactemail) . "'," .
+                    "'" . addslashes($this->_state->logo) . "'," .
+                    "'" . addslashes($this->_state->showmembers) . "'," .
+                    "'" . addslashes($this->_state->showpassword) . "'," .
+                    "" . (int)$this->_state->listmode . "); SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
            }
 
            // Execute the SQL statement
