@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.22 2003/09/12 03:04:46 thejet Exp $
+// $Id: participant.php,v 1.23 2003/09/13 22:36:08 thejet Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -533,7 +533,7 @@ class Participant {
                         r.$field as rank, r." . $field . "_previous - r.$field as change,
                         p.email, p.listmode, p.contact_name
                 FROM email_rank r, stats_participant p
-                WHERE r.$field BETWEEN $start + $limit AND $start
+                WHERE r.$field BETWEEN $start AND ($start + $limit)
                     AND r.project_id = " . $project->get_id() . "
                     AND p.listmode < 10
                     AND r.id = p.id
