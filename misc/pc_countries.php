@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.5 2002/03/16 15:47:26 paul Exp $
+ // $Id: pc_countries.php,v 1.6 2002/03/25 15:50:04 paul Exp $
 
  $outname = "countries";
 
@@ -54,17 +54,17 @@
               <font $header_font>Yesterday</font>
 	    </a></td>";
  }
- print "
+?> 
            </tr>
 	   <tr>
-	    <td><font $header_font>Nationality</font></font></td>
-	    <td align=\"center\"><font $header_font>People</font></td>
-	    <td align=\"center\"><font $header_font>$proj_unitname</font></td>
-	    <td align=\"center\"><font $header_font>$proj_unitname/Person</font></td>
-	    <td align=\"center\"><font $header_font>$proj_unitname</font></td>
-	    <td align=\"center\"><font $header_font>$proj_unitname/Person</font></td>
-	   </tr>";
-
+	    <th>Nationality</td>
+	    <th align="center">People</td>
+	    <th align="center"><?=$proj_unitname?></td>
+	    <th align="center"><?=$proj_unitname?>/Person</td>
+	    <th align="center"><?=$proj_unitname?></td>
+	    <th align="center"><?=$proj_unitname?>/Person</td>
+	   </tr>
+<?
  for ($i = 0; $i < $countries; $i++) {
    print "<tr bgcolor=" . row_background_color($i) . ">";
    sybase_data_seek($country,$i);
@@ -81,26 +81,25 @@
    if(!file_exists("..$icofn")) {
      $icofn = "/images/icons/flags/unknown.gif";
    }
-   print "
-	    <td><img src=\"$icofn\" alt=\"$par->code\" height=14 width=14> $par->country</td>
-	    <td align=\"right\">$f_recs</td>
-	    <td align=\"right\">$f_units_total</td>
-	    <td align=\"right\">$f_blockavg_total</td>
-	    <td align=\"right\">$f_units_today</td>
-	    <td align=\"right\">$f_blockavg_today</td>
-	   </tr>";
+?>   
+	    <td><img src="<?=$icofn?>" alt="<?=$par->code?>" height=14 width=14> <?=$par->country?></td>
+	    <td align="right"><?=$f_recs?></td>
+	    <td align="right"><?=$f_units_total?></td>
+	    <td align="right"><?=$f_blockavg_total?></td>
+	    <td align="right"><?=$f_units_today?></td>
+	    <td align="right"><?=$f_blockavg_today?></td>
+	   </tr>
+<?
  } 
-
-
- print "
+?>
 	   </table>
-	   <table width=\"60%\">
+	   <table width="60%">
 	    <tr>
 	     <td>
-	      <font size=\"-1\">
+	      <font size="-1">
 	       Note: Nationalities listed on this page are only reflective of
 	       those participants who have designated their nationality when
-	       <a href=\"/pedit.php\">editing</a> their participant information.
+	       <a href="/pedit.php">editing</a> their participant information.
 	       No attempt has been made to derive nationalities from participant
 	       email addresses.
 	      </font>
@@ -108,5 +107,4 @@
 	    </tr>
 	   </table>
  	  </center>
-?>
 <?include "templates/footer.inc";?>
