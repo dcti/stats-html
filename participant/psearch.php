@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.7 2002/03/24 17:08:32 paul Exp $
+ # $Id: psearch.php,v 1.8 2002/04/07 21:34:58 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -17,14 +17,7 @@
 $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, @searchtext='$st', @maxrows=50, @escapewildcards=1");
 
  // If $QRSLTsearch is still blank, we ain't getting anything back...
- if ($QRSLTsearch == "") {
-	if ($debug=="yes") {
-	  include "templates/debug.inc";
-	} else {
-	  include "templates/error.inc";
-	}
-	exit();
- }
+ err_check_query_results($QRSLTsearch);
 
  $rows = sybase_num_rows($QRSLTsearch);
 
@@ -32,19 +25,11 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	# Only one hit, let's jump straight to psummary
 	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
 	$id = (int) $ROWparticipant->id;
-#	header("Location: http://stats.distributed.net/$project/psummary.php?project_id=$project_id&id=$id");
 	header("Location: psummary.php?project_id=$project_id&id=$id");
 	exit;
  }
 
- $qs = "p_lastupdate e, @contest='new', @project_id=$project_id";
- $QRSLTupdate = sybase_query($qs);
- if($QRSLTupdate) {
-   $ROWupdate = sybase_fetch_object($QRSLTupdate);
-   $lastupdate = sybase_date_format_long($ROWupdate->lastupdate);
- } else {
-  $lastupdate = "A long time ago, in a galaxy far, far away...";
- }
+ $lastupdate = last_update('e');
 
  include "templates/header.inc";
 
@@ -56,12 +41,12 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
      <br>
      <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
       <tr>
-       <td><font <?=$header_font?>>Rank</font></td>
-       <td><font <?=$header_font?>>Participant</font></td>
-       <td align="right"><font <?=$header_font?>>First Block</font></td>
-       <td align="right"><font <?=$header_font?>>Last Block</font></td>
-       <td align="right"><font <?=$header_font?>>Days</font></td>
-       <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
+       <th>Rank</th>
+       <th>Participant</th>
+       <th align="right">First Block</th>
+       <th align="right">Last Block</th>
+       <th align="right">Days</th>
+       <th align="right"><?=$proj_unitname?></th>
       </tr>
  <?
 
@@ -73,13 +58,9 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	$id = (int) $ROWparticipant->id;
 	if ($debug=="yes") print "<!-- ID: $id -->";
 
-	// Process the info
-	if( ($i/2) == (round($i/2)) ) {
-		echo "  <tr bgcolor=$bar_color_a>\n";
-	} else {
-		echo "  <tr bgcolor=$bar_color_b>\n";
-	}
-
+	?>
+	<tr class="<?=row_background_color($i)?>">
+	<?
 	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$proj_divider;
 
         print "   <td>$ROWparticipant->OVERALL_RANK " . html_rank_arrow($ROWparticipant->Overall_Change) . "</td>\n";
@@ -98,14 +79,14 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	";
  }
 
- print "
-	 <tr bgcolor=$footer_bg>
-	  <td><font $footer_font>$i</font></td>
-	  <td colspan=\"4\" align=\"right\"><font $footer_font>Total</font></td>
-	  <td align=\"right\"><font $footer_font>" . number_format($totalblocks, 0) . "</font></td>
+?>
+	 <tr bgcolor=<?=$footer_bg?>>
+	  <td><font <?=$footer_font?>><?=$i?></font></td>
+	  <td colspan="4" align="right"><font <?=$footer_font?>>Total</font></td>
+	  <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocks, 0) ?></font></td>
 	 </tr>
 	</table>
-	";
+<?
  if( $rows == 0 ) {
 ?>   
 	<p>
