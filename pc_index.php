@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.15 2003/05/20 22:50:34 paul Exp $
+  # $Id: pc_index.php,v 1.16 2003/08/30 23:44:11 paul Exp $
 
   $title = "Overall Project Stats";
 
@@ -88,7 +88,7 @@
     </tr>
 <? if ($gproj->get_total_units() > 0 ) { ?>
     <tr>
-     <td>Total <?=$gproj->get_unscaled_unit_name?> to Search:</td>
+     <td>Total <?=$gproj->get_unscaled_unit_name()?> to Search:</td>
      <td align="right"><?=$tot_unscaled_units_to_search?></td>
     </tr>
 <? } ?>
