@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.14 2000/11/12 02:33:37 decibel Exp $
+  // $Id: pjointeam.php,v 1.15 2000/11/12 03:13:28 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -16,7 +16,7 @@
   $id = 0+$par->id;
   $team = $team+0;
 
-  $qs = "select team_id from Team_Joins where id=$id and last_date=null"
+  $qs = "select team_id from Team_Joins where id=$id and last_date=null";
   $result = sybase_query($qs);
   $rows = sybase_num_rows($result);
   if( $rows == 1 ) {
@@ -104,8 +104,10 @@
 	   No changes will be visible until the next stats run.
 	  </p>
 	  <p>
-	   You have until the next stats run to change your mind without any problem.<br>
-	   Nothing <i>really</i> gets changed until the daily update takes place.
+	   You have until midnight UTC to change your mind without any problem.<br>
+	   Team joins are tracked on a day-by-day basis, so only the last teamjoin<br>
+	   on a given day will take effect. Once midnight rolls around though, your<br>
+	   team selection for that day turns into a pumpkin, err, becomes permanent.
 	  </p>
 	  <p>
 	   Stats runs typically occur daily at 00:00 UTC.
