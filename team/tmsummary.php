@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.25 2003/04/20 21:37:07 paul Exp $
+// $Id: tmsummary.php,v 1.26 2003/05/09 04:02:16 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -9,71 +9,50 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/markup.inc";
+include "../etc/team.php";
+include "../etc/teamstats.php";
 
 $title = "Team #$tm Summary";
 $lastupdate = last_update('t');
 include "../templates/header.inc";
 
 // Query server
-$qs = "select t.*, r.*,
-          datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-          OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
-          DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
-        from STATS_team t, Team_Rank r
-        where r.TEAM_ID = t.team
-          and t.team=$tm
-          and r.TEAM_ID=$tm
-          and PROJECT_ID = $project_id";
-$result = sybase_query($qs);
-$rows = sybase_num_rows($result);
-
-if ($rows == 0) {
+$team = new Team($gdb, $gproj, $tm);
+if($team->get_id() == 0) {
 	echo "<H2>That team is not known.</H2><BR>";
 	include "../templates/footer.inc";
 	exit;
 }
 
-$par = sybase_fetch_object($result);
-
-$qs = "select t.name, r.*,
-          datediff(day, FIRST_DATE, LAST_DATE)+1 as Days_Working,
-          OVERALL_RANK_PREVIOUS-OVERALL_RANK as Change
-        from STATS_Team t, Team_Rank r
-        where ( OVERALL_RANK < ($par->OVERALL_RANK+5) )
-          and ( OVERALL_RANK > ($par->OVERALL_RANK-5) )
-          and t.team=r.TEAM_ID
-          and t.listmode<=9
-          and PROJECT_ID = $project_id
-        order by OVERALL_RANK";
-sybase_query("set rowcount 18");
-$neighbors = sybase_query($qs);
-$numneighbors = sybase_num_rows($neighbors);
-
-$qs = "select *
+/*$qs = "select *
         from Daily_Summary nolock
         where PROJECT_ID = $project_id
           and DATE = (select max(DATE) from Daily_Summary where project_id=$project_id)";
 sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
+*/
+$stats = $team->get_current_stats();
+$days_working = ($stats->get_stats_item('last_date') - $stats->get_stats_item('first_date'));
 
+$neighbors = $team->get_neighbors();
 
-if (private_markupurl_safety($par->logo) != "") {
-  $logo = "<img src=\"$par->logo\" alt=\"team logo\">";
+if (private_markupurl_safety($team->get_logo()) != "") {
+  $logo = "<img src=\"$team->get_logo()\" alt=\"team logo\">";
 } else {
   $logo = "";
 }
 ?>
 <div style="text-align:center;">
-<h1 class="phead"><?= safe_display($par->name) ?></h1>
+<h1 class="phead"><?= safe_display($team->get_name()) ?></h1>
   <table width="100%">
     <tr>
       <td align="center"><?= $logo ?></td>
-      <td align="center"><?= markup_to_html($par->description) ?></td>
+      <td align="center"><?= markup_to_html($team->get_description()) ?></td>
     </tr>
     <tr>
       <td colspan="2" align="center">
-        Contact: <?= safe_display($par->contactemail) ?>
+        Contact: <?= safe_display($team->get_contact_email()) ?>
       </td>
     </tr>
   </table>
@@ -83,43 +62,43 @@ if (private_markupurl_safety($par->logo) != "") {
     <tr>
       <td></td>
       <td align="center" class="phead2">Overall</td>
-<? if ($par->WORK_TODAY > 0) { ?>
+<? if ($stats->get_stats_item('work_today') > 0) { ?>
       <td align="center" class="phead2">Yesterday</td>
 <? } ?>
     </tr>
     <tr>
       <td align="left" class="phead2">Rank:</td>
-      <td align="right"><?= $par->OVERALL_RANK . " " . html_rank_arrow($par->Overall_Change) ?></td>
-<? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right"><?= $par->DAY_RANK . " " . html_rank_arrow($par->Day_Change) ?></td>
+      <td align="right"><?= $stats->get_stats_item('overall_rank') . " " . html_rank_arrow($stats->get_stats_item('overall_rank_previous') - $stats->get_stats_item('overall_rank')) ?></td>
+<? if ($stats->get_stats_item('work_today') > 0) { ?>
+      <td align="right"><?= $stats->get_stats_item('day_rank') . " " . html_rank_arrow($stats->get_stats_item('day_rank_previous') - $stats->get_stats_item('day_rank')) ?></td>
 <? } ?>
     </tr>
     <tr>
-      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>:</td>
-      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale) ?></td>
-<? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale) ?></td>
+      <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>:</td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
+<? if ($stats->get_stats_item('work_today') > 0) { ?>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale()) ?></td>
 <? } ?>
     </tr>
-    <? if ($par->Days_Working > 0) { ?>
+    <? if ($days_working > 0) { ?>
     <tr>
-      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>/sec:</td>
-      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale / (86400 * $par->Days_Working), 3) ?></td>
-<? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale / 86400, 3) ?></td>
+      <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>/sec:</td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / (86400 * $days_working)) ?></td>
+<? if ($stats->get_stats_item('work_today') > 0) { ?>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale() / 86400) ?></td>
     <? } ?>
     </tr>
 <? } ?>
-    <?if($par->MEMBERS_OVERALL > 0) {?>
+    <?if($stats->get_stats_item('members_overall') > 0) {?>
     <tr>
-      <td align="left" class="phead2"><?= $proj_scaled_unit_name ?>/member:</td>
-      <td align="right"><?= number_style_convert($par->WORK_TOTAL * $proj_scale / $par->MEMBERS_OVERALL) ?></td>
-<? if ($par->WORK_TODAY > 0) { ?>
-      <td align="right"><?= number_style_convert($par->WORK_TODAY * $proj_scale / $par->MEMBERS_TODAY) ?></td>
+      <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>/member:</td>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale() / $stats->get_stats_item('members_overall')) ?></td>
+<? if ($stats->get_stats_item('work_today') > 0) { ?>
+      <td align="right"><?= number_style_convert($stats->get_stats_item('work_today') * $gproj->get_scale() / $stats->get_stats_item('members_today')) ?></td>
 <? } ?>
     </tr>
     <?}?>
-    <tr>
+    <!-- tr>
       <td align="left" class="phead2"><?= $proj_unscaled_unit_name ?>:</td>
       <td align="right"><?= number_style_convert($par->WORK_TOTAL) ?></td>
 <? if ($par->WORK_TODAY > 0) { ?>
@@ -144,34 +123,35 @@ if (private_markupurl_safety($par->logo) != "") {
 <? } ?>
     </tr>
     <?}?>
+    -->
     <tr>
       <td align="left" class="phead2">Time Working:</td>
-      <td align="right" colspan="<?= ($par->WORK_TODAY > 0) ? 3 : 2 ?>"><?= number_style_convert($par->Days_Working) ?> days</td>
+      <td align="right" colspan="<?= ($stats->get_stats_item('work_today') > 0) ? 3 : 2 ?>"><?= number_style_convert($days_working) ?> days</td>
     </tr>
   </table>
   <br>
   <br>
-  <? if($proj_totalunits > 0 && $par->WORK_TODAY == 0)
+  <? if($proj_totalunits > 0 && $stats->get_stats_item('work_today') == 0)
      {
    ?>
   The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
-  <?} else if ($proj_totalunits > 0 && $par->WORK_TODAY > 0) { ?>
-  The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $par->WORK_TODAY) ?> that this team will
+  <?} else if ($proj_totalunits > 0 && $stats->get_stats_item('work_today') > 0) { ?>
+  The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $stats->get_stats_item('work_today')) ?> that this team will
     find the key before anyone else does. 
   <? } ?>
   <br>
   <p style="text-align: center">
-    This team has had <?= number_style_convert($par->MEMBERS_OVERALL) ?> participants contribute blocks.
-    Of those, <?= number_style_convert($par->MEMBERS_CURRENT) ?> are still on this team,
-    and <?= number_style_convert($par->MEMBERS_TODAY) ?> submitted work today.
+    This team has had <?= number_style_convert($stats->get_stats_item('members_overall')) ?> participants contribute blocks.
+    Of those, <?= number_style_convert($stats->get_stats_item('members_current')) ?> are still on this team,
+    and <?= number_style_convert($stats->get_stats_item('members_today')) ?> submitted work today.
   </p>
   <?
   //Some buttons to view team history will go here
-  if ($par->showmembers=="NO") {
+  if ($team->get_show_members() == "NO") {
     ?>	
     <p style="text-align:center">This team wishes to keep its membership private.<p></center>
   <? } else {  
-    if ($par->WORK_TODAY == 0) {
+    if ($stats->get_stats_item('work_today') == 0) {
       print "<p style=\"text-align:center\">Click here to view this team's 
       <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a> participant stats";
     } else {
@@ -180,7 +160,7 @@ if (private_markupurl_safety($par->logo) != "") {
       <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a>";
     }
 	
-    if ($par->showmembers=="PAS") {
+    if ($team->get_show_members() == "PAS") {
       print " (Password required)";
     }
 
@@ -198,31 +178,31 @@ if (private_markupurl_safety($par->logo) != "") {
       </tr>
       <?
       $totalwork = 0;
-      for ($i = 0; $i < $numneighbors; $i++) {
+      for ($i = 0; $i < count($neighbors); $i++) {
+        $tmpStats = $neighbors[$i]->get_current_stats();
+        $tmpWorking = $tmpStats->get_stats_item('last_date') - $tmpStats->get_stats_item('first_date');
       ?>
         <tr class="<?= row_background_color($i) ?>">
         <?        
-        sybase_data_seek($neighbors,$i);
-        $teamrec = sybase_fetch_object($neighbors);
-        $totalwork += $teamrec->WORK_TOTAL;
+        $totalwork += $tmpStats->get_stats_item('work_total');
         ?>
-          <td><?= $teamrec->OVERALL_RANK . " " . html_rank_arrow($teamrec->Change) ?></td>
+          <td><?= $tmpStats->get_stats_item('overall_rank') . " " . html_rank_arrow($tmpStats->get_stats_item('overall_rank_previous') - $tmpStats->get_stats_item('overall_rank')) ?></td>
           <td>
-              <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $teamrec->TEAM_ID + 0 ?>"><?= $teamrec->name ?></a>
+              <a href="tmsummary.php?project_id=<?= $project_id ?>&amp;team=<?= $neighbors[$i]->get_id() ?>"><?= $neighbors[$i]->get_name() ?></a>
           </td>
-          <td align="right"><?= number_style_convert($teamrec->Days_Working) ?></td>
-          <td align="right"><?= number_style_convert($teamrec->WORK_TOTAL * $proj_scale) ?></td>
+          <td align="right"><?= number_style_convert($tmpWorking) ?></td>
+          <td align="right"><?= number_style_convert($tmpStats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
         </tr>
       <?
       }
       ?>
       <tr>
         <td class="tfoot" align="right" colspan="3">Total</td>
-        <td class="tfoot" align="right"><?= number_style_convert($totalwork * $proj_scale) ?></td>
+        <td class="tfoot" align="right"><?= number_style_convert($totalwork * $gproj->get_scale()) ?></td>
       </tr>
     </table>
     <hr>
-    <a href="/participant/pjointeam.php?team=<?=$team?>">I want to join this team!</a>
+    <a href="/participant/pjointeam.php?team=<?=$tm?>">I want to join this team!</a>
     <hr>
     <form action="tmedit.php" method="post">
       <p>
