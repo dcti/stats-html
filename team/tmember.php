@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.12 2002/06/04 00:18:20 paul Exp $
+// $Id: tmember.php,v 1.13 2002/06/12 22:22:47 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -130,14 +130,15 @@ $qs .= "
 	WHERE	tm.PROJECT_ID = $project_id
 		and er.PROJECT_ID = $project_id
 		and tm.PROJECT_ID = er.PROJECT_ID
-		and tm.TEAM_ID = $tm
+		and tm.TEAM_ID = $tm";
+if ($source ==y) { $qs.= "and tm.WORK_TODAY >0"; }
+$qs.= "
 		and p.id = tm.ID
 		and er.ID = tm.ID
 		and p.id = er.ID";
 if ($source == y) {
 $qs .= "
-		and p.team = $tm
-	ORDER BY	er.WORK_TODAY desc, tm.WORK_TOTAL desc";
+ 	ORDER BY	er.WORK_TODAY desc, tm.WORK_TOTAL desc";
 } else {
 $qs .= "
 	ORDER BY	tm.WORK_TOTAL desc, er.WORK_TODAY desc";
