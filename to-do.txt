@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.6 1999/08/30 04:59:43 decibel Exp $
+# $Id: to-do.txt,v 1.7 1999/08/30 22:45:53 nugget Exp $
 
 o Setup support for HTTP caching (ie: squid)
 This will not be anywhere near as easy as it should be, unless we find a way to convert the normal method of
@@ -55,3 +55,10 @@ o Benchmark to see if we should include stuff like email in the ranking tables
 o online list that proxy analizer's can use
 many of the proxy log analizers provide links to stats pages... it would be nice if we had a file somewhere
 where we could point those programs at different files... like for when we did the sbI to sbII move
+
+o <tibim> Nugget94M: on stats for the overall daily rate... you should use
+          the little arrows that you use to show if an email went up or down
+          in the ranks, except use it to show how many more mkeys/sec we were
+          slower or faster than the previous day.
+  <Nugget94M> hmmm.  that's a neat idea.
+
