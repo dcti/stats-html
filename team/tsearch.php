@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.16 2003/06/12 20:44:04 thejet Exp $
+# $Id: tsearch.php,v 1.17 2003/09/01 17:09:52 thejet Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -45,6 +45,10 @@ include "../templates/header.inc";
 
     $totalblocks = 0;
     $totalblocksy = 0;
+    if($rows <= 0)
+    {
+      echo "<tr><td colspan=\"8\" align=\"center\">No Matching Records Found</td></tr>\n";
+    }
     for ($i = 0; $i < $rows; $i++) {
       $teamTmp =& $result[$i];
       $statsTmp =& $teamTmp->get_current_stats();
