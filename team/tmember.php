@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+// $Id: tmember.php,v 1.7 2002/03/25 15:52:01 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -13,12 +13,6 @@ include "../etc/modules.inc";
 include "etc/project.inc";
 
 debug_text("<!-- team: $team, low: $low, limit: $limit, source: $source, pass: $pass. -->\n",$debug);
-
-if ($team == ""){
-	$tm = 1;
-} else {
-	$tm = 0+$team;
-}
 
 if ($low == ""){
 	$low = 0;
@@ -53,10 +47,11 @@ $title = "Team Members Listing - Team #".$tm;
 if ($info->showmembers == "NO") {
 	
 	include "templates/header.inc";
-
-	print "<h1>Hey, you ain't supposed to be here!</h1>
+	?>
+		<h1>Hey, you ain't supposed to be here!</h1>
 		<p>This team does not want to list it's members, so you might as well
-		quit asking for them!</p>";
+		quit asking for them!</p>
+	<?
 	include "templates/footer.inc";
 	exit;
 }
@@ -65,21 +60,27 @@ if ($info->showmembers == "PAS") {
 	if ($pass != $info->showpassword ) {
 	
 		include "etc/lastupdate.inc";
-
+		include "templates/header.inc";
 		if ($pass == "") {
-			print "	<h1>Password required</h1>
-				<p>Not so fast!  You need a password to view this page!</p>";
+			?>
+				<center><h1>Password required</h1>
+				<p>Not so fast!  You need a password to view this page!</p>
+			<?
 		} else {
-			print "	<h1>Invalid password</h1>
+			?>
+				<center><h1>Invalid password</h1>
 				<p>Sorry, but the password you entered doesn't match the one I'm
-				looking for... please try again.</p>";
+				looking for... please try again.</p>
+			<?
 		}
-		print "	<form action=\"$myname\" method=\"get\">
-			Password: <input type=\"password\" length=\"16\" name=\"pass\">
-			<input type=\"hidden\" name=\"team\" value=\"$tm\">
-			<input type=\"hidden\" name=\"source\" value=\"$source\">
-			<input type=\"submit\" value=\"Go\">
-			</form>";
+			?>
+			<form action="<?=$myname?>" method="get">
+			Password: <input type="password" length="16" name="pass">
+			<input type="hidden" name="team" value="<?=$tm?>">
+			<input type="hidden" name="source" value="<?=$source?>">
+			<input type="submit" value="Go">
+			</form></center>
+			<?
 		include "templates/footer.inc";
 		exit;
 	}
@@ -176,7 +177,6 @@ if ($source == y) $title = $title . "Yesterday ";
     else $title = $title . "Overall ";
 $title = $title . "$lo - $hi";
 
-include "etc/project.inc";
 include "templates/header.inc";
 
 // Display how many members
@@ -189,23 +189,23 @@ print "<BR><TABLE border=\"0\"><tr>
 print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&team=$tm\">team summary page</a>.</center>";
 
 // Start the table
-print "<CENTER>
+?>
+<CENTER>
 	<BR>
-	 <TABLE border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+	 <TABLE border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
 	  <tr>
-	   <td><font $header_font>Team Rank</font></td>
-	   <td><font $header_font>Participant</font></td>
-           <td><font $header_font>Project Rank</font></td>
-	   <td><font $header_font>First</font></td>
-	   <td><font $header_font>Last</font></td>
-	   <td><font $header_font>Yesterday</font></td>
-";
+	   <th>Team Rank</th>
+	   <th>Participant</th>
+           <th>Project Rank</th>
+	   <th>First</th>
+	   <th>Last</th>
+	   <th>Yesterday</th>
+<?
+if ($totblocks) print "<th>%</th>\n";
 
-if ($totblocks) print "<td><font $header_font>%</font></td>\n";
+print "	   <th>Total</th>\n";
 
-print "	   <td><font $header_font>Total</font></td>\n";
-
-if ($totblocks) print "<td><font $header_font>%</font></td>\n";
+if ($totblocks) print "<th>%</font></th>\n";
 
 print "	  </tr>\n";
 
@@ -230,7 +230,7 @@ for ($i = $low; $i < $low + $limit; $i++)
 	debug_text("<!--- y:$n_yesterday o:$n_blocks yt:$yblocks ot:$oblocks y%:$n_yesterday/$yblocks --->\n",$debug);
 
 	print "
-		<tr bgcolor=" . row_background_color($i, $color_a, $color_b) . ">
+		<tr class=" . row_background_color($i, $color_a, $color_b) . ">
 		  <td>$rnk</td>
 		  <td><a href=\"psummary.php?project_id=$project_id&id=$linkid\"><font color=\"#cc0000\">$listas</font></a></td>";
 	if ($n_yesterday < 1 and $source == y) {
@@ -254,10 +254,10 @@ for ($i = $low; $i < $low + $limit; $i++)
 		</tr>";
 }
 
-print "
+?>
 	 </TABLE>
-       </CENTER>";
-
+       </CENTER>
+<?
 // Navigation Buttons here
 print "<TABLE border=\"0\" width=100%><tr>";
 if ($low > 0)
