@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.1 2003/09/02 03:41:58 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.2 2003/09/05 20:38:27 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -78,9 +78,6 @@ $yest_totals = sybase_fetch_object($result);
     ?>
     <team-summary id="<?= $tmpTeam->get_id() ?>">
       <name><?= safe_display($tmpTeam->get_name()) ?></name>
-      <logo><?= safe_display($tmpTeam->get_logo()) ?></logo>
-      <description><![CDATA[<?= markup_to_html($tmpTeam->get_description()) ?>]]></description>
-      <contact><?= safe_display($tmpTeam->get_contact_email()) ?></contact>
       <membership><?if ($tmpTeam->get_show_members()=="NO") {?>private<?} else { if ($tmpTeam->get_show_members()=="PAS") {?>password<?} else {?>public<?} }?></membership>
       <stats date="<?= safe_display($tmpStats->get_stats_item("last_date")) ?>">
         <stat name="overall-rank" unit="" value="<?=$tmpStats->get_stats_item("overall_rank") ?>" change="<?= $tmpStats->get_stats_item('overall_rank_previous') - $tmpStats->get_stats_item("overall_rank") ?>"/>
