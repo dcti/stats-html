@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.22 2004/04/28 02:47:05 thejet Exp $
+// $Id: team.php,v 1.23 2004/07/19 00:52:49 jlawson Exp $
 
 //==========================================
 // file: team.php
@@ -167,26 +167,26 @@ class Team
          * @param int The ID of the participant to load
          ***/
          function load($team_id)
-	 	{
-	 		if($team_id > MAX_OLD_TEAM_ID)
-	    	{
-	        	$this->_state = $this->_db->query_first("SELECT stats_team.* FROM stats_team INNER JOIN new_team_id ON stats_team.team = new_team_id.new_id WHERE new_team_id.old_id = $team_id");
-	        }
-	        	else
-	        {
-				$this->_state = FALSE;
-			}
-
-			if($this->_state == FALSE)
-			{
-				$this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
-			}
-
-			if($this->get_id() != $team_id)
-				$this->_IDMismatch = true;
-			else
-				$this->_IDMismatch = false;
-	 	}
+           {
+             if($team_id > MAX_OLD_TEAM_ID)
+               {
+                 $this->_state = $this->_db->query_first("SELECT stats_team.* FROM stats_team INNER JOIN new_team_id ON stats_team.team = new_team_id.new_id WHERE new_team_id.old_id = $team_id");
+               }
+             else
+               {
+                 $this->_state = FALSE;
+               }
+             
+             if($this->_state == FALSE)
+               {
+                 $this->_state = $this->_db->query_first("SELECT * FROM stats_team WHERE team = $team_id");
+               }
+             
+             if($this->get_id() != $team_id)
+               $this->_IDMismatch = true;
+             else
+               $this->_IDMismatch = false;
+           }
 
         /***
          * Saves the current team to the database
@@ -210,17 +210,18 @@ class Team
            {
              // Update
              $sql = "UPDATE stats_team " .
-                    "   SET name = '" . addslashes($this->_state->name) . "'," .
-                    "       \"password\" = '" . addslashes($this->_state->password) . "'," .
-                    "       url = '" . addslashes($this->_state->url) . "'," .
-                    "       contactname = '" . addslashes($this->_state->contactname) . "'," .
-                    "       contactemail = '" . addslashes($this->_state->contactemail) . "'," .
-                    "       logo = '" . addslashes($this->_state->logo) . "'," .
-                    "       showmembers = '" . addslashes($this->_state->showmembers) . "'," .
-                    "       showpassword = '" . addslashes($this->_state->showpassword) . "'," .
-                    "       listmode = " . (int)$this->_state->listmode . "," .
-                    "       description = '" . addslashes($this->_state->description) . "'" .
-                    " WHERE team = " . $this->_state->team . "; SELECT * FROM stats_team WHERE team = " . $this->_state->team . ";";
+                    "   SET name = $2," .
+                    "       \"password\" = $3," .
+                    "       url = $4," .
+                    "       contactname = $5," .
+                    "       contactemail = $6," .
+                    "       logo = $7," .
+                    "       showmembers = $8," .
+                    "       showpassword = $9," .
+                    "       listmode = $10," .
+                    "       description = $11" .
+                    " WHERE team = $1" .
+               "; SELECT * FROM stats_team WHERE team = $1;";
            }
            else
            {
@@ -228,20 +229,26 @@ class Team
              $sql = "INSERT INTO stats_team " .
                     " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
                     "VALUES" .
-                    " ('" . addslashes($this->_state->name) . "'," .
-                    "'" . addslashes($this->_state->password) . "'," .
-                    "'" . addslashes($this->_state->url) . "'," .
-                    "'" . addslashes($this->_state->contactname) . "'," .
-                    "'" . addslashes($this->_state->contactemail) . "'," .
-                    "'" . addslashes($this->_state->logo) . "'," .
-                    "'" . addslashes($this->_state->showmembers) . "'," .
-                    "'" . addslashes($this->_state->showpassword) . "'," .
-                    "" . (int)$this->_state->listmode . "); SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
+                    " ($2, $3, $4, $5, $6, $7, $8, $9, 10)" .
+               "; SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
            }
 
            // Execute the SQL statement
            // ** throw away the result of the first operation (if it's false)
-           $retVal = $this->_db->query_first($sql);
+           $params = array(
+                           (int)$this->_state->team,     #1
+                           $this->_state->name,          #2
+                           $this->_state->password,      #3
+                           $this->_state->url,           #4
+                           $this->_state->contactname,   #5
+                           $this->_state->contactemail,  #6
+                           $this->_state->logo,          #7
+                           $this->_state->showmembers,   #8
+                           $this->_state->showpassword,  #9
+                           (int)$this->_state->listmode, #10
+                           $this->_state->description,   #11
+                           );
+           $retVal = $this->_db->query_bound_first($sql, $params);
 
            if($retVal == FALSE)
            {
@@ -532,14 +539,15 @@ class Team
                          last_date::DATE - first_date::DATE +1 AS days_working,
                          overall_rank_previous - overall_rank AS rank_change
                     FROM team_rank tr INNER JOIN stats_team st ON tr.team_id = st.team
-                   WHERE (lower(name) like '%$sstr%' OR CAST(st.team as varchar) like '%$sstr%')
+                   WHERE (lower(name) like $2 OR CAST(st.team as varchar) like $2)
                      AND listmode <= 9
-                     AND project_id = " . $project->get_id() . "
+                     AND project_id = $1
                    ORDER BY overall_rank ASC
                    LIMIT $limit";
 
            // Actually run the query...
-           $queryData = $db->query($qs);
+           $queryData = $db->query_bound($qs, array( (int)$project->get_id(), 
+                                                     "%$sstr%") );
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 1, $limit);
            $cnt = count($result);
