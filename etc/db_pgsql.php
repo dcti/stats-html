@@ -1,137 +1,127 @@
 <?php
 /**
  * Handles the DB abstraction layer for pgsql
- * 
+ *
  * @version 1.0
  */
 class DB {
     /**
      * Database name to connect to.
-     * 
-     * @var string 
+     *
+     * @var string
      */
-    var $conn_string;
+    var $_conn_string;
 
-    /**
-     * Database Server to connect to.
-     * 
-     * @var string 
-     */
-    var $server;
+    var $_link_id = 0;
+    var $_query_id = 0;
 
-    var $link_id = 0;
-    var $query_id = 0;
-    var $record = array();
-
-    var $errdesc = "";
-    var $reporterror = 1;
 	var $_connected = false;
-
+	var $g_queries_array = array();
     /**
      * Constructor
      */
     function DB($conn_string)
     {
-        $this -> conn_string = $conn_string;
+        $this -> _conn_string = $conn_string;
         $this -> _connect();
-    } 
+    }
 
     /**
      * Connect to the database
-     * 
-     * @access private 
+     *
+     * @access private
      */
     function _connect()
     {
-        if(0 == $this -> link_id) {
-            $this -> link_id = pg_pconnect($this -> conn_string);
-            if(pg_connection_status() == PGSQL_CONNECTION_BAD) {
-                $this -> halt("pgsql connection failed");
-            } 
+        if(0 == $this -> _link_id) {
+            $this -> _link_id = @pg_pconnect($this -> _conn_string);
+            if(pg_connection_status() == PGSQL_CONNECTION_BAD || $this -> _link_id == false) {
+                $this -> _error();
+				trigger_error("Connection to Database Failed",E_USER_ERROR);
+				return false;
+            }
 			$this->_connected = true;
-
             pg_query('SET STATEMENT_TIMEOUT=30000');
-        } 
-    } 
+
+			return true;
+        }
+    }
 
     /**
-     * Return last sybase error message.
-     * 
+     * Return last error message.
+     *
      * @return string returns the last message reported by the server
-     * @access public 
+     * @access public
      */
     function get_last_error()
     {
-        return pg_last_error($this -> link_id);
-    } 
+		if ($this -> _link_id) {
+	        return pg_last_error($this -> _link_id);
+		}
+		return false;
+    }
 
+	function _error( $p_query=null ) {
+		if ( null !== $p_query ) {
+			error_parameters( $this-> get_last_error(), $p_query );
+		} else {
+			error_parameters( $this -> get_last_error() );
+		}
+	}
     /**
      * Run Query
-     * 
+     *
      * @param string $query_string Databasename to use
      * @return int Query id
-     * @access public 
-     * @todo -c"DB" Implement DB.query failed query error handling
+     * @access public
      */
-    function query($query_string)
+    function query($p_query)
     {
-        if ($GLOBALS['debug'] >= DEBUG_SHOW_QUERY) {
-            ?>
-<!-- **** QUERY STRING ****
-<?=$query_string?>
--->
-<?
+        $this -> _query_id = @pg_query ($this -> _link_id, $p_query);
+        if(!$this -> _query_id) {
+			$this -> _error ($p_query);
+			array_push ( $this->g_queries_array, array($p_query,false) );
+          	trigger_error("DB Query Failed",E_USER_ERROR);
+			return false;
         }
+		array_push ( $this->g_queries_array, array($p_query,true) );
+        return $this -> _query_id;
+    }
 
-        $this -> query_id = pg_query (/*$this -> link_id,*/ $query_string);
-        if(!$this -> query_id) {
-           echo "<h2>A database error occured.</h2>";
-           // $this -> halt("Invalid SQL: " . $query_string);
-        } 
-        return $this -> query_id;
-    } 
 
-    // Function ....: fetch_array
-    // Description .: Will take a query and fetch it into an associative array
+    /* Fetch result as an array
+	*/
+    function fetch_array($query_id = null)
+    {
+        if($query_id != -1)
+            $this -> _query_id = $query_id;
 
-    function fetch_array($query_id = -1, $query_string = "")
-    { 
+        if(isset($this -> _query_id)) {
+            $record = pg_fetch_array($this -> _query_id);
+        } else {
+            trigger_error("Invalid Query ID");
+        }
+        return $record;
+    }
+
+	/* Fetch result as an object
+	*/
+    function fetch_object($query_id = -1)
+    {
         // retrieve row
         if($query_id != -1)
-            $this -> query_id = $query_id;
+            $this -> _query_id = $query_id;
 
-        if(isset($this -> query_id)) {
-            $this -> record = pg_fetch_array($this -> query_id);
+        if(isset($this -> _query_id)) {
+            $record = pg_fetch_object($this -> _query_id);
         } else {
-            if(!empty($query_string)) {
-                $this -> halt("Invalid query id (" . $this -> query_id . ") on this query: $query_string");
-            } else {
-                $this -> halt("Invalid query id " . $this -> query_id . " specified");
-            } 
-        } // end if
-        return $this -> record;
-    } 
-    // Function ....: fetch_object
-    function fetch_object($query_id = -1, $query_string = "")
-    { 
-        // retrieve row
-        if($query_id != -1)
-            $this -> query_id = $query_id;
+			trigger_error("Invalid Query ID");
+        }
+        return $record;
+    }
 
-        if(isset($this -> query_id)) {
-            $this -> record = pg_fetch_object($this -> query_id);
-        } else {
-            if(!empty($query_string)) {
-                $this -> halt("Invalid query id (" . $this -> query_id . ") on this query: $query_string");
-            } else {
-                $this -> halt("Invalid query id " . $this -> query_id . " specified");
-            } 
-        } // end if
-        return $this -> record;
-    } 
-
-    // //////////////////////
-    // Function: fetch_paged_result
+    /* fetch_paged_result
+	*/
     function fetch_paged_result($query_id, $start = -1, $limit = -1)
     {
       if($start > 1)
@@ -154,70 +144,60 @@ class DB {
     // Description .: returns the memory (although PHP should do this automagically)
     // //////////////////////
     function free_result($query_id = -1)
-    { 
+    {
         // retrieve row
         if($query_id != -1) {
-            $this -> query_id = $query_id;
-        } 
-        return @pg_free_result($this -> query_id);
-    } // end function free_result   
+            $this -> _query_id = $query_id;
+        }
+        return @pg_free_result($this -> _query_id);
+    }
+
     // //////////////////////
     // Function ....: query_first
     // Description .: Executes a query and returns an object.
     // Useful if you are expecting a single row to be returned so you don't have to loop
     // //////////////////////
     function query_first($query_string)
-    { 
+    {
         // does a query and returns first row
         $query_id = $this -> query($query_string);
         $returnobj = $this -> fetch_object($query_id, $query_string);
         $this -> free_result($query_id);
         return $returnobj;
-    } // end function query_first   
+    }
+
     // //////////////////////
     // Function ....: data_seek
     // Description .: If you want to move around, generally don't use
     // //////////////////////
     function data_seek($pos = 1, $query_id = -1)
-    { 
+    {
         // goes to row $pos
         if($query_id != -1) {
-            $this -> query_id = $query_id;
-        } 
-        return pg_result_seek ($this -> query_id, $pos);
-    } 
+            $this -> _query_id = $query_id;
+        }
+        return pg_result_seek ($this -> _query_id, $pos);
+    }
 
-    // Function ....: num_rows
-    // Description .: if you want the num rows returned
+
+    /* if you want the num rows returned
+	*/
     function num_rows($query_id = -1)
-    { 
+    {
         // returns number of rows in query
         if($query_id != -1) {
-            $this -> query_id = $query_id;
-        } 
-        return pg_num_rows($this -> query_id);
+            $this -> _query_id = $query_id;
+        }
+        return pg_num_rows($this -> _query_id);
     }
-	
-	// Function ....: close
-    // Description .: closes (although PHP should do this automagically)
+
+	/* close
+	*/
     function close()
     {
-        return pgsql_close($this -> link_id);
-    } 
+        return pgsql_close($this -> _link_id);
+    }
 
-    // Function ....: halt
-    // Description .: If the DB class encounters an error, pretty it up first and don't show them the SQL stuff
-    // and then mail a message saying what happened to you
-    function halt($msg)
-    {
-        $this -> errdesc = $this->get_last_error();
-
-        // prints warning message when there is an error
-        if($this -> reporterror == 1) {
-
-            exit;
-        } 
-    } 
-} 
+}
 
 ?>

@@ -1,24 +1,22 @@
-<?php 
-// $Id: participant.php,v 1.41 2004/01/03 03:32:22 fiddles Exp $
+<?php
+// $Id: participant.php,v 1.42 2004/03/06 12:29:43 paul Exp $
 
 include_once "participantstats.php";
 
-define('MAX_PASS_LEN',8);
-
 /**
  * This class represents a participant
- * 
+ *
  * This class represents a participant in the stats system.
  * Although PHP supports it, member variables should _not_
  * be accessed directly, please adhere to the published
  * public interface, as private methods and signatures
  * can change at any time.
- * 
- * 
+ *
+ *
  *   retire_date    | date                   |
  * contact_phone  | character varying(20)  | not null default ''
- * 
- * @access public 
+ *
+ * @access public
  */
 class Participant {
 
@@ -30,15 +28,14 @@ class Participant {
     var $_state;
     var $_friends;
     var $_authed = false;
-	
+
     /**
      * ** End Internal class variables **
      */
 
-	function get_team_id() 
+	function get_team_id()
 	{
-		// @todo return team user is with 
-            $sql = "SELECT team_id, last_date 
+            $sql = "SELECT team_id, last_date
                         FROM team_joins
                             WHERE id = " . $this->_state->id . "
                     ORDER BY join_date DESC LIMIT 1;";
@@ -71,47 +68,48 @@ class Participant {
  	function get_id()
     {
         return $this -> _state -> id;
-    } 
+    }
 
     /**
      * The Email for the current participant
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_email()
     {
         return $this -> _state -> email;
-    } 
+    }
     /**
      * ** NOTE: We may want to ensure validity here... **
      */
     function set_email($value)
     {
         $this -> _state -> email = stripslashes($value);
-    } 
+    }
 
     /**
      * The Password for the current participant
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_password()
     {
         return $this -> _state -> password;
-    } 
+    }
     function set_password($value)
     {
 		$this -> _state -> password = stripslashes($value);
-    } 
+    }
 
     function check_password($pass)
     {
         $pass = substr($pass,0,MAX_PASS_LEN);
-    	
+
 		if ($this->get_password() == "") {
     		//auth fail - no pass set -> mail pass to user
+				trigger_error("No Password Set for account");
                 return false;
   		}
 
@@ -125,13 +123,13 @@ class Participant {
     			//authfail("plocked",$test_from,$test_id,$test_pass);
   				return false;
   			}
-        	$this ->_authed = true; 
+        	$this ->_authed = true;
         	return true;
         } else {
         	//authfail("pbadpass",$test_from,$test_id,$test_pass);
         	return false;
         }
-    } 
+    }
 
     function is_authed()
     {
@@ -140,56 +138,70 @@ class Participant {
 
     /**
      * The listmode of this user
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int
      */
     function get_list_mode()
     {
         return $this -> _state -> listmode;
-    } 
+    }
     function set_list_mode($value)
     {
         $this -> _state -> listmode = (int)$value;
-    } 
+    }
 
     /**
      * Which non-profit did this participant vote for?
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int
      */
     function get_non_profit()
     {
         return $this -> _state -> nonprofit;
-    } 
+    }
     function set_non_profit($value)
     {
         $this -> _state -> nonprofit = (int)$value;
-    } 
+    }
 
 
     /**
      * Has this participant retired their record to another participant?
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int
      */
     function get_retire_to()
     {
         return $this -> _state -> retire_to;
-    } 
-    function set_retire_to($value)
+    }
+
+    function retire($value)
     {
-        $this -> _state -> retire_to = (int)$value;
-    } 
+		if (is_int($value) && $value > 0 && $this->is_authed() ) {
+			if ( $this -> _state -> id > 0 ) {
+	    		$res =$this -> _db -> query ("select p_pretire(".$this -> _state -> id.",$value)");
+        		if($res == FALSE) {
+					return false;
+           		} else {
+	        		return true;
+           		}
+        	} else {
+        		return false;
+        	}
+        } else {
+        	return false;
+        }
+    }
 
     /**
      * The friends of this participant (up to 6)
      * NOTE: This routine is "load-on-demand" so the friend data is not loaded until
      *       it is requested by the user interface.
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int[]
      */
     function get_friends($index = -1)
@@ -202,14 +214,14 @@ class Participant {
           return $this->_friends;
         else
           return $this -> _friends[$index];
-    } 
+    }
     function set_friends($value)
     {
       // This routine gets friend information in a comma-separated list
       //NOTE: At this time, setting this value replaces the array of friend
       //      objects with an array of friend ids
       $this->_friends = explode(",", $value);
-    } 
+    }
     function save_friends()
     {
         // If friends is not yet set, then don't try to save it
@@ -219,7 +231,7 @@ class Participant {
         if(is_object($this->_friends[0])) return "";
 
         // This routine saves current friend data to the database
-        $sql = "DELETE FROM stats_participant_friend 
+        $sql = "DELETE FROM stats_participant_friend
                     WHERE id = " . $this->_state->id . ";";
         //print $sql . "<br>";
         $res = $this->_db->query($sql);
@@ -234,7 +246,7 @@ class Participant {
                             VALUES (" . $this->_state->id . ", " . $friend . ")";
                 //print $sql . "<br>";
                 $res = $this->_db->query($sql);
-                if($res == FALSE) return false; 
+                if($res == FALSE) return false;
            }
         }
 
@@ -245,8 +257,8 @@ class Participant {
         $qs = "SELECT p.*, r.*, r.last_date - r.first_date + 1 AS days_working,
                         r.overall_rank_previous - r.overall_rank as overall_change,
                         r.day_rank_previous - r.day_rank as day_change
-                    FROM stats_participant_friend pf, email_rank r, stats_participant p 
-                WHERE pf.id = " . $this->get_id() . " 
+                    FROM stats_participant_friend pf, email_rank r, stats_participant p
+                WHERE pf.id = " . $this->get_id() . "
                   AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
 
                   AND pf.friend = r.id
@@ -274,8 +286,8 @@ class Participant {
      * The neighbors of this participant
      * NOTE: This routine is "load-on-demand" so the neighbor data is not loaded until
      *       it is requested by the user interface.
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int[]
      */
     var $_neighbors;
@@ -297,11 +309,11 @@ class Participant {
                       r.overall_rank_previous - r.overall_rank as overall_change,
                       r.day_rank_previous - r.day_rank as day_change
                  FROM email_rank r, stats_participant p
-                WHERE r.overall_rank >= ($baserank -3) 
+                WHERE r.overall_rank >= ($baserank -3)
                   AND r.overall_rank <= ($baserank +3)
                   AND p.listmode < 10 AND r.project_id = " . $this->_project->get_id() . "
 
-                  AND r.id = p.id 
+                  AND r.id = p.id
                 ORDER BY r.overall_rank ASC, r.work_total ASC";
 
         $queryData = $this->_db->query($qs);
@@ -324,127 +336,127 @@ class Participant {
 
     /**
      * Demographic: Year of birth
-     * 
-     * @access public 
+     *
+     * @access public
      * @type int
      */
     function get_dem_yob()
     {
         return $this -> _state -> dem_yob;
-    } 
+    }
     function set_dem_yob($value)
     {
         $this -> _state -> dem_yob = (int)$value;
-    } 
+    }
 
     /**
      * Demographic: How participant learned about distributed.net
-     * 
-     * @access public 
+     *
+     * @access public
      * @type smallint
      */
     function get_dem_heard()
     {
         return $this -> _state -> dem_heard;
-    } 
+    }
     function set_dem_heard($value)
     {
         $this -> _state -> dem_heard = (int)$value;
-    } 
+    }
 
     /**
      * Demographic: Gender of participant
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_dem_gender()
     {
         return $this -> _state -> dem_gender;
-    } 
+    }
     function set_dem_gender($value)
     {
         $this -> _state -> dem_gender = stripslashes($value);
-    } 
+    }
 
     /**
      * Demographic: Motivation for running distributed.net client
-     * 
-     * @access public 
+     *
+     * @access public
      * @type smallint
      */
     function get_dem_motivation()
     {
         return $this -> _state -> dem_motivation;
-    } 
+    }
     function set_dem_motivation($value)
     {
         $this -> _state -> dem_motivation = (int)$value;
-    } 
+    }
 
     /**
      * Demographic: Country of origin
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_dem_country()
     {
         return $this -> _state -> dem_country;
-    } 
+    }
     function set_dem_country($value)
     {
         $this -> _state -> dem_country = stripslashes($value);
-    } 
+    }
 
     /**
      * Contact name for the participant
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_contact_name()
     {
-        return $this -> _state -> contact_name; 
-    } 
+        return $this -> _state -> contact_name;
+    }
     function set_contact_name($value)
     {
         $this -> _state -> contact_name = stripslashes($value);
-    } 
+    }
 
     /**
      * Contact phone for the participant
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_contact_phone()
     {
         return $this -> _state -> contact_phone;
-    } 
+    }
     function set_contact_phone($value)
     {
         $this -> _state -> contact_phone = stripslashes($value);
-    } 
+    }
 
     /**
      * Participant motto
-     * 
-     * @access public 
+     *
+     * @access public
      * @type string
      */
     function get_motto()
     {
         return $this -> _state -> motto;
-    } 
+    }
     function set_motto($value)
     {
         $this -> _state -> motto = stripslashes($value);
-    } 
+    }
 
     /**
      * Date that this account was retired
-     * 
+     *
      * @access public (readonly)
      * @type datetime
      */
@@ -452,7 +464,7 @@ class Participant {
     function getRetireDate()
     {
         return $this > _retireDate;
-    } 
+    }
 
 
     function get_display_name()
@@ -468,14 +480,14 @@ class Participant {
                 $listas = $this -> get_contact_name();
         } else {
             $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
-        } 
+        }
         return $listas;
-    } 
+    }
     /**
      * Instantiates a new participant object, and loads it with the specified participant's information.
-     * 
-     * @access public 
-     * @return void 
+     *
+     * @access public
+     * @return void
      * @param DBClass $ The database connectivity to use
      *                                  ProjectClass The current project
      *                                  int The ID of the participant to load
@@ -500,50 +512,52 @@ class Participant {
             // Try to load by email
             $this->load_by_email(stripslashes($id));
         }
-    } 
+    }
+
 
     /**
      * Loads the requested participant object using the current database connection
-     * 
-     * @access public 
-     * @return bool 
+     *
+     * @access public
+     * @return bool
      * @param int $ The ID of the participant to load
      */
     function load($id)
     {
         $qs = "SELECT * FROM stats_participant WHERE id = $id AND listmode < 10";
         $this -> _state = $this -> _db -> query_first ($qs);
-    } 
+    }
 
     /**
      * Loads the requested participant object (by email address) using the current database connection
-     * 
-     * @access public 
-     * @return bool 
+     *
+     * @access public
+     * @return bool
      * @param string $ The email of the participant to load
      */
     function load_by_email($email)
     {
         $qs = "SELECT * FROM stats_participant WHERE lower(email) = lower('" . addslashes($email) . "') AND listmode < 10";
         $this -> _state = $this -> _db -> query_first ($qs);
-    } 
+    }
 
     /**
      * Saves the current user to the database
-     * 
+     *
      * This routine saves the current user to the database, as a secondary result
      * it also refreshes the internal data for the user based on any new information
      * that may have appeared in the database since the last load.
-     * 
-     * @access public 
-     * @return bool 
+     *
+     * @access public
+     * @return bool
      */
     function save()
     {
       // @todo - expand this to save more than the password
-      if(!$this->_authed)
-        return "You must be authorized to save participant data.\n";
-
+		if(!$this->_authed) {
+        	trigger_error("You must be authorized to save participant data.");
+			return false;
+	  	}
       $chkResult = $this->is_valid();
       if($chkResult != "")
         return $chkResult;
@@ -553,10 +567,9 @@ class Participant {
       if($res == FALSE)
         return "Error starting transaction for save.\n";
 
-      $sql = "UPDATE stats_participant 
+      $sql = "UPDATE stats_participant
                   SET password = '" . addslashes($this->_state->password) . "',
                       listmode = " . (int)$this->_state->listmode . ",
-                      nonprofit = " . (int)$this->_state->nonprofit . ",
                       dem_yob = " . (int)$this->_state->dem_yob . ",
                       dem_heard = " . (int)$this->_state->dem_heard . ",
                       dem_motivation = " . (int)$this->_state->dem_motivation . ",
@@ -578,16 +591,16 @@ class Participant {
         $chkResult = "Error retrieving updated participant record.\n";
       else
         $this->_state = $res;
-      
+
       // If the _friends var is not an array, we can't save it
       if(is_array($this->_friends))
       {
           if(!$this->save_friends())
             $chkResult = "Error Saving Friend Information.\n";
           else
-            $this->_friends = null; // reset the friends array, current is invalid 
+            $this->_friends = null; // reset the friends array, current is invalid
       }
-      
+
       if($chkResult != "")
       {
         $res = $this->_db->query("ROLLBACK;");
@@ -600,7 +613,7 @@ class Participant {
       }
 
       return $chkResult;
-    } 
+    }
     function is_valid()
     {
         // @todo - Expand this to verify the validity of all fields
@@ -630,58 +643,26 @@ class Participant {
 
     /**
      * Deletes the current user from the database
-     * 
+     *
      * This routine removes the current user from the database, the end result of this
      * routine is an empty participant object.
-     * 
-     * @access public 
-     * @return bool 
+     *
+     * @access public
+     * @return bool
      */
     function delete()
     {
-    } 
 
-    /**
-     * Retires this participant into another participant's account
-     * 
-     * This routine retires the current participant into the requested participant's
-     * account.  Passing 0 to this routine "un-retires" the participant.
-     * 
-     * @access public 
-     * @return bool 
-     * @param int $ The participant to retire this participant into
-     */
-    function retire($new_id)
-    {
-        // TODO: Unretire If $new_id = 0
-        $newid = (int) $new_id;
-        if ($new_id == 0) return false;
-        
-        if ($new_id == $this->get_retire_to()) return false;
-
-        if ($new_id == $this->get_id()) return false;
-
-        if ($this->get_retire_to() > 0) return false;
-
-        if (!$this->_authed) return false;
-
-        // We got this far... lets continue
-        $sql = "SELECT p_pretire(" . $this->get_id() . "," . $new_id . ", false);";
-        $res = $this->_db->query_first($sql);
-        if ($res == FALSE)
-            return false;
-        else
-            return true;
-    } 
+    }
 
     /**
      * Returns the current ParticipantStats object for this participant
-     * 
+     *
      * This routine is "load-on-demand", meaning that the data is retrieved from the DB
      * on first access, and then from a local variable thereafter.
-     * 
-     * @access public 
-     * @return ParticipantStats 
+     *
+     * @access public
+     * @return ParticipantStats
      */
          var $_stats;
          function &get_current_stats()
@@ -695,22 +676,22 @@ class Participant {
 
     /**
      * Returns the requested amount of historical stats information for this participant
-     * 
+     *
      * This routine retrieves the requested number of previous days of stats information
      * for this participant.  You specify the start date, and the number of previous days
      * to retrieve.
-     * 
-     * @access public 
+     *
+     * @access public
      * @return ParticipantStats []
      * @param date $ The date to start retrieval
      *                                  int The number of days prior to $start to retrieve data for
      */
     function getStatsHistory($start, $getDays)
     {
-    } 
+    }
 
     function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
-    { 
+    {
         // First, we need to determine which query to run...
         if ($source == 'y') {
             $rank_field = 'day_rank';
@@ -718,7 +699,7 @@ class Participant {
         } else {
             $rank_field = 'overall_rank';
             $work_field = 'work_total';
-        } 
+        }
         $qs = "SELECT r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date,
                         r.$work_field as blocks, last_date - first_date + 1 AS days_working,
                         r.$rank_field as rank, r." . $rank_field . "_previous - r.$rank_field as change,
@@ -733,6 +714,7 @@ class Participant {
         $total = $db->num_rows($queryData);
         $result =& $db->fetch_paged_result($queryData, 0, $limit);
         $cnt = count($result);
+
         for($i = 0; $i < $cnt; $i++) {
             $partTmp =& new Participant($db, $project, null);
             $statsTmp =& new ParticipantStats($db, $project);
@@ -741,9 +723,9 @@ class Participant {
             $retVal[] = $partTmp;
             unset($partTmp);
             unset($statsTmp);
-        } 
+        }
         return $retVal;
-    } 
+    }
 
         /***
          * Returns a list of participants
@@ -766,7 +748,7 @@ class Participant {
                          work_total, work_today,
                          last_date - first_date +1 AS days_working,
                          overall_rank_previous - overall_rank AS rank_change
-                    FROM email_rank r,stats_participant p 
+                    FROM email_rank r,stats_participant p
                    WHERE p.id = r.id
                      AND lower(email) like '%$sstr%'
                      AND listmode <= 10
@@ -779,7 +761,7 @@ class Participant {
            $queryData = $db->query($qs);
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 1, $limit);
-           $cnt = count($result); 
+           $cnt = count($result);
            for($i = 0; $i < $cnt; $i++)
            {
              $partTmp =& new Participant($db, $project);
@@ -823,7 +805,7 @@ class Participant {
            $qs = "SELECT p.*, tm.work_total, tm.work_today, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
                          to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
                          er.$rank_field as rank, (er.${rank_field}_previous - er.$rank_field) as rank_change
-                    FROM team_members tm, stats_participant p, email_rank er 
+                    FROM team_members tm, stats_participant p, email_rank er
                    WHERE tm.project_id = " . $project->get_id() . "
                      AND tm.team_id = " . $teamid . "
                      AND tm.$field > 0
@@ -853,14 +835,14 @@ class Participant {
 
     /**
      * Turns the current database-oriented object/array into an internal representation
-     * 
+     *
      * This routine provides for an easy way to turn database-oriented objects/arrays
      * into the generic internal representation that we're using, avoiding a database hit
      * in cases where you already have the participants information (i.e. when loading
      * friends/neighbors).  This is functionally similar to object deserialization.
-     * 
-     * @access protected 
-     * @return bool 
+     *
+     * @access protected
+     * @return bool
      * @param DBVariant $ This is the object/array from the database server which contains the data for the desired participant
      */
 
@@ -868,8 +850,8 @@ class Participant {
     {
         $this->_state =& $obj;
         $this->_stats =& $stats;
-    } 
-} 
+    }
+}
 
 // vi: expandtab sw=4 ts=4 tw=128
 ?>
