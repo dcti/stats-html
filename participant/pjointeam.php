@@ -1,9 +1,9 @@
 <?php
-  // $Id: pjointeam.php,v 1.4 2000/01/18 03:51:59 decibel Exp $
+  // $Id: pjointeam.php,v 1.5 2000/04/13 15:06:39 bwilson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
-  
+
   include "etc/config.inc";
   include "etc/project.inc";
   include "etc/psecure.inc";
@@ -47,8 +47,8 @@
   $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
   $result = sybase_query($qs);
 
-  $title = "$par->email has joined $teamname";
-  
+  $title = "$par->EMAIL has joined $teamname";
+
   include "templates/header.inc";
 
   print "<center>
@@ -56,7 +56,7 @@
 	  <table cellpadding=\"1\" cellspacing=\"1\" bgcolor=\"#dddddd\">
 	   <tr>
 	    <td>Email Address:</td>
-	    <td>$par->email</td>
+	    <td>$par->EMAIL</td>
 	   </tr>
 	   <tr>
 	    <td>Participant Number:</td>
