@@ -1,5 +1,5 @@
 <?
-// $Id: config.inc.default,v 1.7 2004/07/01 10:26:01 fiddles Exp $
+// $Id: config.inc.default,v 1.8 2004/07/16 20:12:49 decibel Exp $
 
 include "error.php";
 
@@ -20,33 +20,7 @@ define("DEBUG_PROFILE", DEBUG_TIME+1);
 define("DEBUG_TRACE", DEBUG_PROFILE+1);
 
 $debug = 0;
-if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
-    if (isset($_GET['debug'])) {
-        $debug = (int)$_REQUEST['debug'];
-    } 
-    if($debug >= DEBUG_TIME)
-    {
-      if(!file_exists(getenv('DOCUMENT_ROOT').'/xdebug.so'))
-      {
-        trigger_error("I can't find xdebug.so to enable debugging!");
-        $debug = 1;
-      }
-      else if(!dl('xdebug.so'))
-      {
-        echo "Unable to load dynamic library for debugging!\n";
-        $debug = 1;
-      }
-      else
-      {
-        if($debug >= DEBUG_TRACE) {
-          xdebug_start_trace();
-        }
-        xdebug_start_profiling();
-        include "timing.inc";
-        timer_start();
-      }
-    }
-} 
+include "debug.inc";
 
 
 ///////////////////////////
