@@ -1,187 +1,193 @@
 <?php
-  // $Id: pedit.php,v 1.15 2002/05/28 22:43:37 paul Exp $
-  //
-  // psecure.inc will obtain $id and $pass from the user.
-  // Input may come from the url, http headers, or a client cookie
+
+// $Id: pedit.php,v 1.16 2003/09/17 23:06:50 paul Exp $
+//
+// psecure.inc will obtain $id and $pass from the user.
+// Input may come from the url, http headers, or a client cookie
   
-  include "../etc/config.inc";
-  include "../etc/project.inc";
-  include "../etc/modules.inc";
-  include "../etc/psecure.inc";
+include "../etc/config.inc";
+include "../etc/project.inc";
+include "../etc/modules.inc";
+include "../etc/psecure.inc";
+
+$title = 'Participant Edit';  
+// @todo - nonprofit + global vars?
+$nonprofit = 0+$gpart->get_non_profit();
+
+$team = $gpart -> get_team_id();
+// get a team object or is that pointless for id/name?
+$teamname = "Not a team member";
+if( $team > 0 ) {
+	$teamname = "Invalid team";
+	// @TODO if valid team, set teamname to team name, and team info
+	//  $teaminfo = sybase_fetch_object($result);
+	//  $teamname = $teaminfo->name;
+}
+
+$qs = "select * from STATS_nonprofit order by nonprofit";
+$npresult =  $gdb->query($qs);
+$nonprofits = $gdb->num_rows($npresult);
   
-  # psecure.inc leaves us with $result containing * from STATS_Participant
-  # and $par being the fetched object.
-
-  $id = 0+$par->id;
-  $nonprofit = 0+$par->nonprofit;
-
-  $qs = "select team_id from Team_Joins where id=$id and last_date=null";
-  $result = sybase_query($qs);
-  $rows = sybase_num_rows($result);
-  if( $rows == 1 ) {
-    sybase_data_seek($result,0);
-    $RS_teamid = sybase_fetch_object($result);
-    $team = (int) $RS_teamid->team_id;
-  } else {
-    $team = 0;
-  }
-
-  $teamname = "Not a team member";
-  if( $team > 0 ) {
-    $teamname = "Invalid team";
-    $qs = "select * from stats.dbo.STATS_team where team = $team";
-    $result = sybase_query($qs);
-    $rows = sybase_num_rows($result);
-    if( $rows == 1 ) {
-      sybase_data_seek($result,0);
-      $teaminfo = sybase_fetch_object($result);
-      $teamname = $teaminfo->name;
-    }
-  }
-
-  $qs = "select * from stats.dbo.STATS_nonprofit order by nonprofit";
-  sybase_query("set rowcount 0");
-  $npresult = sybase_query($qs);
-  $nonprofits = sybase_num_rows($npresult);
-  
-  $npoptions = "<option value=\"0\">None Selected</option>";
-  for( $i = 0; $i < $nonprofits; $i++) {
-    sybase_data_seek($npresult,$i);
-    $npdata = sybase_fetch_object($npresult);
-    $npbuf = 0+$npdata->nonprofit;
-    if( $npbuf == $nonprofit) {
-      $selstring = "selected";
-    } else {
-      $selstring = "";
-    }
-    $npoptions = "$npoptions
+$npoptions = "<option value=\"0\">None Selected</option>";
+for( $i = 0; $i < $nonprofits; $i++) {
+	$gdb->data_seek($i,$npresult);
+	$npdata = $gdb->fetch_object($npresult);
+	$npbuf = 0+$npdata->nonprofit;
+	if( $npbuf == $nonprofit) {
+		$selstring = "selected";
+	} else {
+		$selstring = "";
+	}
+	$npoptions = "$npoptions
 	<option value=\"$npbuf\" $selstring>$npdata->name</option>";
-  }
+}
   
-  $qs = "select * from stats.dbo.STATS_country order by country";
-  $countryresult = sybase_query($qs);
-  $countries = sybase_num_rows($countryresult);
+$qs = "select * from STATS_country order by country";
+$countryresult = $gdb->query($qs);
+$countries = $gdb->num_rows($countryresult);
 
-  $countryoptions = "<option value=\"\">None Selected</option>";
-  for( $i = 0; $i < $countries; $i++) {
-    sybase_data_seek($countryresult,$i);
-    $country = sybase_fetch_object($countryresult);
-    if( $country->code == $par->dem_country ) {
-      $selstring = "selected";
-    } else {
-      $selstring = "";
-    }
-    $countryoptions = "$countryoptions
-       <option value=\"$country->code\" $selstring>$country->country</option>";
-  }
-  
-  if($par->listmode <= 2) {
-    switch ($par->listmode) {
-      case 0:
-        $sel_normal = "selected";
-        break;
-      case 1:
-        $sel_obscure = "selected";
-        break;
-      case 2:
-        $sel_realname = "selected";
-        break;
-    }
-    $lmlist = "
+$countryoptions = "<option value=\"\">None Selected</option>";
+for( $i = 0; $i < $countries; $i++) {
+	$gdb->data_seek($i,$countryresult);
+	$country = $gdb->fetch_object($countryresult);
+	if( $country->code == $gpart->get_dem_country() ) {
+		$selstring = "selected";
+	} else {
+		$selstring = "";
+	}
+	$countryoptions = "$countryoptions
+		<option value=\"$country->code\" $selstring>$country->country</option>";
+}
+
+$sel_normal = '';
+$sel_obscure = '';
+$sel_realname = '';
+
+$lmmore = '';
+if($gpart->get_list_mode() <= 2) {
+	switch ($gpart->get_list_mode()) {
+		case 0:
+			$sel_normal = 'selected';
+			break;
+		case 1:
+			$sel_obscure = 'selected';
+			break;
+		case 2:
+			$sel_realname = 'selected';
+			break;
+	}
+	$lmlist = "
           <select name=\"listas\">
-          <option value=\"0\" $sel_normal>List me as '$par->email'.</option>
+          <option value=\"0\" $sel_normal>List me as '".$gpart->get_email()."'.</option>
           <option value=\"1\" $sel_obscure>List me as 'Participant $id'.</option>
           <option value=\"2\" $sel_realname>List me using my real name.</option>
           </select>";
-  } else {
-    switch ($par->listmode) {
-      case 8:
-      case 18:
-        $lmlist = "This participant is a known hacker.";
-        break;
-      case 9:
-      case 19:
-        $lmlist = "This participant is a known spammer.";
-        break;
-      case 11:
-        $lmlist = "This participant is a team address.";
-        break;
-    }
-    if ($par->listmode >= 10) {
-      $lmmore = "This participant will not be ranked or listed.";
-    }
-  }
+} else { // @TODO any code about list_mode from here on should never get reached as psecure should block it...
+	switch ($gpart->get_list_mode()) {
+		case 8:
+		case 18:
+			$lmlist = 'This participant is a known hacker.';
+			break;
+		case 9:
+		case 19:
+			$lmlist = 'This participant is a known spammer.';
+			break;
+		case 11:
+			$lmlist = 'This participant is a team address.';
+			break;
+	}
+	if ($gpart->get_list_mode() >= 10) {
+		$lmmore = "This participant will not be ranked or listed.";
+	}
+}
 
-  switch ($par->dem_heard) {
-    case 0:
-      $hsel_dunno="selected";
-      break;
-    case 1:
-      $hsel_friend="selected";
-      break;
-    case 2:
-      $hsel_banner="selected";
-      break;
-    case 3:
-      $hsel_link="selected";
-      break;
-    case 4:
-      $hsel_sig="selected";
-      break;
-    case 5:
-      $hsel_press="selected";
-      break;
-    case 99:
-      $hsel_promo="selected";
-      break;
-  }
+$hsel_dunno = '';
+$hsel_friend = '';
+$hsel_banner = '';
+$hsel_link = '';
+$hsel_sig = '';
+$hsel_press = '';
+$hsel_promo = '';
 
-  switch ($par->dem_gender) {
-    case "M":
-      $gsel_male="selected";
-      break;
-    case "F":
-      $gsel_female="selected";
-      break;
-  }
+switch ($gpart->get_dem_heard()) {
+	case 0:
+		$hsel_dunno="selected";
+		break;
+	case 1:
+		$hsel_friend="selected";
+		break;
+	case 2:
+		$hsel_banner="selected";
+		break;
+	case 3:
+		$hsel_link="selected";
+		break;
+	case 4:
+		$hsel_sig="selected";
+		break;
+	case 5:
+		$hsel_press="selected";
+		break;
+	case 99:
+		$hsel_promo="selected";
+		break;
+}
 
-  switch ($par->dem_motivation) {
-    case 0:
-      $msel_dunno="selected";
-      break;
-    case 1:
-      $msel_cool="selected";
-      break;
-    case 2:
-      $msel_politic="selected";
-      break;
-    case 3:
-      $msel_cash="selected";
-      break;
-    case 4:
-      $msel_stats="selected";
-      break;
-    case 5:
-      $msel_cow="selected";
-      break;
-    case 6:
-      $msel_sex="selected";
-      break;
-  }
-  include "../templates/header.inc";
-  display_last_update();
+$gsel_male = '';
+$gsel_female = '';
+switch ($gpart->get_dem_gender()) {
+	case "M":
+		$gsel_male="selected";
+		break;
+	case "F":
+		$gsel_female="selected";
+		break;
+}
 
-  if ($debug == yes) print "  <form action=\"pedit_save.php?debug=yes\" method=\"post\">";
-	else print "  <form action=\"pedit_save.php\" method=\"post\">";
-  print "
+$msel_dunno='';
+$msel_cool='';
+$msel_politic='';
+$msel_cash='';
+$msel_cow='';
+$msel_sex='';
+$msel_stats='';
+
+switch ($gpart->get_dem_motivation()) {
+	case 0:
+		$msel_dunno="selected";
+		break;
+	case 1:
+		$msel_cool="selected";
+		break;
+	case 2:
+		$msel_politic="selected";
+		break;
+	case 3:
+		$msel_cash="selected";
+		break;
+	case 4:
+		$msel_stats="selected";
+		break;
+	case 5:
+		$msel_cow="selected";
+		break;
+	case 6:
+		$msel_sex="selected";
+		break;
+}
+
+include "../templates/header.inc";
+display_last_update();
+
+print "  <form action=\"pedit_save.php\" method=\"post\">
    <center>
     <h2>
-     Participant Configuration for $par->email
+     Participant Configuration for ". $gpart->get_email()."
     </h2>
    <table>
     <tr>
       <td>Participant:</td>
-      <td><strong>$par->email</strong></td>
+      <td><strong>". $gpart->get_email()."</strong></td>
      </tr>
      <tr>
       <td align=\"top\">Team:</td>
@@ -212,52 +218,54 @@
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
- "; include "../etc/markuplegend.inc"; print " 
+ "; 
+ include "../etc/markuplegend.inc";
+  print " 
     <tr>
       <td>Motto:</td>
       <td>
-       <textarea name=\"motto\" cols=\"50\" rows=\"5\">$par->motto</textarea>
+       <textarea name=\"motto\" cols=\"50\" rows=\"5\">".$gpart->get_motto()."</textarea>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
      <tr>
       <td>Friend #1:</td>
-      <td><input name=\"friend_a\" value=\"$par->friend_a\" size=\"7\"></td>
+      <td><input name=\"friend_a\" value=\"".$gpart->get_friends(0)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #2:</td>
-      <td><input name=\"friend_b\" value=\"$par->friend_b\" size=\"7\"></td>
+      <td><input name=\"friend_b\" value=\"".$gpart->get_friends(1)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #3:</td>
-      <td><input name=\"friend_c\" value=\"$par->friend_c\" size=\"7\"></td>
+      <td><input name=\"friend_c\" value=\"".$gpart->get_friends(2)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #4:</td>
-      <td><input name=\"friend_d\" value=\"$par->friend_d\" size=\"7\"></td>
+      <td><input name=\"friend_d\" value=\"".$gpart->get_friends(3)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td>Friend #5:</td>
-      <td><input name=\"friend_e\" value=\"$par->friend_e\" size=\"7\"></td>
+      <td><input name=\"friend_e\" value=\"".$gpart->get_friends(4)."\" size=\"7\"></td>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
      <tr>
       <td>Real Name:</td>
-      <td><input name=\"contact_name\" value=\"$par->contact_name\" size=\"30\"></td>
+      <td><input name=\"contact_name\" value=\"".$gpart->get_contact_name()."\" size=\"30\"></td>
      </tr>
      <tr>
       <td>Phone Number:</td>
-      <td><input name=\"contact_phone\" value=\"$par->contact_phone\" size=\"20\"></td>
+      <td><input name=\"contact_phone\" value=\"".$gpart->get_contact_phone()."\" size=\"20\"></td>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
      <tr>
       <td>Year you were born:</td>
-      <td><input name=\"dem_yob\" value=\"$par->dem_yob\" size=\"4\"></td>
+      <td><input name=\"dem_yob\" value=\"".$gpart->get_dem_yob()."\" size=\"4\"></td>
      </tr>
      <tr>
       <td>Gender:</td>
