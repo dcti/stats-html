@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.18 2003/09/17 21:39:40 paul Exp $
+  // $Id: psecure.inc,v 1.19 2003/09/23 21:50:59 paul Exp $
 
 include_once "participant.php";
 
@@ -40,10 +40,10 @@ if(isset($id) && isset($pass) && $pass != "") {
    	$test_pass = $pass;
    	$test_from = "url";
 } else {
-    if(isset($sbid)) {
+    if(isset($_COOKIE['sbid'])) {
    		# We have a cookie set, use this
-		$test_id = $sbid;
-    	$test_pass = $sbpass;
+		$test_id = $_COOKIE['sbid'];
+    	$test_pass = $_COOKIE['sbpass'];
     	$test_from = "cookie";
     } else {
    		# No choice but to ask...
