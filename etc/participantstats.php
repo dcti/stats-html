@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.14 2004/07/08 08:17:50 fiddles Exp $
+// $Id: participantstats.php,v 1.15 2005/04/01 16:03:54 decibel Exp $
 
 /**
  * This class represents a participant stats entry
@@ -67,7 +67,12 @@ class ParticipantStats {
     function load($id, &$project, $date)
     {
         $qs  = "SELECT day_rank, overall_rank, last_date + 1 - first_date as Days_Working,";
-        $qs .= "                work_today, work_total, overall_rank_previous-overall_rank as Overall_Change,";
+        if $randdom_stats = 1 {
+            $qs .= "                work_today*(0.5+random()*2), work_total*(0.5+random()*2),";
+        } else {
+            $qs .= "                work_today, work_total,";
+        }
+        $qs .= "                overall_rank_previous-overall_rank as Overall_Change,";
         $qs .= "                day_rank_previous-day_rank as Day_Change ";
         $qs .= "        FROM Email_Rank ";
         $qs .= "        WHERE id = " . $this->_db->prepare_int($id);
@@ -98,7 +103,11 @@ class ParticipantStats {
     function get_stats_history($lastdays = -1)
     {
         $qs  = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,";
-        $qs .= "              SUM(work_units) as work_units";
+        if $random_stats = 1 {
+            $qs .= "              SUM(work_units)*(0.5+random()*2) as work_units";
+        } else {
+            $qs .= "              SUM(work_units) as work_units";
+        }
         $qs .= "       FROM email_contrib ec, stats_participant sp";
         $qs .= "       WHERE ec.project_id=" . $this->_db->prepare_int($this->_project->get_id());
         $qs .= "         AND (sp.id=".$this->_id." or sp.retire_to=" . $this->_db->prepare_int($this->_id).")";
