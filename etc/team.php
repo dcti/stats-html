@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.14 2003/10/24 16:27:59 thejet Exp $
+// $Id: team.php,v 1.15 2003/10/27 21:27:34 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -264,7 +264,7 @@ class Team
            // Setup the return value
            $retVal = "";
 
-           if($this->_authed != true)
+           if($this->_authed != true && $this->get_id() > 0)
            {
              $retVal = "You must be authenticated to edit team information.";
              return $retVal;
