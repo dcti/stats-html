@@ -52,7 +52,7 @@
         <a href="/misc/platformlist.php?project_id=<?=$project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
         <a href="/misc/countries.php?project_id=<?=$project_id?>">Participating Countries</a><br>
         <?
-        if ( $proj_prize <> 0 ) {
+        if ( $gproj->getprize() <> 0 ) {
           ?>
           <a href="/misc/money.php?project_id=<?=$project_id?>">Distribution of Prize Money</a><br>
           <?
