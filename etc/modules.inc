@@ -1,9 +1,10 @@
 <?php 
-// vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.25 2004/04/21 19:20:19 paul Exp $
+// vi: ts=4 sw=4 tw=120 syntax=php
+// $Id: modules.inc,v 1.26 2004/04/29 20:28:40 paul Exp $
+
 function plural($num)
 {
-    if (abs($num) > 1 or $num == 0) {
+	if (abs($num) > 1 or $num == 0) {
         return 's';
     } else {
         return '';
