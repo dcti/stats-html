@@ -20,7 +20,7 @@ $scale_text              = "millions";
 
 
 // ************ Setup the CGI data
-$project = (int)$_GET["project"];
+$project = (int)$_GET["project_id"];
 
 // ************ Connect to the database
 $db = new DB($dbDSN);
@@ -109,9 +109,9 @@ $graph->Add($p3);
 
 // Add the %-complete graph
 $p4 = new LinePlot($xData4);
-$p4->SetColor("purple");
+$p4->SetColor("#770077");
 $p4->SetLegend("%-complete");
-#$p4->SetWeight(3);
+#$p4->SetWeight(1.25);
 $graph->AddY2($p4);
 
 // Finally output the  image
