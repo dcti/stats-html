@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.27 2003/05/09 12:24:39 thejet Exp $
+// $Id: tmsummary.php,v 1.28 2003/05/27 18:38:29 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -37,7 +37,7 @@ $stats = $team->get_current_stats();
 $neighbors = $team->get_neighbors();
 
 if (private_markupurl_safety($team->get_logo()) != "") {
-  $logo = "<img src=\"$team->get_logo()\" alt=\"team logo\">";
+  $logo = "<img src=\"".$team->get_logo()."\" alt=\"team logo\">";
 } else {
   $logo = "";
 }
@@ -208,7 +208,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         <br>
         Password:
         <input name="pass" size="8" maxlength="8" type="password">
-        <input name="team" type="hidden" value="<?=$team?>">
+        <input name="team" type="hidden" value="<?=$team->get_id()?>">
         <input value="Edit" type="submit">
       </p>
     </form>
