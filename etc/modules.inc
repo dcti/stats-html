@@ -1,5 +1,5 @@
 <?php
-  // $Id: modules.inc,v 1.8 2000/06/01 20:34:12 decibel Exp $
+  // $Id: modules.inc,v 1.9 2002/01/02 11:47:23 decibel Exp $
 
   function row_background_color($rownum, $color_a = "", $color_b = "") {
 	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
@@ -104,7 +104,7 @@
   }
 
   function send_mail($to_address, $from_address, $subject, $message) {
-    $path_to_sendmail = "/usr/lib/sendmail";
+    $path_to_sendmail = "/usr/sbin/sendmail";
     $fp = popen("$path_to_sendmail -t -f $from_address", "w");
     $num = fputs($fp, "To: $to_address\n");
     $num += fputs($fp, "From: $from_address\n");
