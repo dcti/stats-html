@@ -15,5 +15,11 @@
 	   a bug in the stats server, about 900 participants were assigned 
 	   ID numbers that were way too high.  Please search for your email
 	   and see what your new ID number is.</p>
+	<p>Also, if previous to 3-Feb-2000 your password was all a's,
+	   we've told the stats server to generate a new password for you.
+	   If this is the first time you've seen this error, your password
+	   should be on it's way to you.  As usual, feel free to contact
+	   help@distributed.net if you have any further questions
+	   regarding this change.</p>
 	</td></tr></table>";
 ?>
