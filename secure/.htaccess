@@ -1,0 +1,5 @@
+AuthUserFile /htdocs/secure/.htpasswd
+AuthGroupFile /htdocs/secure/.htgroup
+Require group statsadmin
+AuthType basic
+AuthName "distributed.net Secure Stats access"
