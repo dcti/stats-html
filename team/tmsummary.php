@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.34 2003/09/05 20:16:23 thejet Exp $
+// $Id: tmsummary.php,v 1.35 2003/10/03 17:05:06 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -37,17 +37,13 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 ?>
 <div style="text-align:center;">
 <h1 class="phead"><?= safe_display($team->get_name()) ?></h1>
-  <table width="100%">
+  <table align="center">
     <tr>
-      <td align="center"><?= $logo ?></td>
-      <td align="center"><?= markup_to_html($team->get_description()) ?></td>
-    </tr>
-    <tr>
-      <td colspan="2" align="center">
-        Contact: <?= safe_display($team->get_contact_email()) ?>
-      </td>
+      <td><?= $logo ?></td>
+      <td><?= markup_to_html($team->get_description()) ?></td>
     </tr>
   </table>
+  Contact: <?= safe_display($team->get_contact_email()) ?>
   <br>
   <br>
   <table cellspacing="4" style="margin: auto;">
