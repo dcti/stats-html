@@ -1,6 +1,4 @@
-$Id: to-do-generic.txt,v 1.3 2002/05/14 22:18:32 paul Exp $
-
-Add index on project_id, date to email_rank, team_rank for lastupdate's usage
+$Id: to-do-generic.txt,v 1.4 2002/06/03 13:17:58 paul Exp $
 
 add rate (units/hour or units/day)
 
@@ -10,11 +8,8 @@ add support for rc5-64 progress meter / % done, which isn't included for ogr pag
 
 reorganise include files (e.g. project.inc) now that stats-html + generic have been merged. 
 
-924: update php on blower at some point to fix stripslashes bug (i.e. stripslashes(addslashes("''")) = empty string). And also build with gd support. 
 
 1710: fix pretire.php for p_pretire and missing variables in text
-
-1745: add state/session support for password requests
 
 add 30day history script.
 
