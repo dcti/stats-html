@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.30 2003/09/01 21:01:44 paul Exp $
+// $Id: tmember.php,v 1.31 2003/09/01 22:16:57 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -60,7 +60,7 @@ if ($team->get_show_members() == "NO") {
 }
 
 if ($team->get_show_members() == "PAS") {
-  if ($pass != $info->get_show_password() ) {
+  if ($pass != $team->get_show_password() ) {
 
     include "../templates/header.inc";
     if ($pass == "") {
