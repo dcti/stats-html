@@ -71,23 +71,22 @@ if ( $rows >= $limit ) {
 }
 
 ?>
-<center>
-  <br>
-  <table border="1" cellspacing="0" >
+  <div><br></div>
+  <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">
     <tr>
-       <td><?=$btn_back?></td>
-       <td colspan="6">&nbsp;</td>
-       <td align="right"><?=$btn_fwd?></td>
+       <td class="thead"><?=$btn_back?></td>
+       <td colspan="6" class="thead">&nbsp;</td>
+       <td align="right" class="thead"><?=$btn_fwd?></td>
     </tr>
     <tr>
-      <th>Rank</th>
-      <th>Team</th>
-      <th align="right">First Unit</th>
-      <th align="right">Last Unit</th>
-      <th align="right">Days</th>
-      <th align="right">Current Members</th>
-      <th align="right"><?=$proj_scaled_unit_name?> Overall</th>
-      <th align="right"><?=$proj_scaled_unit_name?> Yesterday</th>
+      <td align="center" class="thead">Rank</td>
+      <td align="center" class="thead">Team</td>
+      <td align="center" class="thead">First Unit</td>
+      <td align="center" class="thead">Last Unit</td>
+      <td align="right" class="thead">Days</td>
+      <td align="right" class="thead">Current Members</td>
+      <td align="right" class="thead"><?=$proj_scaled_unit_name?> Overall</td>
+      <td align="right" class="thead"><?=$proj_scaled_unit_name?> Yesterday</td>
     </tr>
     <?
     $totalblocks=0;
@@ -121,16 +120,15 @@ if ( $rows >= $limit ) {
     }
     ?>
     <tr>
-      <td><? echo "$lo-$hi"?></td>
-      <td align="right" colspan="5">Total</td>
-      <td align="right"><?=number_format($totalblocks)?></td>
-      <td align="right"><?=number_format($totalblocksy)?></td>
+      <td class="tfoot"><? echo "$lo-$hi"?></td>
+      <td align="right" colspan="5" class="tfoot">Total</td>
+      <td align="right" class="tfoot"><?=number_format($totalblocks)?></td>
+      <td align="right" class="tfoot"><?=number_format($totalblocksy)?></td>
     </tr>
-      <tr>
-      <td><?=$btn_back?></td>
-      <td colspan="6">&nbsp;</td>
-      <td align="right"><?=$btn_fwd?></td>
+    <tr>
+      <td class="tfoot"><?=$btn_back?></td>
+      <td colspan="6" class="tfoot">&nbsp;</td>
+      <td align="right" class="tfoot"><?=$btn_fwd?></td>
     </tr>
   </table>
-</center>
 <? include "../templates/footer.inc";?>

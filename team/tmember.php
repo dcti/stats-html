@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.24 2003/03/12 21:37:22 thejet Exp $
+// $Id: tmember.php,v 1.25 2003/03/21 22:17:30 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -185,31 +185,29 @@ print "
 <table border=\"0\"><tr>
   <td align=left>Total Members:</td>
   <td align=right>$rows</td>
-  </tr></table><p>";
+  </tr></table>";
 
   // Provide a link back to tmsummary.php
-  print "<center>Return to the <a href=\"tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</center>";
+  print "<p style=\"text-align:center\">Return to the <a href=\"tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</p>";
 
   // Start the table
   ?>
-  </p>
-  <center>
-      <table border="1" cellspacing="0">
+      <table border="1" cellspacing="0" width="100%">
         <tr>
-          <th>Team Rank</th>
-          <th>Participant</th>
-          <th>Project Rank</th>
-          <th>First</th>
-          <th>Last</th>
-          <th>Yesterday</th>
+          <th class="thead">Team Rank</th>
+          <th class="thead">Participant</th>
+          <th class="thead">Project Rank</th>
+          <th class="thead">First</th>
+          <th class="thead">Last</th>
+          <th class="thead">Yesterday</th>
           <?
           if ($totblocks) { ?>
-            <th>%</th>
+            <th class="thead">%</th>
           <? } ?>
-          <th>Total</th>
+          <th class="thead">Total</th>
           <?
           if ($totblocks) { ?>
-            <th>%</th>
+            <th class="thead">%</th>
           <? } ?>
         </tr>
 
@@ -262,7 +260,6 @@ print "
         ?>
 
     </table>
-  </center>
   <!-- Navigation Buttons here -->
   <table border="0" width="100%">
     <tr>
@@ -317,7 +314,7 @@ print "
   // Provide a link back to tmsummary.php
   if ($rows > 25) {
     ?>
-    <center>Return to the <a href="tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</center>
+    <p style="text-align:center">Return to the <a href="tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</p>
   <?
 }
 

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.23 2003/03/12 21:37:22 thejet Exp $
+// $Id: tmsummary.php,v 1.24 2003/03/21 22:17:30 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -68,11 +68,11 @@ if (private_markupurl_safety($par->logo) != "") {
   $logo = "";
 }
 ?>
-<h1 class="phead"><center><?= safe_display($par->name) ?></center></h1>
-<center>
-  <table>
+<div style="text-align:center;">
+<h1 class="phead"><?= safe_display($par->name) ?></h1>
+  <table width="100%">
     <tr>
-      <td><?= $logo ?></td>
+      <td align="center"><?= $logo ?></td>
       <td align="center"><?= markup_to_html($par->description) ?></td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@ if (private_markupurl_safety($par->logo) != "") {
   </table>
   <br>
   <br>
-  <table cellspacing="4">
+  <table cellspacing="4" style="margin: auto;">
     <tr>
       <td></td>
       <td align="center" class="phead2">Overall</td>
@@ -164,7 +164,7 @@ if (private_markupurl_safety($par->logo) != "") {
     find the key before anyone else does. 
   <? } ?>
   <br>
-  <p>
+  <p style="text-align: center">
     This team has had <?= number_style_convert($par->MEMBERS_OVERALL) ?> participants contribute blocks.
     Of those, <?= number_style_convert($par->MEMBERS_CURRENT) ?> are still on this team,
     and <?= number_style_convert($par->MEMBERS_TODAY) ?> submitted work today.
@@ -173,13 +173,13 @@ if (private_markupurl_safety($par->logo) != "") {
   //Some buttons to view team history will go here
   if ($par->showmembers=="NO") {
     ?>	
-    <center><p>This team wishes to keep its membership private.<p></center>
+    <p style="text-align:center">This team wishes to keep its membership private.<p></center>
   <? } else {  
     if ($par->WORK_TODAY == 0) {
-      print "<center><p>Click here to view this team's 
+      print "<p style=\"text-align:center\">Click here to view this team's 
       <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a> participant stats";
     } else {
-      print "<center><p>Click here to view this team's participant stats for
+      print "<p style=\"text-align: center;\">Click here to view this team's participant stats for
       <a href=\"tmember.php?project_id=$project_id&amp;team=$tm&amp;source=y\">yesterday</a> or
       <a href=\"tmember.php?project_id=$project_id&amp;team=$tm\">overall</a>";
     }
@@ -188,13 +188,12 @@ if (private_markupurl_safety($par->logo) != "") {
       print " (Password required)";
     }
 
-    print ".</p></center>";
+    print ".</p>";
   }
 
   //A list of teams goes here
   ?> 
-	<center>
-    <table border="1" cellspacing="0">
+    <table border="1" cellspacing="0" style="margin: auto;">
       <tr>
         <th class="thead">Rank</th>
         <th class="thead">Team</th>
@@ -245,6 +244,6 @@ if (private_markupurl_safety($par->logo) != "") {
     <input type="submit" value="here"> and the password will be mailed to
     <?=$par->contactemail?>.
     </p></form>
-  </center>
+  </div>
 
 <? include "../templates/footer.inc"; ?>
