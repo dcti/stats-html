@@ -1,6 +1,5 @@
 <?php
 include "security.inc";
-
 include "../etc/config.inc";
 include "../etc/project.inc";
 
@@ -23,11 +22,12 @@ include "../etc/project.inc";
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
+  $title = "Participant configuration for $par->email (#$id)";
   include "../templates/header.inc";
 
-  $id = 0+$par->id;
-  $team = 0+$par->team;
-  $retire_to = 0+$par->retire_to;
+  $id = (int) $par->id;
+  $team = (int) $par->team;
+  $retire_to = (int) $par->retire_to;
 
   $teamname = "Not a team member";
   if( $team > 0 ) {
@@ -141,17 +141,21 @@ include "../etc/project.inc";
   print "
   <form action=\"pedit_save.php3\" method=\"post\">
    <center>
-    <h2>
-     Participant Configuration for $par->email
-    </h2>
+    <h2>$title</h2>
     <table>
      <tr>
       <td>Participant:</td>
-      <td><strong>$par->email</strong></td>
+      <td>
+       <strong>$par->email</strong> ($id)
+       <a href=\"/rc5-64/psummary.php3?id=$id\">[RC5-64]</a>
+      </td>
      </tr>
      <tr>
       <td>Team:</td>
-      <td>$team: $teamname</td>
+      <td>
+       $team: $teamname
+       <a href=\"/rc5-64/tmsummary.php3?team=$team\">[RC5-64]</a>
+      </td>
      </tr>
      <tr>
       <td>List Mode:</td>
