@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam3.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
+ // $Id: newteam3.php,v 1.6 2002/04/09 23:20:46 jlawson Exp $
 
  $title = "New Team Creation - Information";
 
@@ -31,7 +31,7 @@
     </tr>
    </table>
    <h2>Team Information</h2>
-   <form action="newteam4.php3" method="get">
+   <form action="newteam4.php" method="get">
     <table border="0">
      <tr>
       <td>Full Team Name:</td>

@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
+  // $Id: tmedit.php,v 1.6 2002/04/09 23:20:46 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -76,7 +76,7 @@
   include "../templates/header.inc";
 
   print "
-  <form action=\"tmedit_save.php3\" method=\"post\">
+  <form action=\"tmedit_save.php\" method=\"post\">
    <center>
     <h2>
      Team Configuration for Team #$team

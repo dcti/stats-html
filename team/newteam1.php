@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam1.php,v 1.5 2002/04/09 22:48:58 jlawson Exp $
+ // $Id: newteam1.php,v 1.6 2002/04/09 23:20:46 jlawson Exp $
  //
  // Team creation, step 1.  This will soon be modified to have a
  // psecure wrapper to only allow team creation to be performed
@@ -51,7 +51,7 @@
     </tr>
    </table>
    <p>
-    <a href="newteam2.php3">OK, OK, I still think that I'm doing the right thing</a>
+    <a href="newteam2.php">OK, OK, I still think that I'm doing the right thing</a>
    </p>
   </center>
  </body>

@@ -1,14 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.12 2002/04/09 22:54:19 jlawson Exp $
+  // $Id: ppass.php,v 1.13 2002/04/09 23:18:49 jlawson Exp $
 
   // Variables Passed in url:
   //  id == email id
 
   $title = "Password request: individual email [$id]";
   
-  $myname = "ppass.php3";
+  $myname = "ppass.php";
 
   include "../etc/config.inc";
   include "../etc/modules.inc";
@@ -77,13 +77,13 @@ no reason to be alarmed, they cannot get to your password this way.
 
 You may edit your personal information by visiting:
 
- http://stats.distributed.net/pedit.php3?id=$id&pass=$pass
+ http://stats.distributed.net/participant/pedit.php?id=$id&pass=$pass
 
 If you'd prefer to not have your id/password revealed in the http logs
 (this is a concern if you use a proxy), you can simply use the
 url:
 
- http://stats.distributed.net/pedit.php3
+ http://stats.distributed.net/participant/pedit.php
 
 You will be prompted for your email address and password.  Note, you
 should not use your ID # but your email address when using this
@@ -91,7 +91,7 @@ method of authentication.
 
 To see your RC5-64 stats, visit:
 
- http://stats.distributed.net/rc5-64/psummary.php3?id=$id
+ http://stats.distributed.net/participant/psummary.php?project_id=6&id=$id
 
 Do not reply to this email.  Replies to this email will never be seen
 by a real, live person.  If you need further assistance, please mail

@@ -1,7 +1,7 @@
 <?php
-  // $Id: pretire.php,v 1.16 2002/04/09 22:54:19 jlawson Exp $
+  // $Id: pretire.php,v 1.17 2002/04/09 23:18:49 jlawson Exp $
 
-  // Parameters passed to pretire.php3
+  // Parameters passed to pretire.php
   // id = id to be retired
   // pass = password of id to be retired
   //
@@ -45,7 +45,7 @@
 	  <p>
 	   Please enter your new email address below:
 	   <br>
-	   <form action=\"pretire.php3\" method=\"post\">
+	   <form action=\"pretire.php\" method=\"post\">
 	    <input type=\"text\" name=\"ems\" size=\"64\" maxlength=\"64\">
 	    <input type=\"hidden\" name=\"id\" value=\"$id\">
 	    <input type=\"hidden\" name=\"pass\" value=\"$pass\">
@@ -87,7 +87,7 @@
         $tmpid = 0+$par->id;
         print "
 	   <tr><td align=\"right\">$tmpid</td>
-	       <td><a href=\"pretire.php3?id=$id&pass=$pass&destid=$tmpid\">$par->EMAIL</a></td>
+	       <td><a href=\"pretire.php?id=$id&pass=$pass&destid=$tmpid\">$par->EMAIL</a></td>
 	   </tr>";
       }
       print "</table>";

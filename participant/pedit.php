@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.13 2002/04/09 22:54:19 jlawson Exp $
+  // $Id: pedit.php,v 1.14 2002/04/09 23:18:49 jlawson Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -171,8 +171,8 @@
  
   include "../templates/header.inc";
 
-  if ($debug == yes) print "  <form action=\"pedit_save.php3?debug=yes\" method=\"post\">";
-	else print "  <form action=\"pedit_save.php3\" method=\"post\">";
+  if ($debug == yes) print "  <form action=\"pedit_save.php?debug=yes\" method=\"post\">";
+	else print "  <form action=\"pedit_save.php\" method=\"post\">";
   print "
    <center>
     <h2>
@@ -194,7 +194,7 @@
         <i>To join a team, have your email address and password handy<br>
            and visit that team's stats summary page.</i>
         <p>
-        If you do not wish to be on a team, click <a href=\"pjointeam.php3?team=0\">here</a>.
+        If you do not wish to be on a team, click <a href=\"pjointeam.php?team=0\">here</a>.
        </font>
       </td>
      </tr>
@@ -325,7 +325,7 @@
      Before you can do this, you should update all of your clients to your new email address and wait
      for that new address to appear in the stats database.
      <br>
-     Once you've done that, you may then <a href=\"pretire.php3?id=$id&pass=$test_pass\">retire this email address permanently</a>.
+     Once you've done that, you may then <a href=\"pretire.php?id=$id&pass=$test_pass\">retire this email address permanently</a>.
     </p>
     <hr>
     <h2>

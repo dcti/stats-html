@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: newteam4.php,v 1.6 2002/04/09 22:57:11 jlawson Exp $
+  // $Id: newteam4.php,v 1.7 2002/04/09 23:20:46 jlawson Exp $
   
   include "../etc/config.inc";
   include "../etc/project.inc";
@@ -80,7 +80,7 @@
 	   <p>
 	    You may edit your team information by using this link:
 	    <br>
-	    <a href=\"tmedit.php3?team=$teamnum&pass=$pass\">http://stats.distributed.net/tmedit.php3?team=$teamnum&pass=$pass</a>
+	    <a href=\"tmedit.php?team=$teamnum&pass=$pass\">http://stats.distributed.net/tmedit.php?team=$teamnum&pass=$pass</a>
 	   </p>
 	   <p>
 	    You should also join your team by using this link:
@@ -88,7 +88,7 @@
 	    This link will require you to know your email address and your
 	    participant password.
 	    <br>
-	    <a href=\"/participant/pjointeam.php3?team=$teamnum\">http://stats.distributed.net/pjointeam.php3?team=$teamnum</a>
+	    <a href=\"/participant/pjointeam.php?team=$teamnum\">http://stats.distributed.net/pjointeam.php?team=$teamnum</a>
 	   </p>
 	  </center>
 	 </body>";

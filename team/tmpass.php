@@ -1,14 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.8 2002/04/09 22:48:58 jlawson Exp $
+  // $Id: tmpass.php,v 1.9 2002/04/09 23:20:46 jlawson Exp $
 
   // Variables Passed in url:
   //  team = team id
 
   $title = "Password request: Team $team";
   
-  $myname = "ppass.php3";
+  $myname = "ppass.php";
 
   include "../etc/config.inc";
   include "../etc/modules.inc";
@@ -58,19 +58,19 @@ password this way.
 
 You may edit your team information by visiting:
 
- http://stats.distributed.net/tmedit.php3?team=$team&pass=$pass
+ http://stats.distributed.net/team/tmedit.php?team=$team&pass=$pass
 
 If you'd prefer to not have your id/password revealed in the http logs
 (this is a concern if you use a proxy), you can simply use the
 url:
 
- http://stats.distributed.net/tmedit.php3
+ http://stats.distributed.net/team/tmedit.php
 
 You will be prompted for your team's ID # and password. 
 
 To see your RC5-64 stats, visit:
 
- http://stats.distributed.net/rc5-64/tmsummary.php3?team=$team
+ http://stats.distributed.net/team/tmsummary.php?project_id=6&team=$team
 
 Do not reply to this email.  Replies to this email will never be seen
 by a real, live person.  If you need further assistance, please mail

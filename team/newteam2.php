@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam2.php,v 1.6 2002/04/09 22:57:11 jlawson Exp $
+ // $Id: newteam2.php,v 1.7 2002/04/09 23:20:46 jlawson Exp $
 
  $title = "New Team Creation - Information";
 
@@ -50,7 +50,7 @@
     </tr>
    </table>
    <p>
-    <a href="newteam3.php3">OK, Already!  I've been waiting <i>months</i>.  Let's get on with it!</a>
+    <a href="newteam3.php">OK, Already!  I've been waiting <i>months</i>.  Let's get on with it!</a>
    </p>
   </center>
  </body>
