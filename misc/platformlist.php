@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.9 2002/06/04 05:25:49 decibel Exp $
+# $Id: platformlist.php,v 1.10 2002/06/04 22:23:31 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -131,15 +131,14 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
        <th align="right">Total <?=$proj_unitname?></th>
       </tr>
 <?
- if($show_yesterday) print "<th>Yesterday</th>";
- if($show_total) print "<th>Total</th>";
-
+ if($show_yesterday){ print "<th>Yesterday</th>";}
+ if($show_total) { print "<th>Total</th>";}
  $total_yesterday = 0;
  $total_overall = 0;
  for ($i = 0; $i<$rows; $i++) {
 
 ?>
-<tr class="<?=row_background_color($i)?>">
+<tr class="<? echo row_background_color($i)?>">
 <?
  sybase_data_seek($result,$i);
  $par = sybase_fetch_object($result);
@@ -176,15 +175,15 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    $padding = (int) $cols - 1;
    print "
    <tr bgcolor=$footer_bg>
-    <td align="right" colspan=\"$padding\"><font $footer_font>Total</font></td>";
+    <td align=\"right\" colspan=\"$padding\"><font $footer_font>Total</font></td>";
 
    if ($show_yesterday) {
      print "
-    <td align="right"><font $footer_font>" . number_style_convert($total_yesterday, 0) . "</font></td>";
+    <td align=\"right\"><font $footer_font>" . number_style_convert($total_yesterday, 0) . "</font></td>";
    }
    if ($show_total) {
      print "
-    <td align="right"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
+    <td align=\"right\"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
    }
 
    print "
