@@ -1,5 +1,5 @@
 <?
-// $Id: debug.inc,v 1.4 2004/07/16 20:12:49 decibel Exp $
+// $Id: debug.inc,v 1.5 2004/07/16 21:25:54 decibel Exp $
 
 if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
     if (isset($_GET['debug'])) {
@@ -23,7 +23,7 @@ if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
           xdebug_start_trace();
         }
         xdebug_start_profiling();
-        include "timing.inc";
+        include_once "timing.inc";
         timer_start();
       }
     }

@@ -1,5 +1,5 @@
 <?
-// $Id: timing.inc,v 1.2 2004/07/16 19:58:32 decibel Exp $
+// $Id: timing.inc,v 1.3 2004/07/16 21:25:54 decibel Exp $
 
 function timer_start ($name = 'default') {
     global $timer_start_times;
@@ -28,5 +28,9 @@ function timer_current ($name = 'default') {
     return $current;
 }
 
+function log_timing() {
+    timer_stop('log');
+}
+    
 // vi: expandtab sw=4 ts=4
 ?>
