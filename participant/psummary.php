@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.36 2003/01/12 00:22:35 paul Exp $
+# $Id: psummary.php,v 1.37 2003/03/05 22:24:04 decibel Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -261,14 +261,15 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 
     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
       <tr>
-        <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
+        <th colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s neighbors</strong></font></th>
       </tr>
+      <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
       <tr>
-        <th>Rank</th>
-        <th>Participant</th>
-        <th align="right">Days</th>
-        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
-        <th align="right">Current <?=$proj_scaled_unit_name?></th>
+        <th><font <?=$header_font;?>>Rank</font></td>
+        <th><font <?=$header_font;?>>Participant</font></td>
+        <th align="right"><font <?=$header_font;?>>Days</font></td>
+        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
+        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
       </tr>
       <?
       $totaltoday = 0;
@@ -288,12 +289,13 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
       <tr>
         <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s friends</strong></font></td>
       </tr>
-        <tr>
-        <td><font <?=$header_font;?>>Rank</font></td>
-        <td><font <?=$header_font;?>>Participant</font></td>
-        <td align="right"><font <?=$header_font;?>>Days</font></td>
-        <td align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
-        <td align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
+      <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
+      <tr>
+        <th><font <?=$header_font;?>>Rank</font></td>
+        <th><font <?=$header_font;?>>Participant</font></td>
+        <th align="right"><font <?=$header_font;?>>Days</font></td>
+        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
+        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
       </tr>
       <?
       $totaltoday = 0;
