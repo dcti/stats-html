@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.22 2003/05/24 01:26:49 thejet Exp $
+# $Id: project.inc,v 1.23 2003/06/03 21:11:01 paul Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
@@ -97,19 +97,19 @@ function last_update($type)
 
   switch ($type) { 
     case 'e':
-      $qs = "p_lastupdate_new_e @project_id=$project_id";
+      $qs = "select to_char(max(LAST_DATE), 'dd-Mon-YYYY') as lastupdate from Email_Rank_Last_Update where PROJECT_ID = $project_id";
       break;
     case 'ec':
-      $qs = "p_lastupdate_new_ec @project_id=$project_id";
+      $qs = "select to_char(max(LAST_DATE), 'dd-Mon-YYYY') as lastupdate from Email_Contrib_Last_Update where PROJECT_ID = $project_id";
       break;
     case 't':
       $qs = "SELECT to_char(MAX(last_date), 'dd-Mon-YYYY') AS lastupdate FROM team_rank WHERE project_id = $project_id";
       break;
     case 'm':
-      $qs = "p_lastupdate_new_m @project_id=$project_id";
+      $qs = "select to_char(max(LAST_DATE), 'dd-Mon-YYYY') as lastupdate from Email_Contrib_Last_Update where PROJECT_ID = $project_id";
       break;
     case 'pc':
-      $qs = "p_lastupdate_new_pc @project_id=$project_id";
+      $qs = "select to_char(max(LAST_DATE), 'dd-Mon-YYYY') as lastupdate from Platform_Contrib_Last_Update where project_id = $project_id";
       break;
     case 'i';
       return $lastupdate;
