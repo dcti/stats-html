@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.10 2002/06/04 22:23:31 paul Exp $
+# $Id: platformlist.php,v 1.11 2002/06/04 22:26:49 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -185,7 +185,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
      print "
     <td align=\"right\"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
    }
-
+ }
    print "
    </tr>
   </table>
