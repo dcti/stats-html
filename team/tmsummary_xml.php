@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.3 2003/09/10 02:47:11 thejet Exp $
+// $Id: tmsummary_xml.php,v 1.4 2003/09/23 21:19:46 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -73,9 +73,6 @@ $numneighbors = count($neighbors);
         <? } ?>
 
         <stat name="time-working" unit="days" value="<?= round($tmpStats->get_stats_item("days_working"),0) ?>"/>
-        <? if ($gproj->get_total_units() > 0) { ?>
-        <stat name="odds" unit="" value="<?= round($yest_totals->WORK_UNITS / $teamrec->WORK_TODAY,0) ?>"/>
-        <? } ?>
 
         <stat name="members-overall" unit="" value="<?=round($tmpStats->get_stats_item("members_overall"),0)?>"/>
         <stat name="members-current" unit="" value="<?=round($tmpStats->get_stats_item("members_current"),0)?>"/>
