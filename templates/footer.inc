@@ -11,6 +11,11 @@ if (!isset($proj_list)) {
 
     ?>
 <div style="text-align: center;"> This page in other projects: <br>
+<?if ($project_id != 3) {
+
+        ?> <a href="<?=$myname?>?project_id=3<?=$query_string?>">RC5-56</a>  <? } 
+
+    ?>
 <?if ($project_id != 5) {
 
         ?> <a href="<?=$myname?>?project_id=5<?=$query_string?>">RC5-64</a>  <? } 
