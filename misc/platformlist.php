@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.2 2002/03/08 22:53:02 paul Exp $
+# $Id: platformlist.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -17,8 +17,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-
- $myname = "platformlist.php";
 
 /// Variables passed in url
 //   source == "y" for yseterday, all other values ignored.

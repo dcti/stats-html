@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.2 2002/03/08 22:53:02 paul Exp $
+# $Id: plist.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -17,8 +17,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-
-$myname = "plist.php";
 
 // Variables Passed in url:
 //   low == lowest rank used
@@ -142,13 +140,13 @@ if ("$source" == "y") {
  $pr_lo = $lo-$limit;
  $nx_lo = $lo+$limit;
  if ( $lo > $rows ) {
-   $btn_back = "<a href=\"$myname?low=$pr_lo&limit=$limit&source=$source\">Back $limit</a>";
+   $btn_back = "<a href=\"$myname?project_id=$project_id&low=$pr_lo&limit=$limit&source=$source\">Back $limit</a>";
  } else {
    $btn_back = "&nbsp;";
  }
 
  if ( 2 > 1 ) {
-   $btn_fwd = "<a href=\"$myname?low=$nx_lo&limit=$limit&source=$source\">Next $limit</a>";
+   $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$nx_lo&limit=$limit&source=$source\">Next $limit</a>";
  } else {
    $btn_fwd = "&nbsp;";
  }

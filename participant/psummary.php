@@ -1,15 +1,8 @@
 <?
- # $Id: psummary.php,v 1.2 2002/03/08 22:53:02 paul Exp $
-
- $myname = "psummary.php";
+ # $Id: psummary.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
-
- $id = 0+$id;
- if ( $id == "" or $id == 0) {
-  $id = 1;
- }
 
  include "../etc/config.inc";
  include "../etc/modules.inc";

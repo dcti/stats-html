@@ -2,8 +2,6 @@
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
-$myname = "tlist.php";
-
 // Variables Passed in url:
 //   low == lowest rank used
 //   limit == how many lines to return
@@ -65,15 +63,15 @@ if ("$source" == "y") {
 
  // Figure out what navagation buttons we should have
  if ( $lo > $rows ) {
-   $btn_back = "<a href=\"$myname?low=$prev_lo&limit=$limit&source=$source\">Back $limit</a>";
+   $btn_back = "<a href=\"$myname?project_id=$project_id&low=$prev_lo&limit=$limit&source=$source\">Back $limit</a>";
  } else if ( $lo > 1 and $lo < $limit ) {
-   $btn_back = "<a href=\"$myname?low=1&limit=$limit&source=$source\">Back " . ($lo-1) ."</a>";
+   $btn_back = "<a href=\"$myname?project_id=$project_id&low=1&limit=$limit&source=$source\">Back " . ($lo-1) ."</a>";
  } else {
    $btn_back = "&nbsp;";
  }
 
  if ( $rows >= $limit ) {
-   $btn_fwd = "<a href=\"$myname?low=$next_lo&limit=$limit&source=$source\">Next $limit</a>";
+   $btn_fwd = "<a href=\"$myname?project_id=$project_id&low=$next_lo&limit=$limit&source=$source\">Next $limit</a>";
  } else {
    $btn_fwd = "&nbsp;";
  }

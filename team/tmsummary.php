@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
 	"http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-// $Id: tmsummary.php,v 1.2 2002/03/08 22:53:02 paul Exp $
+// $Id: tmsummary.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -10,8 +10,6 @@ $tm = (int) $team;
 if ($tm <= 0){
   $tm = 1;
 }
-
-$myname = "tmsummary.php";
 
 $title = "Team #$tm Summary";
 

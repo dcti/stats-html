@@ -1,9 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-# $Id: daily_totals_raw.php,v 1.2 2002/03/08 22:53:01 paul Exp $
-
-$myname = "daily_totals_raw.php";
+# $Id: daily_totals_raw.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
  include "../etc/config.inc";
  include "etc/project.inc";

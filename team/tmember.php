@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
 	"http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-// $Id: tmember.php,v 1.2 2002/03/08 22:53:02 paul Exp $
+// $Id: tmember.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -9,8 +9,6 @@
 //  limit == Number of records to display at once - default 100
 //  pass == Password for viewing member listing
 //  source == y for yesterday's contributors only
-
-$myname = "tmember.php";
 
 include "../etc/config.inc";
 include "../etc/modules.inc";
@@ -277,7 +275,7 @@ if ($low > 0)
 		$newlow=1;
 		$newlimit=$low - $newlow + 1;
 	}
-	print "<a href=\"$myname?pass=" . urlencode($pass) . "&team=$tm&source=$source&low=$newlow&limit=$newlimit\">$newlow - $low</a> </TD>";
+	print "<a href=\"$myname?project_id=$project_id&pass=" . urlencode($pass) . "&team=$tm&source=$source&low=$newlow&limit=$newlimit\">$newlow - $low</a> </TD>";
 }
 else {
 	// needed for alignment
@@ -293,7 +291,7 @@ if ($low + $lim < $rows)
 		$newlimit = $rows - $newlow + 1;
 	}
 	$high = $newlow + $newlimit - 1;
-	print "<a href=\"$myname?pass=" . urlencode($pass) . "&team=$tm&source=$source&low=$newlow&limit=$lim\">$newlow - $high</a> </TD>";
+	print "<a href=\"$myname?project_id=$project_id&pass=" . urlencode($pass) . "&team=$tm&source=$source&low=$newlow&limit=$lim\">$newlow - $high</a> </TD>";
 }
 else
 {

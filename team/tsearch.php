@@ -1,7 +1,5 @@
 <?
- # $Id: tsearch.php,v 1.2 2002/03/08 22:53:02 paul Exp $
-
- $myname = "tsearch.php";
+ # $Id: tsearch.php,v 1.3 2002/03/08 23:29:15 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term

@@ -1,8 +1,23 @@
 <?
- # $Id: project.inc,v 1.2 2002/03/08 22:53:02 paul Exp $
+ # $Id: project.inc,v 1.3 2002/03/08 23:29:15 paul Exp $
+
+ $myname = $PHP_SELF;
 
  $project = "OGR-25";
- $project_id = $_GET["project_id"];
+ $project_id = (int) 0 + $_GET["project_id"];
+ if($project_id == "" or $project_id == 0) {
+  $project_id = 25;
+ }
+
+ 
+ $id = (int) 0+$_GET["id"];
+ if ( $id == "" or $id == 0) {
+  $id = 1;
+ }
+
+
+
+
  $divider = 1000000000;
 
  $bgcolor = "\"#ffffff\"";
