@@ -13,7 +13,7 @@ include "../etc/project.inc";
   $rows = sybase_num_rows($result);
 
   if( $rows <> 1) {
-    include "templates/pbadpass.inc";
+    include "/templates/pbadpass.inc";
     exit;
   }
   sybase_data_seek($result,0);
@@ -180,12 +180,8 @@ include "../etc/project.inc";
       <td><input name=\"motto\" value=\"$par->motto\" size=\"30\" maxlength=\"128\"></td>
      </tr>
      <tr>
-      <td>Team:</td>
-      <td><input name=\"team\" value=\"$team\" size=\"8\" maxlength=\"8\"></td>
-     </tr>
-     <tr>
       <td>retire_to:</td>
-      <td><input name=\"retire_to\" value=\"$retire_to\" size=\"8\" maxlength=\"8\"></td>
+      <td>$retire_to</td>
 ";
   if ( $retire_to<>0 ) {
 	print "<td><a href=\"pedit.php3?id=$retire_to\">Edit participant #$retire_to</a></td>";
