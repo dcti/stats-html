@@ -1,14 +1,14 @@
 <?
- # $Id: tsearch.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+ # $Id: tsearch.php,v 1.7 2002/03/24 17:03:40 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
 
- $title = "Team Search: [$st]";
-
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "etc/project.inc";
+
+$title = "Team Search: [".safe_display($st)."]";
 
  $qs = "select	tr.TEAM_ID, name, FIRST_DATE, LAST_DATE, WORK_TOTAL/$proj_divider as WORK_TOTAL, WORK_TODAY/$proj_divider as WORK_TODAY,
 		MEMBERS_CURRENT, OVERALL_RANK,
@@ -36,7 +36,6 @@
  }
 
  $rows = sybase_num_rows($QRSLTteams);
-
  if($rows == 1) {
 	# Only one hit, let's jump straight to psummary
 	$par = sybase_fetch_object($QRSLTteams);
@@ -87,14 +86,14 @@
 
 ?>
 		<tr bgcolor=<?=row_background_color($i)?>>
-		<td><?echo $par->OVERALL_RANK. html_rank_arrow($par->Change)?></td>
-		<td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=$par->name?></font></a></td>
-		<td align="right"><?echo $firstd-$firstm-$firsty?></td>
-		<td align="right"><?echo $lastd-$lastm-$lasty?></td>
-		<td align="right"><?echo number_format($par->Days_Working)?></td>
+		<td><? echo $par->OVERALL_RANK. html_rank_arrow($par->Change)?></td>
+		<td><a href="tmsummary.php?project_id=<?=$project_id?>&team=<?=$teamid?>"><font color="#cc0000"><?=safe_display($par->name)?></font></a></td>
+		<td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
+		<td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
+		<td align="right"><? echo number_format($par->Days_Working)?></td>
 		<td align="right"><?=$members?></td>
-		<td align="right"><?echo number_format( (double) $par->WORK_TOTAL)?> </td>
-		<td align="right"><?echo number_format( (double) $par->WORK_TODAY)?> </td>
+		<td align="right"><? echo number_format( (double) $par->WORK_TOTAL)?> </td>
+		<td align="right"><? echo number_format( (double) $par->WORK_TODAY)?> </td>
 	</tr>
 <?
  }
@@ -102,8 +101,8 @@
 	 <tr bgcolor=<?=$footer_bg?>>
 	  <td><font <?=$footer_font?>><?=$rows?></font></td>
 	  <td colspan="5" align="right"><font <?=$footer_font?>>Total</font></td>
-	  <td align="right"><font <?=$footer_font?>><?echo number_format($totalblocks, 0)?> </font></td>
-	  <td align="right"><font <?=$footer_font?>><?echo number_format($totalblocksy, 0)?> </font></td>
+	  <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocks, 0)?> </font></td>
+	  <td align="right"><font <?=$footer_font?>><? echo number_format($totalblocksy, 0)?> </font></td>
 	 </tr>
 	</table>
 <?include "templates/footer.inc";?>
