@@ -15,7 +15,7 @@
 // This requires at least PHP 4.0.6 due to the use of array_map(),
 // and the PREG_SPLIT_DELIM_CAPTURE flag on preg_split().
 //
-// $Id: markup.inc,v 1.4 2002/01/25 21:46:13 jlawson Exp $
+// $Id: markup.inc,v 1.5 2002/01/26 23:20:02 jlawson Exp $
 
 
 // This is the only function that is meant to be publicly callable.
@@ -42,7 +42,7 @@ function private_markup_walker($element) {
   elseif (strcasecmp($element, '[/B]') == 0) return '</b>';
   elseif (strcasecmp($element, '[I]') == 0) return '<i>';
   elseif (strcasecmp($element, '[/I]') == 0) return '</i>';
-  elseif (strcasecmp($element, '[BR]') == 0) return '<br/>';
+  elseif (strcasecmp($element, '[BR]') == 0) return '<br>';
   elseif (strcasecmp($element, '[HR]') == 0) return '<hr>';
   elseif (strcasecmp($element, '[CENTER]') == 0) return '<p align="center">';
   elseif (strcasecmp($element, '[/CENTER]') == 0) return '</p>';
