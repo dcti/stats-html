@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.7 2002/03/24 17:08:14 paul Exp $
+# $Id: plist.php,v 1.8 2002/03/25 15:53:46 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -72,32 +72,28 @@ if ("$source" == "y") {
      <br>
      <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
       <tr>
-       <td><font <?=$header_font?>>Rank</font></td>
-       <td><font <?=$header_font?>>Participant</font></td>
-       <td align="right"><font <?=$header_font?>>First Unit</font></td>
-       <td align="right"><font <?=$header_font?>>Last Unit</font></td>
-       <td align="right"><font <?=$header_font?>>Days</font></td>
-       <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
+       <th>Rank</th>
+       <th>Participant</th>
+       <th align="right">First Unit</th>
+       <th align="right">Last Unit</th>
+       <th align="right">Days</th>
+       <th align="right"><?=$proj_unitname?></th>
       </tr>
 <?
 
  $totalblocks = (double) 0;
 
  for ($i = 0; $i<$rows; $i++) {
-	if( ($i/2) == (round($i/2)) ) {
-	  echo "  <tr bgcolor=$bar_color_a>\n";
-	} else {
-	  echo "  <tr bgcolor=$bar_color_b>\n";
-	}
+
+	?>
+	<tr class="<?=row_background_color($i)?>">
+	<?
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
 
-// Leave this as-is (instead of using debug_text() so as to eliminate all the text processing durring normal
-// run conditions.
-// if ($debug == yes) {
-//	print "<!-- $i, $par->listas, $par->email,$par->id,$par->contact_name " .
-//		participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " -->\n";
-//}
+debug_text ("<!-- $i, $par->listas, $par->email,$par->id,$par->contact_name " .
+participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " -->\n",$debug);
+
         $parid = 0+$par->id;
 	$totalblocks = $totalblocks + (double) $par->blocks;
 	$decimal_places=0;
@@ -110,25 +106,20 @@ if ("$source" == "y") {
 	$lasty = substr($par->last,7,4);
 
 	debug_text("<!-- par->blocks: " . (double) $par->blocks . ", blocks: $blocks, totalblocks: $totalblocks. -->\n", $debug);
+?>
+<td><?=$par->rank?>
+<?=html_rank_arrow($par->change);?>
 
-	print "   <td>$par->rank ";
-        if ($par->change > 0) {
-          print "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$par->change)</font></td>\n";
-        } else {
-          if ($par->change < 0) {
-            $offset = -$par->change;
-            print "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font></td>\n";
-          }
-        }
-	print "	<td><a href=\"psummary.php?project_id=$project_id&id=$parid\"><font color=\"#cc0000\">" . participant_listas($par->listas,
-			$par->email,$par->id,$par->contact_name) . "</font></a></td>
-		<td align=\"right\">$firstd-$firstm-$firsty</td>
-		<td align=\"right\">$lastd-$lastm-$lasty</td>
-		<td align=\"right\">$par->Days_Working</td>
-		<td align=\"right\">$blocks</td>
+<td>
+<a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=participant_listas($par->listas,
+			$par->email,$par->id,$par->contact_name)?></font></a></td>
+		<td align="right"><? echo "$firstd-$firstm-$firsty"?></td>
+		<td align="right"><? echo "$lastd-$lastm-$lasty"?></td>
+		<td align="right"><?=$par->Days_Working?></td>
+		<td align="right"><?=$blocks?></td>
 		</tr>
-	";
- }
+ <?
+}
  $totalblocks = number_format($totalblocks, 0);
  $pr_lo = $lo-$limit;
  $nx_lo = $lo+$limit;
