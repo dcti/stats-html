@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.20 2002/12/16 20:00:31 decibel Exp $
+// $Id: tmember.php,v 1.21 2002/12/17 00:45:59 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -257,9 +257,11 @@ print "
             <td align=\"right\">$blocks</td>";
           if ($totblocks) print "
             <td align=\"right\">" . number_style_convert($n_blocks/$oblocks*100, 2) . "</td>";
+          print "
+          </tr>";
         }
         ?>
-      </tr>
+
     </table>
   </center>
   <!-- Navigation Buttons here -->
