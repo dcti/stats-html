@@ -1,7 +1,7 @@
 <?php 
-// $Id: participant.php,v 1.10 2003/08/30 17:53:21 paul Exp $
+// $Id: participant.php,v 1.11 2003/08/30 23:45:51 paul Exp $
 
-define(MAX_PASS_LEN,8);
+define('MAX_PASS_LEN',8);
 
 /**
  * This class represents a participant
@@ -32,6 +32,12 @@ class Participant {
     /**
      * ** End Internal class variables **
      */
+
+	function get_team_id() 
+	{
+		// @todo return team user is with 
+		return 0 ;	
+	}
 
     function get_id()
     {
