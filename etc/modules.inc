@@ -1,6 +1,6 @@
 <?php 
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.22 2004/04/08 15:18:41 nugget Exp $
+// $Id: modules.inc,v 1.23 2004/04/21 19:16:57 paul Exp $
 function plural($num)
 {
     if (abs($num) > 1 or $num == 0) {
@@ -118,9 +118,5 @@ function send_mail($to_address, $from_address, $subject, $message)
     } 
 } 
 
-function error_parameters() {
-    global $g_error_parameters;
-    $g_error_parameters = func_get_args();
-}
 
 ?>
