@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.32 2003/09/01 16:33:50 decibel Exp $
+// $Id: tmsummary.php,v 1.33 2003/09/02 04:20:34 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -8,6 +8,7 @@
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
+include "../etc/projectstats.php";
 include "../etc/markup.inc";
 include "../etc/team.php";
 include "../etc/teamstats.php";
@@ -23,13 +24,6 @@ if($team->get_id() == 0) {
 	include "../templates/footer.inc";
 	exit;
 }
-
-$qs = "select *
-        from Daily_Summary nolock
-        where PROJECT_ID = $project_id
-          and DATE = (select max(DATE) from Daily_Summary where project_id=$project_id)";
-$result = $gdb->query($qs);
-$yest_totals = $gdb->fetch_object($result);
 
 $stats = $team->get_current_stats();
 
@@ -127,18 +121,17 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       <td align="right" colspan="<?= ($stats->get_stats_item('work_today') > 0) ? 3 : 2 ?>"><?= number_style_convert($stats->get_stats_item('days_working')) ?> days</td>
     </tr>
   </table>
-  <br>
-  <br>
   <? if($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') == 0)
      {
    ?>
-  The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.
-  <?} else if ($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') > 0) { ?>
-  The odds are 1 in <?= number_style_convert($yest_totals->work_units / $stats->get_stats_item('work_today')) ?> that this team will
-    find the key before anyone else does. 
+  <p>The odds are 1 in a zillion-trillion that this team will find the key before anyone else does.</p>
+  <?} else if ($gproj->get_total_units() > 0 && $stats->get_stats_item('work_today') > 0) {
+    $gprojstats = $gproj->get_current_stats();
+  ?>
+  <p>The odds are 1 in <?= number_style_convert($gprojstats->get_stats_item('work_units') / $stats->get_stats_item('work_today')) ?> that this team will
+    find the key before anyone else does.</p>
   <? } ?>
-  <br>
-  <p style="text-align: center">
+  <p>
     This team has had <?= number_style_convert($stats->get_stats_item('members_overall')) ?> participants contribute blocks.
     Of those, <?= number_style_convert($stats->get_stats_item('members_current')) ?> are still on this team,
     and <?= number_style_convert($stats->get_stats_item('members_today')) ?> submitted work today.
