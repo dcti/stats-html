@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- # $Id: pc_money.php,v 1.2 2002/08/12 21:24:51 paul Exp $
+ # $Id: pc_money.php,v 1.3 2002/10/31 17:14:19 nugget Exp $
 
  $title = "Disposition of Prize Money";
 
@@ -11,8 +11,8 @@
  include "..etc/lastupdate.inc";
  include "templates/header.inc";
 
- $constant_tot_blocks = 68719476736;
- $constant_keys_in_one_block = 268435456;
+ # $constant_tot_blocks = 68719476736;
+ # $constant_keys_in_one_block = 268435456;
 
  $constant_prize = 10000;
  $fmt_prize = number_style_convert($constant_prize);
@@ -46,7 +46,7 @@
          email_rank M
         where
          (S.nonprofit <> 0 and S.nonprofit <> NULL) and
-         (convert(int,S.id) = M.id) and M.project_id =5 
+         (convert(int,S.id) = M.id) and M.project_id =$project_id
         group by
          S.nonprofit";
 
