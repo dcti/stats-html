@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.1 2003/05/09 04:01:27 thejet Exp $
+// $Id: team.php,v 1.2 2003/05/09 12:24:02 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -176,9 +176,9 @@ class Team
          {
            $this->get_current_stats();
            $sql = "SELECT t.* FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= (".$this->_stats->get_stats_item('overall_rank')." -5)";
-           $sql .= " AND overall_rank < (".$this->_stats->get_stats_item('overall_rank')." +5)"; 
+           $sql .= " AND overall_rank <= (".$this->_stats->get_stats_item('overall_rank')." +5)"; 
            $sql .= " AND project_id = " . $this->_project->ID;
-           $sql .= " AND team_id != " . $this->get_id();
+           //$sql .= " AND team_id != " . $this->get_id();
            $sql .= " AND listmode <= 9 ORDER BY overall_rank ASC ";
 
            $queryData = $this->_db->query($sql);
