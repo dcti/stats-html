@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.40 2004/07/19 06:12:23 jlawson Exp $
+// $Id: project.inc,v 1.41 2004/07/28 23:58:19 decibel Exp $
 
 include "limit.inc";
 include "db_pgsql.php";
@@ -40,7 +40,7 @@ if (isset($_REQUEST['id'])) {
 }
 
 if (isset($_REQUEST['st'])) {
-    $st = $_REQUEST['st'];
+    $st = trim( $_REQUEST['st'] );
 } else {
     $st = "";
 }

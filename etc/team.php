@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.24 2004/07/21 00:12:56 decibel Exp $
+// $Id: team.php,v 1.25 2004/07/28 23:55:35 decibel Exp $
 
 //==========================================
 // file: team.php
@@ -532,7 +532,7 @@ class Team
          ***/
          function &get_search_list($sstr, $limit = 50, &$db, &$project)
          {
-           $sstr = strtolower($sstr);
+           $sstr = strtolower( trim( $sstr ) );
 
            // The query to run...
            $qs = "SELECT st.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,

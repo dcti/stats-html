@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.51 2004/07/28 23:32:52 decibel Exp $
+// $Id: participant.php,v 1.52 2004/07/28 23:55:35 decibel Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -792,7 +792,7 @@ class Participant {
      */
     function &get_search_list($sstr, $limit = 50, &$db, &$project)
     {
-        $sstr = strtolower($sstr);
+        $sstr = strtolower( trim( $sstr ) );
 
         // The query to run...
         $qs  = "SELECT p.*,r.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,";
