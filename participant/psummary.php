@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.40 2003/03/10 22:46:48 paul Exp $
+# $Id: psummary.php,v 1.41 2003/03/10 23:20:39 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -261,15 +261,14 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 
     <table border="1" cellspacing="0">
       <tr>
-        <th colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s neighbors</strong></font></th>
+        <th colspan="6" align="center"><strong><?=$participant?>'s neighbors</strong></th>
       </tr>
-      <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
       <tr>
-        <th><font <?=$header_font;?>>Rank</font></th>
-        <th><font <?=$header_font;?>>Participant</font></th>
-        <th align="right"><font <?=$header_font;?>>Days</font></th>
-        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></th>
-        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></th>
+        <th>Rank</th>
+        <th>Participant</th>
+        <th align="right">Days</th>
+        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
+        <th align="right">Current <?=$proj_scaled_unit_name?></th>
       </tr>
       <?
       $totaltoday = 0;
@@ -287,15 +286,14 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
       if($numfriends>1) {
       ?>
       <tr>
-        <th colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s friends</strong></font></th>
+        <th colspan="6" align="center"><strong><?=$participant?>'s friends</strong></font></th>
       </tr>
-      <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
       <tr>
-        <th><font <?=$header_font;?>>Rank</font></th>
-        <th><font <?=$header_font;?>>Participant</font></th>
-        <th align="right"><font <?=$header_font;?>>Days</font></th>
-        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></th>
-        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></th>
+        <th>Rank</th>
+        <th>Participant</th>
+        <th align="right">Days</th>
+        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
+        <th align="right">Current <?=$proj_scaled_unit_name?></th>
       </tr>
       <?
       $totaltoday = 0;
