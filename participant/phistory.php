@@ -1,5 +1,5 @@
 <?
- # $Id: phistory.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+ # $Id: phistory.php,v 1.7 2002/04/07 22:52:17 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -18,15 +18,7 @@
  $qs = "p_participant_all $id";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
-
- if ($result == "") {
-   if ($debug=="yes") {
-     include "templates/debug.inc";
-   } else {
-     include "templates/error.inc";
-   }
-   exit();
- }
+ err_check_query_results($result);
 
  sybase_data_seek($result,0);
  $person = sybase_fetch_object($result);
@@ -38,39 +30,7 @@
    exit();
  }
 
- # Sybase's query optimizer sucks on stored procs, so we're stuck doing this
- #$qs = "p_lastupdate m, @contest='new', @project_id=$project_id";
- $qz = "select max(date)
-		from email_contrib
-		where date>dateadd(day,-10,getdate())
-			and project_id=$project_id";
- $result = sybase_query($qs);
- if($result) {
-   $par = sybase_fetch_object($result);
-   $lastupdate = sybase_date_format_long($par->lastupdate);
- }
-
-/*
-*********************************
- $qs = "select id from STATS_Participant where retire_to = $id";
- $result = sybase_query($qs);
- $rows = sybase_num_rows($result);
- $whereline = "id = $id";
- for ($i = 0; $i<$rows; $i++) {
-   sybase_data_seek($result,$i);
-   $par = sybase_fetch_object($result);
-   $rt = (int) $par->id;
-   $whereline = "$whereline or id = $rt";
- }
- 
- $qs = "select date, convert(char(10),date,101) as datefmt, sum(work_units)/$proj_divider as work_units
-	from email_contrib
-	where PROJECT_ID=$project_id and ( $whereline )
-	group by date
-	order by date desc";
-*********************************
-*/
-
+ $lastupdate = last_update('m');
  $qs = "p_phistory @project_id = $project_id, @id = $id";
 
  $title = "Participant History for $participant";
@@ -82,13 +42,13 @@
 This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
 http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$id
-n-->
+-->
 	<center>
 	 <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
 	  <tr>
-	   <td><font <?=$header_font?>>Date</font></td>
-	   <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
-	   <td><font <?=$header_font?>>&nbsp;</td>
+	   <th>Date</th>
+	   <th align="right"><?=$proj_unitname?></th>
+	   <th>&nbsp;</th>
 	  </tr>
 <?
 
@@ -115,7 +75,7 @@ n-->
 
    debug_text("<!-- work_units: $work_units, maxwork_units: $maxwork_units -->\n",$debug);
    ?>
-	<tr bgcolor=<?=row_background_color($i);?>>
+	<tr class=<?=row_background_color($i);?>>
 	   <td><?=$date_fmt?></td>
 	   <td align="right"><?=$work_units_fmt?></td>
 	   <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>"></td>
