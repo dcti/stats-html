@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# $Id: static.sh,v 1.8 2003/07/10 19:23:03 decibel Exp $
+#
+# Update static pages
 
 do_wget ( ) {
 	wget -O${2} "http://stats-${USER}.distributed.net/${1}"
@@ -9,7 +13,7 @@ get_project ( ) {
     do_wget pc_index.php?project_id=$1 cache/index_$1.inc
     do_wget misc/pc_countries.php?project_id=$1\&source=o cache/countries_o_$1.inc
     do_wget misc/pc_countries.php?project_id=$1\&source=y cache/countries_y_$1.inc
-    if [ $1 != 3 -a $1 != 5 ]; then
+    if [ $1 != 3 -a $1 != 5 -a $1 != 205 ]; then
         do_wget misc/pc_money.php?project_id=$1\&source=y cache/money_$1.inc
     fi
 }
