@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.13 2002/12/17 04:47:14 decibel Exp $
+ // $Id: pc_countries.php,v 1.14 2003/08/31 22:48:07 paul Exp $
 
  $outname = "countries";
 
@@ -8,60 +8,55 @@
  include "../etc/modules.inc";
  include "../etc/project.inc";
 
- sybase_query("set rowcount 0");
-
- $qs = "select distinct code, country, count(country) as recs, sum(work_total)/$proj_divider as units_total,
-		sum(work_today)/$proj_divider as units_today
+ $qs = "select distinct code, country, count(country) as recs, sum(work_total)* ".$gproj->get_scale()." as units_total,
+		sum(work_today)* ".$gproj->get_scale()." as units_today
 	from STATS_participant, STATS_country,email_RANK
 	where retire_to = 0
-		and dem_country <> NULL
+		and dem_country IS NOT NULL
 		and dem_country = code
 		and email_RANK.id = STATS_participant.id
 		and email_RANK.project_id = $project_id
 	group by code, country ";
  if ("$source" == "y") {
-   $qs .= "	order by sum(work_today) desc";
+   $qs .= "	order by sum(work_today)* ".$gproj->get_scale()." desc";
  } else {
-   $qs .= "	order by sum(work_total) desc";
+   $qs .= "	order by sum(work_total)* ".$gproj->get_scale()." desc";
  };
-
- $country = sybase_query($qs);
- $countries = sybase_num_rows($country);
 
  display_last_update('e');
  print "
 	 <center>
-	  <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+	  <table border=\"1\" cellspacing=\"0\" >
 	   <tr>
-            <td colspan=2><font $header_font>&nbsp</font></td>";
+            <td colspan=2>&nbsp</td>";
  if ($source == 'y') {
    print "
-	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">
-              <font $header_font>Overall</font>
-	    </a></td>
-	    <td align=\"center\" colspan=2><font $header_font>Yesterday</font></td>";
+	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">Overall</a></td>
+	    <td align=\"center\" colspan=2>Yesterday</td>";
  } else {
    print "
-	    <td align=\"center\" colspan=2><font $header_font>Overall</font></td>
-	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">
-              <font $header_font>Yesterday</font>
-	    </a></td>";
+	    <td align=\"center\" colspan=2>Overall</td>
+	    <td align=\"center\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">Yesterday</a></td>";
  }
 ?> 
            </tr>
 	   <tr>
 	    <th>Nationality</th>
 	    <th align="center">People</th>
-	    <th align="center"><?=$proj_unitname?></th>
-	    <th align="center"><?=$proj_unitname?>/Person</th>
-	    <th align="center"><?=$proj_unitname?></th>
-	    <th align="center"><?=$proj_unitname?>/Person</th>
+	    <th align="center"><?=$gproj->get_scaled_unit_name()?></th>
+	    <th align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
+	    <th align="center"><?=$gproj->get_scaled_unit_name()?></th>
+	    <th align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
 	   </tr>
 <?
+
+ $country = $gdb->query($qs);
+ $countries = $gdb->num_rows();
+
  for ($i = 0; $i < $countries; $i++) {
    print "<tr class=" . row_background_color($i) . ">";
-   sybase_data_seek($country,$i);
-   $par = sybase_fetch_object($country);
+   $gdb->data_seek($i);
+   $par = $gdb->fetch_object($country);
    $recs = (int) $par->recs;
    $units_total = (double) $par->units_total;
    $units_today = (double) $par->units_today;
