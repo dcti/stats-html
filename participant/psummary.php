@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.37 2003/03/05 22:24:04 decibel Exp $
+# $Id: psummary.php,v 1.38 2003/03/09 11:48:11 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -291,11 +291,11 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
       </tr>
       <!-- This header html should be put in a function or something since it's duplicated here and 20 lines down -->
       <tr>
-        <th><font <?=$header_font;?>>Rank</font></td>
-        <th><font <?=$header_font;?>>Participant</font></td>
-        <th align="right"><font <?=$header_font;?>>Days</font></td>
-        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
-        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
+        <th><font <?=$header_font;?>>Rank</font></th>
+        <th><font <?=$header_font;?>>Participant</font></th>
+        <th align="right"><font <?=$header_font;?>>Days</font></th>
+        <th align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></th>
+        <th align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></th>
       </tr>
       <?
       $totaltoday = 0;
