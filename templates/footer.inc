@@ -37,7 +37,7 @@ if (!isset($proj_list)) {
 ?>
    <div style="text-align: center">
     <a href="http://www.php.net"><img src="/images/php.gif" alt="PHP4"></a>
-    <a href="http://www.sybase.com/"><img src="/images/pg-power.jpg" alt="Sybase"></a>
+    <a href="http://www.pgsql.com/"><img src="/images/pg-power.jpg" alt="Sybase"></a>
    </div>
 <?
 if($debug > 0 ) {
