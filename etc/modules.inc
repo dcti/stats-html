@@ -1,11 +1,13 @@
 <?php
-  // $Id: modules.inc,v 1.7 2000/06/01 00:01:29 decibel Exp $
+  // $Id: modules.inc,v 1.8 2000/06/01 20:34:12 decibel Exp $
 
-  function row_background_color($rownum) {
+  function row_background_color($rownum, $color_a = "", $color_b = "") {
+	if ($color_a == "") $color_a = $GLOBALS["bar_color_a"];
+	if ($color_b == "") $color_b = $GLOBALS["bar_color_b"];
         if( ($rownum/2) == (round($rownum/2)) ) {
-		return $GLOBALS["bar_color_a"];
+		return $color_a;
         } else {
-		return $GLOBALS["bar_color_b"];
+		return $color_b;
 	}
   }
 
