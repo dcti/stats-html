@@ -1,5 +1,5 @@
 <?php
-// $Id: teamstats.php,v 1.9 2004/07/08 11:06:09 fiddles Exp $
+// $Id: teamstats.php,v 1.10 2005/04/01 16:00:49 decibel Exp $
 
 /***
  * This class represents a team stats entry
@@ -47,7 +47,10 @@ class TeamStats
      ***/
     function load($id, $date)
     {
-        $qs  = 'SELECT *, last_date::DATE - first_date::DATE + 1 AS days_working ';
+        $qs  = 'SELECT first_date, last_date, day_rank, day_rank_previous, overall_rank, overall_rank_previous';
+        $qs .= '        , members_today, members_overall, members_current';
+        $qs .= '        , work_today, work_total';
+        $qs .= '        , last_date::DATE - first_date::DATE + 1 AS days_working ';
         $qs .= 'FROM team_rank ';
         $qs .= 'WHERE team_id = ' . $this->_db->prepare_int($id);
         $qs .= ' AND project_id = '. $this->_db->prepare_int($this->_project->get_id());
