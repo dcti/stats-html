@@ -1,5 +1,5 @@
 <?
- # $Id: project.inc,v 1.7 2002/04/21 18:15:17 paul Exp $
+ # $Id: project.inc,v 1.8 2002/06/03 13:17:30 paul Exp $
 
 include "limit.inc";
 
@@ -43,8 +43,8 @@ if (isset($_GET['project_id'])) {
 	$debug = 'no';
  } 
 
- if (isset($_GET['id'])) {
-	$id = (int)$_GET['id'];
+ if (isset($_REQUEST['id'])) {
+	$id = (int)$_REQUEST['id'];
  } else {
 	$id = 1;
  }
@@ -104,7 +104,7 @@ if (isset($_GET['team'])) {
 
 function last_update($type)
 {
- global $project_id;
+ global $lastupdate,$project_id;
 
  switch ($type) { 
   case 'e':
@@ -122,6 +122,8 @@ function last_update($type)
   case 'p':
    $qs = "p_lastupdate_new_p @project_id=$project_id";
    break;
+  case 'i';
+   return $lastupdate;
  }
 
  $result = sybase_query($qs);
