@@ -8,8 +8,8 @@
  $title = "Participating Countries";
 
  include "../templates/header.inc";
- if( file_exists("cache/countries_".$source."_$project_id.inc")) {
-	readfile( "cache/countries_".$source."_$project_id.inc");
+ if( file_exists("../cache/countries_".$source."_$project_id.inc")) {
+	readfile( "../cache/countries_".$source."_$project_id.inc");
  } else {
  	display_last_update();
   ?> 
