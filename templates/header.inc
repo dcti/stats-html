@@ -7,35 +7,17 @@
  <head>
   <title>stats.distributed.net - <?=$proj_name?> <?=$title?></title>
   <meta http-equiv="content-type" content="text/html;charset=ISO-8859-1">
-  <style type="text/css"><!--
-   .row1 {border-color:#AAAAAA;background-color:#dddddd }
-   .row2 {border-color:#AAAAAA;background-color:#ffffdd }
-   .row3 {border-color:#AAAAAA;background-color:#ffffff }
-   .row1 a, .row2 a, .row3 a { color: #CC0000; }
-   .thead {border-color:#AAAAAA;font-size:medium;font-weight:bold;color:#FFFFFF;background-color:#222222;}
-   .tfoot {border-color:#AAAAAA;color:#FFFFFF;background-color:#222222;}
-   .tcontent {border-color:#000000;color:#000000;font-size:small;}
-   .thead a, .thead a:visited, .thead a:hover {font-weight:bold;color:#AAAAAA;background-color:#222222;}
-   .tfoot a, .tfoot a:visited, .tfoot a:hover {font-weight:bold;color:#AAAAAA;background-color:#222222;}
-   .tborder {border-color:#000000;border-width:1px;}
-   .phead {text-align:center;font-family:verdana,helvetica,arial;font-size:x-large;}
-   .phead2 {font-family:verdana,helvetica,arial;font-size:medium;font-weight:bold;}
-   .htitle {font-size: x-large; color: #ffff77; background-color: #777777;}
-   .hcontent {font-size: small; color: #aaaaaa; background-color: #000000;}
-   .hcontent a, .hcontent a:visited, .hcontent a:hover {font-size: small; color: #FFFFFF; background-color: #000000;text-decoration: underline}
-   .hsubtitle {font-size: medium; color: #0077aa;}
-   .lastupdate {font-size: xx-small; color: #ffff77; background-color: #777777;}
-   body { font-family:verdana,helvetica,arial;font-size:small;color:#000000;background-color:#FFFFFF; }
-   body a, body a:visited, body a:hover { color: #777777 }
-   img { border: 0px; }
-  --></style>
+  <link rel="stylesheet" type="text/css" href="/css/default.css" />
  </head>
  <body>
   <table width="100%" border="0" cellpadding="1" cellspacing="0">
   <colgroup><col><col width="33%"><col width="33%"><col width="33%"></colgroup>
    <tr>
     <td colspan="4" align="center" class="htitle">
-      <? if(isset($proj_name)) { echo $proj_name." / ";}?>  <?=$title?>
+      <? if(isset($proj_name)) {
+    echo $proj_name . " / ";
+} 
+?>  <?=$title?>
     </td>
    </tr>
    <tr valign="top">
@@ -52,12 +34,14 @@
         <a href="/misc/platformlist.php?project_id=<?=$project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
         <a href="/misc/countries.php?project_id=<?=$project_id?>">Participating Countries</a><br>
         <?
-        if ( $gproj->getprize() <> 0 ) {
-          ?>
+if ($gproj -> getprize() <> 0) {
+
+    ?>
           <a href="/misc/money.php?project_id=<?=$project_id?>">Distribution of Prize Money</a><br>
           <?
-        }
-        ?>
+} 
+
+?>
     </td>
     <td class="hcontent">
         <form method="GET" name="par-search" id="par-search" action="/participant/psearch.php">
@@ -90,15 +74,20 @@
         </form>
     </td>
    </tr>
-<? if(isset($lastupdate)) { ?>
+<? if(isset($lastupdate)) {
+    ?>
    <tr>
     <td colspan="4" align="center" class="lastupdate">
-<? if($lastupdate<>"") { ?>
+<? if($lastupdate <> "") {
+        ?>
       Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
-<? } else { ?>
+<? } else {
+        ?>
       Update currently in progress...
-<? } ?>
+<? } 
+    ?>
     </td>
    </tr>
-<? } ?>
+<? } 
+?>
   </table>
