@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.16 2003/08/30 23:47:32 paul Exp $
+  // $Id: psecure.inc,v 1.17 2003/08/30 23:48:21 paul Exp $
 
 include_once "participant.php";
 
@@ -71,7 +71,7 @@ if ( $id != $gpart->get_id() ) {
     authfail("pbaduser",$test_from,$test_id,$test_pass);
   }
 
-if ( ! $gpart->check_pass($test_pass) ) {
+if ( ! $gpart->check_password($test_pass) ) {
     authfail("pbadpass",$test_from,$test_id,$test_pass);
   }
 
