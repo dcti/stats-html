@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.12 2000/08/23 21:49:42 decibel Exp $
+  // $Id: pjointeam.php,v 1.13 2000/11/12 02:24:32 decibel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -54,31 +54,8 @@
     exit;
   }
 
-  if ( $team != $oldteam ) {
-/*
-	<OLD CODE>
-
-    $date = getdate();
-    $TJqs = "select * from Team_Joins where JOIN_DATE=\"$date[month] $date[mday] $date[year]\" and ID = $id";
-    $result = sybase_query($TJqs);
-    $TJrows = sybase_num_rows($result);
-    if( $TJrows >= 1 ) {
-      $qs = "update stats.dbo.Team_Joins set TEAM_ID = $team where JOIN_DATE=\"$date[month] $date[mday] $date[year]\" and ID = $id";
-      $result = sybase_query($qs);
-    } else {
-      $qs = "insert into stats.dbo.Team_Joins(JOIN_DATE, ID, TEAM_ID) select \"$date[month] $date[mday] $date[year]\", $id, $team";
-      $result = sybase_query($qs);
-    }
-    $qs = "update stats.dbo.STATS_participant set team = $team where id = $id";
-    $result = sybase_query($qs);
-    $qs = "update stats.dbo.STATS_participant set team = $team where retire_to = $id";
-    $result = sybase_query($qs);
-
-	</OLD CODE>
-*/
-    $qs = "p_teamjoin @id=$id, @team=$team";
-    $result = sybase_query($qs);
-  }
+  $qs = "p_teamjoin @id=$id, @team=$team";
+  $result = sybase_query($qs);
 
   $title = "$par->email has joined $newteamname";
 
