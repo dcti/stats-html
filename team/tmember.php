@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.11 2002/04/15 04:47:42 jlawson Exp $
+// $Id: tmember.php,v 1.12 2002/06/04 00:18:20 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -79,6 +79,7 @@ if ($info->showmembers == "PAS") {
 			Password: <input type="password" length="16" name="pass">
 			<input type="hidden" name="team" value="<?=$tm?>">
 			<input type="hidden" name="source" value="<?=$source?>">
+			<input type="hidden" name="project_id" value="<?=$project_id?>">
 			<input type="submit" value="Go">
 			</form></center>
 			<?
