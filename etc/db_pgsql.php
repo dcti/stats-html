@@ -128,6 +128,7 @@ class DB {
         $this->data_seek($start-1, $query_id);
       }
       $ctr = 0;
+      $result = array();
       while($tmp = $this->fetch_object($query_id))
       {
         $result[] = $tmp;
