@@ -7,7 +7,7 @@
 
  $title = "Participating Countries";
 
- include "templates/header.inc";
+ include "../templates/header.inc";
  if( file_exists("cache/countries_".$source."_$project_id.inc")) {
 	readfile( "cache/countries_".$source."_$project_id.inc");
  } else {
@@ -19,4 +19,4 @@
   <? 
 }
 ?>
-<?include "templates/footer.inc";?>
+<?include "../templates/footer.inc";?>
