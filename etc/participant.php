@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.26 2003/09/17 21:39:40 paul Exp $
+// $Id: participant.php,v 1.27 2003/09/21 15:20:25 decibel Exp $
 
 define('MAX_PASS_LEN',9);
 
@@ -77,9 +77,9 @@ class Participant {
         $this -> _state -> password = $value;
     } 
 
-	function check_password($pass)
+    function check_password($pass)
     {
-    	$pass = substr($pass,0,MAX_PASS_LEN);
+        $pass = substr($pass,0,MAX_PASS_LEN);
     	
 		if ($this->get_password() == "") {
     		//auth fail - no pass set -> mail pass to user
@@ -98,7 +98,7 @@ class Participant {
         	$this ->_authed = true; 
         	return true;
         } else {
-        	// authfail("pbadpass",$test_from,$test_id,$test_pass);
+        	//authfail("pbadpass",$test_from,$test_id,$test_pass);
         	return false;
         }
     } 
@@ -682,5 +682,5 @@ class Participant {
     } 
 } 
 
-// vi: expandtab sw=2 ts=2 tw=128
+// vi: expandtab sw=4 ts=4 tw=128
 ?>
