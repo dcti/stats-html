@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.6 2003/08/25 20:28:38 thejet Exp $
+// $Id: participantstats.php,v 1.7 2003/08/31 16:35:12 paul Exp $
 /**
  * This class represents a participant stats entry
  * 
@@ -66,8 +66,8 @@ class ParticipantStats {
     function load($id, &$project, $date)
     {
         $qs = "select DAY_RANK, OVERALL_RANK, LAST_DATE + 1 - FIRST_DATE as Days_Working, 
-          WORK_TODAY as TODAY,
-          WORK_TOTAL as TOTAL,
+          WORK_TODAY,
+          WORK_TOTAL,
           OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
           DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
         from Email_Rank
