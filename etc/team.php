@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.4 2003/05/24 01:28:52 thejet Exp $
+// $Id: team.php,v 1.5 2003/05/27 18:36:27 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -48,7 +48,11 @@ class Team
 	 * @type string
 	 * */
 	 function get_contact_name() { return $this->_state->contactname; }
-	 function set_ontact_name($value) { $this->_state->contactname = $value; }
+	 function set_contact_name($value) { 
+           //print("Got contact name: $value<br>");
+           $this->_state->contactname = trim($value);
+           //print('Result: ' . $this->_state->contactname . '<br>');
+         }
 
         /***
          * The Email for the current team captain
@@ -57,7 +61,7 @@ class Team
          * @type string
          ***/
 	  function get_contact_email() { return $this->_state->contactemail; }
-	  function set_contact_email($value) { $this->_state->contactemail = $value; }
+	  function set_contact_email($value) { $this->_state->contactemail = trim($value); }
 
         /***
          * The Password for the current team
@@ -66,7 +70,7 @@ class Team
          * @type string
          ***/
          function get_password() { return $this->_state->password; }
-	 function set_password($value) { $this->_state->password = $value; }
+	 function set_password($value) { $this->_state->password = trim($value); }
      
         /***
 	 * The listmode for the current team
@@ -84,7 +88,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_name() { return $this->_state->name; }
-	 function set_name($value) { $this->_state->name = $value; }
+	 function set_name($value) { $this->_state->name = trim($value); }
 	 
 	/***
 	 * The URL for the team
@@ -92,8 +96,8 @@ class Team
 	 * @access public
 	 * @type string
 	 * */
-	 function get_url() { return $this->_state->URL; }
-	 function set_url($value) { return $this->_state->URL = $value; }
+	 function get_url() { return $this->_state->url; }
+	 function set_url($value) { return $this->_state->url = trim($value); }
 	 
 	/***
 	 * The logo for the current team
@@ -102,7 +106,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_logo() { return $this->_state->logo; }
-	 function set_logo($value) { $this->_state->logo = $value; }
+	 function set_logo($value) { $this->_state->logo = trim($value); }
 	 
 	/***
 	 * The description of the current team (in UBBCode)
@@ -111,7 +115,7 @@ class Team
 	 * @type string
 	 * */
 	 function get_description() { return $this->_state->description; }
-	 function set_description($value) { $this->_state->description = $value; }
+	 function set_description($value) { $this->_state->description = trim($value); }
 	 
 	 function get_show_members() { return $this->_state->showmembers; }
 	 function set_show_members($value) { $this->_state->showmembers = $value; }
@@ -136,6 +140,17 @@ class Team
 	    {
 	      $this->load($team_id);
 	    }
+            else
+            {
+              // Initialize the object with reasonable defaults for non-required fields
+              $this->_state->team = 0;
+              $this->_state->listmode = 0;
+              $this->_state->showmembers = "YES";
+              $this->_state->showpassword = "";
+              $this->_state->logo = "";
+              $this->_state->url = "";
+              $this->_state->description = "";
+            }
 	 }
 	  
         /***
@@ -160,7 +175,165 @@ class Team
          * @access public
          * @return bool
          ***/
-         function save() { print('Team::save() ==> Not currently implemented');}
+         function save() {
+           $chkValid = $this->is_valid();
+           if($chkValid != "")
+           {
+             return $chkValid;
+           }
+
+           // Otherwise, the object must be valid to save, so let's do it
+           if($this->_state->team != 0)
+           {
+             // Update
+             $sql = "UPDATE stats_team " .
+                    "   SET name = '" . $this->_state->name . "'," .
+                    "       \"password\" = '" . $this->_state->password . "'," .
+                    "       url = '" . $this->_state->url . "'," .
+                    "       contactname = '" . $this->_state->contactname . "'," .
+                    "       contactemail = '" . $this->_state->contactemail . "'," .
+                    "       logo = '" . $this->_state->logo . "'," .
+                    "       showmembers = '" . $this->_state->showmembers . "'," .
+                    "       showpassword = '" . $this->_state->showpassword . "'," .
+                    "       listmode = " . $this->_state->listmode . "," .
+                    "       description = '" . $this->_state->description . "'" .
+                    " WHERE team = " . $this->_state->team . "; SELECT * FROM stats_team WHERE team = " . $this->_state->team . ";";
+           }
+           else
+           {
+             // Insert
+             $sql = "INSERT INTO stats_team " .
+                    " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
+                    "VALUES" .
+                    " ('" . $this->_state->name . "'," .
+                    "'" . $this->_state->password . "'," .
+                    "'" . $this->_state->url . "'," .
+                    "'" . $this->_state->contactname . "'," .
+                    "'" . $this->_state->contactemail . "'," .
+                    "'" . $this->_state->logo . "'," .
+                    "'" . $this->_state->showmembers . "'," .
+                    "'" . $this->_state->showpassword . "'," .
+                    "" . $this->_state->listmode . "); SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
+           }
+
+           // Execute the SQL statement
+           // ** throw away the result of the first operation (if it's false)
+           $retVal = $this->_db->query_first($sql);
+           
+           if($retVal == FALSE)
+           {
+             return "Error Saving Team Data";
+           }
+           else
+           {
+             // Reset the state to that returned from the query
+             $this->_state = $retVal;
+           }
+
+           return "";
+         }
+
+        /***
+         * Returns a string containing the errors which prevent an object from being saved
+         *
+         * This routine enforces all the business rules for a given object
+         * If the object's internal data conforms to the ruleset, then nothing
+         * (empty string) is returned, else a string containing the rules which
+         * were violated is returned.
+         *
+         * @access public
+         * @return string
+         ***/ 
+         function is_valid()
+         {
+           // The Rules:
+           //  password - required, max(8)
+           //  name - required, unique, max(64)
+           //  url - optional, max(128)
+           //  contactname - required, max(64)
+           //  contactemail - required, max(64)
+           //  logo - optional, max(128)
+           //  showmembers - optional, one of {'YES','NO','PAS'}
+           //  showpassword - optional, max(16)
+           //  description - optional
+
+           // Setup the return value
+           $retVal = "";
+
+           // Required Fields
+           if($this->_state->password == '' || 
+              $this->_state->password == null ||
+              strlen($this->_state->password) != 8)
+           {
+             $retVal .= "Password must be 8 characters in length\n";
+           }
+
+           if($this->_state->name == '' ||
+              $this->_state->name == null ||
+              strlen($this->_state->name) > 64) 
+           {
+             $retVal .= "Team name is required and must be no longer than 64 characters.\n";
+           }
+
+           if($this->_state->contactname == '' ||
+              $this->_state->contactname == null ||
+              strlen($this->_state->contactname) > 64)
+           {
+             $retVal .= "Contact name is required and must be no longer than 64 characters.\n";
+           }   
+
+           if($this->_state->contactemail == '' ||
+              $this->_state->contactemail == null ||
+              strlen($this->_state->contactemail) > 64)
+           {
+             $retVal .= "Contact email is required and must be no longer than 64 characters.\n";
+           }   
+
+           // Uniqueness
+           if($retVal == "")
+           {
+             // make sure we've got proper escaping here...
+             $tmp = stripslashes($this->_state->name);
+             ini_alter("magic_quotes_sybase",0);
+             $tmp = addslashes($tmp);
+
+             $sql = "SELECT * FROM stats_team WHERE team != " . $this->_state->team . " AND lower(name) = '" . strtolower($tmp) . "'::char(64)";
+             $queryData = $this->_db->query_first($sql);
+
+             if($queryData != FALSE)
+             {
+               $retVal .= "Team name must be unique\n";
+             }
+           }
+
+           // Non-required fields
+           if(strlen($this->_state->url) > 128)
+           {
+             $retVal .= "URL must be no longer than 128 characters\n";
+           }
+
+           if(strlen($this->_state->logo) > 128)
+           {
+             $retVal .= "Logo URL must be no longer than 128 characters\n";
+           }
+
+           if($this->_state->showmembers != "YES" &&
+              $this->_state->showmembers != "NO" &&
+              $this->_state->showmembers != "PAS")
+           {
+             $retVal .= "Show Members must be one of [\"YES\",\"NO\",\"PAS\"]\n";
+           }
+
+           if($this->_state->showmembers == "PAS" &&
+              ($this->_state->showpassword == '' || 
+               $this->_state->showpassword == null ||
+               strlen($this->_state->showpassword) > 16))
+           {
+             $retVal .= "Member access password is required and must be no longer than 16 characters.\n";
+           }
+
+           return $retVal;
+         }
   
         /***
          * This function returns an array of team objects representing the neighbors of the current team
