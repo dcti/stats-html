@@ -1,10 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: newteam4.php,v 1.8 2002/06/03 13:10:02 paul Exp $
+  // $Id: newteam4.php,v 1.9 2002/06/20 22:34:22 paul Exp $
   
   include "../etc/config.inc";
   include "../etc/project.inc";
+  unset($proj_name);
 
   $title = "Adding Team data to stats...";
   include "../templates/header.inc";

@@ -1,13 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam2.php,v 1.8 2002/05/28 22:40:33 paul Exp $
+ // $Id: newteam2.php,v 1.9 2002/06/20 22:34:22 paul Exp $
 
  $title = "New Team Creation - Information";
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
+ unset($proj_name);
+
  include "../templates/header.inc";
  display_last_update();
 ?>
