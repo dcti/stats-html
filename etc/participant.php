@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.53 2004/08/29 03:00:31 fiddles Exp $
+// $Id: participant.php,v 1.54 2005/01/05 10:30:45 fiddles Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -850,6 +850,40 @@ class Participant {
                 FROM stats_participant
                 WHERE lower(email) like $1
                     AND listmode <= 10
+                LIMIT $2';
+
+        // Actually run the query...
+        $queryData = $db->query_bound($qs, array( "%$sstr%", (int)$limit ));
+        $total = $db->num_rows($queryData);
+        for($i = 0; $i < $total; $i++)
+        {
+            $retVal[] = $db->fetch_object($queryData);
+        }
+
+        return $retVal;
+    }
+
+    /***
+     * Returns a list of participants' id and email
+     *
+     * This routine retrieves a list of participants' id and email-string
+     * You specify the number to return
+     * 
+     * THIS FUNCTION IGNORES LISTMODE!
+     *
+     * @access public
+     * @return (id,email)[]
+     * @param string The search string
+     *        int The maximum number to return
+     */
+    function &get_search_list_no_stats_all($sstr, $limit = 50, &$db)
+    {
+        $sstr = strtolower($sstr);
+
+        // The query to run...
+        $qs = 'SELECT id, lower(email) AS email
+                FROM stats_participant
+                WHERE lower(email) like $1
                 LIMIT $2';
 
         // Actually run the query...
