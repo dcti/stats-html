@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.21 2003/03/09 11:43:16 paul Exp $
+// $Id: tmsummary.php,v 1.22 2003/03/10 23:32:50 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -178,11 +178,11 @@ if (private_markupurl_safety($par->logo) != "") {
   <? } else {  
     if ($par->WORK_TODAY == 0) {
       print "<center><p>Click here to view this team's 
-      <a href=\"tmember.php?project_id=$project_id&team=$tm\"><font color=\"#000000\">overall</font></a> participant stats";
+      <a href=\"tmember.php?project_id=$project_id&team=$tm\">overall</a> participant stats";
     } else {
       print "<center><p>Click here to view this team's participant stats for
-      <a href=\"tmember.php?project_id=$project_id&team=$tm&source=y\"><font color=\"#000000\">yesterday</font></a> or
-      <a href=\"tmember.php?project_id=$project_id&team=$tm\"><font color=\"#000000\">overall</font></a>";
+      <a href=\"tmember.php?project_id=$project_id&team=$tm&source=y\">yesterday</a> or
+      <a href=\"tmember.php?project_id=$project_id&team=$tm\">overall</a>";
     }
 	
     if ($par->showmembers=="PAS") {
