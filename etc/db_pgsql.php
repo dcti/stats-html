@@ -16,7 +16,7 @@ class DB {
     var $_query_id = 0;
 
     var $_connected = false;
-    var $g_queries_array = array();
+    var $_queries_array = array();
 
     /**
      * Constructor
@@ -83,11 +83,11 @@ class DB {
         $this -> _query_id = @pg_query ($this -> _link_id, $p_query);
         if(!$this -> _query_id) {
           $this -> _error ($p_query);
-          array_push ( $this->g_queries_array, array($p_query,false) );
+          array_push ( $this->_queries_array, array($p_query,false) );
           trigger_error("DB Query Failed",E_USER_ERROR);
           return false;
         }
-        array_push ( $this->g_queries_array, array($p_query,true) );
+        array_push ( $this->_queries_array, array($p_query,true) );
         return $this -> _query_id;
       }
     
@@ -132,10 +132,10 @@ class DB {
           }
         if(!$this -> _query_id) {
           $this -> _error ($p_query);
-          array_push ( $this->g_queries_array, array($p_query,false) );
+          array_push ( $this->_queries_array, array($p_query,false) );
           return false;
         }
-        array_push ( $this->g_queries_array, array($p_query,true) );
+        array_push ( $this->_queries_array, array($p_query,true) );
         return $this -> _query_id;
       }
     
