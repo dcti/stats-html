@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.21 2003/09/12 02:58:25 thejet Exp $
+// $Id: participant.php,v 1.22 2003/09/12 03:04:46 thejet Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -621,11 +621,11 @@ class Participant {
          {
            // First, we need to determine which query to run...
            if($source == 'y') {
-            $rank_field = 'overall_rank';
+            $rank_field = 'day_rank';
             $field = 'work_today';
             $other_field = 'work_total';
            } else {
-            $rank_field = 'day_rank';
+            $rank_field = 'overall_rank';
             $field = 'work_total';
             $other_field = 'work_today';
           }
