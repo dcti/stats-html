@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: plist.php,v 1.29 2004/07/16 20:45:27 decibel Exp $
+// $Id: plist.php,v 1.30 2004/07/19 00:59:37 jlawson Exp $
 // Variables Passed in url:
 // low == lowest rank used
 // limit == how many lines to retuwn
@@ -45,7 +45,7 @@ if ($plist) {
 	    ?>
 		<tr class="<?=row_background_color($i)?>">
 			<td><?=$statspar -> get_stats_item('rank')?><?=html_rank_arrow($statspar -> get_stats_item('change')) ?></td>
-			<td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$par -> get_id() ?>"><?=$par -> get_display_name() ?></a></td>
+			<td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$par -> get_id() ?>"><?=safe_display($par -> get_display_name()) ?></a></td>
 			<td align="right"><?=$statspar -> get_stats_item('first_date') ?></td>
 			<td align="right"><?=$statspar -> get_stats_item('last_date') ?></td>
 			<td align="right"><?=$statspar -> get_stats_item('days_working')?></td>

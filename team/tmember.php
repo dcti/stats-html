@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.37 2004/07/16 20:45:27 decibel Exp $
+// $Id: tmember.php,v 1.38 2004/07/19 01:01:29 jlawson Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -191,7 +191,7 @@ print "
           $linkid = (int) $teamMembers[$i]->get_id();
           $fmtid = number_style_convert($linkid);
 
-          $listas = $teamMembers[$i]->get_display_name();
+          $listas = safe_display($teamMembers[$i]->get_display_name());
 
           print "
           <tr class=" . row_background_color($i) . ">

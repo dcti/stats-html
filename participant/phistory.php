@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.22 2004/07/16 20:45:27 decibel Exp $
+// $Id: phistory.php,v 1.23 2004/07/19 00:59:37 jlawson Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -29,7 +29,7 @@ $history = $gpartstats -> get_stats_history();
 
 $lastupdate = last_update('ec');
 
-$title = "Participant History for ".$gpart->get_display_name();
+$title = "Participant History for ".safe_display($gpart->get_display_name());
 
 include "../templates/header.inc";
 
@@ -40,7 +40,7 @@ This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
 http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id&id=$id
 -->
-    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->get_display_name()?>'s Participant Summary</a></p>
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=safe_display($gpart->get_display_name())?>'s Participant Summary</a></p>
       <table align="center" border="1" cellspacing="0" cellpadding="1" >
       <tr>
        <th class="thead">Date</th>
@@ -74,6 +74,6 @@ foreach ($history as $histrow)
 	}
 ?>
     </table>
-    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=$gpart->get_display_name()?>'s Participant Summary</a></p>
+    <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=safe_display($gpart->get_display_name())?>'s Participant Summary</a></p>
 <?include "../templates/footer.inc";
 ?>

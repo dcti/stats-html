@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.24 2004/07/16 20:45:27 decibel Exp $
+// $Id: pedit.php,v 1.25 2004/07/19 00:57:42 jlawson Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -226,7 +226,7 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
     <tr>
       <td>Motto:</td>
       <td>
-       <textarea name=\"motto\" cols=\"50\" rows=\"5\">".$gpart->get_motto()."</textarea>
+       <textarea name=\"motto\" cols=\"50\" rows=\"5\">".safe_display($gpart->get_motto())."</textarea>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
@@ -256,11 +256,11 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      </tr>
      <tr>
       <td>Real Name:</td>
-      <td><input name=\"contact_name\" value=\"".$gpart->get_contact_name()."\" size=\"30\"></td>
+      <td><input name=\"contact_name\" value=\"".safe_display($gpart->get_contact_name())."\" size=\"30\"></td>
      </tr>
      <tr>
       <td>Phone Number:</td>
-      <td><input name=\"contact_phone\" value=\"".$gpart->get_contact_phone()."\" size=\"20\"></td>
+      <td><input name=\"contact_phone\" value=\"".safe_display($gpart->get_contact_phone())."\" size=\"20\"></td>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>

@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit_save.php,v 1.9 2004/07/16 20:45:27 decibel Exp $
+  // $Id: tmedit_save.php,v 1.10 2004/07/19 01:01:29 jlawson Exp $
 
   include "../etc/global.inc";
   include "../etc/project.inc";
@@ -27,8 +27,6 @@
     include "../templates/tmlocked.inc";
     exit;
   }
-
-  $name = htmlspecialchars($name);
 
   $gteam->set_name($_POST['name']);
   $gteam->set_url($_POST['url']);

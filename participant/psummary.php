@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.64 2004/07/16 20:45:27 decibel Exp $
+// $Id: psummary.php,v 1.65 2004/07/19 00:59:37 jlawson Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -22,7 +22,7 @@ function par_list($i, $par, $stats, &$totaltoday, &$totaltotal, $proj_scale, $co
     ?>
     <tr class="<?=row_background_color($i, $color_a, $color_b)?>">
       <td align="left"><?echo $stats->get_stats_item("overall_rank") . html_rank_arrow($stats->get_stats_item("overall_change")) ?></td>
-      <td align="left"><a href="psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
+      <td align="left"><a href="psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$parid?>"><?=safe_display($participant)?></a></td>
       <td align="right"><?echo number_style_convert($stats->get_stats_item("days_working"));?></td>
       <td align="right"><?echo number_style_convert($stats->get_stats_item("work_total") * $proj_scale) ?> </td>
       <td align="right"><?echo number_style_convert($stats->get_stats_item("work_today") * $proj_scale) ?> </td>
@@ -59,7 +59,7 @@ if($gpart -> get_retire_to() > 0) {
 
 $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 
-$title = "Participant Summary for " . $gpart -> get_display_name();
+$title = "Participant Summary for " . safe_display($gpart -> get_display_name());
 
 $lastupdate = last_update('e');
 include "../templates/header.inc";
@@ -76,7 +76,7 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 
 ?>
   <div style="text-align:center">
-    <h1 class="phead"><?=$gpart->get_display_name()?>'s stats</h1>
+    <h1 class="phead"><?=safe_display($gpart->get_display_name())?>'s stats</h1>
     <table border="0" style="margin: auto">
       <tr>
         <td colspan="3">

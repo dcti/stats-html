@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.15 2004/07/16 20:45:27 decibel Exp $
+  // $Id: pedit_save.php,v 1.16 2004/07/19 00:58:30 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -31,7 +31,7 @@
 
   $nonprofit = (int) $_POST['nonprofit'];
 
-  $contact_name = htmlspecialchars($_POST['contact_name']);
+  $contact_name = $_POST['contact_name'];
   $contact_phone = $_POST['contact_phone'];
   $motto = $_POST['motto'];
 
