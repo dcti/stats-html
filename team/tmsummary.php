@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.17 2002/12/09 04:17:55 decibel Exp $
+// $Id: tmsummary.php,v 1.18 2002/12/10 21:39:27 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -62,27 +62,23 @@ $yest_totals = sybase_fetch_object($result);
 
 debug_text("<!-- Neighbors -- qs: $qs, neighbors: $neighbors, numneighbors: $numneighbors -->\n",$debug);
 
-
-$constant_keys_per_block = 268435456;
-$overall_rate = ((((double)$par->WORK_TOTAL)*$constant_keys_per_block)/(86400*$par->Days_Working))/1000;
-
 if (private_markupurl_safety($par->logo) != "") {
-  $logo = "<IMG src=\"$par->logo\">";
+  $logo = "<img src=\"$par->logo\">";
 } else {
   $logo = "";
 }
 ?>
-<h1><center><? echo safe_display($par->name)?></center></h1>
+<h1><center><?= safe_display($par->name) ?></center></h1>
 <center>
   <table>
     <tr>
-      <td><?echo $logo?></td>
-      <td><center><?echo markup_to_html($par->description)?><center></td>
+      <td><?= $logo ?></td>
+      <td><center><?= markup_to_html($par->description) ?><center></td>
     </tr>
     <tr>
     <tr>
       <td colspan=2>
-        <center>contact: <?echo safe_display($par->contactemail)?><center>
+        <center>Contact: <?= safe_display($par->contactemail) ?><center>
       </td>
     </tr>
   </table>
@@ -91,59 +87,76 @@ if (private_markupurl_safety($par->logo) != "") {
   <table cellspacing="4">
     <tr>
       <td></td>
-      <td align="center"><font <?=$fontd?> size="+1">Rank </font></td>
-      <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?> </font></td>
-      <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?><br>Member</font></td>
+      <td align="center"><font <?= $fontd ?> size="+1">Overall</font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="center"><font <?= $fontd ?> size="+1">Yesterday</font></td>
+<? } ?>
     </tr>
     <tr>
-      <td><font <?=$fontd?> size="+1">Overall:</font></td>
-      <td align="right" size="+2"><font <?=$fontf?>><? echo $par->OVERALL_RANK .
-      html_rank_arrow($par->Overall_Change) ?> </font></td>
-      <td align="right" size="+2">
-        <font <?=$fontf?>> <? echo number_style_convert( (double) $par->WORK_TOTAL/$proj_divider ) ?></font>
-      </td>
-      <td align="right" size="+2">
-        <font <?=$fontf?>>
-          <? echo number_style_convert( (double) $par->WORK_TOTAL/$proj_divider/$par->MEMBERS_OVERALL ) ;?>
-        </font>
-      </td>
-    </tr>
-    <?
-    if ( $par->WORK_TODAY > 0 ) 
-    ?>
-    <tr>
-      <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
-      <td align="right" size="+2"><font <?=$fontf?>><? echo $par->DAY_RANK . html_rank_arrow($par->Day_Change)?> </font></td>
-      <td align="right" size="+2">
-        <font <?=$fontf?>> <?echo number_style_convert( (double) $par->WORK_TODAY/$proj_divider )?></font>
-      </td>
-      <td align="right" size="+2">
-        <font <?=$fontf?>><?echo number_style_convert( (double) $par->WORK_TODAY/$proj_divider/$par->MEMBERS_TODAY )?></font>
-      </td>
+      <td align="left"><font <?= $fontd ?> size="+1">Rank:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= $par->OVERALL_RANK . " " . html_rank_arrow($par->Overall_Change) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= $par->DAY_RANK . " " . html_rank_arrow($par->Day_Change) ?></font></td>
+<? } ?>
     </tr>
     <tr>
-      <td><font <?=$fontd?> size="+1">Time Working: </font></td>
-      <td colspan="3" align="right" size="+2"><font <?=$fontf?>><?echo  number_format($par->Days_Working)?> days</font></td>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale) ?></font></td>
+<? } ?>
     </tr>
-    <? if ($proj_totalunits > 0 ) { ?>
-      <tr>
-       <td><font <?=$fontd?> size="+1">Overall Rate: </font></td>
-       <td colspan="3" align="right" size="+2"><font <?=$fontf?>><?echo  number_format($overall_rate)?> Kkeys/second</font></td>
-      <tr>
-    <? } ?> 
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/sec:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / (86400 * $par->Days_Working), 3) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / 86400, 3) ?></font></td>
+<? } ?>
+    </tr>
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_scaled_unit_name ?>/member:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL * $proj_scale / $par->MEMBERS_OVERALL) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY * $proj_scale / $par->MEMBERS_TODAY) ?></font></td>
+<? } ?>
+    </tr>
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY) ?></font></td>
+<? } ?>
+    </tr>
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/sec:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / (86400 * $par->Days_Working), 3) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / 86400, 3) ?></font></td>
+<? } ?>
+    </tr>
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1"><?= $proj_unscaled_unit_name ?>/member:</font></td>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TOTAL / $par->MEMBERS_OVERALL) ?></font></td>
+<? if ($par->WORK_TODAY > 0) { ?>
+      <td align="right" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->WORK_TODAY / $par->MEMBERS_TODAY) ?></font></td>
+<? } ?>
+    </tr>
+    <tr>
+      <td align="left"><font <?= $fontd ?> size="+1">Time Working:</font></td>
+      <td align="right" colspan="<?= ($par->WORK_TODAY > 0) ? 3 : 2 ?>" size="+2"><font <?= $fontf ?>><?= number_style_convert($par->Days_Working) ?> days</font></td>
     </tr>
   </table>
   <br>
   <br>
-  <? if ($proj_totalunits > 0 ) { ?>
-  The odds are 1 in <?=number_format((double)$yest_totals->WORK_UNITS / (double) $par->WORK_TODAY)?> that this team will
-    find the key before anyone else does. <BR>
+  <? if ($proj_totalunits > 0) { ?>
+  The odds are 1 in <?= number_style_convert($yest_totals->WORK_UNITS / $par->WORK_TODAY) ?> that this team will
+    find the key before anyone else does. <br>
   <? } ?>
 
   <p>
-    This team has had <?echo number_style_convert( $par->MEMBERS_OVERALL )?> participants contribute blocks.
-    Of those, <?echo number_style_convert( $par->MEMBERS_CURRENT )?> are still on this team,
-    and <?echo number_style_convert( $par->MEMBERS_TODAY )?> submitted work today.
+    This team has had <?= number_style_convert($par->MEMBERS_OVERALL) ?> participants contribute blocks.
+    Of those, <?= number_style_convert($par->MEMBERS_CURRENT) ?> are still on this team,
+    and <?= number_style_convert($par->MEMBERS_TODAY) ?> submitted work today.
   </p>
   <?
   //Some buttons to view team history will go here
@@ -176,41 +189,33 @@ if (private_markupurl_safety($par->logo) != "") {
         <th>Rank</th>
         <th>Team</th>
         <th align="right">Days</th>
-        <th align="right"><?=$proj_unitname?></th>
+        <th align="right"><?= $proj_scaled_unit_name ?></th>
       </tr>
       <?
-      $totalblocks=0;
+      $totalwork = 0;
       for ($i = 0; $i < $numneighbors; $i++) {
       ?>
-        <tr class="<?=row_background_color($i)?>">
+        <tr class="<?= row_background_color($i) ?>">
         <?        
         sybase_data_seek($neighbors,$i);
         $teamrec = sybase_fetch_object($neighbors);
-        $teamrecid = 0 + $teamrec->TEAM_ID;
-        $totalblocks += (double) $teamrec->WORK_TOTAL/$proj_divider;
-        $decimal_places=0;
-        $blocks=number_style_convert( (double) $teamrec->WORK_TOTAL/$proj_divider );
-
-        print "   <td>$teamrec->OVERALL_RANK ";
-        if ($teamrec->Change > 0) {
-          print "<font color=\"#009900\">(<img src=\"/images/up.gif\" alt=\"+\">$teamrec->Change)</font></td>\n";
-        } else {
-          if ($teamrec->Change < 0) {
-            $offset = -$teamrec->Change;
-            print "<font color=\"#990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</font></td>\n";
-          }
-        }
-        print "
-          <td><a href=\"tmsummary.php?project_id=$project_id&team=$teamrecid\"><font color=\"#cc0000\">$teamrec->name</font></a></td>
-          <td align=\"right\">$teamrec->Days_Working</td>
-          <td align=\"right\">$blocks</td>
+        $totalwork += $teamrec->WORK_TOTAL;
+        ?>
+          <td><?= $teamrec->OVERALL_RANK . " " . html_rank_arrow($teamrec->Change) ?></td>
+          <td>
+            <font color="#cc0000">
+              <a href="tmsummary.php?project_id=<?= $project_id ?>&team=<?= $teamrec->TEAM_ID + 0 ?>"><?= $teamrec->name ?></a>
+            </font>
+          </td>
+          <td align="right"><?= number_style_convert($teamrec->Days_Working) ?></td>
+          <td align="right"><?= number_style_convert($teamrec->WORK_TOTAL * $proj_scale) ?></td>
         </tr>
-              ";
+      <?
       }
       ?>
-      <tr bgcolor=<?=$footer_bg?>>
-        <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
-        <td align="right" colspan="3"><font <?=$footer_font?>><? echo number_style_convert($totalblocks)?></td>
+      <tr bgcolor=<?= $footer_bg ?>>
+        <td align="right" colspan="3"><font <?= $footer_font ?>>Total</font></td>
+        <td align="right"><font <?= $footer_font ?>><?= number_style_convert($totalwork * $proj_scale) ?></td>
       </tr>
     </table>
     <hr>
