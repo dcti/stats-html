@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.13 2004/07/19 01:01:29 jlawson Exp $
+  // $Id: tmedit.php,v 1.14 2004/07/19 01:24:04 jlawson Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -11,7 +11,9 @@
   unset($gproj);
   $gproj = new Project($gdb, 0);
 
+  $lmlist = $lmmore = '';
   if($gteam->get_listmode() <= 2) {
+    $sel_normal = $sel_restricted = $sel_closed = $sel_obscure = $sel_realname = '';
     switch ($gteam->get_listmode()) {
       case 0:
         $sel_normal = "selected";
@@ -45,6 +47,7 @@
     }
   }
 
+  $psel_yes = $psel_no = $psel_pas = '';
   switch ($gteam->get_show_members()) {
     case 'YES':
       $psel_yes = "selected";
