@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.10 2000/12/02 19:13:49 decibel Exp $
+  // $Id: pedit.php,v 1.11 2002/01/20 23:21:03 paul Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -178,8 +178,8 @@
     <h2>
      Participant Configuration for $par->email
     </h2>
-    <table>
-     <tr>
+   <table>
+    <tr>
       <td>Participant:</td>
       <td><strong>$par->email</strong></td>
      </tr>
@@ -212,7 +212,8 @@
      <tr>
       <td colspan=\"2\"><hr></td>
      </tr>
-     <tr>
+ "; include "etc/markuplegend.inc"; print " 
+    <tr>
       <td>Motto:</td>
       <td>
        <textarea name=\"motto\" cols=\"50\" rows=\"1\">$par->motto</textarea>

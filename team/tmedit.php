@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.3 2000/01/18 03:51:59 decibel Exp $
+  // $Id: tmedit.php,v 1.4 2002/01/20 23:21:03 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -104,6 +104,9 @@
       <td>Team Logo url:</td>
       <td><input name=\"logo\" value=\"$par->logo\" size=\"50\" maxlength=\"64\"></td>
      </tr>
+"; 
+include "etc/markuplegend.inc";
+print "
      <tr>
       <td>Description:</td>
       <td><textarea name=\"description\" type=\"text\" cols=\"50\" rows=\"5\" wrap=\"virtual\">$par->description</textarea></td>
