@@ -88,6 +88,7 @@ if ($gproj->get_prize() <> 0) {
     ?>
     </td>
    </tr>
+ </table>
 <? } 
 ?>
-  </table>
+ 
