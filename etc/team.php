@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.23 2004/07/19 00:52:49 jlawson Exp $
+// $Id: team.php,v 1.24 2004/07/21 00:12:56 decibel Exp $
 
 //==========================================
 // file: team.php
@@ -410,8 +410,10 @@ class Team
            //$sql .= " AND team_id != $3";
            $sql .= " AND listmode <= 9 ORDER BY overall_rank ASC ";
 
-           $queryData = $this->_db->query_bound($sql, array((int)$this->_stats->get_stats_item('overall_rank'),
-								$this->_project->get_id()) );
+           $queryData = $this->_db->query_bound($sql, array(
+                                                                (int)$this->_stats->get_stats_item('overall_rank'),
+                                                                $this->_project->get_id()
+                                                            ) );
 
            $result = $this->_db->fetch_paged_result($queryData);
            $cnt = count($result);
