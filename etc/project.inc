@@ -1,9 +1,12 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.36 2003/11/25 18:23:44 thejet Exp $
+// $Id: project.inc,v 1.37 2003/11/25 22:31:06 paul Exp $
+
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
+
+ob_start();
 
 $myname = $_SERVER['PHP_SELF'];
 
@@ -60,7 +63,7 @@ if (isset($_REQUEST['team'])) {
     $tm = 1;
 } 
 
-$gdb = new DB('dbname=stats');
+$gdb = new DB($conn_string);
 $gproj = new Project($gdb, $project_id);
 
 function last_update($type)
