@@ -24,6 +24,8 @@ body { font-family:verdana,helvetica,arial;font-size:small;color:#000000;backgro
 body a, body a:visited, body a:hover { color: #777777 }
 img { border: 0px; }
 
+table.width50		{ width: 50%;  border: solid 1px #000000; }
+
 /*
 A:hover { background-color: red; text-decoration: none; color: white }
 A:active { background-color: white; text-decoration: none; color: red }
