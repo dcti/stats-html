@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.32 2003/09/01 23:11:22 paul Exp $
+// $Id: tmember.php,v 1.33 2003/09/13 22:40:59 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -156,12 +156,12 @@ print "
           <th class="thead">Project Rank</th>
           <th class="thead">First</th>
           <th class="thead">Last</th>
-          <th class="thead">Yesterday</th>
+          <th class="thead"><?=$gproj->get_scaled_unit_name()?> Yesterday</th>
           <?
           if ($totblocks) { ?>
             <th class="thead">%</th>
           <? } ?>
-          <th class="thead">Total</th>
+          <th class="thead"><?=$gproj->get_scaled_unit_name()?> Total</th>
           <?
           if ($totblocks) { ?>
             <th class="thead">%</th>
