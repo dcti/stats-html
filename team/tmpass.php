@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.1 1999/07/11 19:09:32 nugget Exp $
+  // $Id: tmpass.php,v 1.2 1999/07/11 19:23:26 nugget Exp $
 
   // Variables Passed in url:
   //  team = team id
@@ -11,7 +11,7 @@
   $myname = "ppass.php3";
 
   include "etc/config.inc";
-  include "etc/number_format.inc";
+  include "etc/modules.inc";
   include "etc/project.inc";
   include "templates/header.inc";
 

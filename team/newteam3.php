@@ -1,12 +1,12 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- // $Id: newteam3.php,v 1.1 1999/07/11 19:09:31 nugget Exp $
+ // $Id: newteam3.php,v 1.2 1999/07/11 19:23:26 nugget Exp $
 
  $title = "New Team Creation - Information";
 
  include "etc/config.inc";
- include "etc/number_format.inc";
+ include "etc/modules.inc";
  include "etc/project.inc";
  include "templates/header.inc";
 ?>

@@ -1,0 +1,5 @@
+A:hover { background-color: red; text-decoration: none; color: white }
+A:active { background-color: white; text-decoration: none; color: red }
+TD { font-family: Arial,Helvetica }
+TH { font-family: Verdana; color: red }
+HR { color: #0000FF } -->
