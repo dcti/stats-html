@@ -1,8 +1,6 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
 
- // $Id: pc_countries.php,v 1.2 2002/03/08 22:53:01 paul Exp $
+ // $Id: pc_countries.php,v 1.3 2002/03/09 12:49:32 paul Exp $
 
  $outname = "countries";
 

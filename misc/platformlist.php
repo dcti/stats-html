@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.3 2002/03/08 23:29:15 paul Exp $
+# $Id: platformlist.php,v 1.4 2002/03/09 12:49:32 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -12,11 +12,6 @@ if ($now['hours'] >= 0 and $now['hours'] < $hour) {
 
 Header("Cache-Control: must-revalidate");
 Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
-?> 
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
-<?
 
 /// Variables passed in url
 //   source == "y" for yseterday, all other values ignored.

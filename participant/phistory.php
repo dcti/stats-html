@@ -1,5 +1,5 @@
 <?
- # $Id: phistory.php,v 1.3 2002/03/08 23:29:15 paul Exp $
+ # $Id: phistory.php,v 1.4 2002/03/09 12:49:32 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -73,9 +73,6 @@
 */
 
  $qs = "p_phistory @project_id = $project_id, @id = $id";
-
- print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"
-        \"http://www.w3.org/TR/REC-html40/loose.dtd\">";
 
  $title = "Participant History for $participant";
 

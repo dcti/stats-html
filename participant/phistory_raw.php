@@ -1,5 +1,5 @@
 <?
- # $Id: phistory_raw.php,v 1.3 2002/03/08 23:29:15 paul Exp $
+ # $Id: phistory_raw.php,v 1.4 2002/03/09 12:49:32 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -66,11 +66,12 @@
 
  $qs = "p_phistory @project_id = $project_id, @id = $id";
 
- print "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\"
-        \"http://www.w3.org/TR/REC-html40/loose.dtd\">
+?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
 <head>
-<title>Raw Participant History for ID $id</title>
+<title>Raw Participant History for ID <?=$id?></title>
 </head>
 <body>
 <pre>
@@ -80,12 +81,12 @@ in this report.  Future improvements may be implemented which
 result in additional fields added to each line.
 
 ---BEGIN HEADER---
-ID=$id
-PARTICIPANT=$participant
-LASTUPDATE=$lastupdate
+ID=<?=$id?>
+PARTICIPANT=<?=$participant?>
+LASTUPDATE=<?=$lastupdate?>
 ---BEGIN DATA---
 DATE,UNITS
-";
+<?
  $result = sybase_query($qs);
  $rows = sybase_num_rows($result);
  for ($i = 0; $i<$rows; $i++) {
