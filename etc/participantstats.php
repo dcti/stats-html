@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.21 2005/04/01 17:23:37 decibel Exp $
+// $Id: participantstats.php,v 1.22 2005/04/01 19:20:38 decibel Exp $
 
 /**
  * This class represents a participant stats entry
@@ -70,7 +70,7 @@ class ParticipantStats {
 
         $qs  = "SELECT last_date + 1 - first_date as Days_Working,";
         if ( $random_stats == 1 ) {
-            $qs .= "                day_rank$random_function AS day_rank, overall_rank$random_function AS overall_rank,";
+            $qs .= "                day_rank$random_function::int AS day_rank, overall_rank$random_function::int AS overall_rank,";
             $qs .= "                work_today$random_function AS work_today, work_total$random_function AS work_total,";
         } else {
             $qs .= "                day_rank, overall_rank,";
