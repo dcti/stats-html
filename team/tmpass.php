@@ -1,20 +1,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: tmpass.php,v 1.9 2002/04/09 23:20:46 jlawson Exp $
+  // $Id: tmpass.php,v 1.10 2003/09/01 17:32:47 thejet Exp $
 
   // Variables Passed in url:
   //  team = team id
 
   $title = "Password request: Team $team";
   
-  $myname = "ppass.php";
+  $myname = "tmpass.php";
 
   include "../etc/config.inc";
   include "../etc/modules.inc";
   include "../etc/project.inc";
+  include "../etc/team.php";
   include "../templates/header.inc";
 
+  display_last_update('t');
   $team = 0+$team;
 
   if ($team < 1) {
@@ -30,21 +32,16 @@
     exit();
   }
 
-  sybase_pconnect($interface, $username, $password);
-  sybase_query("set rowcount 50");
-  $qs = "select * from STATS_team where team = $team";
+  $teamPtr =& new Team($gdb, $gproj, $team);
+  $teamcontact = $teamPtr->get_contact_name();
 
-  $result = sybase_query($qs);
-  sybase_data_seek($result,0);
-  $par = sybase_fetch_object($result);
-
-  $pass = $par->password;
+  $pass = $teamPtr->get_password();
 
   print "<h2>Your request has been processed.</h2><br>\n";
-  print "<h3>The password will be mailed to $par->email and should arrive within 10 minutes.</h3>\n";
+  print "<h3>The password will be mailed to " . $teamPtr->get_contact_email() . " and should arrive within 10 minutes.</h3>\n";
   print "</body></html>\n";
 
-  $message = "Greetings, $par->contactname:
+  $message = "Greetings, $teamcontact:
 
 You (or \"$REMOTE_HOST\" [$REMOTE_ADDR]) recently
 requested the password for your distributed.net team account.  You
@@ -78,11 +75,12 @@ help@distributed.net.
 
 Thanks.";
 
-  send_mail($par->contactemail, "passmail@distributed.net", "Your distributed.net stats password", $message);
+  send_mail($teamPtr->get_contact_email(), "passmail@distributed.net", "Your distributed.net stats password", $message);
 
   $fh = fopen("/var/log/tmpass.log","a+");
   $ts = gmdate("M d Y H:i:s",time());
   fputs($fh,"$ts password for team $team requested by $REMOTE_HOST [$REMOTE_ADDR]\n");
   fclose($fh);
 
+  include "../templates/footer.inc";
 ?>
