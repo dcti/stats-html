@@ -1,11 +1,11 @@
 #!/bin/sh
 #
-# $Id: static.sh,v 1.8 2003/07/10 19:23:03 decibel Exp $
+# $Id: static.sh,v 1.9 2004/04/21 22:15:24 paul Exp $
 #
 # Update static pages
 
 do_wget ( ) {
-	wget -O${2} "http://stats-${USER}.distributed.net/${1}"
+	wget -O${2} "http://${USER}.statsdev.distributed.net/${1}"
 	return
 }
 
