@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.8 2003/08/25 20:28:38 thejet Exp $
+// $Id: participant.php,v 1.9 2003/08/25 21:45:42 thejet Exp $
 /**
  * This class represents a participant
  * 
@@ -151,7 +151,7 @@ class Participant {
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp =& new Participant($this->_db, $this->_project, null);
+            $partTmp =& new Participant($this->_db, $this->_project);
             $statsTmp =& new ParticipantStats($this->_db, $this->_project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
@@ -200,7 +200,7 @@ class Participant {
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp =& new Participant($this->_db, $this->_project, null);
+            $partTmp =& new Participant($this->_db, $this->_project);
             $statsTmp =& new ParticipantStats($this->_db, $this->_project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
@@ -371,7 +371,7 @@ class Participant {
      *                                  ProjectClass The current project
      *                                  int The ID of the participant to load
      */
-    function Participant($dbPtr, $prjPtr, $id )
+    function Participant($dbPtr, $prjPtr, $id = -1 )
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
@@ -513,6 +513,57 @@ class Participant {
     } 
 
         /***
+         * Returns a list of participants
+         *
+         * This routine retrieves a list of participants (based on the search string)
+         * You specify the number to return
+         *
+         * @access public
+         * @return Participant[]
+         * @param string The search string
+         *        int The maximum number to return
+         ***/
+         function &get_search_list($sstr, $limit = 50, &$db, &$project)
+         {
+           // Ensure that the string is safe to pass to pgsql...
+           $sstr = stripslashes($sstr);
+           ini_alter("magic_quotes_sybase",0);
+           $sstr = addslashes($sstr);
+           $sstr = strtolower($sstr);
+
+           // The query to run...
+           $qs = "SELECT p.*,r.*, to_char(first_date, 'dd-Mon-YYYY') as first_date,
+                         to_char(last_date, 'dd-Mon-YYYY') as last_date,
+                         work_total, work_today,
+                         last_date::DATE - first_date::DATE +1 AS days_working,
+                         overall_rank_previous - overall_rank AS rank_change
+                    FROM email_rank r INNER JOIN stats_participant p ON p.id = r.id
+                   WHERE (lower(contact_name) like '%$sstr%' OR lower(email) like '%$sstr%')
+                     AND listmode <= 10
+                     AND project_id = " . $project->get_id() . "
+                   ORDER BY overall_rank ASC
+                   LIMIT $limit";
+
+           // Actually run the query...
+           $queryData = $db->query($qs);
+           $total = $db->num_rows($queryData);
+           $result =& $db->fetch_paged_result($queryData, 1, $limit);
+           $cnt = count($result); 
+           for($i = 0; $i < $cnt; $i++)
+           {
+             $partTmp =& new Participant($db, $project);
+             $statsTmp =& new ParticipantStats($db, $project);
+             $statsTmp->explode($result[$i]);
+             $partTmp->explode($result[$i], $statsTmp);
+             $retVal[] = $partTmp;
+             unset($partTmp);
+             unset($statsTmp);
+           }
+
+           return $retVal;
+         }
+
+        /***
          * Returns a list of participants for a team
          *
          * This routine retrieves a ranked list of participants for a particular
@@ -559,7 +610,7 @@ class Participant {
            $cnt = count($result);
            for($i = 0; $i < $cnt; $i++)
            {
-             $parTmp =& new Participant($db, $project);
+             $parTmp =& new Participant($db, $project, null);
              $statsTmp =& new ParticipantStats($db, $project);
              $statsTmp->explode($result[$i]);
              $parTmp->explode($result[$i], $statsTmp);
@@ -586,8 +637,8 @@ class Participant {
 
     function explode($obj, $stats = null)
     {
-        $this -> _state = &$obj;
-        $this -> _stats = &$stats;
+        $this->_state =& $obj;
+        $this->_stats =& $stats;
     } 
 } 
 
