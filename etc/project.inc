@@ -1,25 +1,35 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.32 2003/09/13 22:50:53 paul Exp $
+// $Id: project.inc,v 1.33 2003/09/14 00:22:19 decibel Exp $
 include "limit.inc";
 include "db_pgsql.php";
 include "project.php";
+
+define("DEBUG_SHOW_QUERY", 1);
+define("DEBUG_TIME", DEBUG_SHOW_QUERY+1);
+define("DEBUG_PROFILE", DEBUG_TIME+1);
+define("DEBUG_TRACE", DEBUG_PROFILE+1);
 
 $debug = 0;
 if ($_SERVER["SERVER_NAME"] != "stats.distributed.net") {
     if (isset($_GET['debug'])) {
         $debug = (int)$_REQUEST['debug'];
     } 
-    if($debug >= 1)
+    if($debug >= DEBUG_TIME)
     {
-      if(!dl('xdebug.so'))
+      if(!file_exists(getenv('DOCUMENT_ROOT').'/xdebug.so'))
+      {
+        echo "I can't find xdebug.so to enable debugging!\n";
+        $debug = 1;
+      }
+      else if(!dl('xdebug.so'))
       {
         echo "Unable to load dynamic library for debugging!\n";
-        $debug = 0;
+        $debug = 1;
       }
       else
       {
-        if($debug >= 2) {
+        if($debug >= DEBUG_TRACE) {
           xdebug_start_trace();
         }
         xdebug_start_profiling();

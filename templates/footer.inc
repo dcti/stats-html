@@ -40,13 +40,13 @@ if (!isset($proj_list)) {
     <a href="http://www.postgresql.org/"><img src="/images/pg-power.jpg" alt="PostgreSQL"></a>
    </div>
 <?
-if($debug > 0 ) {
+if($debug >= DEBUG_TIME ) {
 
     ?>
 		<p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
 		<?
-    if($debug >= 2) { echo xdebug_dump_function_trace(); }
-    echo xdebug_dump_function_profile();
+    if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }
+    if($debug >= DEBUG_PROFILE) { echo xdebug_dump_function_profile(); }
 } 
 
 ?>
