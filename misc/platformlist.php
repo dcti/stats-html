@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.8 2002/04/09 22:58:41 jlawson Exp $
+# $Id: platformlist.php,v 1.9 2002/06/04 05:25:49 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -32,12 +32,14 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  include "../templates/header.inc";
  
  $selstr = "select";
- $frostr = "from Platform_Contrib p,";
+ $frostr = "from Platform_Summary p,";
  $whestr = "where p.PROJECT_ID = $project_id";
  $grostr = "group by";
  $ordstr = "order by";
+ $show_yesterday = 0;
+ $show_total = 0;
  if("$source" == "y") {
-   $whestr .= " and DATE = (select max(DATE) from Platform_Contrib)";
+   $whestr .= " and WORK_YESTERDAY > 0";
  }
 
  for($i=0; $i < strlen($view); $i++) {
@@ -45,13 +47,20 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    if($ch == 'c') $fieldname = "p.CPU";
    if($ch == 'o') $fieldname = "p.OS";
    if($ch == 'v') $fieldname = "p.VER";
-   if($ch == 't') $fieldname = "p.PROJECT_ID";
+   if($ch == 'y') {
+     $fieldname = "sum(p.WORK_YESTERDAY)/$proj_divider as yesterday";
+     $show_yesterday = 1;
+   }
+   if($ch == 't') {
+     $fieldname = "sum(p.WORK_TOTAL)/$proj_divider as total";
+     $show_total = 1;
+   }
    $selstr .= " $fieldname,";
-   $grostr .= " $fieldname,";
+   if($ch != 'y' and $ch != 't') $grostr .= " $fieldname,";
  }
 
 
- $selstr .= " min(p.DATE) as first, max(p.DATE) as last, sum(p.WORK_UNITS)/$proj_divider as total,";
+ $selstr .= " FIRST_DATE as first, LAST_DATE as last";
 
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
@@ -69,6 +78,9 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    }
    if($ch == 'v') {
      $ordstr = "$ordstr p.VER,";
+   }
+   if($ch == 'y') {
+     $ordstr = "$ordstr yesterday desc,";
    }
    if($ch == 't') {
      $ordstr = "$ordstr total desc,";
@@ -90,7 +102,9 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  err_check_query_results($result);
  
  $rows = sybase_num_rows($result);
- $cols = 3;
+
+ # Total number of columns in table, not counting yesterday or total columns. Start at 2 to account for first and last.
+ $cols = 2;
  print "
     <center>
      <br>
@@ -117,44 +131,65 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
        <th align="right">Total <?=$proj_unitname?></th>
       </tr>
 <?
-$totalwu = 0;
-$totalblocks = 0;
+ if($show_yesterday) print "<th>Yesterday</th>";
+ if($show_total) print "<th>Total</th>";
+
+ $total_yesterday = 0;
+ $total_overall = 0;
  for ($i = 0; $i<$rows; $i++) {
 
 ?>
 <tr class="<?=row_background_color($i)?>">
 <?
-	sybase_data_seek($result,$i);
-	$par = sybase_fetch_object($result);
+ sybase_data_seek($result,$i);
+ $par = sybase_fetch_object($result);
 
-	$totalwu += (double) $par->total ;
-	$decimal_places=0;
-	$totalf=number_style_convert( (double) $par->total );
-	$firstd = sybase_date_format_long($par->first);
-	$lastd = sybase_date_format_long($par->last);
+ $decimal_places=0;
+ $firstd = sybase_date_format_long($par->first);
+ $lastd = sybase_date_format_long($par->last);
 
-	for($j=0; $j < strlen($view); $j++) {
-	  $ch = substr($view,$j,1);
-	  if($ch == 'c') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/cpu/$par->cpuimage\"> $par->cpuname</td>";
-	  if($ch == 'o') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/os/$par->osimage\"> $par->osname</td>";
-	  if($ch == 'v') print "<td>$par->VER</td>";
-	}
-
-	print "
-		<td align=\"right\">$firstd</td>
-		<td align=\"right\">$lastd</td>
-		<td align=\"right\">$totalf</td>
-		</tr>
-	";
+ for($j=0; $j < strlen($view); $j++) {
+   $ch = substr($view,$j,1);
+   if($ch == 'c') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/cpu/$par->cpuimage\"> $par->cpuname</td>\n";
+   if($ch == 'o') print "<td><img alt=\"\" height=\"14\" width=\"14\" src=\"/images/icons/os/$par->osimage\"> $par->osname</td>\n";
+   if($ch == 'v') print "<td>$par->VER</td>\n";
  }
- $totalblocks = number_format($totalblocks, 0);
 
- $padding = (int) $cols - 1;
- $ftotalwu = number_style_convert( $totalwu );
-?> 
-	 <tr bgcolor=<?=$footer_bg?>>
-	  <td align="right" colspan="<?=$padding?>"><font <?=$footer_font?>>Total</font></td>
-	  <td align="right"><font <?=$footer_font?>><?=$ftotalwu?></font></td>
-	 </tr>
-	</table>
-<?include "../templates/footer.inc";?>
+ print "
+ 	<td align=\"right\">$firstd</td>
+ 	<td align=\"right\">$lastd</td>
+ 	</tr>
+ ";
+
+ if($show_yesterday) {
+   print "<td align=\"right\">" . number_style_convert( (double) $par->yesterday ) . "</td>\n";
+   $total_yesterday += (double) $par->yesterday ;
+ }
+ if($show_total) {
+   print "<td align=\"right\">" . number_style_convert( (double) $par->total ) . "</td>\n";
+   $total_overall += (double) $par->total ;
+ }
+
+ if($show_yesterday or $show_total) {
+   $totalblocks = number_format($totalblocks, 0);
+  
+   $padding = (int) $cols - 1;
+   print "
+   <tr bgcolor=$footer_bg>
+    <td align="right" colspan=\"$padding\"><font $footer_font>Total</font></td>";
+
+   if ($show_yesterday) {
+     print "
+    <td align="right"><font $footer_font>" . number_style_convert($total_yesterday, 0) . "</font></td>";
+   }
+   if ($show_total) {
+     print "
+    <td align="right"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
+   }
+
+   print "
+   </tr>
+  </table>
+";
+   include "../templates/footer.inc";
+?>
