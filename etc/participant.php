@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.12 2003/08/31 16:10:56 paul Exp $
+// $Id: participant.php,v 1.13 2003/09/01 03:18:33 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -577,11 +577,12 @@ class Participant {
                          last_date::DATE - first_date::DATE +1 AS days_working,
                          overall_rank_previous - overall_rank AS rank_change
                     FROM email_rank r INNER JOIN stats_participant p ON p.id = r.id
-                   WHERE (lower(contact_name) like '%$sstr%' OR lower(email) like '%$sstr%')
+                   WHERE email like '%$sstr%'
                      AND listmode <= 10
                      AND project_id = " . $project->get_id() . "
                    ORDER BY overall_rank ASC
                    LIMIT $limit";
+                   //WHERE stats_participant_display_name_l(listmode,p.id,email,contact_name) like $sstr
 
            // Actually run the query...
            $queryData = $db->query($qs);
