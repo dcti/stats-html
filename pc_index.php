@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.27 2004/07/16 20:45:26 decibel Exp $
+  # $Id: pc_index.php,v 1.28 2004/07/17 15:18:07 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -63,6 +63,7 @@
 
   $odds = number_format($total_remaining / $gprojstats->get_stats_item('work_units'),0);
 
+  $showOGRcomplete = false;
   if(strtolower(substr($gproj->get_name(), 0, 3)) == "ogr")
   {
     $ogrdb = new DB("dbname=ogr");
