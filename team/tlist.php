@@ -1,5 +1,5 @@
 <?
-// $Id: tlist.php,v 1.18 2003/09/01 20:50:05 paul Exp $
+// $Id: tlist.php,v 1.19 2004/04/22 19:34:56 paul Exp $
 
 # vi: ts=2 sw=2 tw=120 syntax=php
 
@@ -28,7 +28,7 @@ include "../templates/header.inc";
 
 // Get the results
 #$team = new Team($gdb, $gproj);
-$result =& Team::get_ranked_list($source, $lo, $limit, $rows, $gdb, $gproj); 
+$result =& Team::get_ranked_list($source, $lo, $limit, $rows, $gdb, $gproj);
 
 // Figure out what navagation buttons we should have
 if ( $lo > $rows ) {
@@ -65,7 +65,7 @@ if ( $rows >= $limit ) {
     </tr>
     <?
     $totalblocks=0;
-    $totalblocksy=0;  
+    $totalblocksy=0;
 
     $cnt = count($result);
     for ($i = 0; $i < $cnt; $i++) {
@@ -77,8 +77,8 @@ if ( $rows >= $limit ) {
       $totalblocks += (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
       $totalblocksy += (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
       $decimal_places=0;
-      $first = $statsTmp->get_stats_item('first_date'); //sybase_date_format_long($par->FIRST_DATE);
-      $last = $statsTmp->get_stats_item('last_date'); //sybase_date_format_long($par->LAST_DATE);
+      $first = $statsTmp->get_stats_item('first_date');
+      $last = $statsTmp->get_stats_item('last_date');
 
       $teamid = $teamTmp->get_id();
       ?>
