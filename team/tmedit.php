@@ -1,25 +1,26 @@
 <?php
-  // $Id: tmedit.php,v 1.9 2003/09/05 15:28:47 thejet Exp $
+  // $Id: tmedit.php,v 1.10 2003/09/26 03:09:29 thejet Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
   
-  include "../etc/tmsecure.inc";
   include "../etc/config.inc";
   include "../etc/project.inc";
-  include "../etc/team.php";
+  include "../etc/tmsecure.inc";
 
   unset($gproj);
   $gproj = new Project($gdb, 0);
-  $tmptr = new Team($gdb, $gproj, $team);
-  if($tmptr->get_password() != $tpass)
+  /*
+  $geam = new Team($gdb, $gproj, $team);
+  if($gteam->get_password() != $tpass)
   {
     include "../templates/tmbadpass.inc";
     exit;
   }
+  */
 
-  if($tmptr->get_listmode() <= 2) {
-    switch ($tmptr->get_listmode()) {
+  if($gteam->get_listmode() <= 2) {
+    switch ($gteam->get_listmode()) {
       case 0:
         $sel_normal = "selected";
         break;
@@ -37,7 +38,7 @@
           <option value=\"2\" $sel_realname>This team has disbanded.</option>
           </select>";
   } else {
-    switch ($tmptr->get_listmode()) {
+    switch ($gteam->get_listmode()) {
       case 8:
       case 18:
         $lmlist = "This team has a known hacker as a member.";
@@ -47,12 +48,12 @@
         $lmlist = "This team has a known spammer as a member.";
         break;
     }
-    if ($tmptr->get_listmode() >= 10) {
+    if ($gteam->get_listmode() >= 10) {
       $lmmore = "This team will not be ranked or listed.";
     }
   }
 
-  switch ($tmptr->get_show_members()) {
+  switch ($gteam->get_show_members()) {
     case 'YES':
       $psel_yes = "selected";
       break;
@@ -71,12 +72,12 @@
   <div style="text-align: center;">
   <form action="tmedit_save.php" method="post">
     <h2>
-     Team Configuration for Team #<?=$team?>
+     Team Configuration for Team #<?=$tm?>
     </h2>
     <table style="margin: auto; text-align: left;" width="75%">
      <tr>
       <td>Team Name:</td>
-      <td><input name="name" value="<?=$tmptr->get_name()?>" size="50" maxlength="64"></td>
+      <td><input name="name" value="<?=$gteam->get_name()?>" size="50" maxlength="64"></td>
      </tr>
      <tr>
       <td>&nbsp;</td>
@@ -89,16 +90,16 @@
      </tr>
      <tr>
       <td>Team Web Page:</td>
-      <td><input name="url" value="<?=$tmptr->get_url()?>" size="50" maxlength="64"></td>
+      <td><input name="url" value="<?=$gteam->get_url()?>" size="50" maxlength="64"></td>
      </tr>
      <tr>
       <td>Team Logo url:</td>
-      <td><input name="logo" value="<?=$tmptr->get_logo()?>" size="50" maxlength="64"></td>
+      <td><input name="logo" value="<?=$gteam->get_logo()?>" size="50" maxlength="64"></td>
      </tr>
 <?include "../etc/markuplegend.inc";?>
      <tr>
       <td>Description:</td>
-      <td><textarea name="description" cols="50" rows="5"><?=$tmptr->get_description()?></textarea></td>
+      <td><textarea name="description" cols="50" rows="5"><?=$gteam->get_description()?></textarea></td>
      </tr>
      <tr>
       <td>&nbsp;</td>
@@ -106,11 +107,11 @@
      </tr>
      <tr>
       <td>Coordinator's Name:</td>
-      <td><input name="contactname" value="<?=$tmptr->get_contact_name()?>" size="50" maxlength="64"></td>
+      <td><input name="contactname" value="<?=$gteam->get_contact_name()?>" size="50" maxlength="64"></td>
      </tr> 
      <tr>
       <td>Coordinator's Email:</td>
-      <td><input name="contactemail" value="<?=$tmptr->get_contact_email()?>" size="50" maxlength="64"></td>
+      <td><input name="contactemail" value="<?=$gteam->get_contact_email()?>" size="50" maxlength="64"></td>
      </tr> 
      <tr>
       <td>Privacy:</td>
@@ -124,7 +125,7 @@
      </tr>
      <tr>
       <td>Team Members' Password:</td>
-      <td><input name="showpassword" value="<?=$tmptr->get_show_password()?>" size="16" maxlength="16"></td>
+      <td><input name="showpassword" value="<?=$gteam->get_show_password()?>" size="16" maxlength="16"></td>
      </tr> 
      <tr>
       <td colspan="2" align="center">
@@ -134,8 +135,8 @@
         or on a machine that's not in a secure location.<br>
         This will store your password on the machine.</span>
         <hr>
-       <input name="team" type="hidden" value="<?=$team?>">
-       <input name="pass" type="hidden" value="<?=$tpass?>">
+       <input name="team" type="hidden" value="<?=$tm?>">
+       <input name="pass" type="hidden" value="<?=$pass?>">
        <input value="Update information" type="submit">
       </td>
      </tr>
