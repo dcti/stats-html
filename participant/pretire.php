@@ -1,11 +1,11 @@
 <?php
-  // $Id: pretire.php,v 1.19 2003/10/29 04:26:10 fiddles Exp $
+  // $Id: pretire.php,v 1.20 2003/12/31 16:30:19 decibel Exp $
 
   // Parameters passed to pretire.php
   // id = id to be retired
   // pass = password of id to be retired
   //
-  // em = email search string  \
+  // ems = email search string  \
   //                            - either em or destid may be passed
   // destid = id to retire to  /
 
