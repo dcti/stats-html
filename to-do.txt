@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.14 1999/12/10 05:27:00 decibel Exp $
+# $Id: to-do.txt,v 1.15 1999/12/13 07:20:23 decibel Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -67,9 +67,6 @@ o Rank history for participants/teams (what rank a person was for each day)
 
 
 o HDML stats server.
-
-
-* phistory always says "update in progress"
 
 
 ******** SQL stuff ********
