@@ -1,4 +1,4 @@
-# $Id: to-do.txt,v 1.13 1999/12/10 04:15:19 decibel Exp $
+# $Id: to-do.txt,v 1.14 1999/12/10 05:27:00 decibel Exp $
 
 ******** PHP technical stuff ********
 o Setup support for HTTP caching (ie: squid)
@@ -70,3 +70,24 @@ o HDML stats server.
 
 
 * phistory always says "update in progress"
+
+
+******** SQL stuff ********
+o Finish setting up DDL scripts. They should allow for using a database other than stats (ie: use a ${1}),
+should have a #!sqsh -i so they can be run directly, should be organized into single tables (or sets of
+tables, ie: Participant_*), and should not include tables that are created by statsrun.
+
+
+o Convert all the defaults in tables to a pre-defined default (like def0)
+
+
+o Setup scripts, etc to allow statsfolk to easily create their own mini-version of the stats database. Should
+include all the tables, but should only copy a small portion of the data (like 10% of participants, and all the
+records related to those participants)
+
+
+o Design new import system based on 'header tables'
+
+
+o Decide on how many sets of tables we're gonna use
+
