@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.9 2002/04/09 22:54:19 jlawson Exp $
+ # $Id: psearch.php,v 1.10 2002/12/06 21:50:03 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -12,10 +12,24 @@
  $title = "Participant Search: [".safe_display($st)."]";
  $QRSLTsearch = "";
 
+ $lastupdate = last_update('e');
+ include "../templates/header.inc";
+
+if (strlen($st) < 3) {
+	?>
+       <center>
+        <table width="400" border="0"><tr><td>
+	<h2>There was an error processing your request</h2>
+	<p>Search Text must be at least 3 characters</p>
+	</p></td></tr></table>
+	<?
+	include "../templates/footer.inc";
+	exit;
+}
+
 // Execute the procedure to get the results
 // Parameters to rc5_64_search are searchtext, maxrows (50), escapewildcards (true)
 $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, @searchtext='$st', @maxrows=50, @escapewildcards=1");
-
  // If $QRSLTsearch is still blank, we ain't getting anything back...
  err_check_query_results($QRSLTsearch);
 
@@ -28,14 +42,6 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	header("Location: psummary.php?project_id=$project_id&id=$id");
 	exit;
  }
-
- $lastupdate = last_update('e');
-
- include "../templates/header.inc";
-
- // Print debug info from the first query we ran
- if ($debug == "yes") print "<!-- result: '$QRSLTsearch', par: '$ROWparticipant', rows: $rows -->";
-
  ?> 
     <center>
      <br>
@@ -56,17 +62,12 @@ $QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, 
 	sybase_data_seek($QRSLTsearch, $i);
 	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
 	$id = (int) $ROWparticipant->id;
-	if ($debug=="yes") print "<!-- ID: $id -->";
+	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$proj_divider;
 
 	?>
 	<tr class="<?=row_background_color($i)?>">
-	<?
-	$totalblocks += (double) $ROWparticipant->WORK_TOTAL/$proj_divider;
-
-        print "   <td>$ROWparticipant->OVERALL_RANK " . html_rank_arrow($ROWparticipant->Overall_Change) . "</td>\n";
-
-	if ($debug == yes) print "<!--- listmode: $ROWparticipant->listmode, WORK_TOTAL: " . (double) $ROWparticipant->WORK_TOTAL \
-		. ", totalblocks: $totalblocks. --->\n";
+         <td><?=$ROWparticipant->OVERALL_RANK;?><?=html_rank_arrow($ROWparticipant->Overall_Change)?></td>
+<?
 
 	print "
 		<td><a href=\"psummary.php?project_id=$project_id&id=$id\"><font color=\"#cc0000\">" . safe_display(participant_listas($ROWparticipant->listmode,
