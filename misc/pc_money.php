@@ -1,82 +1,90 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
- # $Id: pc_money.php,v 1.3 2002/10/31 17:14:19 nugget Exp $
+# $Id: pc_money.php,v 1.4 2002/12/17 04:52:42 decibel Exp $
+# vi: ts=2 sw=2 tw=120 syntax=php
 
- $title = "Disposition of Prize Money";
+$title = "Disposition of Prize Money";
 
- include "../etc/config.inc";
- include "../etc/modules.inc";
- include "..etc/project.inc";
- include "..etc/lastupdate.inc";
- include "templates/header.inc";
+include "../etc/config.inc";
+include "../etc/modules.inc";
+include "../etc/project.inc";
 
- # $constant_tot_blocks = 68719476736;
- # $constant_keys_in_one_block = 268435456;
+display_last_update('e');
 
- $constant_prize = 10000;
- $fmt_prize = number_style_convert($constant_prize);
- $fmt_a = number_style_convert($constant_prize*.6);
- $fmt_b = number_style_convert($constant_prize*.1);
- $fmt_c = number_style_convert($constant_prize*.1);
- $fmt_d = number_style_convert($constant_prize*.2);
+if ( $proj_prize == 0 ) {
+  print "
+    <center>
+      <p>
+        <font size=\"+2\">
+          Sorry, there's no prize for this contest.
+        </font>
+      </p>
+    </center>
+  </body>
+</html>";
+ exit;
+}
 
- $tot_blocks_to_search = number_style_convert($constant_tot_blocks);
+$fmt_prize = number_style_convert($proj_prize);
+$fmt_a = number_style_convert($proj_prize*.6);
+$fmt_b = number_style_convert($proj_prize*.1);
+$fmt_c = number_style_convert($proj_prize*.1);
+$fmt_d = number_style_convert($proj_prize*.2);
 
- sybase_pconnect($interface,$username,$password);
+sybase_pconnect($interface,$username,$password);
 /*
- $qs = "select distinct
-	 S.nonprofit, count(S.nonprofit) as people, sum(blocks) as votes
-	into #MONEYa
-	from
-	 stats.dbo.STATS_participant S,
-	 stats.statproc.CACHE_tm_MEMBERS M
-	where
-	 (S.nonprofit <> 0 and S.nonprofit <> NULL) and
-	 (S.id = M.id) 
-	group by
-	 S.nonprofit";
+$qs = "select distinct
+ S.nonprofit, count(S.nonprofit) as people, sum(blocks) as votes
+into #MONEYa
+from
+ stats.dbo.STATS_participant S,
+ stats.statproc.CACHE_tm_MEMBERS M
+where
+ (S.nonprofit <> 0 and S.nonprofit <> NULL) and
+ (S.id = M.id) 
+group by
+ S.nonprofit";
 */
 
- $qs = "select distinct
-         S.nonprofit, count(S.nonprofit) as people, sum(WORK_TOTAL) as votes
+$qs = "select distinct
+          p.nonprofit, count(p.nonprofit) as people, sum(WORK_TOTAL) as votes
         into #MONEYa
         from
-         stats.dbo.STATS_participant S,
-         email_rank M
+          STATS_participant p
+          , email_rank r
         where
-         (S.nonprofit <> 0 and S.nonprofit <> NULL) and
-         (convert(int,S.id) = M.id) and M.project_id =$project_id
+          (p.NONPROFIT <> 0 and p.NONPROFIT <> NULL)
+          and r.id = convert(int, p.id)
+          and r.project_id = $project_id
         group by
-         S.nonprofit";
+          p.NONPROFIT";
 
 
- $result = sybase_query("set rowcount 0");
- $result = sybase_query($qs);
+$result = sybase_query("set rowcount 0");
+$result = sybase_query($qs);
 
- $qs = "select M.nonprofit, M.people, M.votes, S.name, S.url, S.comments
-	from #MONEYa M, stats.dbo.STATS_nonprofit S
-	where (M.nonprofit = S.nonprofit)
-	order by M.votes desc";
- $result = sybase_query($qs);
- $rows = sybase_num_rows($result);
+$qs = "select M.nonprofit, M.people, M.votes, S.name, S.url, S.comments
+        from #MONEYa M, stats.dbo.STATS_nonprofit S
+        where M.nonprofit = S.nonprofit
+        order by M.votes desc";
+$result = sybase_query($qs);
+$rows = sybase_num_rows($result);
 
- sybase_data_seek($result,0);
+sybase_data_seek($result,0);
+$par = sybase_fetch_object($result);
+$np_winner = $par->nonprofit;
+$nm_winner = $par->name;
+
+if( $np_winner <> 1 ) {
+ $np_runnerup = 1;
+ $nm_runnerup = "distributed.net";
+} else {
+ sybase_data_seek($result,1);
  $par = sybase_fetch_object($result);
- $np_winner = $par->nonprofit;
- $nm_winner = $par->name;
+ $np_runnerup = $par->nonprofit;
+ $nm_runnerup = $par->name;
+}
 
- if( $np_winner <> 1 ) {
-   $np_runnerup = 1;
-   $nm_runnerup = "distributed.net";
- } else {
-   sybase_data_seek($result,1);
-   $par = sybase_fetch_object($result);
-   $np_runnerup = $par->nonprofit;
-   $nm_runnerup = $par->name;
- }
-
- print "
+print "
   <center>
    <br>
    <p>
