@@ -18,7 +18,7 @@
    <tr>
     <td colspan="4" align="center" bgcolor="#777777">
      <font <?=$fontt?> color=<?=$colorc?>>
-      <?=$proj_name?> / <?=$title?>
+      <? if(isset($proj_name)) { echo $proj_name." / ";}?>  <?=$title?>
      </font>
     </td>
    </tr>
