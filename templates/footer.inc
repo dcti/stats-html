@@ -13,11 +13,11 @@ if (!isset($proj_list)) { ?>
 } 
 ?>
    <div style="text-align: center">
-    <a href="http://www.php.net"><img src="/images/php.gif" alt="PHP3"></a>
+    <a href="http://www.php.net"><img src="/images/php.gif" alt="PHP4"></a>
     <a href="http://www.sybase.com/"><img src="/images/sybase.gif" alt="Sybase"></a>
    </div>
 <? if ($_SERVER["SERVER_NAME"]!="stats.distributed.net"){ ?>
-   <p> Page generated in <?=timer_current()?> seconds </p>
+   <p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
 <? } ?>
  </body>
 </html>
