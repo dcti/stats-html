@@ -1,5 +1,5 @@
 <?
- # $Id: project.inc,v 1.8 2002/06/03 13:17:30 paul Exp $
+ # $Id: project.inc,v 1.9 2002/10/06 23:00:34 decibel Exp $
 
 include "limit.inc";
 
@@ -111,11 +111,8 @@ function last_update($type)
    $qs = "p_lastupdate_new_e @project_id=$project_id";
    break;
   case 'm':
-   $qs = "select max(date) as lastupdate 
-                from email_contrib
-                where date>dateadd(day,-10,getdate())
-                        and project_id=$project_id ";
-   break;
+   $qs = "p_lastupdate_new_m @project_id=$project_id";
+      break;
   case 't':
    $qs = "p_lastupdate_new_t @project_id=$project_id";
    break;
