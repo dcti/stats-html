@@ -1,0 +1,98 @@
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<HTML>
+<HEAD>
+<TITLE>Error</TITLE>
+<style type="text/css">
+BODY { margin: 0; }
+
+    body, table, tr, th, td {
+    	font-family : Verdana, Arial, sans-serif;
+    	font-size : 8.5pt;
+    }
+    
+    p, pre {
+    	font-family : Verdana, Arial, sans-serif;
+    	font-size : 8.5pt;
+    }
+
+H1,H2,H3 { font-family: Helvetica; 
+           text-transform: lowercase; }
+H2 { font-size: large; }
+A:link, A:active, A:visited { font-style: bold; }
+</style>
+
+</HEAD>
+<BODY bgcolor="#eeeeee" text="#111111" 
+link="#003366" vlink="#663300" alink="#999999"
+marginwidth="0" marginheight="0" >
+<table width="100%" border=0 cellspacing=0 cellpadding=0><tr>
+<td bgcolor=333333 width=140>
+<img src="/images/gray-dark.gif" width=140 height=10 alt="">
+</td>
+<td bgcolor=333333 width="100%">
+<img src="/images/distributed-net.gif" width=259 height=39 vspace=4 
+alt="distributed.n
+et">
+</td></tr></table>
+<br>
+<div style="margin-left: 10px; margin-right: 0px; width: 100%;">
+
+<TABLE BORDER="0" CELLSPACING="0">
+<TR>
+<TD VALIGN="TOP" ALIGN="LEFT">
+    <TABLE BORDER="0" CELLPADDING="0" CELLSPACING="2">
+    <TR><TD VALIGN="TOP" ALIGN="LEFT">
+        <FONT SIZE="+1">
+        <B>Error</B>
+        </FONT>
+    </TD></TR>
+    </TABLE>
+</TD>
+<TD VALIGN="MIDDLE">&nbsp;</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">
+
+</TD></TR></TABLE>
+    <TABLE CELLPADDING=20><TR><TD BGCOLOR="#ff0000">
+<FONT SIZE="+2">You did not enter a valid attachment number.</FONT></TD></TR></TABLE>
+<P>Please press <B>Back</B> and try again.<P></div>
+
+<TABLE BORDER="0"><TR><TD BGCOLOR="#000000" VALIGN="TOP">
+<TABLE BORDER="0" CELLPADDING="10" CELLSPACING="0" WIDTH="100%" 
+BGCOLOR="#DDDDDD">
+<TR><TD>
+Common queries:
+<a
+href="/bugs/buglist.cgi?
+product=Client&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_st
+atus=REOPENED&order=Bug+Number">all open Client</a> |
+<a
+href="/bugs/buglist.cgi?
+product=ProxyPer&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_
+status=REOPENED&order=Bug+Number">all open Proxyper</a> |
+<a href="/bugs/buglist.cgi?
+product=Stats&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_sta
+tus=REOPENED">all open Stats bugs</a> |
+<a href="/bugs/buglist.cgi?product=Porting-
+Requests&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=R
+EOPENED&order=bugs.op_sys%2C%20bugs.rep_platform">Porting requests</a> |
+<a href="/bugs/buglist.cgi?bug_status=UNCONFIRMED">All Unconfirmed</a>
+<BR>
+
+<FORM METHOD="GET" ACTION="show_bug.cgi">
+<TABLE width="100%"><TR><TD>
+Actions:
+</TD><TD VALIGN="middle" NOWRAP>
+<a href="enter_bug.cgi">New</a> | 
+<a href="query.cgi">Query</a> |
+ 
+<INPUT TYPE="SUBMIT" VALUE="Find"> bug # 
+<INPUT NAME="id" SIZE="6">
+| <a href="reports.cgi">Reports</a> 
+</TD><TD>&nbsp;</TD><TD valign="middle" align="right">
+ <a href="createaccount.cgi">New&nbsp;account</a>
+ | <a href="query.cgi?GoAheadAndLogIn=1">Log&nbsp;in</a></TD></TR></TABLE></FORM>
+
+</TD></TR></TABLE></TD></TR></TABLE>
+
+</body></html>
