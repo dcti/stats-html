@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.19 2003/09/23 21:50:59 paul Exp $
+  // $Id: psecure.inc,v 1.20 2003/10/21 15:44:09 thejet Exp $
 
 include_once "participant.php";
 
@@ -58,7 +58,7 @@ if(isset($id) && isset($pass) && $pass != "") {
 }
 
 // @TODO - pass null or gproj here?
-$gpart = new Participant($gdb, $gproj, $id);
+$gpart = new Participant($gdb, $gproj, $test_id);
 if ( !$gpart ) {
 	authfail("pdbbadobject",$test_from,$test_id,$test_pass);
 }

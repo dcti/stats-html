@@ -1,9 +1,9 @@
 <?php 
-// $Id: participant.php,v 1.28 2003/09/23 20:24:32 paul Exp $
+// $Id: participant.php,v 1.29 2003/10/21 15:44:09 thejet Exp $
 
 include_once "participantstats.php";
 
-define('MAX_PASS_LEN',9);
+define('MAX_PASS_LEN',8);
 
 /**
  * This class represents a participant
@@ -29,7 +29,7 @@ class Participant {
     var $_project;
     var $_state;
     var $_friends;
-	var $_authed = false;
+    var $_authed = false;
 	
     /**
      * ** End Internal class variables **
@@ -423,14 +423,13 @@ class Participant {
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
-		if (!is_null($id)) {
-		    if($id != -1)
-		    {
-		        $this -> load($id);
-		    } else {
-				// load default values
-			}
-		}
+        $id = (int)$id;
+        if($id > 0)
+        {
+            $this -> load($id);
+        } else {
+            // Load default values
+	}
     } 
 
     /**
@@ -458,7 +457,35 @@ class Participant {
      */
     function save()
     {
+      // @todo - expand this to save more than the password
+      $chkResult = $this->is_valid();
+      if($chkResult != "")
+        return $chkResult;
+
+      $sql = "UPDATE stats_participant 
+                  SET password = '" . $this->_state->password . "'
+                      WHERE id = " . $this->_state->id . ";
+              SELECT * FROM stats_participant WHERE id = " . $this->_state->id . ";";
+
+      $res = $this->_db->query_first($sql);
+      if($res == FALSE)
+        $chkResult = "Error Updating Participant Record.\n";
+      else
+        $this->_state = $res;
+
+      return $chkResult;
     } 
+    function is_valid()
+    {
+        // @todo - Expand this to verify the validity of all fields
+        $strResult = "";
+        if($this->_state->password == "")
+            $strResult .= "You must specify a password.\n";
+        if(strlen($this->_state->password) != MAX_PASS_LEN)
+            $strResult .= "Your password must be exactly 8 characters.\n";
+
+        return $strResult;
+    }
 
     /**
      * Deletes the current user from the database
