@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.10 2002/05/28 22:41:30 paul Exp $
+ // $Id: pc_countries.php,v 1.11 2002/06/19 02:23:35 decibel Exp $
 
  $outname = "countries";
 
@@ -12,7 +12,7 @@
 
  $qs = "select distinct code, country, count(country) as recs, sum(work_total)/$proj_divider as units_total,
 		sum(work_today)/$proj_divider as units_today
-	from STATS_participant, STATS_country,email_RANK
+	from STATS_participant, STATS_country, email_RANK at isolation read uncommitted
 	where retire_to = 0
 		and dem_country <> NULL
 		and dem_country = code

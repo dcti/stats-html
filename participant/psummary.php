@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.23 2002/06/15 15:30:42 paul Exp $
+ # $Id: psummary.php,v 1.24 2002/06/19 02:23:35 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -39,7 +39,7 @@
  // Get the participant's record from STATS_Participant and store it in $person
 
  //$qs = "p_participant_all $id";
-$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant where id = $id and listmode < 10";
+$qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,friend_c,friend_d,friend_e from STATS_Participant at isolation level read uncommitted where id = $id and listmode < 10";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
  sybase_data_seek($result,0);
@@ -73,7 +73,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	WORK_TOTAL/$proj_divider as TOTAL,
 	OVERALL_RANK_PREVIOUS-OVERALL_RANK as Overall_Change,
 	DAY_RANK_PREVIOUS-DAY_RANK as Day_Change
-	from Email_Rank
+	from Email_Rank at isolation level read uncommitted
 	where id = $id
 		and PROJECT_ID = $project_id";
  sybase_query("set rowcount 0");
@@ -89,7 +89,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	WORK_TOTAL/$proj_divider as TOTAL,
 	(r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
 	(r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
-	from STATS_Participant p, Email_Rank r
+	from STATS_Participant p, Email_Rank r at isolation level read uncommitted
 	where p.id = r.id 
 		and PROJECT_ID = $project_id
 		and (r.OVERALL_RANK < ($rs_rank->OVERALL_RANK+5))
@@ -106,7 +106,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 	WORK_TODAY/$proj_divider as TODAY,
 	WORK_TOTAL/$proj_divider as TOTAL,
 	(r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change
-	from STATS_Participant p, Email_Rank r
+	from STATS_Participant p, Email_Rank r at isolation level read uncommitted
         where (r.id = $person->friend_a or
                r.id = $person->friend_b or
                r.id = $person->friend_c or
@@ -133,7 +133,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 */
  // Get the latest record from Daily_Summary, store in $yest_totals
 
- $qs = "select * from Daily_Summary nolock
+ $qs = "select * from Daily_Summary at isolation level read uncommitted
 	where PROJECT_ID = $project_id and DATE = (select max(DATE) from Daily_Summary where project_id = $project_id)";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);

@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.13 2002/06/12 22:22:47 paul Exp $
+// $Id: tmember.php,v 1.14 2002/06/19 02:23:35 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -126,7 +126,7 @@ $qs .= "
 		er.OVERALL_RANK as eRANK, (er.OVERALL_RANK_PREVIOUS - er.OVERALL_RANK) as eRANK_CHANGE";
 }
 $qs .= "
-	FROM	Team_Members tm, STATS_Participant p, Email_Rank er
+	FROM	Team_Members tm, STATS_Participant p, Email_Rank er at isolation level read uncommitted
 	WHERE	tm.PROJECT_ID = $project_id
 		and er.PROJECT_ID = $project_id
 		and tm.PROJECT_ID = er.PROJECT_ID

@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.11 2002/05/25 11:13:10 paul Exp $
+# $Id: plist.php,v 1.12 2002/06/19 02:23:35 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -30,7 +30,7 @@ if ("$source" == "y") {
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.DAY_RANK as rank, r.DAY_RANK_PREVIOUS - r.DAY_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
-	from Email_Rank r, STATS_Participant p
+	from Email_Rank r, STATS_Participant p at isolation level read uncommitted
 	where DAY_RANK <= $hi and DAY_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
 	order by r.DAY_RANK, r.WORK_TODAY desc";
 } else {
@@ -40,7 +40,7 @@ if ("$source" == "y") {
 	datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Working,
 	r.OVERALL_RANK as rank, r.OVERALL_RANK_PREVIOUS - r.OVERALL_RANK as change,
 	p.email, p.listmode as listas, p.contact_name
-	from Email_Rank r, STATS_Participant p
+	from Email_Rank r, STATS_Participant p at isolation level read uncommitted
 	where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
 	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
 }
