@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.6 2002/03/16 15:47:26 paul Exp $
+ # $Id: psummary.php,v 1.7 2002/03/24 17:02:42 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -14,7 +14,6 @@
         $totaltoday += $par->TODAY;
         $totaltotal += $par->TOTAL;
         $decimal_places=0;
-        $units=number_style_convert( $par->units );
 	$participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
 ?>
         	<tr bgcolor=<?echo row_background_color($i, $color_a, $color_b);?>>
@@ -27,13 +26,13 @@
 <?
  }
  function par_footer($footer_font, $totaltoday, $totaltotal) {
-   print "
-     <tr>
-      <td align=\"right\" colspan=\"3\"><font $footer_font>Total</font></td>
-      <td align=\"right\"><font $footer_font>" . number_style_convert( $totaltotal ) . "</font></td>
-      <td align=\"right\"><font $footer_font>" . number_style_convert( $totaltoday ) . "</font></td>
+ ?>
+    <tr>
+      <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
+      <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal )?> </font></td>
+      <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday )?> </font></td>
      </tr>
-   ";
+ <?
  }
 
  // Get the participant's record from STATS_Participant and store it in $person
@@ -158,12 +157,12 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
   <center>
    <table>
     <tr>
-     <td colspan="3" align="center">
+     <td colspan="3">
       <br>
-      <font size="+2"><strong><?=$participant?>'s stats</strong></font>
+      <font size="+2"><center><strong><?=$participant?>'s stats</strong></center></font>
       <hr>
-      <?=$motto?>
-     </td>
+      <? if(isset($motto)) {echo $motto;}?>
+    </td>
     </tr>
     <tr>
      <td></td>
@@ -203,14 +202,15 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 	</p>
 <?
   } elseif ( $best_day_units > 0 ) {
-    print "
+?>
 	</p>
 	<p>
-	This is " . number_format($pct_of_best*100,0) . "% of this participant's best day ever, which was
+	This is  <? echo number_format($pct_of_best*100,0)?>  % of this participant's best day ever, which was
 	<br>
-	" . sybase_date_format_long($best_day->DATE) . " when " . number_format($best_day->WORK_UNITS,0)
-	. " units were completed.
-	</p>\n<!-- Thanks, Havard! -->\n";
+	 <? echo sybase_date_format_long($best_day->DATE)?> when <? echo number_format($best_day->WORK_UNITS,0)?>
+	 units were completed.
+	</p><!-- Thanks, Havard! -->
+<?
   }
 ?> 
 	<p>
