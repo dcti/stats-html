@@ -37,6 +37,11 @@ if (!isset($proj_list)) {
 		<p style="text-align: center"> Page generated in <?=timer_current()?> seconds </p>
 		<?
 */
+    if($debug >= DEBUG_SHOW_QUERY) {
+        foreach ( $g_queries_array as $query ) {
+            echo $query[1];
+        }
+    }
     if($debug >= DEBUG_TRACE) { echo xdebug_dump_function_trace(); }
     if($debug >= DEBUG_PROFILE) { echo xdebug_dump_function_profile(); }
     if($log_timing == 1) {
