@@ -42,7 +42,7 @@ if (isset($project_id)) {
         <span class="hsubtitle">Project Stats</span>
       <br>
         <a href="/projects.php?<?=$t_project_id?>">Overall Project Stats</a><br>
-        Keyrate History<br>
+        <a href="/keyrate.php?<?=$t_project_id?>">Keyrate History</a><br>
         Participation History<br>
         <a href="/misc/platformlist.php?<?=$t_project_id?>&amp;view=tco">CPU/OS Distribution</a><br>
         <a href="/misc/countries.php?<?=$t_project_id?>">Participating Countries</a><br>
