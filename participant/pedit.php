@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.22 2003/12/01 21:04:06 thejet Exp $
+// $Id: pedit.php,v 1.23 2003/12/28 18:56:32 decibel Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -330,7 +330,6 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      </tr>
     </table>
     <hr>
-    <!--
     <p>
      If this address is no longer current/valid, you may \"retire\" its blocks into another email address.
      <br>
@@ -339,7 +338,6 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      <br>
      Once you've done that, you may then <a href=\"pretire.php?id=$id&pass=$test_pass\">retire this email address permanently</a>.
     </p>
-    -->
     <hr>
     <h2>
      All information is *completely* confidential.
