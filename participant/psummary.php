@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.33 2002/12/07 19:49:33 decibel Exp $
+# $Id: psummary.php,v 1.34 2002/12/07 20:29:34 decibel Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -10,11 +10,11 @@ include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/markup.inc";
 
-function par_list($i, $par, $totaltoday, $totaltotal, $color_a = "", $color_b = "") {
+function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = "", $color_b = "") {
   global $project_id;
   $parid = 0+$par->id;
-  $totaltoday += $par->TODAY * $proj_scale;
-  $totaltotal += $par->TOTAL * $proj_scale;
+  $totaltoday += $par->TODAY;
+  $totaltotal += $par->TOTAL;
   $decimal_places=0;
   $participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
   ?>
@@ -22,17 +22,17 @@ function par_list($i, $par, $totaltoday, $totaltotal, $color_a = "", $color_b = 
       <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
       <td><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$parid?>"><font color="#cc0000"><?=$participant?></font></a></td>
       <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
-      <td align="right"><?echo number_style_convert( (double) $par->TOTAL * $proj_scale) ?> </td>
-      <td align="right"><?echo number_style_convert( (double) $par->TODAY * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert( $par->TOTAL * $proj_scale) ?> </td>
+      <td align="right"><?echo number_style_convert( $par->TODAY * $proj_scale) ?> </td>
     </tr>
   <?
 }
-function par_footer($footer_font, $totaltoday, $totaltotal) {
+function par_footer($footer_font, $totaltoday, $totaltotal, $proj_scale) {
 ?>
   <tr>
     <td align="right" colspan="3"><font <?=$footer_font?>>Total</font></td>
-    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal )?> </font></td>
-    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday )?> </font></td>
+    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltotal * $proj_scale )?> </font></td>
+    <td align="right"><font <?=$footer_font?>><?echo number_style_convert( $totaltoday * $proj_scale )?> </font></td>
   </tr>
 <?
 }
@@ -149,10 +149,6 @@ sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
 
-$constant_keys_in_one_block = 268435456;
-$tot_keys_searched = number_format(($rs_rank->TOTAL * $proj_scale*$constant_keys_in_one_block),0);
-$overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_block)/(86400*$rs_rank->Days_Working))/1000;
-
 ?>
   <center>
     <table>
@@ -208,38 +204,13 @@ $overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_
           <font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY / 86400, 0);?></font>
         </td>
       </tr>
-      <?
-      if ($proj_totalunits > 0 ) {
-        $per_searched = number_format(100*($rs_rank->TOTAL / $proj_totalunits),8);
-        ?>
-        <tr>
-          <td colspan="3">
-            <hr>
-          </td>
-        </tr>
-        <tr>
-          <td><font <?=$fontd?> size="+1">Total <?=$proj_scaled_unit_name?>:</font></td>
-          <td colspan="2" align="right" size="+2">
-            <font <?=$fontf?>><?=number_style_convert($proj_totalunits * $proj_scale)?></font>
-          </td>
-        </tr>
-
-        <tr>
-          <td><font <?=$fontd?> size="+1">By this participant:</font></td>
-          <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=$per_searched?>%</font></td>
-        </tr>
-        <tr>
-          <td><font <?=$fontd?> size="+1">Total <?=$proj_unscaled_unit_name?>:</font></td>
-          <td colspan="2" align="right" size="+2">
-            <font <?=$fontf?>><?=number_format($rs_rank->TOTAL)?></font>
-          </td>
-        </tr>
-        <?
-      }
-      ?>
       <tr>
         <td><font <?=$fontd?> size="+1">Time Working:</font></td>
-        <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
+        <td colspan="2" align="right" size="+2">
+          <font <?=$fontf?>>
+            <? echo number_format($rs_rank->Days_Working) . " day" . plural($rs_rank->Days_Working); ?>
+          </font>
+        </td>
       </tr>
       <tr>
         <td colspan="3">
@@ -248,16 +219,6 @@ $overall_rate = ((((double)$rs_rank->TOTAL * $proj_scale)*$constant_keys_in_one_
       </tr>
     </table>
     <p>
-
-    <?
-    if ($proj_totalunits > 0 ) {
-      ?>
-      <p>
-      <?=number_style_convert($rs_rank->TODAY)?> were completed yesterday ( <?=$per_searched?>% of the keyspace)<br> at a sustained rate of  KKeys/sec! Ranked <?=$rs_rank->DAY_RANK?> for the day.
-      </p>
-      <?
-    }
-    ?>
 
 <?
 /*
@@ -288,7 +249,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     <a href="phistory.php?project_id=<?=$project_id?>&id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
     <?
-    if (($proj_totalunits > 0) && ($rs_rank->TODAY > 0)) {
+    if (($proj_type == 'RC5' or $proj_type == 'R72') && ($rs_rank->TODAY > 0)) {
       $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
       ?>
         <p>
@@ -306,8 +267,8 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
         <th>Rank</th>
         <th>Participant</th>
         <th align="right">Days</th>
-        <th align="right">Overall <?=$proj_unitname;?></th>
-        <th align="right">Current <?=$proj_unitname;?></th>
+        <th align="right">Overall <?=$proj_scaled_unit_name?></th>
+        <th align="right">Current <?=$proj_scaled_unit_name?></th>
       </tr>
       <?
       $totaltoday = 0;
@@ -316,12 +277,12 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
         sybase_data_seek($neighbors,$i);
         $par = sybase_fetch_object($neighbors);
         if($id<>$par->id) {
-          par_list($i,$par,&$totaltoday,&$totaltotal);
+          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale);
         } else {
-          par_list($i,$par,&$totaltoday,&$totaltotal, "row3","row3");
+          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale, "row3","row3");
         }
       }
-      par_footer($footer_font,$totaltoday,$totaltotal);
+      par_footer($footer_font,$totaltoday,$totaltotal, $proj_scale);
       if($numfriends>1) {
       ?>
       <tr>
@@ -331,8 +292,8 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
         <td><font <?=$header_font;?>>Rank</font></td>
         <td><font <?=$header_font;?>>Participant</font></td>
         <td align="right"><font <?=$header_font;?>>Days</font></td>
-        <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
-        <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
+        <td align="right"><font <?=$header_font;?>>Overall <?=$proj_scaled_unit_name?></font></td>
+        <td align="right"><font <?=$header_font;?>>Current <?=$proj_scaled_unit_name?></font></td>
       </tr>
       <?
       $totaltoday = 0;
@@ -341,12 +302,12 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
         sybase_data_seek($friends,$i);
         $par = sybase_fetch_object($friends);
         if($id<>$par->id) {
-          par_list($i,$par,&$totaltoday,&$totaltotal);
+          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale);
         } else {
-          par_list($i,$par,&$totaltoday,&$totaltotal, "row3","row3");
+          par_list($i,$par,&$totaltoday,&$totaltotal, $proj_scale, "row3","row3");
         }
       }
-      par_footer($footer_font,$totaltoday,$totaltotal);
+      par_footer($footer_font,$totaltoday,$totaltotal, $proj_scale);
       }
       ?>
     </table>
