@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.21 2003/09/01 15:02:41 decibel Exp $
+# $Id: platformlist.php,v 1.22 2003/09/01 15:48:12 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -110,24 +110,24 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
    if($ch == 'c') {
-     print "<th>CPU</th>";
+     print "<th class=\"thead\">CPU</th>";
      $cols++;
    }
    if($ch == 'o') {
-     print "<th>OS</th>";
+     print "<th class=\"thead\">OS</th>";
      $cols++;
    }
    if($ch == 'v') {
-     print "<th>Version</th>";
+     print "<th class=\"thead\">Version</th>";
      $cols++;
    }
  }
 ?>
-       <th align="right">First Unit</th>
-       <th align="right">Last Unit</th>
+       <th class="thead" align="right">First Unit</th>
+       <th class="thead" align="right">Last Unit</th>
 <?
- if($show_yesterday){ print "<th>Yesterday</th>";}
- if($show_total) { print "<th>Total ".$gproj->get_scaled_unit_name()."</th>";}
+ if($show_yesterday){ print "<th class=\"thead\">Yesterday</th>";}
+ if($show_total) { print "<th class=\"thead\">Total ".$gproj->get_scaled_unit_name()."</th>";}
  print '</tr>';
  $total_yesterday = 0;
  $total_overall = 0;
