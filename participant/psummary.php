@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.59 2003/09/02 22:19:51 decibel Exp $
+// $Id: psummary.php,v 1.60 2003/09/05 19:29:32 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 include "../etc/config.inc";
@@ -244,11 +244,13 @@ if($numfriends >= 1) {
       <?
     $totaltoday = 0;
     $totaltotal = 0;
+    $printed_self = false;
     for ($i = 0; $i < $numfriends; $i++) {
         $par = $gpart->get_friends($i);
         $stats = $par->get_current_stats();
-        if($gpartstats->get_stats_item('work_total') >= $stats->get_stats_item('work_total')) {
+        if($gpartstats->get_stats_item('work_total') >= $stats->get_stats_item('work_total') && !$printed_self) {
             par_list($i, $gpart, $gpartstats, $totaltoday, $totaltotal, $gproj->get_scale(), "row3", "row3");
+            $printed_self = true;
         }
         par_list($i, $par, $stats, $totaltoday, $totaltotal, $gproj->get_scale());
     } 
