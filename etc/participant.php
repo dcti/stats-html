@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.43 2004/03/06 13:14:54 paul Exp $
+// $Id: participant.php,v 1.44 2004/03/09 18:34:27 decibel Exp $
 
 include_once "participantstats.php";
 
@@ -182,7 +182,7 @@ class Participant {
     {
 		if (is_int($value) && $value > 0 && $this->is_authed() ) {
 			if ( $this -> _state -> id > 0 ) {
-	    		$res =$this -> _db -> query ("select p_pretire(".$this -> _state -> id.",$value)");
+	    		$res =$this -> _db -> query ("select p_retire(".$this -> _state -> id.",$value)");
         		if($res == FALSE) {
 					return false;
            		} else {
