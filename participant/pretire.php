@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.9 2000/04/13 15:06:39 bwilson Exp $
+  // $Id: pretire.php,v 1.10 2000/06/16 23:00:44 decibel Exp $
 
   // Parameters passed to pretire.php3
   // id = id to be retired
@@ -54,7 +54,13 @@
 	  </p>";
   } else {
     if ($ems <> "") {
-      $qs = "select id,EMAIL from STATS_participant where EMAIL like '%%$ems%%' and id <> $id and (retire_to = 0 or retire_to = NULL)";
+      $qs = "	select	id, EMAIL
+		from	STATS_participant
+		where	EMAIL like '%%$ems%%'
+			and listmode <= 9
+			and id <> $id
+			and retire_to = 0
+		order by	EMAIL";
       $result = sybase_query($qs);
       $matches = sybase_num_rows($result);
 
@@ -125,15 +131,15 @@
       $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
       $result = sybase_query($qs);
 # BW: Prevent the retired e-mail from being ranked
-#     $qs = "delete OGR_Email_Rank where id = $id";
-#     $result = sybase_query($qs);
+      $qs = "delete Email_Rank where id = $id";
+      $result = sybase_query($qs);
       $qs = "select * from STATS_participant where id = $destid";
       $result = sybase_query($qs);
       $destpar = sybase_fetch_object($result);
       $qs = "select * from STATS_participant where id = $id";
       $result = sybase_query($qs);
       $srcpar = sybase_fetch_object($result);
-      $qs = "select id, EMAIL, retire_to from STATS_participant where retire_to = $destid";
+      $qs = "select id, EMAIL, retire_to from STATS_participant where retire_to = $destid and id <> $destid";
       $result = sybase_query($qs);
       $rows = sybase_num_rows($result);
       if($rows <> 1) {
