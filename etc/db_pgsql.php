@@ -25,7 +25,7 @@ class DB {
 
     var $errdesc = "";
     var $reporterror = 1;
-    var $_connected = false;
+	var $_connected = false;
 
     /**
      * Constructor
@@ -125,7 +125,7 @@ class DB {
     {
       if($start > 1)
       {
-        $this->data_seek($query_id, $start-1);
+        $this->data_seek($start-1, $query_id);
       }
       $ctr = 0;
       while($tmp = $this->fetch_object($query_id))
@@ -166,7 +166,7 @@ class DB {
     // Function ....: data_seek
     // Description .: If you want to move around, generally don't use
     // //////////////////////
-    function data_seek($query_id = -1, $pos = 1)
+    function data_seek($pos = 1, $query_id = -1)
     { 
         // goes to row $pos
         if($query_id != -1) {
@@ -205,7 +205,7 @@ class DB {
 
             exit;
         } 
-    } // end function halt
-} // end class db
+    } 
+} 
 
 ?>
