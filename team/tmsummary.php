@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.28 2003/05/27 18:38:29 thejet Exp $
+// $Id: tmsummary.php,v 1.29 2003/08/01 23:57:24 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -173,7 +173,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         <th class="thead">Rank</th>
         <th class="thead">Team</th>
         <th class="thead" align="right">Days</th>
-        <th class="thead" align="right"><?= $proj_scaled_unit_name ?></th>
+        <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?></th>
       </tr>
       <?
       $totalwork = 0;
