@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.13 2003/03/22 18:42:53 paul Exp $
+ # $Id: psearch.php,v 1.14 2003/08/25 21:45:30 thejet Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -7,9 +7,10 @@
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "../etc/project.inc";
+ include "../etc/participant.php";
+ include "../etc/participantstats.php";
 
  $title = "Participant Search: [".safe_display($st)."]";
- $QRSLTsearch = "";
 
  $lastupdate = last_update('e');
 
@@ -26,66 +27,55 @@ if (strlen($st) < 3) {
 }
 
 // Execute the procedure to get the results
-// Parameters to rc5_64_search are searchtext, maxrows (50), escapewildcards (true)
-$QRSLTsearch = sybase_query("p_psearch @project='new', @project_id=$project_id, @searchtext='$st', @maxrows=50, @escapewildcards=1");
- // If $QRSLTsearch is still blank, we ain't getting anything back...
- err_check_query_results($QRSLTsearch);
-
- $rows = sybase_num_rows($QRSLTsearch);
+$result = Participant::get_search_list($st, 50, $gdb, $gproj);
+$rows = count($result);
 
  if($rows == 1) {
 	# Only one hit, let's jump straight to psummary
-	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
-	$id = (int) $ROWparticipant->id;
-	header("Location: psummary.php?project_id=$project_id&amp;id=$id");
+	$id = (int) $result[0]->get_id();
+	header("Location: psummary.php?project_id=".$gproj->get_id()."&id=$id");
 	exit;
  }
 
  include "../templates/header.inc";
 
  ?> 
-    <center>
-     <br>
-     <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
-      <tr>
-       <th>Rank</th>
-       <th>Participant</th>
-       <th align="right">First Block</th>
-       <th align="right">Last Block</th>
-       <th align="right">Days</th>
-       <th align="right"><?=$proj_scaled_unit_name?></th>
+  <div style="text-align: center;">
+     <br />
+     <table border="1" cellspacing="0" style="margin:auto" width="90%">
+     <tr>
+       <th class="thead">Rank</th>
+       <th class="thead">Participant</th>
+       <th class="thead" align="right">First Block</th>
+       <th class="thead" align="right">Last Block</th>
+       <th class="thead" align="right">Days</th>
+       <th class="thead" align="right"><?=$gproj->get_scaled_unit_name()?></th>
       </tr>
  <?
 
  $totalblocks = (double) 0;
  for ($i = 0; $i<$rows; $i++) {
-	// Retrieve the records returned and format appropriately
-	sybase_data_seek($QRSLTsearch, $i);
-	$ROWparticipant = sybase_fetch_object($QRSLTsearch);
-	$id = (int) $ROWparticipant->id;
-	$totalblocks += (double) $ROWparticipant->WORK_TOTAL * $proj_scale;
+   $ROWparticipant = $result[$i];
+   $ROWstats = $ROWparticipant->get_current_stats();
+   $id = (int) $ROWparticipant->get_id();
+   $totalblocks += (double) $ROWstats->get_stats_item("work_total") * $gproj->get_scale();
 
 	?>
 	<tr class="<?=row_background_color($i)?>">
-         <td><?=$ROWparticipant->OVERALL_RANK;?><?=html_rank_arrow($ROWparticipant->Overall_Change)?></td>
-<?
-
-	print "
-		<td><a href=\"psummary.php?project_id=$project_id&amp;id=$id\">" . safe_display(participant_listas($ROWparticipant->listmode,
-			$ROWparticipant->email,$id,$ROWparticipant->contact_name)) . "</a></td>
-		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->first_date) . "</td>
-		<td align=\"right\">" . sybase_date_format_long($ROWparticipant->last_date) . "</td>
-		<td align=\"right\">" . number_style_convert($ROWparticipant->Days_Working) . "</td>
-		<td align=\"right\">" . $blocks=number_style_convert( (double) $ROWparticipant->WORK_TOTAL * $proj_scale) . "</td>
-		</tr>
-	";
+         <td align="left"><?=$ROWstats->get_stats_item("overall_rank")?><?=html_rank_arrow($ROWstats->get_stats_item("rank_change"))?></td>
+         <td align="left"><a href="psummary.php?project_id=<?=$gproj->get_id()?>&amp;id=<?=$id?>"><?=safe_display($ROWparticipant->get_display_name())?></a></td>
+         <td align="right"><?=$ROWstats->get_stats_item("first_date")?></td>
+         <td align="right"><?=$ROWstats->get_stats_item("last_date")?></td>
+         <td align="right"><?=number_style_convert($ROWstats->get_stats_item("days_working"))?></td>
+         <td align="right"><?=number_style_convert( (double) $ROWstats->get_stats_item("work_total") * $gproj->get_scale())?></td>
+        </tr>
+        <?
  }
-
 ?>
 	 <tr>
-	  <td><?=$i?></td>
-	  <td colspan="4" align="right">Total</td>
-	  <td align="right"><? echo number_format($totalblocks, 0) ?></td>
+	  <td class="tfoot"><?=$i?></td>
+	  <td class="tfoot" colspan="4" align="right">Total</td>
+	  <td class="tfoot" align="right"><? echo number_format($totalblocks, 0) ?></td>
 	 </tr>
 	</table>
 <?
