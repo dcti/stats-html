@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.24 2003/11/25 17:59:46 thejet Exp $
+  // $Id: psecure.inc,v 1.25 2003/11/25 22:26:29 paul Exp $
 
 include_once "participant.php";
 
@@ -28,21 +28,19 @@ function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
    		authenticate();
    	}
     
-   	// @todo - header?
-   	include "../templates/$why.inc";
-   	print 'datestamp: ' . date("M d Y H:i:s");
+	trigger_error("You have entered either an invalid id, or an incorrect password. As usual, feel free to contact help@distributed.net if you require help",E_USER_ERROR);
    	exit;
 }
 
 if(isset($id) && isset($pass) && $pass != "") {
-   if($debug > 0) print "Authenticating through URL.\n";
+   if($debug > 0) trigger_error("Authenticating through URL.",E_USER_NOTICE);
     # ID and PASS provided in url, use these over all other options
    	$test_id = $id;
    	$test_pass = $pass;
    	$test_from = "url";
 } else {
     if(isset($_COOKIE['sbid'])) {
-      if($debug > 0) print "Authenticating through Cookie.\n";
+      if($debug > 0) trigger_error("Authenticating through Cookie.",E_USER_NOTICE);
    		# We have a cookie set, use this
 		$test_id = $_COOKIE['sbid'];
     	$test_pass = $_COOKIE['sbpass'];
@@ -52,7 +50,7 @@ if(isset($id) && isset($pass) && $pass != "") {
    		if(!isset($_SERVER['PHP_AUTH_USER'])) {
        		authenticate();
    		} else {
-                if($debug > 0) print "Authenticating through PHP headers.\n";
+                if($debug > 0) trigger_error("Authenticating through PHP headers.",E_USER_NOTICE);
       		$test_id = $_SERVER['PHP_AUTH_USER'];
        		$test_pass = $_SERVER['PHP_AUTH_PW'];
        		$test_from = "auth";
