@@ -1,5 +1,5 @@
 <?php
-  // $Id: psecure.inc,v 1.7 2000/01/18 03:52:00 decibel Exp $
+  // $Id: psecure.inc,v 1.8 2000/06/13 03:45:06 decibel Exp $
 
   function authenticate() {
     Header("WWW-authenticate: basic realm=\"Participant Password\"");
@@ -10,7 +10,7 @@
   function authfail($why,$tfrom,$tid,$tpass) {
     if(!($tfrom == "NULL")) {
       # This might be a bit verbose.  Disabled normally.
-      # error_log("$why $tfrom [$tid/$tpass]",0);
+      error_log("$why $tfrom [$tid/$tpass]",0);
     }
     if($tfrom == "cookie") {
       # If the cookie failed, that means it's stale.  Let's clear it
@@ -67,6 +67,7 @@
   # Let's try to connect to the database...
   if(!sybase_connect($interface, $username, $password)) {
     authfail("dberror",$test_from,$test_id,$test_pass);
+    error_log("Unable to connect to sybase",0);
   }
 
   # Let's see what the luser has provided for us...
@@ -78,10 +79,12 @@
     $result = sybase_query($qs);
     if (!$result) {
       authfail("dberror",$test_from,$test_id,$test_pass);
+      error_log("No result returned",0);
     }
     $rows = sybase_num_rows($result);
     if ($rows <> 1) {
       authfail("dberror",$test_from,$test_id,$test_pass);
+      error_log("No rows returned",0);
     }
     # OK, We've retrieved the id for this email address.
     $par = sybase_fetch_object($result);
@@ -92,6 +95,7 @@
     $result = sybase_query($qs);
     if(!$result) {
       authfail("dberror",$test_from,$test_id,$test_pass);
+      error_log("Unable to retrieve user's record.",0);
     }
     $rows = sybase_num_rows($result);
     $par = sybase_fetch_object($result);
@@ -108,6 +112,7 @@
   # Did we sucessfully grab a single record?
   if ($rows > 1) {
     authfail("dberror",$test_from,$test_id,$test_pass);
+    errorlog("Unable to retrieve COMPLETE record for user.",0);
   }
 
   # Did we find a record for this ID? (This should return a different error message,
