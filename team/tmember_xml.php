@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.6 2004/04/21 15:49:04 thejet Exp $
+// $Id: tmember_xml.php,v 1.7 2004/04/21 16:01:49 thejet Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -22,7 +22,7 @@ include "../etc/participant.php";
 
 // output the XML header
 header("Content-type: text/xml", true);
-print("<"."?xml version=\"1.0\" encoding=\"US-ASCII\"?".">\n");
+print("<"."?xml version=\"1.0\" encoding=\"ISO-8859-1\"?".">\n");
 
 //debug_text("<!-- team: $team, low: $low, limit: $limit, source: $source, pass: $pass. -->\n",$debug);
 
