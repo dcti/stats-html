@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.19 2003/09/11 14:22:49 decibel Exp $
+// $Id: participant.php,v 1.20 2003/09/11 15:04:02 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -440,7 +440,7 @@ class Participant {
      */
     function load($id)
     {
-        $qs = "select * from STATS_Participant where id = $id and listmode < 10";
+        $qs = "SELECT * FROM stats_participant WHERE id = $id AND listmode < 10";
         $this -> _state = $this -> _db -> query_first ($qs);
     } 
 
@@ -524,24 +524,21 @@ class Participant {
     { 
         // First, we need to determine which query to run...
         if ($source == 'y') {
-            $qs = "select r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date, r.work_today as blocks,
-	                  last_date - first_date + 1 AS days_working,
-			r.day_rank as rank, r.day_rank_previous - r.day_rank as change,
-			p.email, p.listmode, p.contact_name
-			from email_rank r, stats_participant p
-			where day_rank <= $start + $limit and day_rank >= $start and p.listmode < 10 and r.project_id = " . $project->get_id() . "
-             AND r.id = p.id
-			order by r.day_rank, r.work_today desc limit 100";
+            $field = 'day_rank';
+            $field = 'overall_rank';
         } else {
-            $qs = "select r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date, r.work_total as blocks,
-						last_date - first_date + 1 as days_working,
-						r.overall_rank as rank, r.overall_rank_previous - r.overall_rank as change,
-						p.email, p.listmode, p.contact_name
-						from email_rank r, stats_participant p
-						where overall_rank <= $start + $limit and overall_rank >= $start and p.listmode <	10 and r.project_id = " . $project->get_id() . "
-                          AND r.id = p.id
-						order by r.overall_rank, r.work_total desc limit 100";
+            $field = 'overall_rank';
         } 
+        $qs = "SELECT r.id, to_char(r.first_date, 'dd-Mon-YYYY') as first_date, to_char(r.last_date, 'dd-Mon-YYYY') as last_date,
+                        r.work_today as blocks, last_date - first_date + 1 AS days_working,
+                        r.$field as rank, r." . $field . "_previous - r.$field as change,
+                        p.email, p.listmode, p.contact_name
+                FROM email_rank r, stats_participant p
+                WHERE r.$field BETWEEN $start + $limit AND $start
+                    AND r.project_id = " . $project->get_id() . "
+                    AND p.listmode < 10
+                    AND r.id = p.id
+                ORDER BY r.$field, r.work_today DESC LIMIT 100";
         $queryData = $db->query($qs);
         $total = $db->num_rows($queryData);
         $result =& $db->fetch_paged_result($queryData, 0, $limit);
@@ -624,34 +621,27 @@ class Participant {
          function &get_team_list($teamid, $source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
          {
            // First, we need to determine which query to run...
-           if($source == 'y')
-           {
-             $qs = "SELECT p.*, tm.work_total, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
-                           to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
-                           tm.work_today, er.day_rank as rank, (er.day_rank_previous - er.day_rank) as rank_change
-                      FROM team_members tm, stats_participant p, email_rank er 
-                     WHERE tm.project_id = " . $project->get_id() . "
-                       AND tm.team_id = " . $teamid . "
-                       AND tm.work_today > 0
+           if($source == 'y') {
+            $rank_field = 'overall_rank';
+            $field = 'work_today';
+            $other_field = 'work_total';
+           } else {
+            $rank_field = 'day_rank';
+            $field = 'work_total';
+            $other_field = 'work_today';
+          }
+           $qs = "SELECT p.*, tm.work_total, tm.work_today, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
+                         to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
+                         er.$rank_field as rank, (er.${rank_field}_previous - er.$rank_field) as rank_change
+                    FROM team_members tm, stats_participant p, email_rank er 
+                   WHERE tm.project_id = " . $project->get_id() . "
+                     AND tm.team_id = " . $teamid . "
+                     AND tm.$field > 0
 
-                       AND p.id = tm.id
-                       AND tm.id = er.id
-                       AND tm.project_id = er.project_id
-                     ORDER BY tm.work_today DESC, tm.work_total DESC;";
-           }
-           else
-           {
-             $qs = "SELECT p.*, tm.work_total, to_char(tm.first_date, 'dd-Mon-YYYY') AS first_date,
-                           to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,
-                           tm.work_today, er.overall_rank as rank, (er.overall_rank_previous - er.overall_rank) as rank_change
-                     WHERE tm.project_id = " . $project->get_id() . "
-                       AND tm.team_id = " . $teamid . "
-
-                       AND p.id = tm.id
-                       AND tm.id = er.id
-                       AND tm.project_id = er.project_id
-                     ORDER BY  tm.work_total DESC, tm.work_today DESC;";
-           }
+                     AND p.id = tm.id
+                     AND tm.id = er.id
+                     AND tm.project_id = er.project_id
+                   ORDER BY tm.$field DESC, tm.$other_field DESC;";
 
            $queryData = $db->query($qs);
            $total = $db->num_rows($queryData);
@@ -691,4 +681,5 @@ class Participant {
     } 
 } 
 
+// vi: set expandtab sw=2 ts=2 tw=128
 ?>
