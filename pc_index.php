@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.23 2004/05/20 13:56:53 nerf Exp $
+  # $Id: pc_index.php,v 1.24 2004/05/21 21:46:33 jlawson Exp $
 
   $title = "Overall Project Stats";
 
@@ -112,19 +112,20 @@
      <td align="right"><?=$overall_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec</td>
     </tr>
 <? if ($gproj->get_total_units() > 0 || $showOGRcomplete) { ?>
+    <?if($showOGRcomplete) {?>
      <tr>
-     <?if($showOGRcomplete) {?>
      <td align="left" class="phead2">Percent Complete (Phase 1)
 		 :</td>
      <td align="right"><a href="cache/ogr_graph_<?=$gproj->get_id()?>.png"><?=$per_searched?>%</a></td>
-     <?} else {?>
-     <td align="left" class="phead2">Percent Complete:</td>
-     <td align="right"><?=$per_searched?>%</td>
-     <?}?>
-    </tr>
      <td align="left" class="phead2">Percent Complete (Phase 2):</td>
 <td align="right"> N/A</td>
     </tr>
+   <?} else {?>
+     <tr>
+     <td align="left" class="phead2">Percent Complete:</td>
+     <td align="right"><?=$per_searched?>%</td>
+     </tr>
+   <?}?>
 <? } ?>
    <tr>
      <td align="left" class="phead2">Time Working:</td>
