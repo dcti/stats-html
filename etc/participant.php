@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.48 2004/07/08 08:17:50 fiddles Exp $
+// $Id: participant.php,v 1.49 2004/07/08 10:44:51 fiddles Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -850,8 +850,8 @@ class Participant {
         $qs .= "                 to_char(tm.last_date, 'dd-Mon-YYYY') AS last_date,";
         $qs .= "                 er.$rank_field as rank, (er.${rank_field}_previous - er.$rank_field) as rank_change";
         $qs .= "        FROM team_members tm, stats_participant p, email_rank er";
-        $qs .= "        WHERE tm.project_id = " . $this->_db->prepare_int($project->get_id()) ;
-        $qs .= "            AND tm.team_id = " . $this->_db->prepare_int($teamid) ;
+        $qs .= "        WHERE tm.project_id = " . $db->prepare_int($project->get_id()) ;
+        $qs .= "            AND tm.team_id = " . $db->prepare_int($teamid) ;
         $qs .= "            AND tm.$field > 0";
         $qs .= "            AND p.id = tm.id";
         $qs .= "            AND tm.id = er.id";
