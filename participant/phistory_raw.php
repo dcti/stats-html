@@ -1,5 +1,5 @@
 <? 
-// $Id: phistory_raw.php,v 1.14 2003/10/22 16:30:44 thejet Exp $
+// $Id: phistory_raw.php,v 1.15 2003/11/25 18:41:37 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .see phistory and implement during update lock code
@@ -12,13 +12,13 @@ include "../etc/project.inc";
 include "../etc/participant.php";
 
 $gpart = new Participant($gdb, $gproj, $id);
-$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
-$history = $gpartstats -> get_stats_history();
 
 if($gpart->get_retire_to() > 0) {
-    header("Location: http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$retire_to");
+    header("Location: http://stats.distributed.net/participant/phistory_raw.php?project_id=".$gproj->get_id()."&id=".$gpart->get_retire_to());
     exit();
 } 
+$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
+$history = $gpartstats -> get_stats_history();
 
 $lastupdate = last_update('ec');
 ?>
@@ -45,7 +45,9 @@ DATE,UNITS
 
 foreach ($history as $histrow)
 {
-	print "$histrow->stats_date,$histrow->work_units\n";
+    $work_units_fmt = round($histrow->work_units*$gproj->get_scale(), 0);
+ 
+    print "$histrow->stats_date,$work_units_fmt\n";
 } 
 ?>
 ---END DATA---

@@ -1,6 +1,6 @@
 <? 
 // vi: ts=2 sw=2 tw=120
-// $Id: phistory.php,v 1.18 2003/10/22 16:29:38 thejet Exp $
+// $Id: phistory.php,v 1.19 2003/11/25 18:41:37 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // @todo -c Implement .check type of unit name
@@ -21,13 +21,13 @@ if(isset($lockfile)) {
 } 
 
 $gpart = new Participant($gdb, $gproj, $id);
-$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
-$history = $gpartstats -> get_stats_history();
 
 if($gpart->get_retire_to() > 0) {
-    header("Location: http://stats.distributed.net/participant/phistory.php?project_id=$project_id&amp;id=$retire_to");
+    header("Location: http://stats.distributed.net/participant/phistory.php?project_id=".$gproj->get_id()."&id=".$gpart->get_retire_to());
     exit();
 } 
+$gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
+$history = $gpartstats -> get_stats_history();
 
 $lastupdate = last_update('ec');
 
