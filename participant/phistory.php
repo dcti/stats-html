@@ -1,5 +1,6 @@
 <?
- # $Id: phistory.php,v 1.9 2002/12/16 20:00:31 decibel Exp $
+ # vi: ts=2 sw=2 tw=120
+ # $Id: phistory.php,v 1.9.2.1 2003/01/29 03:42:14 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -43,13 +44,14 @@ This page, like many stats pages, has a version which is far more suitable
 for machine parsing.  Please try the url:
 http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$id
 -->
-	<center>
-	 <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
-	  <tr>
-	   <th>Date</th>
-	   <th align="right"><?=$proj_unitname?></th>
-	   <th>&nbsp;</th>
-	  </tr>
+  <center>
+    <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
+    <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
+      <tr>
+       <th>Date</th>
+       <th align="right"><?=$proj_unitname?></th>
+       <th>&nbsp;</th>
+      </tr>
 <?
 
  $result = sybase_query($qs);
@@ -75,13 +77,15 @@ http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=
 
    debug_text("<!-- work_units: $work_units, maxwork_units: $maxwork_units -->\n",$debug);
    ?>
-	<tr class=<?=row_background_color($i);?>>
-	   <td><?=$date_fmt?></td>
-	   <td align="right"><?=$work_units_fmt?></td>
-	   <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>"></td>
-	</tr>
-   <?
+      <tr class=<?=row_background_color($i);?>>
+        <td><?=$date_fmt?></td>
+        <td align="right"><?=$work_units_fmt?></td>
+        <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>"></td>
+      </tr>
+<?
  }
 ?>
-</table>
+    </table>
+    <p><a href="psummary.php?project_id=<?=$project_id?>&id=<?=$id?>">View <?=$participant?>'s Participant Summary</a></p>
+  </center>
 <?include "../templates/footer.inc";?>
