@@ -1,13 +1,13 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.17 2003/08/31 16:00:15 paul Exp $
+  # $Id: pc_index.php,v 1.18 2003/09/01 20:50:20 thejet Exp $
 
   $title = "Overall Project Stats";
 
   include "etc/config.inc";
   include "etc/modules.inc";
   include "etc/project.inc";
-	include "etc/projectstats.php";
+  include "etc/projectstats.php";
   
   ####
   # Daily summary
@@ -71,52 +71,52 @@
 ?>
    <div style="text-align:center">
    <br>
-   <p>
+   <p class="phead">
      Aggregate Statistics
    </p>
-   <table>
+   <table style="margin:auto">
 <? if ($gproj->get_total_units() > 0 ) { ?>
     <tr>
-     <td>Total <?=$gproj->get_scaled_unit_name()?> to Search:</td>
+     <td align="left" class="phead2">Total <?=$gproj->get_scaled_unit_name()?> to Search:</td>
      <td align="right"><?=$tot_scaled_units_to_search?></td>
     </tr>
 <? } ?>
     <tr>
-     <td>Total <?=$gproj->get_scaled_unit_name()?> Tested:</td>
+     <td align="left" class="phead2">Total <?=$gproj->get_scaled_unit_name()?> Tested:</td>
      <td align="right"><?=$tot_scaled_work_units?></td>
     </tr>
     <tr>
-     <td>Overall Rate:</td>
+     <td align="left" class="phead2">Overall Rate:</td>
      <td align="right"><?=$overall_scaled_rate?> <?=$gproj->get_scaled_unit_name()?>/sec</td>
     </tr>
 <? if ($gproj->get_total_units() > 0 ) { ?>
     <tr>
-     <td>Total <?=$gproj->get_unscaled_unit_name()?> to Search:</td>
+     <td align="left" class="phead2">Total <?=$gproj->get_unscaled_unit_name()?> to Search:</td>
      <td align="right"><?=$tot_unscaled_units_to_search?></td>
     </tr>
 <? } ?>
     <tr>
-     <td>Total <?=$gproj->get_unscaled_unit_name()?> Tested:</td>
+     <td align="left" class="phead2">Total <?=$gproj->get_unscaled_unit_name()?> Tested:</td>
      <td align="right"><?=$tot_unscaled_work_units?></td>
     </tr>
     <tr>
-     <td>Overall Rate:</td>
+     <td align="left" class="phead2">Overall Rate:</td>
      <td align="right"><?=$overall_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec</td>
     </tr>
 <? if ($gproj->get_total_units() > 0 ) { ?>
      <tr>
-     <td>Percent Complete:</td>
+     <td align="left" class="phead2">Percent Complete:</td>
      <td align="right"><?=$per_searched?>%</td>
     </tr>
 <? } ?>
    <tr>
-     <td>Time Working:</td>
+     <td align="left" class="phead2">Time Working:</td>
      <td align="right"><?=$time_working?> days</td>
     </tr>
    </table>
    <br>
 <? if ($gproj->get_total_units() > 0 ) { ?>
-   <p>
+   <p class="phead2">
      Progress Meter
    </p>
    <table width="300" border="1" cellspacing="0" cellpadding="0">
@@ -127,7 +127,7 @@
    <br>
 <? } ?>
 
-  <p>
+  <p class="phead2">
      Current Information
   </p>
   <p>
