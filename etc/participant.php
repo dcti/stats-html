@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.37 2003/10/28 14:53:22 thejet Exp $
+// $Id: participant.php,v 1.38 2003/10/29 04:24:45 fiddles Exp $
 
 include_once "participantstats.php";
 
@@ -630,6 +630,25 @@ class Participant {
      */
     function retire($new_id)
     {
+        // TODO: Unretire If $new_id = 0
+        $newid = (int) $new_id;
+        if ($new_id == 0) return false;
+        
+        if ($new_id == $this->get_retire_to()) return false;
+
+        if ($new_id == $this->get_id()) return false;
+
+        if ($this->get_retire_to() > 0) return false;
+
+        if (!$this->_authed) return false;
+
+        // We got this far... lets continue
+        $sql = "SELECT p_pretire(" . $this->get_id() . "," . $new_id . ");";
+        $res = $this->_db->query_first($sql);
+        if ($res == FALSE)
+            return false;
+        else
+            return true;
     } 
 
     /**

@@ -1,5 +1,5 @@
 <?php
-  // $Id: pretire.php,v 1.18 2002/06/03 13:15:11 paul Exp $
+  // $Id: pretire.php,v 1.19 2003/10/29 04:26:10 fiddles Exp $
 
   // Parameters passed to pretire.php
   // id = id to be retired
@@ -12,15 +12,19 @@
   include "../etc/config.inc";
   include "../etc/project.inc";
   include "../etc/psecure.inc";
+  include "../etc/team.php";
+  
+  $destid = $_REQUEST['destid'];
+  $ems = $_REQUEST['ems'];
 
-  $title = "Retiring $par->EMAIL";
+  $title = "Retiring " . $gpart->get_email();
 
   include "../templates/header.inc";
-  display_last_update();
+  display_last_update('t');
 
   if ($destid == "" and $ems == "") {
   ?>
-	  <h2>You are about to permanently retire the address <?=$par->EMAIL?></h2>
+	  <h2>You are about to permanently retire the address <?=$gpart->get_email()?></h2>
 	  <p>
 	   You are about to completely and permanently remove this email from the stats database.
 	   All past, current, and future work submitted by this email will be attributed to a new
@@ -56,16 +60,19 @@
   <?
   } else {
     if ($ems <> "") {
-      $qs = "	select	id, EMAIL
-		from	STATS_participant
-		where	EMAIL like '%%$ems%%'
-			and listmode <= 9
-			and id <> $id
-			and retire_to = 0
-		order by	EMAIL";
-      $result = sybase_query($qs);
-      $matches = sybase_num_rows($result);
-
+      $result = Participant::get_search_list($ems, 50, $gdb, $gproj);
+      $rows = count($result);
+      if ($rows == 0)
+      {
+        print "
+           <h2>No Matches</H2>
+           <p>
+            No participants were found matching \"" . $ems . "\". For more 
+            information, <A HREF=\"http://www.distributed.net/faqs\">look here</A>
+           </p>";
+      }
+      else
+      {
       print "
 	  <h2>Please choose your new email address</h2>
 	  <p>
@@ -73,7 +80,7 @@
 	   Please choose the appropriate email address by clicking on it.
 	  </p>
 	  <p>
-	   This <strong>will retire</strong> $par->EMAIL.
+	   This <strong>will retire</strong> " . $gpart->get_email() . ".
 	  </p>
 	  <p>
 	   Clicking an email below will result in a permanent change to the stats database.
@@ -83,14 +90,16 @@
 	    <td align=\"right\">ID #</td>
 	    <td>Email Address</td>
 	   </tr>";
-      for ($i=0;$i<$matches;$i++) {
-        sybase_data_seek($result,$i);
-        $par = sybase_fetch_object($result);
-        $tmpid = 0+$par->id;
-        print "
-	   <tr><td align=\"right\">$tmpid</td>
-	       <td><a href=\"pretire.php?id=$id&pass=$pass&destid=$tmpid\">$par->EMAIL</a></td>
-	   </tr>";
+      for ($i=0;$i<$rows;$i++) {
+        $ROWparticipant = $result[$i];
+
+        $tmpid = 0 + $ROWparticipant->get_id();
+        if ($tmpid != $id) {
+          print "
+	     <tr><td align=\"right\">" . $tmpid . "</td>
+	         <td><a href=\"pretire.php?id=" . $id . "&pass=" . $pass . "&destid=" . $tmpid . "\">" . $ROWparticipant->get_email() . "</a></td>
+	     </tr>";
+        }
       }
       print "</table>";
     }
@@ -101,82 +110,36 @@
 	  <p>That's cute, but it won't work.</p>";
         exit;
       }
-      $qs = "select id,EMAIL,team,retire_to from STATS_participant where id = $destid";
-      $result = sybase_query($qs);
-      if(sybase_num_rows($result)<>1) {
+      $result = $gpart->retire($destid);
+      if ($result == FALSE) {
         print "
-	  <h2>Error: Destination ID Lookup Failure</h2>
-	  <p>I was looking for ID #$destid and something went wrong</p>";
-        exit;
-      }
-      $destpar = sybase_fetch_object($result);
-      $dretire_to = 0+$destpar->retire_to;
-      $destteam = 0+$destpar->team;
-      if( $dretire_to > 0 ) {
-        print "
-	  <h2>Error: Retire Form</h2>
-	  <p>That's cute, but it won't work.</p>";
-        exit;
-      }
-      $qs = "select count(*) as numemails from STATS_participant where retire_to = $destid or retire_to = $id";
-      $result = sybase_query($qs);
-      $par = sybase_fetch_object($result);
-      if ( $par->numemails >= 10 ) {
-        print "
-	  <h2>Error: Too many retires to that email</h2>
-	  <p>To prevent abuse of the this facility, there is a limit of 10 email addresses which may be retired into a single participant using this form.</p>
-	  <p>If you have a legitimate need to retire more than 10 participants, please send mail to help@distributed.net from the account you wish to retire specifying the participant you want it retired into and the circumstances of your request.  After investigating your request we may, at our discretion, retire the address for you.</p>";
-        exit;
-      }
-      $qs = "update STATS_participant set retire_to = $destid, team = $destteam, retire_date = '" .
-	gmdate("M d Y") . "' where id = $id and password = '$pass'";
-
-      $result = sybase_query($qs); 
-      $qs = "update STATS_participant set retire_to = $destid, team = $destteam where retire_to = $id";
-      $result = sybase_query($qs); 
-
-# BW: Prevent the retired e-mail from being ranked
-# JN: You have to move the blocks before you delete! Disabled for now.
-#      $qs = "delete Email_Rank where id = $id";
-      $result = sybase_query($qs);
-      $qs = "select * from STATS_participant where id = $destid";
-      $result = sybase_query($qs);
-      $destpar = sybase_fetch_object($result);
-      $qs = "select * from STATS_participant where id = $id";
-      $result = sybase_query($qs);
-      $srcpar = sybase_fetch_object($result);
-      $qs = "select id, EMAIL, retire_to from STATS_participant where retire_to = $destid and id <> $destid";
-      $result = sybase_query($qs);
-      $rows = sybase_num_rows($result);
-      if($rows <> 1) {
-        $plural = "es";
-      }
+          <h2>Retire Procedure Failed</h2>
+          <p>Ahh well, i'll try again later...</p>";
+      } else {
+      $destpart = new Participant($gdb, $gproj, $destid);
+      $destteamid = $destpart->get_team_id();
+      //if ($destteamid > 0) {
+      //  $destteam = new Team($gdb, $gproj, $destteamid);
+      //  $destteamname = destteam->get_name();
+      //}
       print "
 	<h2>Retire Procedure successful</h2>
 	<p>
-	 You have successfully retired the email address $srcpar->EMAIL.
+	 You have successfully retired the email address " . $gpart->get_email() . ".
 	</p>
 	<p>
 	 This will take effect during the next stats run.
 	</p>
 	<p>
-	 All past blocks, and any future blocks submitted from $srcpar->EMAIL will be allocated to the stats for $destpar->EMAIL instead.
+	 All past blocks, and any future blocks submitted from " . $gpart->get_email() . " will be allocated to the stats for " . $destpart->get_email() . " instead.
 	</p>
 	<p>
-	 All future blocks from this address will be attributed to team $destteam, which is your current team.
+	 All future blocks from this address will be attributed to team $destteamid, which is your current team.
 	 If, in the future, you change teams, it will affect all retired emails as you'd expect it to.
-	</p>
-	<p>The email address $destpar->EMAIL currently has $rows email address$plural retired into it:</p>
-	<ul>";
-      for($i = 0; $i<$rows; $i++) {
-        sybase_data_seek($result,$i);
-        $par = sybase_fetch_object($result);
-        $tmpid = 0+$par->id;
-        print "<li>$par->EMAIL</li>";
+	</p>";
+      print '<p><a href="/">Great, that rocks!</a></p>';
       }
-      print "
-	 </ul>
-	 <p><a href=\"/\">Great, that rocks!</a></p>";
+     }
     }
   }
 ?>
