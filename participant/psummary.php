@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.17 2002/06/05 21:45:05 paul Exp $
+ # $Id: psummary.php,v 1.18 2002/06/05 21:53:36 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -141,7 +141,7 @@ $qs = "select retire_to,listmode,email,contact_name,motto,friend_a,friend_b,frie
 
 $constant_keys_in_one_block = 268435456;
 $tot_keys_searched = number_format(($rs_rank->TOTAL*$constant_keys_in_one_block),0);
-
+$overall_rate = ((((double)$rs_rank->TOTAL)*$constant_keys_in_one_block)/(86400*$rs_rank->Days_Working))/1000;
 $odds = number_format($yest_totals->WORK_UNITS/$rs_rank->TODAY);
 
 ?>
@@ -202,7 +202,7 @@ $per_searched = number_format(100*($rs_rank->TOTAL/$proj_totalunits),8);
 <? if ($proj_totalunits > 0 ) { ?>
     <tr>
      <td><font <?=$fontd?> size="+1">Overall Rate:</font></td>
-     <td align="right" size="+2"><font <?=$fontf?>><?=$overall_rate?> KKeys/sec</font></td>
+     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($overall_rate,0)?> KKeys/sec</font></td>
     </tr>
 
 <? } ?>
