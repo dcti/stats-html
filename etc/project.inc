@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.15 2002/12/07 20:33:46 decibel Exp $
+# $Id: project.inc,v 1.16 2002/12/16 20:00:31 decibel Exp $
 
 include "limit.inc";
 include "debug.inc";
@@ -124,24 +124,30 @@ function last_update($type)
 {
   global $lastupdate,$project_id;
 
+  debug_text("<!-- last_update: type: $type -->\n",$debug);
   switch ($type) { 
     case 'e':
       $qs = "p_lastupdate_new_e @project_id=$project_id";
       break;
-    case 'm':
-      $qs = "p_lastupdate_new_m @project_id=$project_id";
+    case 'ec':
+      $qs = "p_lastupdate_new_ec @project_id=$project_id";
       break;
     case 't':
       $qs = "p_lastupdate_new_t @project_id=$project_id";
       break;
-    case 'p':
-      $qs = "p_lastupdate_new_p @project_id=$project_id";
+    case 'm':
+      $qs = "p_lastupdate_new_m @project_id=$project_id";
+      break;
+    case 'pc':
+      $qs = "p_lastupdate_new_pc @project_id=$project_id";
       break;
     case 'i';
       return $lastupdate;
   }
 
   $result = sybase_query($qs);
+  debug_text("<!-- last_update query: qs: $qs result: $result -->\n",$debug);
+
   if($result) {
     $par = sybase_fetch_object($result);
     $lastupdate = sybase_date_format_long($par->lastupdate);

@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.19 2002/12/10 23:52:22 paul Exp $
+// $Id: tmember.php,v 1.20 2002/12/16 20:00:31 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -30,7 +30,9 @@ if ($limit == "") {
 }
 $lim = $limit;
 
-$lastupdate = last_update('t');
+debug_text("<!-- lastupdate pre call: lastupdate: $lastupdate -->\n",$debug);
+$lastupdate = last_update('m');
+debug_text("<!-- lastupdate post call: lastupdate: $lastupdate -->\n",$debug);
 
 // Query server for basic team information
 $qs = "select name, showpassword, showmembers

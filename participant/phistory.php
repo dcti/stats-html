@@ -1,5 +1,5 @@
 <?
- # $Id: phistory.php,v 1.8 2002/04/09 22:54:19 jlawson Exp $
+ # $Id: phistory.php,v 1.9 2002/12/16 20:00:31 decibel Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -30,7 +30,7 @@
    exit();
  }
 
- $lastupdate = last_update('m');
+ $lastupdate = last_update('ec');
  $qs = "p_phistory @project_id = $project_id, @id = $id";
 
  $title = "Participant History for $participant";
