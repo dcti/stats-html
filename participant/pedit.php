@@ -1,5 +1,5 @@
 <?php
-  // $Id: pedit.php,v 1.3 1999/07/20 04:20:12 nugget Exp $
+  // $Id: pedit.php,v 1.4 1999/10/31 18:22:29 nugget Exp $
   //
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -205,6 +205,29 @@
      <tr>
       <td>Motto:</td>
       <td><input name=\"motto\" value=\"$par->motto\" size=\"50\" maxlength=\"128\"></td>
+     </tr>
+     <tr>
+      <td colspan=\"2\"><hr></td>
+     </tr>
+     <tr>
+      <td>Friend #1:</td>
+      <td><input name=\"friend_a\" value=\"$par->friend_a\" size=\"7\"></td>
+     </tr>
+     <tr>
+      <td>Friend #2:</td>
+      <td><input name=\"friend_b\" value=\"$par->friend_b\" size=\"7\"></td>
+     </tr>
+     <tr>
+      <td>Friend #3:</td>
+      <td><input name=\"friend_c\" value=\"$par->friend_c\" size=\"7\"></td>
+     </tr>
+     <tr>
+      <td>Friend #4:</td>
+      <td><input name=\"friend_d\" value=\"$par->friend_d\" size=\"7\"></td>
+     </tr>
+     <tr>
+      <td>Friend #5:</td>
+      <td><input name=\"friend_e\" value=\"$par->friend_e\" size=\"7\"></td>
      </tr>
      <tr>
       <td colspan=\"2\"><hr></td>
