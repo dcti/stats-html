@@ -12,7 +12,8 @@
 	readfile( "cache/index_$project_id.inc");
  } else {
   ?> 
-	<center>	
+        </tr></table>
+	<center>
 	Apologies, these pages are currently being built. Please try again in a few minutes
 	</center>
   <? 
