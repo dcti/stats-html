@@ -1,6 +1,6 @@
 <?
  # vi: ts=2 sw=2 tw=120
- # $Id: phistory.php,v 1.14 2003/03/22 18:42:53 paul Exp $
+ # $Id: phistory.php,v 1.15 2003/04/20 21:31:37 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -65,7 +65,6 @@ http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id
    if($work_units > $maxwork_units) {
      $maxwork_units = $work_units;
    }
-   debug_text("<!-- work_units: $work_units, maxwork_units: $maxwork_units -->\n",$debug);
  }
  
  for ($i = 0; $i<$rows; $i++) {
@@ -75,8 +74,6 @@ http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id
    $work_units_fmt = number_format($work_units,0);
    $date_fmt = sybase_date_format_long($par->DATE);
    $width = (int) (($work_units / $maxwork_units) * 200)+1;
-
-   debug_text("<!-- work_units: $work_units, maxwork_units: $maxwork_units -->\n",$debug);
    ?>
       <tr class=<?=row_background_color($i);?>>
         <td><?=$date_fmt?></td>

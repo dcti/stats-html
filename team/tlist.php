@@ -50,7 +50,6 @@ include "../templates/header.inc";
 sybase_query("set rowcount $limit");
 $result = sybase_query($qs);
 
-debug_text("<!-- Last Update -- qs2: $qs, result: $result -->\n",$debug);
 err_check_query_results($result);
 
 $rows = sybase_num_rows($result);

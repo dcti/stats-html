@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.24 2003/03/21 22:17:30 thejet Exp $
+// $Id: tmsummary.php,v 1.25 2003/04/20 21:37:07 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -26,8 +26,6 @@ $qs = "select t.*, r.*,
           and PROJECT_ID = $project_id";
 $result = sybase_query($qs);
 $rows = sybase_num_rows($result);
-
-debug_text("<!-- Team Info -- qs: $qs, result: $result, rows: $rows -->\n",$debug);
 
 if ($rows == 0) {
 	echo "<H2>That team is not known.</H2><BR>";
@@ -59,8 +57,6 @@ sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $yest_totals = sybase_fetch_object($result);
 
-
-debug_text("<!-- Neighbors -- qs: $qs, neighbors: $neighbors, numneighbors: $numneighbors -->\n",$debug);
 
 if (private_markupurl_safety($par->logo) != "") {
   $logo = "<img src=\"$par->logo\" alt=\"team logo\">";

@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: project.inc,v 1.19 2003/03/22 18:51:04 paul Exp $
+# $Id: project.inc,v 1.20 2003/04/20 21:33:22 paul Exp $
 
 include "limit.inc";
 include "debug.inc";
@@ -106,8 +106,6 @@ if($result == "") {
 // get project_info object
 sybase_data_seek($result,0);
 $prj_info = sybase_fetch_object($result);
-debug_text("<!-- Project Info -- qs: $qs, result: $result, prj_info: $prj_info -->\n",$debug);
-
 $proj_name = $prj_info->name;
 $proj_type = $prj_info->project_type;
 $proj_totalunits = (double)$prj_info->work_unit_qty;
@@ -122,9 +120,8 @@ $proj_unitname = $prj_info->work_unit_name;
 
 function last_update($type)
 {
-  global $debug,$lastupdate,$project_id;
+  global $lastupdate,$project_id;
 
-  debug_text("<!-- last_update: type: $type -->\n",$debug);
   switch ($type) { 
     case 'e':
       $qs = "p_lastupdate_new_e @project_id=$project_id";
@@ -146,7 +143,6 @@ function last_update($type)
   }
 
   $result = sybase_query($qs);
-  debug_text("<!-- last_update query: qs: $qs result: $result -->\n",$debug);
 
   if($result) {
     $par = sybase_fetch_object($result);

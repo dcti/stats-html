@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: plist.php,v 1.19 2003/03/27 22:00:13 paul Exp $
+# $Id: plist.php,v 1.20 2003/04/20 21:31:37 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -49,14 +49,13 @@ if ("$source" == "y") {
  sybase_query("set rowcount 100");
  $result = sybase_query($QSlist);
 
- debug_text("<!-- QSlist: $QSlist, result: $result -->", $debug);
  err_check_query_results($result);
- 
+
  $rows = sybase_num_rows($result);
 
 ?>
      <div><br></div>
-      <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">     
+      <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">
       <tr>
        <th class="thead">Rank</th>
        <th class="thead">Participant</th>
@@ -77,7 +76,6 @@ if ("$source" == "y") {
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
 
-debug_text ("<!-- $i, $par->listas, $par->email,$par->id,$par->contact_name " .
 participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " -->\n",$debug);
 
         $parid = 0+$par->id;
@@ -91,7 +89,6 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
 	$lastm = substr($par->last,0,3);
 	$lasty = substr($par->last,7,4);
 
-	debug_text("<!-- par->blocks: " . (double) $par->blocks . ", blocks: $blocks, totalblocks: $totalblocks. -->\n", $debug);
 ?>
 <td><?=$par->rank?>
 <?=html_rank_arrow($par->change);?>
@@ -119,7 +116,7 @@ participant_listas($par->listas, $par->email,$par->id,$par->contact_name) . " --
    $btn_fwd = "&nbsp;";
  }
 
-?> 
+?>
 	 <tr>
 	  <td class="tfoot"><? echo "$lo-$hi"?></td>
 	  <td class="tfoot" align="right" colspan="4">Total</td>

@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.18 2002/05/25 22:43:43 paul Exp $
+  // $Id: pjointeam.php,v 1.19 2003/04/20 21:31:37 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -72,7 +72,6 @@
 
   include "../templates/header.inc";
   display_last_update();
-  debug_text("<!-- TJqs: $TJqs, TJrows: $TJrows. -->\n",$debug);
 
   print "<center>
           <h2>You have joined $teamname</h2>

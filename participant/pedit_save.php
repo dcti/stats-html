@@ -8,7 +8,7 @@
 ?><!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.6 2002/04/09 22:54:19 jlawson Exp $
+  // $Id: pedit_save.php,v 1.7 2003/04/20 21:31:37 paul Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -45,8 +45,6 @@
 	friend_d = $friend_d,
 	friend_e = $friend_e
 	where id = $id and password = '$pass'";
-
-if ($debug == yes) print $qs;
 
   $result = sybase_query($qs);
   print "

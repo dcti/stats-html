@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120 syntax=php
-# $Id: psummary.php,v 1.45 2003/03/24 19:04:27 paul Exp $
+# $Id: psummary.php,v 1.46 2003/04/20 21:31:37 paul Exp $
 
 // Variables Passed in url:
 //   id == Participant ID
@@ -19,7 +19,7 @@ function par_list($i, $par, $totaltoday, $totaltotal, $proj_scale, $color_a = ""
   $participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
   ?>
     <tr class=<?echo row_background_color($i, $color_a, $color_b);?>>
-      <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td> 
+      <td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?></td>
       <td><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$parid?>"><?=$participant?></a></td>
       <td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
       <td align="right"><?echo number_style_convert( $par->TOTAL * $proj_scale) ?> </td>
@@ -47,7 +47,6 @@ sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 sybase_data_seek($result,0);
 $person = sybase_fetch_object($result);
-debug_text("<!-- STATS_Participant returned: '$person' -->\n", $debug);
 err_check_query_results($person);
 
 ####
@@ -87,7 +86,6 @@ sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 sybase_data_seek($result,0);
 $rs_rank = sybase_fetch_object($result);
-debug_text("<!-- Participant ranking -- qs: $qs, result: $result, rs_rank: $rs_rank -->\n", $debug);
 
 // Grab the participant's neighbors and store in $neighbors (number of neighbors in $numneighbors)
 
@@ -98,7 +96,7 @@ $qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK,
           (r.OVERALL_RANK_PREVIOUS-r.OVERALL_RANK) as Overall_Change,
           (r.DAY_RANK_PREVIOUS-r.DAY_RANK) as Day_Change
         from STATS_Participant p, Email_Rank r
-        where p.id = r.id 
+        where p.id = r.id
           and PROJECT_ID = $project_id
           and (r.OVERALL_RANK < ($rs_rank->OVERALL_RANK+5))
           and (r.OVERALL_RANK > ($rs_rank->OVERALL_RANK-5))
@@ -106,7 +104,6 @@ $qs = "select r.id, p.listmode, p.email, p.contact_name, r.OVERALL_RANK,
 sybase_query("set rowcount 18");
 $neighbors = sybase_query($qs);
 $numneighbors = sybase_num_rows($neighbors);
-debug_text("<!-- Participant neighbors -- qs: $qs, neighbors: $neighbors, numneighbors: $numneighbors -->\n", $debug);
 
 // Grab the participant's list of friends, store in $friends (number of friends in $numfriends)
 
@@ -127,7 +124,6 @@ $qs = "select r.*, p.*, datediff(day, r.FIRST_DATE, r.LAST_DATE)+1 as Days_Worki
 sybase_query("set rowcount 0");
 $friends = sybase_query($qs);
 $numfriends = sybase_num_rows($friends);
-debug_text("<!-- Participant friends -- qs: $qs, friends: $friends, numfriends: $numfriends -->\n", $debug);
 
 // Get the participant's best day, store result in $best_day
 /* removed for now - killing sybase
@@ -136,7 +132,6 @@ sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $best_day = sybase_fetch_object($result);
 $best_day_units = (double) $best_day->WORK_UNITS;
-debug_text("<!-- Best Day -- qs: $qs, best_day: $best_day, best_day_units: $best_day_units -->\n", $debug);
 $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
 */
 // Get the latest record from Daily_Summary, store in $yest_totals
@@ -239,7 +234,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
 <?
   }
 */
-?> 
+?>
     <p>
     <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>

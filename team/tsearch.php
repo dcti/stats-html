@@ -1,6 +1,6 @@
 <?
 # vi: ts=2 sw=2 tw=120
-# $Id: tsearch.php,v 1.13 2002/12/10 23:52:22 paul Exp $
+# $Id: tsearch.php,v 1.14 2003/04/20 21:37:07 paul Exp $
 
 // Variables Passed in url:
 //   st == Search Term
@@ -24,8 +24,6 @@ $qs = "select tr.TEAM_ID, name, FIRST_DATE, LAST_DATE,
         order by  OVERALL_RANK";
 sybase_query("set rowcount 50");
 $QRSLTteams = sybase_query($qs);
-
-debug_text("<!-- qs: $qs, result: $result -->\n",$debug);
 
 err_check_query_results($QRSLTteams);
 

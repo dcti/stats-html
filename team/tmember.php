@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember.php,v 1.25 2003/03/21 22:17:30 thejet Exp $
+// $Id: tmember.php,v 1.26 2003/04/20 21:37:07 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -12,8 +12,6 @@
 include "../etc/config.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
-
-debug_text("<!-- team: $team, low: $low, limit: $limit, source: $source, pass: $pass. -->\n",$debug);
 
 if ($low == ""){
   $low = 0;
@@ -30,9 +28,7 @@ if ($limit == "") {
 }
 $lim = $limit;
 
-debug_text("<!-- lastupdate pre call: lastupdate: $lastupdate -->\n",$debug);
 $lastupdate = last_update('m');
-debug_text("<!-- lastupdate post call: lastupdate: $lastupdate -->\n",$debug);
 
 // Query server for basic team information
 $qs = "select name, showpassword, showmembers
@@ -47,7 +43,7 @@ $title = "Team Members Listing - Team #".$tm;
 
 // Do the password checking
 if ($info->showmembers == "NO") {
-  
+
   include "../templates/header.inc";
   ?>
     <h1>Hey, you ain't supposed to be here!</h1>
@@ -60,7 +56,7 @@ if ($info->showmembers == "NO") {
 
 if ($info->showmembers == "PAS") {
   if ($pass != $info->showpassword ) {
-  
+
     include "../templates/header.inc";
     if ($pass == "") {
       ?>
@@ -108,8 +104,6 @@ if ($result == "") {
   $oblocks = (double) $blocksresult->WORK_TOTAL * $proj_scale;
 }
 
-debug_text("<!-- TOTAL BLOCKS -- qs: $qs, totblocks: $totblocks, yblocks: ${yblocks}, oblocks: ${oblocks}. -->\n",$debug);
-
 // Query server for member listing
 if ($source == 'y') {    // $qs_source is an easy way around re-doing $qs based on $source
   $qs_source = "";
@@ -152,8 +146,6 @@ if ($source == 'y') {
 $result = sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $rows = sybase_num_rows($result);
-
-debug_text("<!-- Query: \"$qs\" Rows: \"$rows\" -->\n",$debug);
 
 // Sanity check $low and $limit
 if ($low > $rows) {
@@ -229,7 +221,6 @@ print "
           $fmtid = number_style_convert($linkid);
 
           $listas = participant_listas($member->listmode, $member->email, $member->id, $member->contact_name);
-          debug_text("<!--- y:$n_yesterday o:$n_blocks yt:$yblocks ot:$oblocks y%:$n_yesterday/$yblocks --->\n",$debug);
 
           print "
           <tr class=" . row_background_color($i, $color_a, $color_b) . ">
