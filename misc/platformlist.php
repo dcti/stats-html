@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.19 2003/05/19 19:15:53 paul Exp $
+# $Id: platformlist.php,v 1.20 2003/08/31 11:41:00 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -48,11 +48,11 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    if($ch == 'o') $fieldname = "p.OS";
    if($ch == 'v') $fieldname = "p.VER";
    if($ch == 'y') {
-     $fieldname = "sum(p.WORK_TODAY)/$proj_divider as yesterday";
+     $fieldname = "sum(p.WORK_TODAY)* ".$gproj->get_scale()." as yesterday";
      $show_yesterday = 1;
    }
    if($ch == 't') {
-     $fieldname = "sum(p.WORK_TOTAL)/$proj_divider as total";
+     $fieldname = "sum(p.WORK_TOTAL)* ".$gproj->get_scale()." as total";
      $show_total = 1;
    }
 
@@ -94,21 +94,17 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  $ordstr = substr($ordstr,0,strlen($ordstr)-1);
 
  $QSlist = "$selstr $frostr $whestr $grostr $ordstr";
- $result = sybase_query($qs);
- $par = sybase_fetch_object($result);
- sybase_query("set rowcount 0");
- $result = sybase_query($QSlist);
+ $result = $gdb->query($QSlist);
 
- err_check_query_results($result);
 
- $rows = sybase_num_rows($result);
+ $rows = $gdb->num_rows();
 
  # Total number of columns in table, not counting yesterday or total columns. Start at 2 to account for first and last.
  $cols = 2;
  print "
     <center>
      <br>
-     <table border=\"1\" cellspacing=\"0\" cellpadding\"0\" bgcolor=$header_bg>
+     <table border=\"1\" cellspacing=\"0\" cellpadding\"0\" >
       <tr>";
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
@@ -130,7 +126,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
        <th align="right">Last Unit</th>
 <?
  if($show_yesterday){ print "<th>Yesterday</th>";}
- if($show_total) { print "<th>Total $proj_unitname</th>";}
+ if($show_total) { print "<th>Total ".$gproj->get_scaled_unit_name()."</th>";}
  print '</tr>';
  $total_yesterday = 0;
  $total_overall = 0;
@@ -139,12 +135,12 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 ?>
 <tr class="<? echo row_background_color($i)?>">
 <?
- sybase_data_seek($result,$i);
- $par = sybase_fetch_object($result);
+ $gdb->data_seek($i);
+ $par = $gdb->fetch_object();
 
  $decimal_places=0;
- $firstd = sybase_date_format_long($par->first);
- $lastd = sybase_date_format_long($par->last);
+ $firstd = $par->first;
+ $lastd = $par->last;
 
  for($j=0; $j < strlen($view); $j++) {
    $ch = substr($view,$j,1);
@@ -173,16 +169,14 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 
    $padding = (int) $cols - 1;
    print "
-   <tr bgcolor=$footer_bg>
-    <td align=\"right\" colspan=\"$padding\"><font $footer_font>Total</font></td>";
+   <tr>
+	<td align=\"right\" colspan=\"$padding\">Total</td>";
 
    if ($show_yesterday) {
-     print "
-    <td align=\"right\"><font $footer_font>" . number_style_convert($total_yesterday, 0) . "</font></td>";
+     print "<td align=\"right\">" . number_style_convert($total_yesterday, 0) . "</td>\n";
    }
    if ($show_total) {
-     print "
-    <td align=\"right\"><font $footer_font>" . number_style_convert($total_overall, 0) . "</font></td>";
+     print "<td align=\"right\">" . number_style_convert($total_overall, 0) . "</td>\n";
    }
  }
 
