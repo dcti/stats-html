@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.12 2002/06/19 02:26:58 decibel Exp $
+ // $Id: pc_countries.php,v 1.13 2002/12/17 04:47:14 decibel Exp $
 
  $outname = "countries";
 
@@ -28,7 +28,7 @@
  $country = sybase_query($qs);
  $countries = sybase_num_rows($country);
 
-	display_last_update('e');
+ display_last_update('e');
  print "
 	 <center>
 	  <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
