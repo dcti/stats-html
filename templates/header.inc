@@ -10,10 +10,11 @@
    .row1 {background-color:#dddddd }
    .row2 {background-color:#ffffdd }
    .row3 {background-color:#ffffff }
-    TH     {font-family:verdana,helvetica,arial;
-	    color:white;
-      background-color:#222222;
-	 }
+    TH   {font-family:verdana,helvetica,arial;
+	        font-size: larger;
+          color:white;
+          background-color:#222222;
+	        }
   --></style>
  </head>
  <body bgcolor=<?=$bgcolor?> text=<?=$text?> link=<?=$link?> vlink=<?=$link?>>
