@@ -1,14 +1,12 @@
 <?
 
- // $Id: pc_countries.php,v 1.4 2002/03/09 18:31:28 paul Exp $
+ // $Id: pc_countries.php,v 1.5 2002/03/16 15:47:26 paul Exp $
 
  $outname = "countries";
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "etc/project.inc";
-
- sybase_pconnect($interface, $username, $password);
 
  sybase_query("set rowcount 0");
 

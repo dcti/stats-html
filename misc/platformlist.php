@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+# $Id: platformlist.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -25,8 +25,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "etc/project.inc";
-
- sybase_pconnect($interface, $username, $password);
 
  $qs = "p_lastupdate @section='e', @contest='new', @project_id=$project_id";
  $result = sybase_query($qs);

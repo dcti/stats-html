@@ -1,6 +1,6 @@
 <?
 
-# $Id: plist.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+# $Id: plist.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
 $hour = 3;
 $now = getdate();
@@ -44,8 +44,6 @@ if ("$source" == "y") {
 	where OVERALL_RANK <= $hi and OVERALL_RANK >= $lo and r.id = p.id and p.listmode < 10 and r.PROJECT_ID = $project_id
 	order by r.OVERALL_RANK, r.WORK_TOTAL desc";
 }
-
- sybase_pconnect($interface, $username, $password);
 
  $qs = "p_lastupdate @section='e', @contest='new', @project_id=$project_id";
  $result = sybase_query($qs);

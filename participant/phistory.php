@@ -1,5 +1,5 @@
 <?
- # $Id: phistory.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+ # $Id: phistory.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -15,7 +15,6 @@
    exit;
  }
 
- sybase_pconnect($interface, $username, $password);
  $qs = "p_participant_all $id";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
@@ -77,17 +76,21 @@
  $title = "Participant History for $participant";
 
  include "templates/header.inc";
+?> 
 
-print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats pages, has a version which is far more suitable\n     for machine parsing.  Please try the url:\n http://stats.distributed.net/ogr-24/phistory_raw.php?project_id=$project_id&id=$id\n-->\n";
-
- print "
+<!-- IMPORTANT NOTE TO SCRIPTERS!
+This page, like many stats pages, has a version which is far more suitable
+for machine parsing.  Please try the url:
+http://stats.distributed.net/generic/phistory_raw.php?project_id=$project_id&id=$id
+n-->
 	<center>
-	 <table border=\"1\" cellspacing\"0\" bgcolor=$header_bg>
+	 <table border="1" cellspacing"0" bgcolor=<?=$header_bg?>>
 	  <tr>
-	   <td><font $header_font>Date</font></td>
-	   <td align=\"right\"><font $header_font>$proj_unitname</font></td>
-	   <td><font $header_font>&nbsp;</td>
-	  </tr>";
+	   <td><font <?=$header_font?>>Date</font></td>
+	   <td align="right"><font <?=$header_font?>><?=$proj_unitname?></font></td>
+	   <td><font <?=$header_font?>>&nbsp;</td>
+	  </tr>
+<?
 
  $result = sybase_query($qs);
  $rows = sybase_num_rows($result);
@@ -111,16 +114,14 @@ print "\n<!-- IMPORTANT NOTE TO SCRIPTERS!\n     This page, like many stats page
    $width = (int) (($work_units / $maxwork_units) * 200)+1;
 
    debug_text("<!-- work_units: $work_units, maxwork_units: $maxwork_units -->\n",$debug);
-
-   print "
-	<tr bgcolor=" . row_background_color($i) . ">
-	   <td>$date_fmt</td>
-	   <td align=\"right\">$work_units_fmt</td>
-	   <td align=\"left\"><img src=\"/images/bar.jpg\" height=\"8\" width=\"$width\"></td>
-	</tr>\n";
+   ?>
+	<tr bgcolor=<?=row_background_color($i);?>>
+	   <td><?=$date_fmt?></td>
+	   <td align="right"><?=$work_units_fmt?></td>
+	   <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>"></td>
+	</tr>
+   <?
  }
- print "
-	 </table>";
-
 ?>
+</table>
 <?include "templates/footer.inc";?>

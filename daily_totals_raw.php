@@ -1,12 +1,11 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-# $Id: daily_totals_raw.php,v 1.3 2002/03/08 23:29:15 paul Exp $
+# $Id: daily_totals_raw.php,v 1.4 2002/03/16 15:47:26 paul Exp $
 
  include "../etc/config.inc";
  include "etc/project.inc";
 
- sybase_pconnect($interface, $username, $password);
  $qs = "SELECT	convert(char(10),DATE,101) as datefmt, *
 	FROM	Daily_Summary
 	WHERE	PROJECT_ID = $project_id

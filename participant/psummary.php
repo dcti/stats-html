@@ -1,5 +1,5 @@
 <?
- # $Id: psummary.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+ # $Id: psummary.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
  // Variables Passed in url:
  //   id == Participant ID
@@ -16,25 +16,15 @@
         $decimal_places=0;
         $units=number_style_convert( $par->units );
 	$participant = participant_listas($par->listmode,$par->email,$parid,$par->contact_name);
-
-        print "	  <tr bgcolor=" . row_background_color($i, $color_a, $color_b) . ">
-		<td>$par->OVERALL_RANK" . html_rank_arrow($par->Overall_Change) . "
-		<td><a href=\"psummary.php?project_id=$project_id&id=$parid\"><font color=\"#cc0000\">$participant</font></a></td>
-		<td align=\"right\">" . number_style_convert( $par->Days_Working ) . "</td>
-		<td align=\"right\">" . number_style_convert( (double) $par->TOTAL) . "</td>
-		<td align=\"right\">" . number_style_convert( (double) $par->TODAY) . "</td>
+?>
+        	<tr bgcolor=<?echo row_background_color($i, $color_a, $color_b);?>>
+		<td><?echo $par->OVERALL_RANK . html_rank_arrow($par->Overall_Change) ?> 
+		<td><a href="psummary.php?project_id=$project_id&id=$parid"><font color="#cc0000"><?=$participant?></font></a></td>
+		<td align="right"><?echo number_style_convert( $par->Days_Working );?> </td>
+		<td align="right"><?echo number_style_convert( (double) $par->TOTAL) ?> </td>
+		<td align="right"><?echo number_style_convert( (double) $par->TODAY) ?> </td>
 	  </tr>
-        ";
- }
- function par_header($header_font) {
-   print "
-     <tr>
-      <td><font $header_font>Rank</font></td>
-      <td><font $header_font>Participant</font></td>
-      <td align=\"right\"><font $header_font>Days</font></td>
-      <td align=\"right\"><font $header_font>Overall $proj_unitname</font></td>
-      <td align=\"right\"><font $header_font>Current $proj_unitname</font></td>
-     </tr>";
+<?
  }
  function par_footer($footer_font, $totaltoday, $totaltotal) {
    print "
@@ -45,8 +35,6 @@
      </tr>
    ";
  }
-
- sybase_pconnect($interface, $username, $password);
 
  // Get the participant's record from STATS_Participant and store it in $person
 
@@ -151,24 +139,6 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 
  // Get the participant's best day, store result in $best_day
 
-/*
-******************************
- // First, build the where clause that contains all the ID's that are retired to this ID
- sybase_query("set rowcount 0");
- $qs = "select id from STATS_Participant where retire_to = $id";
- $result = sybase_query($qs);
- $rows = sybase_num_rows($result);
- $whereline = "id = $id";
- for ($i = 0; $i<$rows; $i++) {
-   sybase_data_seek($result,$i);
-   $par = sybase_fetch_object($result);
-   $rt = (int) $par->id;
-   $whereline = "$whereline or id = $rt";
- }
- // Run the query, but only if statsrun isn't in progress
-******************************
-*/
-
  $qs = "p_phistory @project_id = $project_id, @id = $id, @sort_field = 'WORK_UNITS', @sort_dir = 'desc'";
  sybase_query("set rowcount 0");
  $result = sybase_query($qs);
@@ -184,53 +154,54 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  $result = sybase_query($qs);
  $yest_totals = sybase_fetch_object($result);
 
- print "
+?>
   <center>
    <table>
     <tr>
-     <td colspan=\"3\" align=\"center\">
+     <td colspan="3" align="center">
       <br>
-      <font size=\"+2\"><strong>$participant's stats</strong></font>
+      <font size="+2"><strong><?=$participant?>'s stats</strong></font>
       <hr>
-      $motto
+      <?=$motto?>
      </td>
     </tr>
     <tr>
      <td></td>
-     <td align=\"center\"><font $fontd size=\"+1\">Rank</font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname</font></td>
+     <td align="center"><font <?=$fontd?> size="+1">Rank</font></td>
+     <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?></font></td>
     </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Overall:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$rs_rank->OVERALL_RANK" .
-		html_rank_arrow($rs_rank->Overall_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>" . number_style_convert($rs_rank->TOTAL) . "</font></td>
+     <td><font <?=$fontd?> size="+1">Overall:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?echo $rs_rank->OVERALL_RANK.
+		html_rank_arrow($rs_rank->Overall_Change); ?> </font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><?=number_style_convert($rs_rank->TOTAL);?></font></td>
     </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Yesterday:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$rs_rank->DAY_RANK" .
-		html_rank_arrow($rs_rank->Day_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>" . number_style_convert($rs_rank->TODAY) . "</font></td>
+     <td><font <?=$fontd?> size="+1">Yesterday:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><? echo $rs_rank->DAY_RANK.
+		html_rank_arrow($rs_rank->Day_Change);?> </font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><? echo number_style_convert($rs_rank->TODAY);?></font></td>
     </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Time Working:</font></td>
-     <td colspan=\"2\" align=\"right\" size=\"+2\"><font $fontf>" . number_format($rs_rank->Days_Working) . " days</font></td>
+     <td><font <?=$fontd?> size="+1">Time Working:</font></td>
+     <td colspan="2" align="right" size="+2"><font <?=$fontf?>><? echo number_format($rs_rank->Days_Working);?>days</font></td>
     </tr>
     <tr>
-     <td colspan=\"3\">
+     <td colspan="3">
       <hr>
      </td>
     </tr>
    </table>
   <p>
-	";
+<?
   $pct_of_best = (double) $rs_rank->TODAY / $best_day_units;
   debug_text("<!-- pct_of_best: $pct_of_best, rs_rank->WORK_TODAY: $rs_rank->WORK_TODAY, best_day->WORK_UNITS: $best_day->WORK_UNITS -->\n", $debug);
   if($pct_of_best == 1) {
-    print "
+?>
 	<br>
-	<font color=\"red\">Yesterday was this participant's best day ever!</font>
-	</p>";
+	<font color="red">Yesterday was this participant's best day ever!</font>
+	</p>
+<?
   } elseif ( $best_day_units > 0 ) {
     print "
 	</p>
@@ -241,16 +212,22 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
 	. " units were completed.
 	</p>\n<!-- Thanks, Havard! -->\n";
   }
- 
- print "
+?> 
 	<p>
-	<a href=\"phistory.php?project_id=$project_id&id=$id\">View this Participant's Work Unit Submission History</a>
+	<a href="phistory.php?project_id=$project_id&id=$id">View this Participant's Work Unit Submission History</a>
 	</p>
-    <table border=\"1\" cellspacing=\"0\" bgcolor=$header_bg>
+    <table border="1" cellspacing="0" bgcolor=<?=$header_bg?>>
      <tr>
-      <td colspan=\"6\" align=\"center\"><font $header_font><strong>$participant's neighbors</strong></font></td>
-     </tr>";
- par_header($header_font);
+      <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s neighbors</strong></font></td>
+     </tr>
+    <tr>
+      <td><font <?=$header_font;?>>Rank</font></td>
+      <td><font <?=$header_font;?>>Participant</font></td>
+      <td align="right"><font <?=$header_font;?>>Days</font></td>
+      <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
+      <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
+     </tr>
+<?
  $totaltoday = 0;
  $totaltotal = 0;
  for ($i = 0; $i < $numneighbors; $i++) {
@@ -264,11 +241,18 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
  }
  par_footer($footer_font,$totaltoday,$totaltotal);
  if($numfriends>1) {
-   print "
+?>
      <tr>
-      <td colspan=\"6\" align=\"center\"><font $header_font><strong>$participant's friends</strong></font></td>
-     </tr>";
-   par_header($header_font);
+      <td colspan="6" align="center"><font <?=$header_font?>><strong><?=$participant?>'s friends</strong></font></td>
+     </tr>
+      <tr>
+      <td><font <?=$header_font;?>>Rank</font></td>
+      <td><font <?=$header_font;?>>Participant</font></td>
+      <td align="right"><font <?=$header_font;?>>Days</font></td>
+      <td align="right"><font <?=$header_font;?>>Overall <?=$proj_unitname;?></font></td>
+      <td align="right"><font <?=$header_font;?>>Current <?=$proj_unitname;?></font></td>
+     </tr>
+<?
    $totaltoday = 0;
    $totaltotal = 0;
    for ($i = 0; $i < $numfriends; $i++) {
@@ -282,15 +266,12 @@ $qs = "select * from STATS_Participant where id = $id and listmode < 10";
    }
    par_footer($footer_font,$totaltoday,$totaltotal);
  }
- print "
+?>
    </table>
    <br>
    <hr>
    <p>
-    <form action=\"/ppass.php\"><input type=\"hidden\" name=\"id\" value=\"$id\"><input type=\"submit\" value=\"Please email me my password.\"></form>
+    <form action="/ppass.php"><input type="hidden" name="id" value="id"><input type="submit" value="Please email me my password."></form>
    </p>
   </center>
-	";
-
-?>
 <?include "templates/footer.inc";?>

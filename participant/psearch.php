@@ -1,5 +1,5 @@
 <?
- # $Id: psearch.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+ # $Id: psearch.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
  // Variables Passed in url:
  //   st == Search Term
@@ -10,7 +10,6 @@
  include "../etc/modules.inc";
  include "etc/project.inc";
 
- sybase_pconnect($interface, $username, $password);
  $QRSLTsearch = "";
 
 // Execute the procedure to get the results

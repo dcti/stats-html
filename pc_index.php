@@ -1,14 +1,12 @@
 <?
 
- # $Id: pc_index.php,v 1.3 2002/03/09 18:31:29 paul Exp $
+ # $Id: pc_index.php,v 1.4 2002/03/16 15:47:26 paul Exp $
 
  $title = "Overall Project Stats";
 
  include "../etc/config.inc";
  include "../etc/modules.inc";
  include "etc/project.inc";
-
- sybase_pconnect($interface,$username,$password);
 
  sybase_query("set rowcount 1"); 
  $qs = "select * from Daily_Summary where PROJECT_ID=$project_id order by date desc";

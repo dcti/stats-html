@@ -39,8 +39,6 @@ if ("$source" == "y") {
 	order by	OVERALL_RANK, WORK_TOTAL desc";
 }
 
- sybase_pconnect($interface, $username, $password);
-
  // Find out when the last update was
  $qs = "p_lastupdate @section=t, @project_id=$project_id, @contest=new";
  $result = sybase_query($qs);

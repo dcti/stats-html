@@ -1,5 +1,5 @@
 <?
-// $Id: tmember.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+// $Id: tmember.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -34,9 +34,6 @@ if ($limit == "") {
 	$limit = 100;
 }
 $lim = $limit;
-
-// Connect to server
-sybase_pconnect($interface, $username, $password);
 
 // Query server for basic team information
 $qs = "select name, showpassword, showmembers

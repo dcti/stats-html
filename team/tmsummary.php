@@ -1,5 +1,5 @@
 <?
-// $Id: tmsummary.php,v 1.5 2002/03/09 18:31:29 paul Exp $
+// $Id: tmsummary.php,v 1.6 2002/03/16 15:47:26 paul Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -15,8 +15,6 @@ include "../etc/config.inc";
 include "../etc/modules.inc";
 include "etc/project.inc";
 include "../etc/markup.inc";
-
-sybase_pconnect($interface, $username, $password);
 
 $qs = "p_lastupdate @section=t, @contest='new', @project_id=$project_id";
 $result = sybase_query($qs);
@@ -77,33 +75,32 @@ if (private_markupurl_safety($par->logo) != "") {
 } else {
   $logo = "";
 }
-
-echo "<H1><CENTER>$par->name</CENTER></H1>\n";
-echo "<CENTER><TABLE>
+?>
+<H1><CENTER><?=$par->name?></CENTER></H1>
+<CENTER><TABLE>
    <TR>
-    <TD>$logo</TD>
-    <TD><CENTER>".markup_to_html($par->description)."<CENTER></TD>
+    <TD><?echo $logo?></TD>
+    <TD><CENTER><?echo markup_to_html($par->description)?><CENTER></TD>
    <TR>
-   <TR><TD COLSPAN=2><CENTER>Contact: ".htmlspecialchars($par->contactemail)."</CENTER></TD></TR>
-  </TABLE></CENTER>\n";
-echo "<BR><BR>\n";
-
-print "<CENTER><TABLE cellspacing=\"4\">\n
+   <TR><TD COLSPAN=2><CENTER>Contact: <?echo htmlspecialchars($par->contactemail)?><CENTER></TD></TR>
+  </TABLE></CENTER>
+<BR><BR>
+<CENTER><TABLE cellspacing="4">
     <tr>
      <td></td>
-     <td align=\"center\"><font $fontd size=\"+1\">Rank </font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname </font></td>
-     <td align=\"center\"><font $fontd size=\"+1\">$proj_unitname/<br>Member</font></td>
+     <td align="center"><font <?=$fontd?> size="+1">Rank </font></td>
+     <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?> </font></td>
+     <td align="center"><font <?=$fontd?> size="+1"><?=$proj_unitname?><br>Member</font></td>
     </tr>
     <tr>
-     <td><font $fontd size=\"+1\">Overall:</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf>$par->OVERALL_RANK" .
-		html_rank_arrow($par->Overall_Change) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " . number_style_convert( (double) $par->WORK_TOTAL/$proj_divider ) . "</font></td>
-     <td align=\"right\" size=\"+2\"><font $fontf> " .
-	number_style_convert( (double) $par->WORK_TOTAL/$proj_divider/$par->MEMBERS_OVERALL ) . "</font></td>
-    </tr>";
-
+     <td><font <?=$fontd?> size="+1">Overall:</font></td>
+     <td align="right" size="+2"><font <?=$fontf?>><? echo $par->OVERALL_RANK .
+html_rank_arrow($par->Overall_Change) ?> </font></td>
+     <td align="right" size="+2"><font <?=$fontf?>> <? echo number_style_convert( (double) $par->WORK_TOTAL/$proj_divider ) ?></font></td>
+     <td align="right" size="+2"><font <?=$fontf?>> 
+	<? echo number_style_convert( (double) $par->WORK_TOTAL/$proj_divider/$par->MEMBERS_OVERALL ) ;?> </font></td>
+    </tr>
+<?
 if ( $par->WORK_TODAY > 0 ) print "
     <tr>
      <td><font $fontd size=\"+1\">Yesterday:</font></td>
@@ -226,4 +223,3 @@ if ($par->showmembers=="NO") {
 include "templates/footer.inc";
 
 ?>
-</HTML>
