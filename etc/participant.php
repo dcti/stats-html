@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.13 2003/09/01 03:18:33 decibel Exp $
+// $Id: participant.php,v 1.14 2003/09/01 14:42:55 decibel Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -79,7 +79,7 @@ class Participant {
 
 	function check_password($pass)
     {
-    	$pass = substr($pass,0,MAX_PASS_LEN);
+    	$pass = substr($pass,0,'MAX_PASS_LEN');
     	
 		if ($this->get_password() == "") {
     		//auth fail - no pass set -> mail pass to user
