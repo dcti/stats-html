@@ -1,5 +1,5 @@
 <?php 
-// $Id: participant.php,v 1.15 2003/09/01 20:43:50 paul Exp $
+// $Id: participant.php,v 1.16 2003/09/02 03:44:39 thejet Exp $
 
 define('MAX_PASS_LEN',8);
 
@@ -394,7 +394,7 @@ class Participant {
         } else if ($this -> _state -> listmode == 1) {
             $listas = "Participant #" . number_style_convert($this -> get_id());
         } else if ($this -> _state -> listmode == 2) {
-            if ($this -> get_contact_name() == "")
+            if (trim($this -> get_contact_name()) == "")
                 $listas = "Participant #" . number_style_convert($this -> get_id());
             else
                 $listas = $this -> get_contact_name();
