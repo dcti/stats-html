@@ -1,6 +1,6 @@
 <?php 
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: modules.inc,v 1.19 2003/09/14 02:07:49 paul Exp $
+// $Id: modules.inc,v 1.20 2003/09/14 02:08:47 paul Exp $
 function plural($num)
 {
     if (abs($num) > 1 or $num == 0) {
@@ -36,24 +36,6 @@ function html_rank_arrow($change)
             return "<span style=\"color: #990000\">(<img src=\"/images/down.gif\" alt=\"-\">$offset)</span>";
         } 
     } 
-} 
-
-function participant_listas($listmode, $email, $id, $name)
-{
-    if ($listmode == 0 || $listmode == 8 || $listmode == 9) {
-        $listas = "$email";
-    } else if ($listmode == 1) {
-        $listas = "Participant #" . number_style_convert($id);
-    } else if ($listmode == 2) {
-        if ($name == "") {
-            $listas = "Participant #" . number_style_convert($id);
-        } else {
-            $listas = "$name";
-        } 
-    } else {
-        $listas = "Record error for #" . number_style_convert($id) . "!";
-    } 
-    return $listas;
 } 
 
 function sybase_date_format_long($arg_1)
