@@ -1,3 +1,8 @@
+   <tr>
+     <td colspan="4" align="center" class="lastupdate">&nbsp;</td>
+  </tr>
+</table>
+
   <center>
    <br>
    <p>
