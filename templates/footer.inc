@@ -19,8 +19,8 @@ if (!isset($proj_list)) {
    if ($project_id != 5) { ?> <a href="<?=$myname?>?project_id=5<?=$query_string?>">RC5-64</a>  <? } 
    if ($project_id != 205) { ?> <a href="<?=$myname?>?project_id=205<?=$query_string?>">RC5-64 (all)</a>  <? } 
    if ($project_id != 8) { ?> <a href="<?=$myname?>?project_id=8<?=$query_string?>">RC5-72</a>  <? } 
-   if ($project_id != 24) { <a href="<?=$myname?>?project_id=24<?=$query_string?>">OGR-24</a> <? } 
-   if ($project_id != 25) { <a href="<?=$myname?>?project_id=25<?=$query_string?>">OGR-25</a> <? } 
+   if ($project_id != 24) { ?> <a href="<?=$myname?>?project_id=24<?=$query_string?>">OGR-24</a> <? } 
+   if ($project_id != 25) { ?> <a href="<?=$myname?>?project_id=25<?=$query_string?>">OGR-25</a> <? } 
 ?>
 </div>
 <?
