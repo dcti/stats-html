@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?
-  // $Id: ppass.php,v 1.13 2002/04/09 23:18:49 jlawson Exp $
+  // $Id: ppass.php,v 1.14 2002/05/14 22:17:32 paul Exp $
 
   // Variables Passed in url:
   //  id == email id
@@ -13,8 +13,12 @@
   include "../etc/config.inc";
   include "../etc/modules.inc";
   include "../etc/project.inc";
-  include "../templates/header.inc";
 
+  $title = "Password request: individual email [$id]";
+
+  include "../templates/header.inc";
+  display_last_update();
+ 
   if (!$id) {
     print "
 	<h1>Error: No ID Supplied</h1>
