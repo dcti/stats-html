@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.36 2003/10/22 18:06:58 thejet Exp $
+// $Id: tmsummary.php,v 1.37 2003/10/27 14:08:21 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -188,9 +188,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       </tr>
     </table>
     <hr>
-    <!--
     <a href="/participant/pjointeam.php?team=<?=$tm?>">I want to join this team!</a>
-    -->
     <hr>
     <form action="tmedit.php" method="post">
       <p>
