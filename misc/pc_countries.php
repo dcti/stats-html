@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.16 2004/07/16 20:45:27 decibel Exp $
+ // $Id: pc_countries.php,v 1.17 2005/05/07 17:36:54 fiddles Exp $
 
  $outname = "countries";
 
@@ -22,6 +22,9 @@
  } else {
    $qs .= "	order by sum(work_total)* ".$gproj->get_scale()." desc";
  };
+
+if ($debug == 1) 
+  echo "<b>SQL Query:</b><br><pre>$qs</pre><br>";
 
  display_last_update('e');
  print "<br>
