@@ -1,6 +1,6 @@
 <?
 
- // $Id: pc_countries.php,v 1.17 2005/05/07 17:36:54 fiddles Exp $
+ // $Id: pc_countries.php,v 1.18 2005/05/07 18:00:57 decibel Exp $
 
  $outname = "countries";
 
@@ -11,7 +11,7 @@
  $qs = "select distinct code, country, count(country) as recs, sum(work_total)* ".$gproj->get_scale()." as units_total,
 		sum(work_today)* ".$gproj->get_scale()." as units_today
 	from STATS_participant, STATS_country,email_RANK
-	where retire_to = 0
+	where retire_to IS NULL
 		and dem_country IS NOT NULL
 		and dem_country = code
 		and email_RANK.id = STATS_participant.id
