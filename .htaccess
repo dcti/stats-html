@@ -4,6 +4,7 @@
  Allow from localhost 10.70.40.11
  Allow from .distributed.net
  Allow from .slacker.com
+ Allow from .bovine.net
 </FilesMatch>
 
 <Files "*.inc">
