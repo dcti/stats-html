@@ -85,7 +85,7 @@ if (isset($project_id)) {
    <tr>
     <td colspan="4" align="center" class="lastupdate">
 <? if( $lastupdate <> "" ) { ?>
-      Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC
+      Data shown reflects all blocks received as of <?=$lastupdate?> at 23:59 UTC. Current time is <?=gmstrftime('%d-%b-%Y %T')?>.
 <? } else { ?>
       Update currently in progress...
 <? } ?>
