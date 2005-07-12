@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.28 2004/08/18 16:13:14 thejet Exp $
+// $Id: team.php,v 1.29 2005/07/12 03:05:59 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -164,7 +164,7 @@ class Team
          *
          * @access public
          * @return bool
-         * @param int The ID of the participant to load
+         * @param int The ID of the team to load
          ***/
          function load($team_id)
            {
@@ -186,6 +186,7 @@ class Team
                $this->_IDMismatch = true;
              else
                $this->_IDMismatch = false;
+
            }
 
         /***
@@ -405,6 +406,49 @@ class Team
          {
            $this->get_current_stats();
            $sql = "SELECT r.overall_rank, r.overall_rank_previous, t.team, t.name, last_date - first_date AS days_working, work_total";
+           $sql .= "    FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= ($1 -5)";
+           $sql .= "        AND overall_rank <= ($1 +5)";
+           $sql .= "        AND project_id = $2";
+           //$sql .= " AND team_id != $3";
+           $sql .= "        AND listmode <= 9 ORDER BY overall_rank ASC ";
+
+           $queryData = $this->_db->query_bound($sql, array(
+                                                                (int)$this->_stats->get_stats_item('overall_rank'),
+                                                                $this->_project->get_id()
+                                                            ) );
+
+           $result = $this->_db->fetch_paged_result($queryData);
+           $cnt = count($result);
+           for($i = 0; $i < $cnt; $i++)
+           {
+             $teamTmp = new Team($this->_db, $this->_project);
+             $statsTmp = new TeamStats($this->_db, $this->_project);
+             $statsTmp->explode($result[$i]);
+             $teamTmp->explode($result[$i], $statsTmp);
+             $retVal[] = $teamTmp;
+           }
+
+           return $retVal;
+         }
+
+        /***
+         * This function returns an array of team objects representing the neighbors of the current team
+         *
+         * This function is a "load on demand" function, so the first call loads the
+         * team's neighbors from the database, and subsequent calls access the local
+         * data.
+	 * NOTE: This routine returns a "full" neighbor object
+	 *       as if each were the primary team
+         *
+         * @access public
+         * @return Team[]
+         ***/
+         function &get_neighbors_full()
+         {
+           $this->get_current_stats();
+           $sql = "SELECT r.overall_rank, r.overall_rank_previous, t.team, t.name, last_date - first_date AS days_working, work_total ";
+	   $sql .= "	, t.showmembers, r.last_date, r.members_overall, r.members_current, r.members_today, r.work_today ";
+	   $sql .= "    , r.day_rank, r.day_rank_previous ";
            $sql .= "    FROM stats_team t, team_rank r WHERE team = team_id AND overall_rank >= ($1 -5)";
            $sql .= "        AND overall_rank <= ($1 +5)";
            $sql .= "        AND project_id = $2";

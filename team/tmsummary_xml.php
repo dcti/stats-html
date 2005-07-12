@@ -1,10 +1,10 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary_xml.php,v 1.12 2005/04/01 16:58:42 decibel Exp $
+// $Id: tmsummary_xml.php,v 1.13 2005/07/12 03:05:59 thejet Exp $
 
 // Variables Passed in url:
 //  team == team id to display
-//error_reporting(0);
+error_reporting(255);
 include "../etc/global.inc";
 $random_stats = 0;
 include "../etc/modules.inc";
@@ -34,7 +34,7 @@ if ($team->get_id() == 0) {
 	exit;
 }
 
-$neighbors = $team->get_neighbors();
+$neighbors = $team->get_neighbors_full();
 $numneighbors = count($neighbors);
 ?>
 <team-summary id="<?= $team->get_id() ?>" project="<?= $gproj->get_name() ?>" project-id="<?= $gproj->get_id() ?>" date="<?= $lastupdate ?>">
