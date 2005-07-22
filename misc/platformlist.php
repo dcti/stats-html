@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.25 2004/07/16 20:45:27 decibel Exp $
+# $Id: platformlist.php,v 1.26 2005/07/22 16:48:42 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -29,7 +29,7 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  include "../templates/header.inc";
 
  $selstr = "select";
- $frostr = "from Platform_Summary p,";
+ $frostr = "from Platform_Summary p";
  $whestr = "where p.PROJECT_ID = $project_id";
  $grostr = "group by";
  $ordstr = "order by";
@@ -63,15 +63,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
    if($ch == 'c') {
-     $selstr = "$selstr min(c.name) as cpuname, min(c.image) as cpuimage,";
-     $frostr = "$frostr STATS_cpu c,";
-     $whestr = "$whestr and c.cpu = p.CPU";
+     $selstr = "$selstr min(coalesce(c.name, 'Unknown')) AS cpuname, min(coalesce(c.image, 'unknown.gif')) AS cpuimage,";
+     $frostr = "$frostr LEFT JOIN STATS_cpu c ON ( c.cpu = p.cpu )";
      $ordstr = "$ordstr cpuname,";
    }
    if($ch == 'o') {
-     $selstr = "$selstr min(o.name) as osname, min(o.image) as osimage,";
-     $frostr = "$frostr STATS_os o,";
-     $whestr = "$whestr and o.os = p.OS";
+     $selstr = "$selstr min(coalesce(o.name, 'Unknown')) AS osname, min(coalesce(o.image, 'unknown.gif')) AS osimage,";
+     $frostr = "$frostr LEFT JOIN STATS_os o ON ( o.os = p.os )";
      $ordstr = "$ordstr osname,";
    }
    if($ch == 'v') {
