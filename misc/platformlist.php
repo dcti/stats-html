@@ -1,6 +1,6 @@
 <?
 
-# $Id: platformlist.php,v 1.26 2005/07/22 16:48:42 decibel Exp $
+# $Id: platformlist.php,v 1.27 2005/07/22 16:55:04 decibel Exp $
 
 $hour = 3;
 $now = getdate();
@@ -85,7 +85,6 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  }
 
  $selstr = substr($selstr,0,strlen($selstr)-1);
- $frostr = substr($frostr,0,strlen($frostr)-1);
  $grostr = substr($grostr,0,strlen($grostr)-1);
  $ordstr = substr($ordstr,0,strlen($ordstr)-1);
 
