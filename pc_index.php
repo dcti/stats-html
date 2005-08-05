@@ -1,13 +1,13 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.36 2005/07/29 05:29:45 decibel Exp $
+  # $Id: pc_index.php,v 1.37 2005/08/05 15:07:50 decibel Exp $
 
   $title = "Overall Project Stats";
 
   include "etc/global.inc";
   include "etc/modules.inc";
-  include "etc/project.inc";
   include "etc/projectstats.php";
+  include "etc/project.inc";
   
   ####
   # Daily summary
@@ -55,10 +55,14 @@
   $yest_unscaled_work_units = number_format($gprojstats->get_stats_item('work_units'));
   $yest_scaled_work_units = number_format($gprojstats->get_stats_item('work_units') * $gproj->get_scale());
   if ( $gproj->get_total_units() > 0 ) {
-      $yest_per =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
+      $yest_pct =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
   }
   $yest_unscaled_rate = number_format(( ($gprojstats->get_stats_item('work_units')) / (86400) ),0);
   $yest_scaled_rate = number_format(( ($gprojstats->get_stats_item('work_units') * $gproj->get_scale()) / (86400) ),0);
+  $yest_pct_remaining = number_format(100*($gprojstats->get_stats_item
+('work_units') / ($gproj->get_total_units() - $gproj->get_tot_units() + 
+get_stats_item('work_units'))),6);
+
 
 
   $odds = number_format($total_remaining / $gprojstats->get_stats_item('work_units'),0);
@@ -177,14 +181,14 @@
   <p>
       <?=$yest_scaled_work_units?> <?=$gproj->get_scaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_per?>% of the keyspace)<br />
+        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keysapce)<br />
         <? } ?>
        at a sustained rate of <?=$yest_scaled_rate?> <?=$gproj->get_scaled_unit_name()?>/sec.
   </p>
   <p>
       <?=$yest_unscaled_work_units?> <?=$gproj->get_unscaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_per?>% of the keyspace)<br />
+        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keysapce)<br />
         <? } ?>
        at a sustained rate of <?=$yest_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec.
   </p>
