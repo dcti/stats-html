@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.44 2005/04/01 16:58:42 decibel Exp $
+// $Id: tmsummary.php,v 1.45 2005/08/07 17:39:36 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -172,15 +172,18 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         <th class="thead">Team</th>
         <th class="thead" align="right">Days</th>
         <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?></th>
+        <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?> Yesterday</th>
       </tr>
       <?
       $totalwork = 0;
+      $yestwork = 0;
       for ($i = 0; $i < count($neighbors); $i++) {
         $tmpStats = $neighbors[$i]->get_current_stats();
       ?>
         <tr class="<?= row_background_color($i) ?>">
         <?        
         $totalwork += $tmpStats->get_stats_item('work_total');
+        $yestwork += $tmpStats->get_stats_item('work_today');
         ?>
           <td><?= $tmpStats->get_stats_item('overall_rank') . " " . html_rank_arrow($tmpStats->get_stats_item('overall_rank_previous') - $tmpStats->get_stats_item('overall_rank')) ?></td>
           <td>
@@ -188,6 +191,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
           </td>
           <td align="right"><?= number_style_convert($tmpStats->get_stats_item('days_working')) ?></td>
           <td align="right"><?= number_style_convert($tmpStats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
+          <td align="right"><?= number_style_convert($tmpStats->get_stats_item('work_today') * $gproj->get_scale()) ?></td>
         </tr>
       <?
       }
@@ -195,6 +199,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       <tr>
         <td class="tfoot" align="right" colspan="3">Total</td>
         <td class="tfoot" align="right"><?= number_style_convert($totalwork * $gproj->get_scale()) ?></td>
+        <td class="tfoot" align="right"><?= number_style_convert($yestwork * $gproj->get_scale()) ?></td>
       </tr>
     </table>
     <hr>
