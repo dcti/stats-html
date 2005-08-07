@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmsummary.php,v 1.45 2005/08/07 17:39:36 decibel Exp $
+// $Id: tmsummary.php,v 1.46 2005/08/07 18:07:34 decibel Exp $
 
 // Variables Passed in url:
 //  team == team id to display
@@ -172,7 +172,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         <th class="thead">Team</th>
         <th class="thead" align="right">Days</th>
         <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?></th>
-        <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?> Yesterday</th>
+        <th class="thead" align="right">Yesterday</th>
       </tr>
       <?
       $totalwork = 0;
