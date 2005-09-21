@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.37 2005/08/05 15:07:50 decibel Exp $
+  # $Id: pc_index.php,v 1.38 2005/09/21 01:46:35 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -86,7 +86,7 @@ get_stats_item('work_units'))),6);
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "http://n0cgi.distributed.net/statistics/ogr/ogr24p2-percent.png";
   } elseif ($gproj->get_id() == 25) {
-    $ogrp2_pct_searched = 9.20;        // @todo: Hardcoded manual estimate
+    $ogrp2_pct_searched = 10.63;        // @todo: Hardcoded manual estimate
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "#ogrfootnote";
   }
