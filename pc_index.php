@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.39 2005/09/22 12:52:17 fiddles Exp $
+  # $Id: pc_index.php,v 1.40 2005/10/25 18:27:25 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -180,14 +180,14 @@
   <p>
       <?=$yest_scaled_work_units?> <?=$gproj->get_scaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keysapce)<br />
+        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keyspace)<br />
         <? } ?>
        at a sustained rate of <?=$yest_scaled_rate?> <?=$gproj->get_scaled_unit_name()?>/sec.
   </p>
   <p>
       <?=$yest_unscaled_work_units?> <?=$gproj->get_unscaled_unit_name()?> were completed yesterday
         <? if ($gproj->get_total_units() > 0 ) { ?>
-        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keysapce)<br />
+        (<?=$yest_pct?>% of the keyspace)(<?=$yest_pct_remaining?>% of the remaining keyspace)<br />
         <? } ?>
        at a sustained rate of <?=$yest_unscaled_rate?> <?=$gproj->get_unscaled_unit_name()?>/sec.
   </p>
