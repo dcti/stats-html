@@ -189,7 +189,7 @@ class DB {
     /**
      * fetch_paged_result
      */
-    function fetch_paged_result($query_id, $start = -1, $limit = -1)
+    function &fetch_paged_result($query_id, $start = -1, $limit = -1)
       {
         if($start > 1)
           {
