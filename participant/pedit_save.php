@@ -1,7 +1,5 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
-        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.17 2005/12/07 05:44:01 fiddles Exp $
+  // $Id: pedit_save.php,v 1.18 2005/12/07 10:22:31 fiddles Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -64,6 +62,8 @@
             exit(0);
       }
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
+        "http://www.w3.org/TR/REC-html40/loose.dtd">
 <html>
  <head>
   <title>Updating <?=$gpart->get_email()?> data</title>
@@ -84,7 +84,7 @@
 </head>
 <body>
 ";
-include(../templates/readonly.inc);
+include("../templates/readonly.inc");
 print "Click here to <a href=\"http://stats.distributed.net/participant/psummary.php?project_id=".$gproj->get_id()."&id=$id\">return to your participant summary</a>
 </body>
 </html>
