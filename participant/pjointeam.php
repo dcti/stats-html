@@ -1,5 +1,5 @@
 <?php
-  // $Id: pjointeam.php,v 1.24 2004/07/16 20:45:27 decibel Exp $
+  // $Id: pjointeam.php,v 1.25 2005/12/07 05:44:01 fiddles Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -9,6 +9,20 @@
   include "../etc/project.inc";
   include "../etc/psecure.inc";
   include "../etc/team.php";
+
+  if ($readonly_pedit != 0 || $readonly_tmedit != 0) {
+    print "<html>
+<head>
+<title>Cannot join team: site is read-only</title>
+</head>
+<body>";
+    include "../template/readonly.inc";
+    print "<a href=\"/\">Oh well, I guess I'll go somewhere else then</a>
+</body>
+</html>";
+    exit;
+  } // if ($readonly_pedit != 0 || $readonly_tmedit != 0)
+   
 
   $id = $gpart->get_id();
   $team = $tm+0;

@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.25 2004/07/19 00:57:42 jlawson Exp $
+// $Id: pedit.php,v 1.26 2005/12/07 05:44:01 fiddles Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -181,7 +181,13 @@ switch ($gpart->get_dem_motivation()) {
 include "../templates/header.inc";
 display_last_update();
 
-print "  <form action=\"pedit_save.php\" method=\"post\">
+if ($readonly_pedit == 0) {
+    print "  <form action=\"pedit_save.php\" method=\"post\">";
+} else {
+    print "<p><b><font colour=red>Read-Only</font></b><br>
+The server is currently undergoing maintenance. As a result, you cannot currently edit your details.  Sorry for any inconvenience.</p>";
+}
+print "
    <center>
     <h2>
      Participant Configuration for ". $gpart->get_email()."
@@ -201,8 +207,12 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
        <font size=\"-1\">
         <i>To join a team, have your email address and password handy<br>
            and visit that team's stats summary page.</i>
-        <p>
-        If you do not wish to be on a team, click <a href=\"pjointeam.php?team=0\">here</a>.
+        <p>";
+
+if ($team != 0) {
+	print "        If you do not wish to be on a team, click <a href=\"pjointeam.php?team=0\">here</a>.";
+}
+print "
        </font>
       </td>
      </tr>
@@ -321,11 +331,14 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
        <font color=\"red\">It would be very silly to do this on a machine you share with others<br>
         or on a machine that's not in a secure location.<br>
         This will store your password on the machine.</font>
-        <hr>
-       <input name=\"id\" type=\"hidden\" value=\"" . $gpart->get_id() . "\">
+        <hr>";
+if ($readonly_pedit == 0) {
+    print "      <input name=\"id\" type=\"hidden\" value=\"" . $gpart->get_id() . "\">
        <input name=\"pass\" type=\"hidden\" value=\"$pass\">
        <input name=\"project_id\" type=\"hidden\" value=\"". $gproj->get_id() . "\">
-       <input value=\"Update my information\" type=\"submit\">
+       <input value=\"Update my information\" type=\"submit\">";
+}
+print "
       </td>
      </tr>
     </table>
@@ -335,9 +348,13 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      <br>
      Before you can do this, you should update all of your clients to your new email address and wait
      for that new address to appear in the stats database.
-     <br>
-     Once you've done that, you may then <a href=\"pretire.php?id=$id&pass=$test_pass\">retire this email address permanently</a>.
-    </p>
+     <br>";
+if ($readonly_pretire == 0) {
+    print "     Once you've done that, you may then <a href=\"pretire.php?id=$id&pass=$test_pass\">retire this email address permanently</a>.";
+} else {
+    print "     Once you've done that, you may then retire this email address permanently</a>.";
+}
+print "    </p>
     <hr>
     <h2>
      All information is *completely* confidential.
@@ -350,8 +367,10 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
     <p>
      <i>All, most, or some of the above may or may not work yet.</i>
     </p>
-   </center>
-  </form>";
+   </center>";
+if ($readonly_pedit == 0) {
+  print "</form>";
+}
 ?>
 </html>
 <?

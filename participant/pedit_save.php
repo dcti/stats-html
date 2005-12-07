@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.16 2004/07/19 00:58:30 jlawson Exp $
+  // $Id: pedit_save.php,v 1.17 2005/12/07 05:44:01 fiddles Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -37,30 +37,32 @@
 
   $listas = (int) $_POST['listas'];
 
-  // Update main participant info
-  if($gpart->get_list_mode() <= 2 && $listas <= 2)
-    $gpart->set_list_mode($listas);
-  $gpart->set_non_profit($nonprofit);
-  $gpart->set_dem_yob($dem_yob);
-  $gpart->set_dem_heard($dem_heard);
-  $gpart->set_dem_gender($dem_gender);
-  $gpart->set_dem_motivation($dem_motivation);
-  $gpart->set_dem_country($dem_country);
-  $gpart->set_contact_name($contact_name);
-  $gpart->set_contact_phone($contact_phone);
-  $gpart->set_motto($motto);
+  // Block all changes if pedit is in read-only mode
+  if ($readonly_pedit == 0) {
+      // Update main participant info
+      if($gpart->get_list_mode() <= 2 && $listas <= 2)
+        $gpart->set_list_mode($listas);
+      $gpart->set_non_profit($nonprofit);
+      $gpart->set_dem_yob($dem_yob);
+      $gpart->set_dem_heard($dem_heard);
+      $gpart->set_dem_gender($dem_gender);
+      $gpart->set_dem_motivation($dem_motivation);
+      $gpart->set_dem_country($dem_country);
+      $gpart->set_contact_name($contact_name);
+      $gpart->set_contact_phone($contact_phone);
+      $gpart->set_motto($motto);
 
-  // Update friend info
-  $friend_list = "$friend_a,$friend_b,$friend_c,$friend_d,$friend_e";
-  $gpart->set_friends($friend_list);
+      // Update friend info
+      $friend_list = "$friend_a,$friend_b,$friend_c,$friend_d,$friend_e";
+      $gpart->set_friends($friend_list);
 
-  // Save the object
-  $result = $gpart->save();
-  if($result != "")
-  {
-	trigger_error("There was an error saving your participant information. <a href=\"javascript:history.back()\">Correct the error</a><br><br>");
-    exit(0);
-  }
+      // Save the object
+      $result = $gpart->save();
+      if($result != "")
+      {
+    	    trigger_error("There was an error saving your participant information. <a href=\"javascript:history.back()\">Correct the error</a><br><br>");
+            exit(0);
+      }
 ?>
 <html>
  <head>
@@ -73,3 +75,19 @@
   </div>
  </body>
 </html>
+<?php
+  } else { // if ($readonly_pedit == 0)
+  print "
+<html>
+<head>
+<title>Cannot update ".$gpart->get_email().": site is read-only</title>
+</head>
+<body>
+";
+include(../templates/readonly.inc);
+print "Click here to <a href=\"http://stats.distributed.net/participant/psummary.php?project_id=".$gproj->get_id()."&id=$id\">return to your participant summary</a>
+</body>
+</html>
+";
+} // if ($readonly_pedit == 0)
+?>

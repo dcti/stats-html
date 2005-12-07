@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit.php,v 1.14 2004/07/19 01:24:04 jlawson Exp $
+  // $Id: tmedit.php,v 1.15 2005/12/07 05:44:01 fiddles Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -65,10 +65,14 @@
   include "../templates/header.inc";
 ?>
   <div style="text-align: center;">
+<?php if ($readonly_tmedit == 0) { ?>
   <form action="tmedit_save.php" method="post">
-    <h2>
-     Team Configuration for Team #<?=$tm?>
-    </h2>
+  <h2>Team Configuration for Team #<?=$tm?></h2>
+<?php } else { ?>
+    <h2>Team Configuration for Team #<?=$tm?></h2>
+    <p><b><font colour=red>Read-Only</font></b><br>
+The server is currently undergoing maintenance. As a result, you cannot currently edit this team's details.  Sorry for the inconvenience.</p>
+<?php } ?>
     <table style="margin: auto; text-align: left;" width="75%">
      <tr>
       <td>Team Name:</td>
@@ -130,16 +134,18 @@
         or on a machine that's not in a secure location.<br>
         This will store your password on the machine.</span>
         <hr>
+<?php if ($readonly_tmedit == 0) { ?>
        <input name="team" type="hidden" value="<?=$tm?>">
        <input name="pass" type="hidden" value="<?=$pass?>">
        <input value="Update information" type="submit">
+<?php } ?>
       </td>
      </tr>
     </table>
     <p>
      <i>All, most, or some of the above may or may not work yet.</i>
     </p>
-  </form>
+<?php if ($readonly == 0) { ?></form><?php } ?>
   </div>
 </body>
 </html>

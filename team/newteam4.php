@@ -1,14 +1,21 @@
 <?php
-  // $Id: newteam4.php,v 1.15 2004/07/19 18:16:31 jlawson Exp $
+  // $Id: newteam4.php,v 1.16 2005/12/07 05:44:01 fiddles Exp $
   
   include "../etc/global.inc";
   include "../etc/project.inc";
   include "../etc/team.php";
   include "../etc/teamstats.php";
   unset($proj_name);
-
-  $title = "Adding Team data to stats...";
   $lastupdate = last_update('t');
+
+  if ($readonly_tmedit != 0) {
+     $title = "Team Creation Disabled";
+     include "../templates/header.inc";
+     include "../templates/readonly.inc";
+     print "</body></html";
+     exit;
+  }
+  $title = "Adding Team data to stats...";
   include "../templates/header.inc";
 
   // Create the team object to save the information

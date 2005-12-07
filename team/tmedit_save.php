@@ -1,5 +1,5 @@
 <?php
-  // $Id: tmedit_save.php,v 1.12 2004/07/21 23:28:55 jlawson Exp $
+  // $Id: tmedit_save.php,v 1.13 2005/12/07 05:44:01 fiddles Exp $
 
   include "../etc/global.inc";
   include "../etc/modules.inc";
@@ -28,7 +28,14 @@
     include "../templates/tmlocked.inc";
     exit;
   }
-
+  
+  if ($readonly_tmedit != 0) {
+    print "<html><head><title>Cannot update team: read-only</title></head><body>";
+    include "../templates/readonly.inc";
+    print "<a href=\"/\">Alright, I guess I'll check back later</a></body></html>";
+    exit;
+  }
+  
   $gteam->set_name($_POST['name']);
   $gteam->set_url($_POST['url']);
   $gteam->set_contact_name($_POST['contactname']);

@@ -1,5 +1,5 @@
 <?
- // $Id: newteam1.php,v 1.10 2004/07/16 20:45:27 decibel Exp $
+ // $Id: newteam1.php,v 1.11 2005/12/07 05:44:01 fiddles Exp $
  //
  // Team creation, step 1.  This will soon be modified to have a
  // psecure wrapper to only allow team creation to be performed
@@ -12,7 +12,17 @@
  include "../etc/project.inc";
  
  unset($proj_name);
+
  $lastupdate = last_update('t');
+
+ if ($readonly_tmedit != 0) {
+     $title = "Team Creation Disabled";
+     include "../templates/header.inc";
+     include "../templates/readonly.inc";
+     print "</body></html>";
+     exit;
+ }
+
  include "../templates/header.inc";
 ?>
 <div style="text-align: center">

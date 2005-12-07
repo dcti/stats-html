@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.27 2004/07/16 20:45:27 decibel Exp $
+// $Id: pretire.php,v 1.28 2005/12/07 05:44:01 fiddles Exp $
 
 include "../etc/global.inc";
 include "../etc/project.inc";
@@ -11,6 +11,14 @@ $title = "Retiring " . $gpart->get_email();
 
 include "../templates/header.inc";
 display_last_update('t');
+
+if ($readonly_pretire == 1) {
+    include "../template/readonly.inc";
+    print "<a href=\"/\">I'll go find something else to do then</a>
+</body>
+</html>";
+    exit;
+}
 
 if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
 {
