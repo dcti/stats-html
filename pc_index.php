@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.40 2005/10/25 18:27:25 decibel Exp $
+  # $Id: pc_index.php,v 1.41 2005/12/19 21:54:31 kamy Exp $
 
   $title = "Overall Project Stats";
 
@@ -85,7 +85,49 @@
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "http://n0cgi.distributed.net/statistics/ogr/ogr24p2-percent.png";
   } elseif ($gproj->get_id() == 25) {
-    $ogrp2_pct_searched = 10.63;        // @todo: Hardcoded manual estimate
+
+    # Run curl to grab the stats from bovine. We only process if we get a decent result
+    $ch = curl_init("https://secure.distributed.net/~bovine/ogrstats.cgi");
+
+    $secureuser = 'XXXXXXXXX';
+    $securepass = 'XXXXXXXXX';
+    curl_setopt($ch, CURLOPT_HEADER, 0);
+    curl_setopt($ch, CURLOPT_USERPWD, "$secureuser:$securepass");
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);
+    $text = curl_exec($ch);
+
+    $secureuser = '';
+    $securepass = '';
+    if (!curl_error($ch)) {
+      $arr = split("\n", $text);
+      # Process each line of the result
+      $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
+      foreach ($arr as $k) {
+        # Stubs done so far section
+        if (preg_match('/^   ([0-9]{8}) stubs done$/', $k)) {
+          $val = split(' ', $k);
+          $stubsdone = $val[3];
+        } elseif (preg_match('/^   ([0-9]{8}) stubs verified$/', $k)) {
+          $val = split(' ', $k);
+          $stubsverified = $val[3];
+        } elseif (preg_match('/^   ([0-9]{8}) stubs created \/  ([0-9]{8}) stubs total$/', $k)) {
+          $split = split('/', $k);
+          $val = split(' ', $split[0]);
+          $stubscreated = $val[3];
+          $val = '';
+          $val = split(' ', $split[1]);
+          $stubstotal = $val[2];
+        }
+      }
+    }
+    curl_close($ch);
+
+    if ($stubsdone > 0 && $stubsverified > 0) {
+      $ogrp2_pct_searched = round(($stubsdone + $stubsverified*2) / (304857742 * 2) * 100, 2);
+    } else {
+      $ogrp2_pct_searched = 0;
+    }
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "#ogrfootnote";
   }
