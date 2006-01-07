@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.42 2005/12/19 21:57:56 kamy Exp $
+  # $Id: pc_index.php,v 1.43 2006/01/07 05:51:48 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -86,20 +86,13 @@
     $ogrp2_pct_link = "http://n0cgi.distributed.net/statistics/ogr/ogr24p2-percent.png";
   } elseif ($gproj->get_id() == 25) {
 
-    # Run curl to grab the stats from bovine. We only process if we get a decent result
-    $ch = curl_init("https://secure.distributed.net/~bovine/ogrstats.cgi");
-    # Username/password to use for the connection
-    $secureuser = 'XXXXXXXXX';
-    $securepass = 'XXXXXXXXX';
-    curl_setopt($ch, CURLOPT_HEADER, 0);                            #We don't want any headers
-    curl_setopt($ch, CURLOPT_USERPWD, "$secureuser:$securepass");
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);                # Don't complain about any ssl certificate
-    curl_setopt ($ch, CURLOPT_RETURNTRANSFER, 1);                   # Return back to a var
-    $text = curl_exec($ch);
+    # Use file_get_contents to grab the stats from keymaster.
+    # We only process if we get a result, and theres actually a url specified
+    if ($ogrp2_stats != "") {
+			$text = file_get_contents($ogrp2_stats);
+		}
 
-    $secureuser = '';
-    $securepass = '';
-    if (!curl_error($ch)) {                                         # Only execute this if we didn't get an error
+    if ($text != "") {                                         # Only execute this if we didn't get an error
       $arr = split("\n", $text);
       # Process each line of the result
       $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
@@ -121,7 +114,6 @@
         }
       }
     }
-    curl_close($ch);
 
     if ($stubsdone > 0 && $stubsverified > 0) {
       $ogrp2_pct_searched = round(($stubsdone + $stubsverified*2) / (304857742 * 2) * 100, 2);

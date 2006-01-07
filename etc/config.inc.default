@@ -1,5 +1,5 @@
 <?php
-// $Id: config.inc.default,v 1.13 2005/12/07 05:44:01 fiddles Exp $
+// $Id: config.inc.default,v 1.14 2006/01/07 05:51:48 fiddles Exp $
 
 ///////////////////////////
 // Database Connectivity //
@@ -7,6 +7,11 @@
 
 $conn_string = 'dbname=stats';
 define('MAX_PASS_LEN',8);
+
+//////////////////////
+// OGR Completion % //
+//////////////////////
+$ogrp2_stats = "";
 
 /////////////////////
 // Read-Only Modes //
