@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.43 2006/01/07 05:51:48 fiddles Exp $
+  # $Id: pc_index.php,v 1.44 2006/01/12 01:50:50 fiddles Exp $
 
   $title = "Overall Project Stats";
 
@@ -98,9 +98,9 @@
       $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
       foreach ($arr as $k) {
         # Stubs done so far section
-        if (preg_match('/^   ([0-9]{8}) stubs done$/', $k)) {
+        if (preg_match('/^\s{1,}([0-9]{7,}) stubs done$/', $k)) {
           $val = split(' ', $k);
-          $stubsdone = $val[3];
+          $stubsdone = $val[4];
         } elseif (preg_match('/^   ([0-9]{8}) stubs verified$/', $k)) {
           $val = split(' ', $k);
           $stubsverified = $val[3];
