@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.72 2005/04/01 17:07:14 decibel Exp $
+// $Id: psummary.php,v 1.73 2006/01/14 05:11:14 decibel Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -43,6 +43,9 @@ function par_footer($totaltoday, $totaltotal, $proj_scale)
     </tr>
     <?
 }
+
+// Get overall project stats for various reasons
+$gprojstats = $gproj->get_current_stats();
 
 // Get the participant's record from STATS_Participant and store it in $person
 $gpart = new Participant($gdb, $gproj, $id);
@@ -96,15 +99,33 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
         <td class="phead2" align="center">Overall</td>
         <td class="phead2" align="center">Yesterday</td>
       </tr>
-      <tr>
-        <td align="left" class="phead2">Rank:</td>
-        <td align="right">
-            <?=$gpartstats->get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'))?>
-        </td>
-        <td align="right">
-          <?=$gpartstats->get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'))?>
-        </td>
-      </tr>
+<tr>
+     <td align="left" class="phead2">Rank:</td>
+     <td align="right">
+        <?
+	echo $gpartstats->get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'));
+	?>
+     </td>
+     <td align="right">
+	<?
+	echo $gpartstats->get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'));
+        ?>
+     </td>
+</tr>
+<tr>
+     <td align="left" class="phead2">Percentile:</td>
+     <td align="right">
+        <?
+	echo number_style_convert( 100 * (1 - ($gpartstats->get_stats_item('overall_rank') / $gprojstats->get_total_emails())), 2 );
+  ;
+	?>
+     </td>
+     <td align="right">
+	<?
+  echo number_style_convert( 100 * (1 - ($gpartstats->get_stats_item('day_rank') / $gprojstats->get_stats_item('participants'))), 2 ) ;
+        ?>
+     </td>
+</tr>
       <tr>
         <td align="left" class="phead2"><?=$gproj->get_scaled_unit_name()?>:</td>
         <td align="right"><?=number_style_convert($gpartstats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
@@ -193,7 +214,6 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
     <a href="phistory.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View this Participant's Work Unit Submission History</a>
     </p>
         <? if (($gproj -> get_type() == 'RC5' or $gproj -> get_type() == 'R72') && ($gpartstats -> get_stats_item('work_today') > 0)) {
-            $gprojstats = $gproj->get_current_stats();
             $odds = number_format($gprojstats->get_stats_item('work_units') / $gpartstats -> get_stats_item('work_today'));
             ?>
             <p>
