@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.45 2006/02/13 20:39:02 snikkel Exp $
+  # $Id: pc_index.php,v 1.46 2006/04/17 16:19:42 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -59,8 +59,7 @@
   }
   $yest_unscaled_rate = number_format(( ($gprojstats->get_stats_item('work_units')) / (86400) ),0);
   $yest_scaled_rate = number_format(( ($gprojstats->get_stats_item('work_units') * $gproj->get_scale()) / (86400) ),0);
-  $yest_pct_remaining = number_format(100*($gprojstats->get_stats_item
-('work_units') / ($gproj->get_total_units() - $gprojstats->get_tot_units() + $gprojstats->get_stats_item('work_units'))),6);
+  $yest_pct_remaining = number_format(100*($gprojstats->get_stats_item('work_units') / ($gproj->get_total_units() - $gprojstats->get_tot_units() + $gprojstats->get_stats_item('work_units'))),6);
 
 
 
@@ -86,31 +85,32 @@
     $ogrp2_pct_link = "http://n0cgi.distributed.net/statistics/ogr/ogr24p2-percent.png";
   } elseif ($gproj->get_id() == 25) {
 
+    $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
+
     # Use file_get_contents to grab the stats from keymaster.
     # We only process if we get a result, and theres actually a url specified
     if ($ogrp2_stats != "") {
-			$text = file_get_contents($ogrp2_stats);
-		}
+      $text = file_get_contents($ogrp2_stats);
+    }
 
-    if ($text != "") {                                         # Only execute this if we didn't get an error
+    if ($text != "") {        # Only execute this if we didn't get an error
       $arr = split("\n", $text);
       # Process each line of the result
-      $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
       foreach ($arr as $k) {
         # Stubs done so far section
-        if (preg_match('/^\s{1,}([0-9]{7,}) stubs done$/', $k)) {
-          $val = split(' ', $k);
-          $stubsdone += $val[4];
-        } elseif (preg_match('/^   ([0-9]{8}) stubs verified$/', $k)) {
-          $val = split(' ', $k);
-          $stubsverified += $val[3];
-        } elseif (preg_match('/^   ([0-9]{8}) stubs created \/  ([0-9]{8}) stubs total$/', $k)) {
+        if (preg_match('/^\s{0,}([0-9]{1,}) stubs done$/', $k)) {
+          $val = split(' ', trim ($k));
+          $stubsdone += $val[0];
+        } elseif (preg_match('/^s{0,}([0-9]{1,}) stubs verified$/', $k)) {
+          $val = split(' ', trim ($k));
+          $stubsverified += $val[0];
+        } elseif (preg_match('/^s{0,}([0-9]{1,}) stubs created\/([0-9]{1,}) stubs total$/', $k)) {
           $split = split('/', $k);
-          $val = split(' ', $split[0]);
-          $stubscreated += $val[3];
+          $val = split(' ', trim ($split[0]));
+          $stubscreated += $val[0];
           $val = '';
-          $val = split(' ', $split[1]);
-          $stubstotal += $val[2];
+          $val = split(' ', trim ($split[1]));
+          $stubstotal += $val[0];
         }
       }
     }
