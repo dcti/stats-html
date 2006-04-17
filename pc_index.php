@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.46 2006/04/17 16:19:42 decibel Exp $
+  # $Id: pc_index.php,v 1.47 2006/04/17 17:40:49 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -86,30 +86,30 @@
   } elseif ($gproj->get_id() == 25) {
 
     $stubsdone = 0; $stubsverified = 0; $stubscreated = 0; $stubstotal = 0;
-
+    
     # Use file_get_contents to grab the stats from keymaster.
     # We only process if we get a result, and theres actually a url specified
     if ($ogrp2_stats != "") {
       $text = file_get_contents($ogrp2_stats);
     }
 
-    if ($text != "") {        # Only execute this if we didn't get an error
+    if ($text != "") {  # Only execute this if we didn't get an error
       $arr = split("\n", $text);
       # Process each line of the result
       foreach ($arr as $k) {
         # Stubs done so far section
-        if (preg_match('/^\s{0,}([0-9]{1,}) stubs done$/', $k)) {
-          $val = split(' ', trim ($k));
+        if (preg_match('/^\s{1,}([0-9]{1,}) stubs done$/', $k)) {
+          $val = split(' ', trim($k));
           $stubsdone += $val[0];
-        } elseif (preg_match('/^s{0,}([0-9]{1,}) stubs verified$/', $k)) {
-          $val = split(' ', trim ($k));
+        } elseif (preg_match('/^\s{1,}([0-9]{1,}) stubs verified$/', $k)) {
+          $val = split(' ', trim($k));
           $stubsverified += $val[0];
-        } elseif (preg_match('/^s{0,}([0-9]{1,}) stubs created\/([0-9]{1,}) stubs total$/', $k)) {
+        } elseif (preg_match('/^\s{1,}([0-9]{1,}) stubs created \/  ([0-9]{1,}) stubs total$/', $k)) {
           $split = split('/', $k);
-          $val = split(' ', trim ($split[0]));
+          $val = split(' ', trim($split[0]));
           $stubscreated += $val[0];
           $val = '';
-          $val = split(' ', trim ($split[1]));
+          $val = split(' ', trim($split[1]));
           $stubstotal += $val[0];
         }
       }
