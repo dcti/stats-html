@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.55 2005/01/08 01:30:13 fiddles Exp $
+// $Id: participant.php,v 1.56 2006/11/02 15:42:41 thejet Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -214,8 +214,10 @@ class Participant {
 
         if($index == -1)
             return $this->_friends;
+        else if($index >= 0 && $index < count($this->_friends))
+            return $this->_friends[$index];
         else
-            return $this -> _friends[$index];
+            return null;
     }
 
     function set_friends($value)
