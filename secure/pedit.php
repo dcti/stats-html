@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.1 2005/01/08 01:30:13 fiddles Exp $
+// $Id: pedit.php,v 1.2 2006/11/02 09:01:37 fiddles Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -329,9 +329,15 @@ print "  <form action=\"pedit_save.php\" method=\"post\">
      </tr>
      <tr>
       <td colspan=\"2\" align=\"center\">
+";
+if ($readonly_secure == 0) {
+	print "
        <input name=\"id\" type=\"hidden\" value=\"" . $gpart->get_id() . "\">
        <input name=\"project_id\" type=\"hidden\" value=\"". $gproj->get_id() . "\">
        <input value=\"Update Information\" type=\"submit\">
+	";
+}
+print "
       </td>
      </tr>
     </table>

@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.28 2005/12/07 05:44:01 fiddles Exp $
+// $Id: pretire.php,v 1.29 2006/11/02 09:01:37 fiddles Exp $
 
 include "../etc/global.inc";
 include "../etc/project.inc";
@@ -13,7 +13,7 @@ include "../templates/header.inc";
 display_last_update('t');
 
 if ($readonly_pretire == 1) {
-    include "../template/readonly.inc";
+    include "../templates/readonly.inc";
     print "<a href=\"/\">I'll go find something else to do then</a>
 </body>
 </html>";

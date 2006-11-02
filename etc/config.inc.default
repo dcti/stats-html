@@ -1,5 +1,5 @@
 <?php
-// $Id: config.inc.default,v 1.14 2006/01/07 05:51:48 fiddles Exp $
+// $Id: config.inc.default,v 1.15 2006/11/02 09:01:37 fiddles Exp $
 
 ///////////////////////////
 // Database Connectivity //
@@ -21,10 +21,11 @@ $ogrp2_stats = "";
 // Setting readonly_pretire completely disables the function.
 // Setting readonly_secure takes /secure completely offline
 // --
-$readonly_pedit = 0;
-$readonly_pretire = 0;
-$readonly_tmedit = 0;
-$readonly_secure = 0;
+$readonly = 0;
+$readonly_pedit = $readonly;
+$readonly_pretire = $readonly;
+$readonly_tmedit = $readonly;
+$readonly_secure = $readonly;
 
 /////////////////////
 // Debugging Setup //

@@ -1,10 +1,15 @@
+# $Id: .htaccess,v 1.12 2006/11/02 09:01:37 fiddles Exp $
 <FilesMatch "(pc_.*|dem.*|friends.*|motto.*)">
  Order Deny,Allow
  Deny from All
  Allow from localhost 10.70.40.11
  Allow from .distributed.net
+ # Nuggethaus
  Allow from .slacker.com
+ # Cowhaus
  Allow from .bovine.net
+ # ChrisJ
+ Allow from .toplevel.net.au
 </FilesMatch>
 
 <Files "*.inc">

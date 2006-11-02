@@ -1,4 +1,5 @@
 <?php
+include "../etc/config.inc";
 include "etc/header.inc";
 ?>
 <p>
@@ -7,7 +8,7 @@ Welcome to stats-slash-secure! Select from the menus above!
 <p>
 Note: Only participant management is working at the moment.
 </p>
-<?php if ($readonly_secure != 0) { ?>
+<?php if ($GLOBALS['readonly_secure'] != 0) { ?>
 <p>
 <b>READ ONLY</b><br>
 The site is currently read-only. As a result no changes are possible at the moment.
