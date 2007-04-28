@@ -17,6 +17,7 @@ if (isset($project_id)) {
   <link rel="stylesheet" type="text/css" href="/css/default.css" />
  </head>
  <body>
+ <a href="http://stats.distributed.net/~decibel/thisegg.php"><!-- tacit --></a>
   <table width="100%" border="0" cellpadding="1" cellspacing="0">
   <colgroup><col><col width="33%"><col width="33%"><col width="33%"></colgroup>
    <tr>
