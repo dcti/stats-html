@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pedit.php,v 1.2 2006/11/02 09:01:37 fiddles Exp $
+// $Id: pedit.php,v 1.3 2007/10/24 17:30:44 snikkel Exp $
 //
 // psecure.inc will obtain $id and $pass from the user.
 // Input may come from the url, http headers, or a client cookie
@@ -355,7 +355,7 @@ include('etc/footer.inc');
 
 function get_friend_id(&$par, $index)
 {
-  $friend =& $par->get_friends($index);
+  $friend =$par->get_friends($index);
   if($friend == null)
     return "";
   else
