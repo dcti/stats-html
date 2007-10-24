@@ -1,10 +1,12 @@
 <?php
-  // $Id: psecure.inc,v 1.26 2006/11/27 11:55:10 fiddles Exp $
+  // $Id: psecure.inc,v 1.27 2007/10/24 17:11:33 snikkel Exp $
 
 include_once "participant.php";
 
-$id = $_REQUEST['id'];
-$pass = $_REQUEST['pass'];
+if (isset($_REQUEST['id']))
+	$id = $_REQUEST['id'];
+if (isset($_REQUEST['pass']))
+	$pass = $_REQUEST['pass'];
 
 function authenticate() {
    	Header("WWW-authenticate: basic realm=\"Participant Password\"");
