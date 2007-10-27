@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.3 2007/10/27 05:57:56 snikkel Exp $
+  // $Id: pedit_save.php,v 1.4 2007/10/27 06:31:19 snikkel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -62,7 +62,7 @@ if ($readonly_secure == 0) {
   $result = $gpart->save();
   if($result != "")
   {
-	trigger_error("There was an error saving participant information. <a href=\"javascript:history.back()\">Correct the error</a><br><br>");
+	trigger_error("There was an error saving participant information: $result");
     exit(0);
   }
 ?>
