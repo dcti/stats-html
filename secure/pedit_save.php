@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN"
         "http://www.w3.org/TR/REC-html40/loose.dtd">
 <?php
-  // $Id: pedit_save.php,v 1.2 2005/12/07 05:44:01 fiddles Exp $
+  // $Id: pedit_save.php,v 1.3 2007/10/27 05:57:56 snikkel Exp $
 
   // psecure.inc will obtain $id and $pass from the user.
   // Input may come from the url, http headers, or a client cookie
@@ -85,7 +85,7 @@ if ($readonly_secure == 0) {
 </head>
 <body>
 ";
-include(../templates/readonly.inc);
+include("../templates/readonly.inc");
 print "</body>
 </html>";
 }
