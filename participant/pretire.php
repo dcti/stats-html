@@ -1,6 +1,6 @@
 <?php
 
-// $Id: pretire.php,v 1.29 2006/11/02 09:01:37 fiddles Exp $
+// $Id: pretire.php,v 1.30 2007/11/10 02:57:58 snikkel Exp $
 
 include "../etc/global.inc";
 include "../etc/project.inc";
@@ -27,7 +27,7 @@ if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
 	  <p>
 	   You are about to completely and permanently remove this email from the stats database.
 	   All past, current, and future work submitted by this email will be attributed to a new
-	   email address.  This procedure is irreversable.  It is permanent.  Once you do this, we
+	   email address.  This procedure is irreversible.  It is permanent.  Once you do this, we
 	   cannot restore it.
 	  </p>
 	  <p>
@@ -91,23 +91,23 @@ if ( !isset($_REQUEST['destid']) && !isset($_REQUEST['ems']) )
       		echo '</table>';
       	}
 	}
-    if ($_REQUEST['destid'] <> '') {
+    if (isset($_REQUEST['destid']) && $_REQUEST['destid'] <> '' ) {
                 $destid = $_REQUEST['destid'];
                 if ($retired = $gpart->retire($destid)) {
 			$destpart = new Participant($gdb, $gproj, $destid);
 			?>
 			<h2>Retire Procedure successful</h2>
 			<p>
-	 		You have successfully retired the email address <?$gpart->get_email()?>.
+	 		You have successfully retired the email address <?=$gpart->get_email()?>.
 			</p>
 			<p>
 	 		This will take effect during the next stats run.
 			</p>
 			<p>
-			All past blocks, and any future blocks submitted from <?$gpart->get_email()?> will be allocated to the stats for <?$destpart->get_email()?> instead.
+			All past blocks, and any future blocks submitted from <?=$gpart->get_email()?> will be allocated to the stats for <?=$destpart->get_email()?> instead.
 			</p>
 			<p>
-	 		All future blocks from this address will be attributed to team <?$destpart->get_team_id()?>, which is your current team.
+	 		All future blocks from this address will be attributed to team <?=$destpart->get_team_id()?>, which is your current team.
 	 		If, in the future, you change teams, it will affect all retired emails as you'd expect it to.
 			</p>
 	 		<p><a href="/">Great, that rocks!</a></p>
