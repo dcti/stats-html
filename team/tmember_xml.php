@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120
-// $Id: tmember_xml.php,v 1.9 2005/04/01 16:58:42 decibel Exp $
+// $Id: tmember_xml.php,v 1.10 2008/03/27 03:42:03 jlawson Exp $
 
 // 1/17/2003 - Ben Gavin
 // Adapted to output XML in the proposed format
@@ -11,6 +11,8 @@
 //  limit == Number of records to display at once - default 100
 //  pass == Password for viewing member listing
 //  source == y for yesterday's contributors only
+//  project_id == project to include statistics for
+
 //error_reporting(0);
 include "../etc/global.inc";
 $random_stats = 0;
