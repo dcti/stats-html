@@ -1,5 +1,5 @@
 <?php
-// $Id: participantstats.php,v 1.22 2005/04/01 19:20:38 decibel Exp $
+// $Id: participantstats.php,v 1.23 2008/04/15 11:56:57 thejet Exp $
 
 /**
  * This class represents a participant stats entry
@@ -76,9 +76,10 @@ class ParticipantStats {
             $qs .= "                day_rank, overall_rank,";
             $qs .= "                work_today, work_total,";
         }
-        $qs .= "                overall_rank_previous-overall_rank as Overall_Change,";
-        $qs .= "                day_rank_previous-day_rank as Day_Change ";
-        $qs .= "        FROM Email_Rank ";
+        $qs .= "                overall_rank_previous-overall_rank as overall_change,";
+        $qs .= "                day_rank_previous-day_rank as day_change, ";
+	$qs .= "		first_date, last_date ";
+        $qs .= "        FROM email_rank ";
         $qs .= "        WHERE id = " . $this->_db->prepare_int($id);
         $qs .= "            AND project_id = " . $this->_db->prepare_int($project->get_id());
         if ($date != -1) {
