@@ -1,5 +1,5 @@
 <? 
-// $Id: psummary_xml.php,v 1.2 2008/04/15 11:55:54 thejet Exp $
+// $Id: psummary_xml.php,v 1.3 2008/04/17 03:08:45 thejet Exp $
 // Variables Passed in url:
 // id == Participant ID
 // project_id == Project ID
@@ -31,7 +31,14 @@ $lastupdate = last_update('ec');
 
 // Is this person retired?
 if($gpart -> get_retire_to() > 0) {
-    header("Location: psummary.php?project_id=$project_id&id=".$gpart -> get_retire_to());
+    $extra_bits = "";
+    if(isset($_GET['show_friends']))
+      $extra_bits .= "&show_friends=1";
+
+    if(isset($_GET['show_neighbors']))
+      $extra_bits .= "&show_neighbors=1";
+
+    header("Location: psummary_xml.php?project_id=$project_id&id=".$gpart -> get_retire_to().$extra_bits);
     exit();
 }
 
@@ -52,6 +59,14 @@ $first = $gpartstats->get_stats_item("first_date");
 $last = $gpartstats->get_stats_item("last_date");
 $days_working = $gpartstats->get_stats_item("days_working");
 ?>
+<!--
+API Documentation:
+// Variables Passed in url:
+// id == Participant ID
+// project_id == Project ID
+// show_friends == Show Friend Data
+// show_neighbors == Show Neighbor Data
+-->
 <participant-summary id="<?= $id ?>" project="<?= $gproj->get_name() ?>" project-id="<?= $gproj->get_id() ?>" last-update="<?= $lastupdate ?>" >
     <name><![CDATA[<?= safe_display($name) ?>]]></name>
     <motto><![CDATA[<?= safe_display($motto) ?>]]></motto>
@@ -65,7 +80,7 @@ $days_working = $gpartstats->get_stats_item("days_working");
         <stat name="days-working" unit="" value="<?= $days_working ?>"/>
     </stats>
 <?
-if(array_key_exists("show_friends", $_GET))
+if(isset($_GET["show_friends"]))
 {
   $friends = $gpart->get_friends();
   $friendCnt = count($friends);
@@ -94,7 +109,7 @@ if(array_key_exists("show_friends", $_GET))
   echo("    </friends>\n");
 }
 
-if(array_key_exists("show_neighbors", $_GET))
+if(isset($_GET["show_neighbors"]))
 {
   $neighbors = $gpart->get_neighbors();
   $neighborCnt = count($neighbors);
