@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status_history.php,v 1.1 2008/04/25 02:58:35 thejet Exp $
+// $Id: ogr_status_history.php,v 1.2 2008/04/30 10:28:50 thejet Exp $
 // ************ OGR Status History                   ***
 // * start_date    - The date to start on
 // * end_date      - The date to end on
@@ -29,6 +29,9 @@ function print_usage_message($error, $addHeader = false)
      . "  end_date      == [optional, default: today, format example: 01-Apr-2008]\n"
      . "                   The last date to pull data for\n"
      . "  output_format == The output format you'd prefer [xml, csv]\n";
+
+  echo "\nUsage Example:\n"
+     . "  ogr_status_history.php?project_id=25&output_format=xml\n\n";
 }
 
 // load up the list of OGR Stubspaces
