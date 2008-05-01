@@ -72,7 +72,7 @@
 
  // Formulate the dummy stats line to parse
  $matches = array();
- if(preg_match('/^\w+\s+?(\w+ \d+) \d+:\d+:\d+ UTC (200\d)/m', $text, $matches) > 0)
+ if(preg_match('/^\w+\s+?(\w+\s+\d+) \d+:\d+:\d+ UTC (200\d)/m', $text, $matches) > 0)
  {
    if(count($matches) < 3)
    {
