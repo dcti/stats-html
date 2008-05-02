@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: psummary.php,v 1.73 2006/01/14 05:11:14 decibel Exp $
+// $Id: psummary.php,v 1.74 2008/05/02 17:50:15 jlawson Exp $
 // Variables Passed in url:
 // id == Participant ID
 
@@ -103,12 +103,12 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
      <td align="left" class="phead2">Rank:</td>
      <td align="right">
         <?
-	echo $gpartstats->get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'));
-	?>
+        echo $gpartstats->get_stats_item('overall_rank') . html_rank_arrow($gpartstats -> get_stats_item('overall_change'));
+        ?>
      </td>
      <td align="right">
-	<?
-	echo $gpartstats->get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'));
+        <?
+        echo $gpartstats->get_stats_item('day_rank') . html_rank_arrow($gpartstats -> get_stats_item('day_change'));
         ?>
      </td>
 </tr>
@@ -116,12 +116,12 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
      <td align="left" class="phead2">Percentile:</td>
      <td align="right">
         <?
-	echo number_style_convert( 100 * (1 - ($gpartstats->get_stats_item('overall_rank') / $gprojstats->get_total_emails())), 2 );
+        echo number_style_convert( 100 * (1 - ($gpartstats->get_stats_item('overall_rank') / $gprojstats->get_total_emails())), 2 );
   ;
-	?>
+        ?>
      </td>
      <td align="right">
-	<?
+        <?
   echo number_style_convert( 100 * (1 - ($gpartstats->get_stats_item('day_rank') / $gprojstats->get_stats_item('participants'))), 2 ) ;
         ?>
      </td>
@@ -229,7 +229,7 @@ were completed at a rate of <?=$best_rate?> Kkeys/sec.
         <th class="thead">Participant</th>
         <th class="thead" align="right">Days</th>
         <th class="thead" align="right">Overall <?=$gproj->get_scaled_unit_name()?></th>
-        <th class="thead" align="right">Current <?=$gproj->get_scaled_unit_name()?></th>
+        <th class="thead" align="right">Yesterday <?=$gproj->get_scaled_unit_name()?></th>
       </tr>
       <?
         $totaltoday = 0;
@@ -260,7 +260,7 @@ if($numfriends >= 1) {
         <th class="thead">Participant</th>
         <th class="thead" align="right">Days</th>
         <th class="thead" align="right">Overall <?=$gproj->get_scaled_unit_name()?></th>
-        <th class="thead" align="right">Current <?=$gproj->get_scaled_unit_name()?></th>
+        <th class="thead" align="right">Yesterday <?=$gproj->get_scaled_unit_name()?></th>
       </tr>
       <?
     $totaltoday = 0;
@@ -283,7 +283,7 @@ if($numfriends >= 1) {
     <p>
     <form action="ppass.php">
         <div>
-                        <input type="hidden" name="project_id" value="<?=$gproj->get_id()?>">
+            <input type="hidden" name="project_id" value="<?=$gproj->get_id()?>">
             <input type="hidden" name="id" value="<?=$id?>">
             <input type="submit" value="Please email me my password.">
         </div>
