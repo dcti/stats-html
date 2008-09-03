@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status.php,v 1.2 2008/04/25 02:58:35 thejet Exp $
+// $Id: ogr_status.php,v 1.3 2008/09/03 03:21:43 thejet Exp $
 // ************ OGR Status                           ***
 // ************ Filename: ogr_status.php             ***
 
@@ -150,6 +150,10 @@ for($i = 0; $i < $cnt; $i++)
 		       4);
   $barLength = round(150 * $pctComplete, 0);
   $stubsLeft = $stubspace->get_total_stubs() * 2 - $statsTmp->get_stubs_done() - $statsTmp->get_stubs_verified();
+  if($pctComplete == 1 && $stubsLeft > 0)
+  {
+    $pctComplete = .9999;
+  }
 ?>
 <tr class="<?=$statsClass?>">
   <td><?=$stubspace->get_name()?></td>
