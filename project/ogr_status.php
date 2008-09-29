@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status.php,v 1.3 2008/09/03 03:21:43 thejet Exp $
+// $Id: ogr_status.php,v 1.4 2008/09/29 01:38:32 thejet Exp $
 // ************ OGR Status                           ***
 // ************ Filename: ogr_status.php             ***
 
@@ -59,6 +59,11 @@ for($i = 0; $i < $cnt; $i++)
 $stubsLeft = 2 * $totalStubs - $stubsDone - $stubsVerified;
 $endDate = round($stubsLeft / $stubDelta, 0) * 60 * 60 * 24;
 $endDate = strftime("%d-%b-%Y", strtotime($lastupdate) + $endDate);
+$totPctComp = round(($stubsDone + $stubsVerified) / (2*$totalStubs), 4) * 100;
+if($totPctComp == 100 && $stubsLeft != 0)
+{
+  $totPctComp = 99.99;
+}
 
 $title = "Stubspace Status";
 #$lastupdate = last_update('e');
@@ -86,7 +91,7 @@ include "../templates/header.inc";
 </tr>
 <tr>
   <td style="width: 150px; font-weight: bold">% Complete:</td>
-  <td style="width: 150px; text-align: right;"><?=round(($stubsDone + $stubsVerified) / (2*$totalStubs), 4) * 100?>%</td>
+  <td style="width: 150px; text-align: right;"><?=$totPctComp?>%</td>
 </tr>
 </table>
 <br />
