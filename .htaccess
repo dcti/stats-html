@@ -1,4 +1,4 @@
-# $Id: .htaccess,v 1.12 2006/11/02 09:01:37 fiddles Exp $
+# $Id: .htaccess,v 1.13 2008/10/27 13:05:59 decibel Exp $
 <FilesMatch "(pc_.*|dem.*|friends.*|motto.*)">
  Order Deny,Allow
  Deny from All
@@ -38,11 +38,11 @@ RewriteRule ^rc5-64/+(t[a-z_]*)\.php3$ /team/$1.php?project_id=5   [R,QSA]
 
 
 # files that are specific to ogr
-RewriteRule ^ogr-(24|25)(/+(index\.html)?)?$ /projects.php?project_id=$1  [R]
-RewriteRule ^ogr-(24|25)/+countries\.html$ /misc/countries.php?project_id=$1&source=o   [R]
-RewriteRule ^ogr-(24|25)/+countries-y\.html$ /misc/countries.php?project_id=$1&source=y   [R]
-RewriteRule ^ogr-(24|25)/+(platformlist)\.php3$ /misc/$2.php?project_id=$1   [R,QSA]
-RewriteRule ^ogr-(24|25)/+(p[a-z_]*)\.php3$ /participant/$2.php?project_id=$1   [R,QSA]
-RewriteRule ^ogr-(24|25)/+(t[a-z_]*)\.php3$ /team/$2.php?project_id=$1   [R,QSA]
+RewriteRule ^ogr-(2[4-6])(/+(index\.html)?)?$ /projects.php?project_id=$1  [R]
+RewriteRule ^ogr-(2[4-6])/+countries\.html$ /misc/countries.php?project_id=$1&source=o   [R]
+RewriteRule ^ogr-(2[4-6])/+countries-y\.html$ /misc/countries.php?project_id=$1&source=y   [R]
+RewriteRule ^ogr-(2[4-6])/+(platformlist)\.php3$ /misc/$2.php?project_id=$1   [R,QSA]
+RewriteRule ^ogr-(2[4-6])/+(p[a-z_]*)\.php3$ /participant/$2.php?project_id=$1   [R,QSA]
+RewriteRule ^ogr-(2[4-6])/+(t[a-z_]*)\.php3$ /team/$2.php?project_id=$1   [R,QSA]
 
 
