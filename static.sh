@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# $Id: static.sh,v 1.10 2004/07/08 07:15:28 fiddles Exp $
+# $Id: static.sh,v 1.11 2008/10/31 16:01:50 decibel Exp $
 #
 # Update static pages
 
@@ -19,7 +19,7 @@ get_project ( ) {
 }
 
 if [ x$1 = x ]; then
-    args="5 8 24 25"
+    args="8 24 25 26"
     echo "No projects specified, I assume you want all of them"
 else
     args=$@
