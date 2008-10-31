@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.48 2008/04/30 10:29:44 thejet Exp $
+  # $Id: pc_index.php,v 1.49 2008/10/31 15:52:19 decibel Exp $
 
   $title = "Overall Project Stats";
 
@@ -57,10 +57,10 @@
   $yest_scaled_work_units = number_format($gprojstats->get_stats_item('work_units') * $gproj->get_scale());
   if ( $gproj->get_total_units() > 0 ) {
       $yest_pct =  number_format(100*($gprojstats->get_stats_item('work_units') / $gproj->get_total_units()),6);
+      $yest_pct_remaining = number_format(100*($gprojstats->get_stats_item('work_units') / ($gproj->get_total_units() - $gprojstats->get_tot_units() + $gprojstats->get_stats_item('work_units'))),6);
   }
   $yest_unscaled_rate = number_format(( ($gprojstats->get_stats_item('work_units')) / (86400) ),0);
   $yest_scaled_rate = number_format(( ($gprojstats->get_stats_item('work_units') * $gproj->get_scale()) / (86400) ),0);
-  $yest_pct_remaining = number_format(100*($gprojstats->get_stats_item('work_units') / ($gproj->get_total_units() - $gprojstats->get_tot_units() + $gprojstats->get_stats_item('work_units'))),6);
 
 
 
