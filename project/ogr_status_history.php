@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status_history.php,v 1.2 2008/04/30 10:28:50 thejet Exp $
+// $Id: ogr_status_history.php,v 1.3 2008/11/04 02:55:41 thejet Exp $
 // ************ OGR Status History                   ***
 // * start_date    - The date to start on
 // * end_date      - The date to end on
@@ -28,7 +28,7 @@ function print_usage_message($error, $addHeader = false)
      . "                   The date to start pulling data\n"
      . "  end_date      == [optional, default: today, format example: 01-Apr-2008]\n"
      . "                   The last date to pull data for\n"
-     . "  output_format == The output format you'd prefer [xml, csv]\n";
+     . "  output_format == The output format you'd prefer [xml, csv, txt]\n";
 
   echo "\nUsage Example:\n"
      . "  ogr_status_history.php?project_id=25&output_format=xml\n\n";
@@ -118,28 +118,40 @@ if(!$query)
 $results = $gdb->fetch_paged_result($query);
 $cnt = count($results);
 
-if($output_format == 'csv')
+if($output_format == 'csv' || $output_format == 'txt')
 {
-  header("Content-Type: text/csv");
-  header("Content-Disposition: download;filename=stubspace_stats.csv");
-
   // the header information
-  echo "Date,Stubspace,PctComp,Total Stubs,Stubs Done,Stubs Verified,Change,3DAvg Change,7DAvg Change,14DAvg Change,30DAvg Change\n";
+  if($output_format == 'csv')
+  {
+    header("Content-Type: text/csv");
+    header("Content-Disposition: download;filename=stubspace_stats.csv");
+
+    echo "Date,Stubspace,PctComp,Total Stubs,Stubs Done,Stubs Verified,Change,3DAvg Change,7DAvg Change,14DAvg Change,30DAvg Change\r\n";
+    $delimiter = ",";
+  }
+  else
+  {
+    header("Content-Type: text/plain");
+    header("Content-Disposition: download;filename=stubspace_stats.txt");
+
+    echo "Date\tStubspace\tPctComp\tTotal Stubs\tStubs Done\tStubs Verified\tChange\t3DAvg Change\t7DAvg Change\t14DAvg Change\t30DAvg Change\r\n";
+    $delimiter = "\t";
+  }
 
   for($i = 0; $i < $cnt; $i++)
   {
-    echo strftime('%d-%b-%Y', strtotime($results[$i]->stats_date)) . "," .
-	 $results[$i]->stubspace_id . "," .
-	 (round(($results[$i]->stubs_done + $results[$i]->stubs_verified) / ($results[$i]->total_stubs * 2), 4) * 100) . "," .
-	 $results[$i]->total_stubs . "," .
-	 $results[$i]->stubs_done . "," .
-	 $results[$i]->stubs_verified . "," .
-	 $results[$i]->stub_delta . "," .
-	 $results[$i]->delta_3day_average . "," .
-	 $results[$i]->delta_7day_average . "," .
-	 $results[$i]->delta_14day_average . "," .
+    echo strftime('%d-%b-%Y', strtotime($results[$i]->stats_date)) . $delimiter .
+	 $results[$i]->stubspace_id . $delimiter .
+	 (round(($results[$i]->stubs_done + $results[$i]->stubs_verified) / ($results[$i]->total_stubs * 2), 4) * 100) . $delimiter .
+	 $results[$i]->total_stubs . $delimiter .
+	 $results[$i]->stubs_done . $delimiter .
+	 $results[$i]->stubs_verified . $delimiter .
+	 $results[$i]->stub_delta . $delimiter .
+	 $results[$i]->delta_3day_average . $delimiter .
+	 $results[$i]->delta_7day_average . $delimiter .
+	 $results[$i]->delta_14day_average . $delimiter .
 	 $results[$i]->delta_30day_average .
-	 "\n";
+	 "\r\n";
   } 
 }
 elseif ($output_format == 'xml')

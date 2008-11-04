@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status.php,v 1.4 2008/09/29 01:38:32 thejet Exp $
+// $Id: ogr_status.php,v 1.5 2008/11/04 02:55:41 thejet Exp $
 // ************ OGR Status                           ***
 // ************ Filename: ogr_status.php             ***
 
@@ -10,21 +10,6 @@ include "../etc/db_pgsql.php";
 include "../etc/project.inc";
 include "../etc/ogrstubspace.php";
 include "../etc/markup.inc";
-
-//include "../etc/jpgraph/jpgraph.php";
-//include "../etc/jpgraph/jpgraph_line.php";
-
-// ************ Setup the CGI data
-//$project = (int)$_GET["project_id"];
-
-// ************ Connect to the database
-//$db = new DB($dbDSN);
-//if($db == 0)
-//{
-//  print "Error connecting to database\n";
-//  print "Last Error: " + $db->get_last_error();
-//  exit();
-//}
 
 // load up the list of OGR Stubspaces
 $stubspaceList =& OGRStubspace::get_stubspace_list($gproj, $gdb);
@@ -57,8 +42,6 @@ for($i = 0; $i < $cnt; $i++)
 }
 
 $stubsLeft = 2 * $totalStubs - $stubsDone - $stubsVerified;
-$endDate = round($stubsLeft / $stubDelta, 0) * 60 * 60 * 24;
-$endDate = strftime("%d-%b-%Y", strtotime($lastupdate) + $endDate);
 $totPctComp = round(($stubsDone + $stubsVerified) / (2*$totalStubs), 4) * 100;
 if($totPctComp == 100 && $stubsLeft != 0)
 {
@@ -70,6 +53,7 @@ $title = "Stubspace Status";
 
 include "../templates/header.inc";
 
+$nextRowClass = "row2";
 ?>
 <h3 align="center">Status Overview</h3>
 <table align="center" border="0" cellspacing="0" cellpadding="0">
@@ -102,31 +86,64 @@ include "../templates/header.inc";
   <th class="thead">Daily Stubs</th>
   <th class="thead">Projected End Date</th>
 </tr>
-<tr class="row2">
+<?
+if($stubDelta > 0) {
+  $endDate = round($stubsLeft / $stubDelta, 0) * 60 * 60 * 24;
+  $endDate = strftime("%d-%b-%Y", strtotime($lastupdate) + $endDate);
+?>
+<tr class="<?=$nextRowClass?>">
   <td class="thead">1 Day Average</td>
   <td align="right"><?=number_style_convert($stubDelta)?></td>
   <td align="center"><?=$endDate?></td>
 </tr>
-<tr class="row1">
+<?
+  $nextRowClass = ($nextRowClass == "row1")?"row2":"row1";
+}
+
+if($delta3Day > 0) {
+?>
+<tr class="<?=$nextRowClass?>">
   <td class="thead">3 Day Average</td>
   <td align="right"><?=number_style_convert($delta3Day)?></td>
   <td align="center"><?=strftime("%d-%b-%Y", strtotime($lastupdate) + round($stubsLeft / $delta3Day, 0) * 60 * 60 * 24)?></td>
 </tr>
+<?
+  $nextRowClass = ($nextRowClass == "row1")?"row2":"row1";
+}
+
+if($delta7Day > 0) {
+?>
+<tr class="<?=$nextRowClass?>">
 <tr class="row2">
   <td class="thead">7 Day Average</td>
   <td align="right"><?=number_style_convert($delta7Day)?></td>
   <td align="center"><?=strftime("%d-%b-%Y", strtotime($lastupdate) + round($stubsLeft / $delta7Day, 0) * 60 * 60 * 24)?></td>
 </tr>
-<tr class="row1">
+<?
+  $nextRowClass = ($nextRowClass == "row1")?"row2":"row1";
+}
+
+if($delta14Day > 0) {
+?>
+<tr class="<?=$nextRowClass?>">
   <td class="thead">14 Day Average</td>
   <td align="right"><?=number_style_convert($delta14Day)?></td>
   <td align="center"><?=strftime("%d-%b-%Y", strtotime($lastupdate) + round($stubsLeft / $delta14Day, 0) * 60 * 60 * 24)?></td>
 </tr>
-<tr class="row2">
+<?
+  $nextRowClass = ($nextRowClass == "row1")?"row2":"row1";
+}
+
+if($delta30Day > 0) {
+?>
+<tr class="<?=$nextRowClass?>">
   <td class="thead">30 Day Average</td>
   <td align="right"><?=number_style_convert($delta30Day)?></td>
   <td align="center"><?=strftime("%d-%b-%Y", strtotime($lastupdate) + round($stubsLeft / $delta30Day, 0) * 60 * 60 * 24)?></td>
 </tr>
+<?
+}
+?>
 </table>
 <br />
 <h3 align="center">Detailed Stubspace Status</h3>

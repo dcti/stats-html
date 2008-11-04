@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.49 2008/10/31 15:52:19 decibel Exp $
+  # $Id: pc_index.php,v 1.50 2008/11/04 02:55:41 thejet Exp $
 
   $title = "Overall Project Stats";
 
@@ -109,6 +109,35 @@
     }
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "#ogrfootnote";
+  } elseif ($gproj->get_id() >= 26 && $gproj->get_id() <= 28 ) {
+
+    // load up the list of OGR Stubspaces
+    $stubspaceList =& OGRStubspace::get_stubspace_list($gproj, $gdb);
+    $cnt = count($stubspaceList);
+    $totalStubs = 0;
+    $stubsDone = 0;
+    $stubsVerified = 0;
+
+    for($i = 0; $i < $cnt; $i++)
+    {
+      $tmpStats =& $stubspaceList[$i]->get_current_stats();
+      $totalStubs += $stubspaceList[$i]->get_total_stubs();
+      $stubsDone += $tmpStats->get_stubs_done();
+      $stubsVerified += $tmpStats->get_stubs_verified();
+      unset($tmpStats);
+    }
+
+    if ($stubsDone > 0) {
+      $ogrng_pct_searched = round(($stubsDone + $stubsVerified) / ($totalStubs * 2) * 100, 2);
+      if($ogrng_pct_searched == 100 && ($stubsDone + $stubsVerified) < ($totalStubs * 2))
+      {
+        $ogrng_pct_searched = 99.99;
+      }
+    }
+    else
+    {
+      $ogrng_pct_searched = 0;
+    }
   }
 
 ?>
@@ -158,6 +187,11 @@
      <?} else {?>
      <td align="right"><a href="project/ogr_status.php"><?= $gproj->get_id() == 25 ? "~" : "" ?><?=$ogrp2_pct_searched?>%</a> <a href="<?=$ogrp2_pct_link?>">**</a></td>
      <?}?>
+     </tr>
+<? } elseif (isset($ogrng_pct_searched)) { ?>
+     <tr>
+     <td align="left" class="phead2">Percent Complete:</td>
+     <td align="right"><a href="project/ogr_status.php?project_id=<?=$gproj->get_id()?>">~<?=$ogrng_pct_searched?>%</a></td>
      </tr>
 <? } elseif ($gproj->get_total_units() > 0) { ?>
      <tr>

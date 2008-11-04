@@ -63,7 +63,7 @@
  }
 
  // Download and parse the ogrstats.txt file
- $text = file_get_contents($ogrp2_stats);
+ $text = file_get_contents($ogr26_stats);
  if(!$text)
  {
    echo "Could not download statistics update file.";
@@ -72,7 +72,7 @@
 
  // Formulate the dummy stats line to parse
  $matches = array();
- if(preg_match('/^\w+\s+?(\w+\s+\d+) \d+:\d+:\d+ UTC (200\d)/m', $text, $matches) > 0)
+ if(preg_match('/^\w+\s+?(\w+\s+\d+) \d+:\d+:\d+ UTC (\d{4})/m', $text, $matches) > 0)
  {
    if(count($matches) < 3)
    {
@@ -84,7 +84,7 @@
 
    // loop through getting all matches
    $ssMatches = array();
-   $pattern = '/Scanning[^\n]+?ogrp2_25_(\d).*?(\d+) stubs done.*?(\d+) stubs verified.*?Completion :\s+([\d\.]+)\%/s';
+   $pattern = '/Scanning[^\n]+?ogrng_'.$gproj->get_id().'_(\d).*?(\d+) stubs done.*?(\d+) stubs verified.*?Completion :\s+([\d\.]+)\%/s';
    if(preg_match_all($pattern, $text, $ssMatches, PREG_SET_ORDER) <= 0)
    {
      echo "Incorrect stubspace expression match\n";
@@ -108,12 +108,6 @@
  $statsList["1"] =& StubspaceStats::get_stubspace_history(1, 30);
  $statsList["2"] =& StubspaceStats::get_stubspace_history(2, 30);
  $statsList["3"] =& StubspaceStats::get_stubspace_history(3, 30);
- $statsList["4"] =& StubspaceStats::get_stubspace_history(4, 30);
- $statsList["5"] =& StubspaceStats::get_stubspace_history(5, 30);
- $statsList["6"] =& StubspaceStats::get_stubspace_history(6, 30);
- $statsList["7"] =& StubspaceStats::get_stubspace_history(7, 30);
- $statsList["8"] =& StubspaceStats::get_stubspace_history(8, 30);
- $statsList["9"] =& StubspaceStats::get_stubspace_history(9, 30);
 
  $lines = array();
  $linedata = explode(";", $line);
@@ -135,7 +129,7 @@
  {
    $stubspace = explode(":", $stubspaces[$i]);
    $newStats = new StubspaceStats();
-   $newStats->project_id = 25;
+   $newStats->project_id = $gproj->get_id();
    $newStats->stubspace_id = $stubspace[0];
    $newStats->stats_date = $date;
    $newStats->stubs_done = $stubspace[1] + $stubspace[2];

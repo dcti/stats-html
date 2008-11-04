@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.30 2005/08/07 17:39:36 decibel Exp $
+// $Id: team.php,v 1.31 2008/11/04 02:55:41 thejet Exp $
 
 //==========================================
 // file: team.php
@@ -491,6 +491,33 @@ class Team
              $this->_stats = new TeamStats($this->_db, $this->_project, $this->get_id());
            }
            return $this->_stats;
+         }
+
+
+        /***
+         * This function returns a recordset representing all of the current team
+         *
+	 * NOTE: This routine does not return any records, only a recordset pointer
+         *
+         * @access public
+         * @return RS<team> 
+         ***/
+         function get_current_stats_BOINC()
+         {
+           $sql = "SELECT r.overall_rank, r.overall_rank_previous, t.team, t.name, t.logo, t.description, t.contactname, last_date - first_date +1 AS days_working, work_total ";
+	   $sql .= "	, t.showmembers, r.last_date, r.members_overall, r.members_current, r.members_today, r.work_today ";
+	   $sql .= "    , r.day_rank, r.day_rank_previous ";
+           $sql .= "    FROM stats_team t, team_rank r ";
+           $sql .= "    WHERE t.team = r.team_id AND project_id = $1 ";
+           $sql .= "        AND listmode <= 9 ";
+	   $sql .= "    ORDER BY overall_rank ASC ";
+
+           $queryData = $this->_db->query_bound($sql, array(
+                                                                $this->_project->get_id()
+                                                            ) );
+
+           return $queryData;
+
          }
 
         /***
