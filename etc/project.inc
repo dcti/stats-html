@@ -1,6 +1,6 @@
 <?
 // vi: ts=2 sw=2 tw=120 syntax=php
-// $Id: project.inc,v 1.42 2004/07/29 12:51:03 decibel Exp $
+// $Id: project.inc,v 1.43 2009/01/02 09:37:04 chrisj Exp $
 
 require_once "limit.inc";
 require_once "db_pgsql.php";
@@ -13,7 +13,7 @@ $myname = $_SERVER['PHP_SELF'];
 if (isset($_REQUEST['project_id'])) {
     $project_id = (int)$_REQUEST['project_id'];
 } else {
-    $project_id = 25;
+    $project_id = 26;
 }
 
 if (isset($_GET['source'])) {

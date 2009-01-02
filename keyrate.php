@@ -26,6 +26,14 @@ if ($project_id == 8) { ?>
 <img src="http://www1.distributed.net/~pstadt/ogrp2/ogrp2-yearly.png" alt="yearly"><br><br>
 <!--<img src="http://www1.distributed.net/~pstadt/ogrp2/ogrp2-2years.png" alt="2years"><br>-->
 
+<?php } elseif ($project_id == 26) { ?>
+<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-daily.png" alt="daily"><br><br>
+<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-weekly.png" alt="weekly"><br><br>
+<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-monthly.png" alt="monthly"><br><br>
+<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-quarterly.png" alt="quarterly"><br><br>
+<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-yearly.png" alt="yearly"><br><br>
+<!--<img src="http://www1.distributed.net/~pstadt/ogrng/ogrng-2years.png" alt="2years"><br>-->
+
 <?php } else { ?>
 <p>There is no keyrate information available for this project</p>
 <?php }
