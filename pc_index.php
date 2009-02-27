@@ -1,6 +1,6 @@
 <?
   # vi: ts=2 sw=2 tw=120 syntax=php
-  # $Id: pc_index.php,v 1.50 2008/11/04 02:55:41 thejet Exp $
+  # $Id: pc_index.php,v 1.51 2009/02/27 03:45:10 thejet Exp $
 
   $title = "Overall Project Stats";
 
@@ -276,7 +276,8 @@
 
    <? if ($gproj->get_id() == 8) { ?>
    <p><a href="http://n0cgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a></p>
-   <? } elseif ($gproj->get_id() == 24 || $gproj->get_id() == 25) { ?>
+   <? } elseif ($gproj->get_id() == 24 || $gproj->get_id() == 25 ||
+                $gproj->get_id() == 26 || $gproj->get_id() == 27) { ?>
    <p><a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a></p>
    <? } elseif ($gproj->get_id() == 3) { ?>
    <p><a href="http://n0cgi.distributed.net/statistics/rc5-56/index.html">Additional Stats</a></p>

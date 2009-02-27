@@ -1,5 +1,5 @@
 <?php
-// $Id: ogr_status.php,v 1.5 2008/11/04 02:55:41 thejet Exp $
+// $Id: ogr_status.php,v 1.6 2009/02/27 03:45:10 thejet Exp $
 // ************ OGR Status                           ***
 // ************ Filename: ogr_status.php             ***
 
@@ -194,7 +194,7 @@ for($i = 0; $i < $cnt; $i++)
 echo "</table>\n";
 echo "<br /><br />";
 
-$proj_list = 0;
+$project_filter = array(25, 26, 27, 28);
 
 include "../templates/footer.inc";
 
