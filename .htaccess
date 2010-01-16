@@ -1,15 +1,22 @@
-# $Id: .htaccess,v 1.13 2008/10/27 13:05:59 decibel Exp $
+# $Id: .htaccess,v 1.14 2010/01/16 03:48:25 chrisj Exp $
+#####################################################################
+# Deny access to the live versions of these pages.  These pages 
+# are cached nightly during statsrun, and are available remotely 
+# for debug only from authorised locations
+#####################################################################
 <FilesMatch "(pc_.*|dem.*|friends.*|motto.*)">
  Order Deny,Allow
  Deny from All
- Allow from localhost 10.70.40.11
+ Allow from localhost
  Allow from .distributed.net
  # Nuggethaus
- Allow from .slacker.com
+ #Allow from .slacker.com
  # Cowhaus
  Allow from .bovine.net
+ Allow from 99.153.64.72/29
+ Allow from 99.23.192.252
  # ChrisJ
- Allow from .toplevel.net.au
+ Allow from .aprole.com
 </FilesMatch>
 
 <Files "*.inc">
