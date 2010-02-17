@@ -1,5 +1,5 @@
 <?
-// $Id: timing.inc,v 1.6 2004/07/21 17:10:58 decibel Exp $
+// $Id: timing.inc,v 1.7 2010/02/17 21:11:21 jlawson Exp $
 
 function timer_start ($name = 'default') {
     global $timer_start_times;
@@ -31,7 +31,7 @@ function timer_current ($name = 'default') {
 function log_timing(&$dbPtr, $project_id, $other = '') {
     $sql = 'SELECT page_log.log( $1, $2, $3, $4 )';
     $queryId = $dbPtr->query_bound( $sql, array(
-                                                    $_SERVER['PHP_SELF']
+                                                    $_SERVER['SCRIPT_NAME']
                                                     , $project_id
                                                     , $other
                                                     , (string) timer_current('log')
