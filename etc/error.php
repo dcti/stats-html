@@ -260,8 +260,9 @@ class ErrorHandler {
     }
 }
 
-# construct and register the error handler
-$g_error_handler =& new ErrorHandler();
+# construct and register the error handler.
+# (PHP4 requires the =& operator, but PHP5 uses just = operator.)
+$g_error_handler = new ErrorHandler();
 set_error_handler(array($g_error_handler, 'error_handler'));
 
 ?>
