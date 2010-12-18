@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.33 2010/12/18 05:30:06 jlawson Exp $
+// $Id: team.php,v 1.34 2010/12/18 05:33:48 jlawson Exp $
 
 //==========================================
 // file: team.php
@@ -245,9 +245,16 @@ class Team
                            $this->_state->showmembers,   #7
                            $this->_state->showpassword,  #8
                            (int)$this->_state->listmode, #9
+                           );
+           if($this->_state->team != 0)
+           {
+		// For updates, we need two additional values.
+		array_push($params,
                            $this->_state->description,   #10
                            (int)$this->_state->team,     #11
-                           );
+			   );
+	   }
+
            $retVal = $this->_db->query_bound_first($sql, $params);
 
            if($retVal == FALSE)
