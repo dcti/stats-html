@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.32 2010/12/18 05:07:21 jlawson Exp $
+// $Id: team.php,v 1.33 2010/12/18 05:30:06 jlawson Exp $
 
 //==========================================
 // file: team.php
@@ -211,18 +211,18 @@ class Team
            {
              // Update
              $sql = "UPDATE stats_team " .
-                    "   SET name = $2," .
-                    "       \"password\" = $3," .
-                    "       url = $4," .
-                    "       contactname = $5," .
-                    "       contactemail = $6," .
-                    "       logo = $7," .
-                    "       showmembers = $8," .
-                    "       showpassword = $9," .
-                    "       listmode = $10," .
-                    "       description = $11" .
-                    " WHERE team = $1" .
-               "RETURNING *;";
+                    "   SET name = $1," .
+                    "       \"password\" = $2," .
+                    "       url = $3," .
+                    "       contactname = $4," .
+                    "       contactemail = $5," .
+                    "       logo = $6," .
+                    "       showmembers = $7," .
+                    "       showpassword = $8," .
+                    "       listmode = $9," .
+                    "       description = $10" .
+                    " WHERE team = $11" .
+                    " RETURNING *";
            }
            else
            {
@@ -230,24 +230,23 @@ class Team
              $sql = "INSERT INTO stats_team " .
                     " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
                     "VALUES" .
-                    " ($2, $3, $4, $5, $6, $7, $8, $9, $10)" .
-               "RETURNING *;";
+                    " ($1, $2, $3, $4, $5, $6, $7, $8, $9)" .
+                    " RETURNING *";
            }
 
            // Execute the SQL statement
-           // ** throw away the result of the first operation (if it's false)
            $params = array(
-                           (int)$this->_state->team,     #1
-                           $this->_state->name,          #2
-                           $this->_state->password,      #3
-                           $this->_state->url,           #4
-                           $this->_state->contactname,   #5
-                           $this->_state->contactemail,  #6
-                           $this->_state->logo,          #7
-                           $this->_state->showmembers,   #8
-                           $this->_state->showpassword,  #9
-                           (int)$this->_state->listmode, #10
-                           $this->_state->description,   #11
+                           $this->_state->name,          #1
+                           $this->_state->password,      #2
+                           $this->_state->url,           #3
+                           $this->_state->contactname,   #4
+                           $this->_state->contactemail,  #5
+                           $this->_state->logo,          #6
+                           $this->_state->showmembers,   #7
+                           $this->_state->showpassword,  #8
+                           (int)$this->_state->listmode, #9
+                           $this->_state->description,   #10
+                           (int)$this->_state->team,     #11
                            );
            $retVal = $this->_db->query_bound_first($sql, $params);
 
