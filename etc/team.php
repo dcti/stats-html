@@ -1,5 +1,5 @@
 <?php
-// $Id: team.php,v 1.31 2008/11/04 02:55:41 thejet Exp $
+// $Id: team.php,v 1.32 2010/12/18 05:07:21 jlawson Exp $
 
 //==========================================
 // file: team.php
@@ -222,7 +222,7 @@ class Team
                     "       listmode = $10," .
                     "       description = $11" .
                     " WHERE team = $1" .
-               "; SELECT * FROM stats_team WHERE team = $1;";
+               "RETURNING *;";
            }
            else
            {
@@ -231,7 +231,7 @@ class Team
                     " (name, password, url, contactname, contactemail, logo, showmembers, showpassword, listmode) " .
                     "VALUES" .
                     " ($2, $3, $4, $5, $6, $7, $8, $9, $10)" .
-               "; SELECT * FROM stats_team WHERE team = currval('public.stats_team_team_seq'::text);";
+               "RETURNING *;";
            }
 
            // Execute the SQL statement
