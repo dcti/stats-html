@@ -20,7 +20,7 @@
 	Apache Status<br>
 	PHP Configuration<br>
 	<a href="/secure/project_logs.php?project_id=8">RC5-72 Log Tail</a><br>
-	<a href="/secure/project_logs.php?project_id=25">OGRp2 Log Tail</a><br>
+	<a href="/secure/project_logs.php?project_id=27">OGR-NG Log Tail</a><br>
     </td>
     <td class="hcontent">
         <form method="GET" name="par-search" id="par-search" action="psearch.php">
