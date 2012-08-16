@@ -7,20 +7,17 @@
 # virtual hosts which point to ~/stats-html/ in each of our 
 # respective home directories.
 #
-# For example, http://stats-nugget.distributed.net/ will use nugget's
-# copy of stats in ~nugget/stats-html/.
+# For example, http://bovine.statsdev.distributed.net/ will use bovine's
+# copy of stats in ~bovine/stats-html/.
 #
-# You'll note that there is no ./rc5-64/index.html file.  This is
+# You'll note that there is no ./rc5-72/index.html file.  This is
 # normal, as it is one of the pages that is regenerated every 
 # evening.  Since there's no index.html, apache is configured to fall
-# back onto index.php3.
-#
-# Also note that each stats-foo site has isolated logging.  All
-# activity to your personal stats site is logged to ~/log/.
-# This should make debugging much simpler.
+# back onto index.php.
 #
 # When you're happy with the changes you've committed, you can do a 
-# "sudo wwwcvs" to update /htdocs/ with the current tree.
+# "sudo webrootsync" to update /usr/local/htdocs/stats-html/ with
+# the current tree.
 #
 # Decibel has been keeping an informal "to-do.txt" list of the stuff
 # that needs to get done.  I committed that file and it makes sense 
