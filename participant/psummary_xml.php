@@ -44,6 +44,10 @@ if($gpart -> get_retire_to() > 0) {
 
 $gpartstats = new ParticipantStats($gdb, $gproj, $id, null);
 
+if (!$gpartstats->are_stats_loaded()) {
+  print('<error>No stats for the user</error>');
+  exit(1);
+}
 // Process data and store in variables
 $name = $gpart->get_display_name();
 $motto = $gpart->get_motto();

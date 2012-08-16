@@ -30,6 +30,7 @@ class ParticipantStats {
      * @type date
      */
     var $statsdate;
+    var $_state;
     var $_history;
     var $rs_rank;
 
@@ -48,6 +49,7 @@ class ParticipantStats {
         $this -> _db =& $dbPtr;
         $this -> _project =& $project;
         $this -> _id = $id;
+        $this -> _state = false;
 
         if ($id != -1) {
             $this -> load($id, $project, $date);
@@ -56,7 +58,8 @@ class ParticipantStats {
 
     /**
      * Loads the requested participant object using the current database connection
-     * This function loads the requested date's stats data.
+     * This function loads the requested date's stats data. Returns true on success
+     * false otherwise.
      *
      * @access public
      * @return bool
@@ -87,6 +90,7 @@ class ParticipantStats {
         }
 
         $this -> _state = $this -> _db -> query_first ($qs);
+        return $this -> are_stats_loaded();
     }
 
     /**
@@ -127,6 +131,18 @@ class ParticipantStats {
         $dbstatshist = $this->_db->query($qs);
         $this->_history = $this->_db->fetch_paged_result($dbstatshist);
         return $this->_history;
+    }
+
+    /**
+     * Returns true if the paticipant's stats were loaded.
+     *
+     * This routine relies on load();
+     *
+     * @access public
+     * @return bool
+     */
+    function are_stats_loaded() {
+        return !($this -> _state === false);
     }
 
     /**
