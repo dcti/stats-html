@@ -149,6 +149,7 @@ class Team
             else
             {
               // Initialize the object with reasonable defaults for non-required fields
+              $this->_state = new stdClass();
               $this->_state->team = 0;
               $this->_state->listmode = 0;
               $this->_state->showmembers = "YES";
