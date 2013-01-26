@@ -31,7 +31,6 @@ API Documentation:
 // st == Search Term (3+ chars)
 // Error Codes:
 // 1 - Invalid search term, must be at least 3 characters
-// 2 - No results
 -->
 <?php
 if (is_numeric($st)) {
@@ -55,23 +54,16 @@ if (is_numeric($st)) {
 
 $rows = count($result);
 // Generate XML
-if($rows == 0) {
-	?>
-    <error code="2">The search term could not be found</error>
-    <?
-} else {
-	print("<search-result project=\"" . $gproj->get_name() . "\" project-id=\"" . $gproj->get_id() . "\">\n");
-	for ($i = 0; $i < $rows; $i++) {
-		$ROWparticipant = $result[$i];
-		$id = (int) $ROWparticipant->get_id();
-		$name = safe_display($ROWparticipant->get_display_name())
+print("<search-result project=\"" . $gproj->get_name() . "\" project-id=\"" . $gproj->get_id() . "\">\n");
+for ($i = 0; $i < $rows; $i++) {
+	$ROWparticipant = $result[$i];
+	$id = (int) $ROWparticipant->get_id();
+	$name = safe_display($ROWparticipant->get_display_name())
 ?>
         <participant-summary id="<?php echo $id; ?>">
         	<name><![CDATA[<?php echo $name; ?>]]></name>
         </participant-summary>
 <?php
-	}
-	print("</search-result>");
 }
-
+print("</search-result>");
 ?>
