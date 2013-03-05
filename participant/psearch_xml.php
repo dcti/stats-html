@@ -1,8 +1,9 @@
 <? 
 // Variables Passed in url:
-// limit == how many results to return
-// project_id == Project ID
-// st == Search Term
+// st == Search term (required)
+//   If numeric (1+ digits), match exact id
+//   If alphanumeric (3+ chars), match partial email
+// limit == How many results to return (optional, 1+ digits, default = 50)
 // Author: Simon Trigona
 
 include "../etc/global.inc";
@@ -26,9 +27,10 @@ print("<"."?xml version=\"1.0\" encoding=\"ISO-8859-1\"?".">\n");
 <!--
 API Documentation:
 // Variables Passed in url:
-// limit == how many results to return
-// project_id == Project ID
-// st == Search Term (3+ chars)
+// st == Search term (required)
+//   If numeric (1+ digits), match exact id
+//   If alphanumeric (3+ chars), match partial email
+// limit == How many results to return (optional, 1+ digits, default = 50)
 // Error Codes:
 // 1 - Invalid search term, must be at least 3 characters
 -->
@@ -49,7 +51,7 @@ if (is_numeric($st)) {
   }
 
   // Execute the procedure to get the results
-  $result = Participant::get_search_list($st, $limit, $gdb, $gproj);
+  $result = Participant::get_search_list_no_stats($st, $limit, $gdb);
 }
 
 $rows = count($result);
