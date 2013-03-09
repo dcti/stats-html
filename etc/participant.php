@@ -1,5 +1,5 @@
 <?php
-// $Id: participant.php,v 1.56 2006/11/02 15:42:41 thejet Exp $
+// $Id: participant.php,v 1.57 2013/03/09 15:42:41 strigona Exp $
 // vi: expandtab sw=4 ts=4 tw=128
 
 include_once "participantstats.php";
@@ -505,17 +505,38 @@ class Participant {
      */
     function get_display_name()
     {
-        if ($this -> _state -> listmode == 0 || $this -> _state -> listmode == 8 || $this -> _state -> listmode == 9) {
-            $listas = $this -> get_email();
-        } else if ($this -> _state -> listmode == 1) {
-            $listas = "Participant #" . number_style_convert($this -> get_id());
-        } else if ($this -> _state -> listmode == 2) {
-            if (trim($this -> get_contact_name()) == "")
-                $listas = "Participant #" . number_style_convert($this -> get_id());
+        return $this -> get_display_name_internal($this -> get_id(),
+                                                  $this -> get_email(),
+                                                  $this -> get_contact_name(),
+                                                  $this -> _state -> listmode);
+    }
+	
+	
+    /**
+     * Returns the string that represents the name of this
+     * participant, according to the configured public display privary
+     * preferences.  (Be sure to use safe_display() before outputting
+     * this value in an HTML page.)
+     *
+     * @access public
+     * @type string
+	 * @param int $ The participant id
+	 * @param string $ The participant's email
+	 * @param string $ The participant's contact name
+	 * @param string $ The participant's listmode
+     */    
+    function &get_display_name_internal($id, $email, $contact_name, $listmode) {
+        if ($listmode == 0 || $listmode == 8 || $listmode == 9) {
+            $listas = $email;
+        } else if ($listmode == 1) {
+            $listas = "Participant #" . number_style_convert($id);
+        } else if ($listmode == 2) {
+            if (trim($contact_name) == "")
+                $listas = "Participant #" . number_style_convert($id);
             else
-                $listas = $this -> get_contact_name();
+                $listas = $contact_name;
         } else {
-            $listas = "Record error for #" . number_style_convert($this -> get_id()) . "!";
+            $listas = "Record error for #" . number_style_convert($id) . "!";
         }
         return $listas;
     }
@@ -855,7 +876,7 @@ class Participant {
         $sstr = strtolower($sstr);
 
         // The query to run...
-        $qs = 'SELECT id, lower(email) AS email
+        $qs = 'SELECT id, lower(email) AS email, listmode, contact_name
                 FROM stats_participant
                 WHERE lower(email) like $1
                     AND listmode <= 10
@@ -866,7 +887,12 @@ class Participant {
         $total = $db->num_rows($queryData);
         for($i = 0; $i < $total; $i++)
         {
-            $retVal[] = $db->fetch_object($queryData);
+            $obj = $db->fetch_object($queryData);
+            $obj -> display_name = self::get_display_name_internal($obj -> id,
+                                                                   $obj -> email,
+                                                                   $obj -> contact_name,
+                                                                   $obj -> listmode);
+            $retVal[] = $obj;
         }
 
         return $retVal;
@@ -894,7 +920,6 @@ class Participant {
                 FROM stats_participant
                 WHERE lower(email) like $1
                 LIMIT $2';
-
         // Actually run the query...
         $queryData = $db->query_bound($qs, array( "%$sstr%", (int)$limit ));
         $total = $db->num_rows($queryData);
