@@ -520,10 +520,10 @@ class Participant {
      *
      * @access public
      * @type string
-	 * @param int $ The participant id
-	 * @param string $ The participant's email
-	 * @param string $ The participant's contact name
-	 * @param string $ The participant's listmode
+     * @param int $ The participant id
+     * @param string $ The participant's email
+     * @param string $ The participant's contact name
+     * @param string $ The participant's listmode
      */    
     function &get_display_name_internal($id, $email, $contact_name, $listmode) {
         if ($listmode == 0 || $listmode == 8 || $listmode == 9) {
