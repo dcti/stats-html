@@ -56,11 +56,11 @@ if (is_numeric($st)) {
 
 $rows = count($result);
 // Generate XML
-print("<search-result project=\"" . $gproj->get_name() . "\" project-id=\"" . $gproj->get_id() . "\">\n");
+print("<search-result>\n");
 for ($i = 0; $i < $rows; $i++) {
 	$ROWparticipant = $result[$i];
-	$id = (int) $ROWparticipant->get_id();
-	$name = safe_display($ROWparticipant->get_display_name())
+	$id = (int) $ROWparticipant->id;
+	$name = safe_display($ROWparticipant->display_name);
 ?>
         <participant-summary id="<?php echo $id; ?>">
         	<name><![CDATA[<?php echo $name; ?>]]></name>
