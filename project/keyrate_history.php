@@ -13,12 +13,11 @@ if ($project_id == 8 )
     $found = true;
     ?>
     <div align="center">
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-complete.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-daily.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-weekly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-monthly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-quarterly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/rc5-72/rc5-72-yearly.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/rc572-rate-10y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/rc572-rate-3y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/rc572-rate-1y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/rc572-rate-1m.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/rc572-rate-1w.png"><br>
     </div>
     <?
 }
@@ -27,12 +26,9 @@ if ($gproj -> get_type() == 'OGR' )
     $found = true;
     ?>
     <div align="center">
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-daily.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-weekly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-monthly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-quarterly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-yearly.png"><br>
-    <img src="http://www1.distributed.net/~pstadt/ogr/ogr-2years.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/ogrng-rate-10y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/ogrng-rate-3y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1y.png"><br>
     </div>
     <?
 }
