@@ -40,7 +40,11 @@ if (is_numeric($st)) {
   if ($onepp->get_id() != (int)$st) {
     $result = array();
   } else {
-    $result = array($onepp);
+    // Create dummy object with the fields needed for display
+    $obj = new stdClass;
+    $obj->id = $onepp->get_id();
+    $obj->display_name = $onepp->get_display_name();
+    $result = array($obj);
   }
 } else {
   if (strlen($st) < 3) {
