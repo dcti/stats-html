@@ -1,7 +1,7 @@
 <?
 if(!isset($project_filter))
 {
-  $project_filter = array(3, 5, 205, 8, 24, 25, 26, 27);
+  $project_filter = array(3, 5, 205, 8, 24, 25, 26, 27, 28);
 }
 
 function show_project_link($projectId, $projectFilter)
@@ -38,6 +38,7 @@ function show_project_link($projectId, $projectFilter)
    if (show_project_link(25, $project_filter)) { ?> <a href="<?=$myname?>?project_id=25<?=$query_string?>">OGR-25</a> <? } 
    if (show_project_link(26, $project_filter)) { ?> <a href="<?=$myname?>?project_id=26<?=$query_string?>">OGR-26</a> <? } 
    if (show_project_link(27, $project_filter)) { ?> <a href="<?=$myname?>?project_id=27<?=$query_string?>">OGR-27</a> <? } 
+   if (show_project_link(28, $project_filter)) { ?> <a href="<?=$myname?>?project_id=28<?=$query_string?>">OGR-28</a> <? } 
 ?>
 </div>
    <div style="text-align: center">
