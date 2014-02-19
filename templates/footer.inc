@@ -29,6 +29,7 @@ function show_project_link($projectId, $projectFilter)
         }
     }
 ?>
+<hr/>
 <div style="text-align: center;"> This page in other projects: <br />
 <? if (show_project_link(3, $project_filter)) { ?> <a href="<?=$myname?>?project_id=3<?=$query_string?>">RC5-56</a>  <? } 
    if (show_project_link(5, $project_filter)) { ?> <a href="<?=$myname?>?project_id=5<?=$query_string?>">RC5-64</a>  <? } 
