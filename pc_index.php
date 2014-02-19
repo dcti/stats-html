@@ -13,6 +13,21 @@
   ####
   # Daily summary
   $gprojstats = $gproj->get_current_stats();
+	if (!$gprojstats->_state) {
+		display_last_update('i');
+		?>
+   <div style="text-align:center">
+   <br />
+   <p class="phead">
+    Information not available
+   </p>
+	 <p>Statistical information for <?=$gproj->get_name()?> is not currently available.  A batch update run may not yet
+	 have been completed, or may still be in progress</p>
+	 <p>Please check back later, and apologies for any inconvenience!</p>
+	 <?php
+	 exit();
+	 }
+
 
   // @todo - this returns date in wrong format for lastupdate
   $lastupdate = $gprojstats->get_stats_item('date');
@@ -68,7 +83,7 @@
 
   ###
   # Percentage for OGR Phase 1 and Phase 2
-  if ($gproj->get_id() == 24 || $gproj->get_id() == 25) {
+  if ($gproj->get_type() == 'OGRP2') {
     $ogrdb = new DB("dbname=ogr");
     $ogrstats = $ogrdb->query_first("SELECT * FROM recent_complete WHERE project_id = " . $gproj->get_id());
     if($ogrstats) {
@@ -109,7 +124,7 @@
     }
     $ogrp2_bar_width = number_format(3*$ogrp2_pct_searched, 0);
     $ogrp2_pct_link = "#ogrfootnote";
-  } elseif ($gproj->get_id() >= 26 && $gproj->get_id() <= 28 ) {
+  } elseif ($gproj->get_type() =='OGRNG') {
 
     // load up the list of OGR Stubspaces
     $stubspaceList =& OGRStubspace::get_stubspace_list($gproj, $gdb);
@@ -274,10 +289,9 @@
      (<?=$new_teams?> of them <?=($new_teams==1 ? 'is' : 'are')?> brand new!)
    </p>
 
-   <? if ($gproj->get_id() == 8) { ?>
+   <? if ($gproj->get_type() == 'R72') { ?>
    <p><a href="http://n0cgi.distributed.net/rc5-proxyinfo.html">Current Proxy Rates</a></p>
-   <? } elseif ($gproj->get_id() == 24 || $gproj->get_id() == 25 ||
-                $gproj->get_id() == 26 || $gproj->get_id() == 27) { ?>
+   <? } elseif ($gproj->get_type() == 'OGRNG') { ?>
    <p><a href="http://n0cgi.distributed.net/ogr-proxyinfo.html">Current Proxy Rates</a></p>
    <? } elseif ($gproj->get_id() == 3) { ?>
    <p><a href="http://n0cgi.distributed.net/statistics/rc5-56/index.html">Additional Stats</a></p>
@@ -285,7 +299,7 @@
 
    <hr />
 
-   <?if( $gproj->get_id() == 24 || $gproj->get_id() == 25 ){?>
+   <?if( $gproj->get_type() == 'OGRP2' ){?>
    <a name="ogrfootnote"></a>
    <p><font size="-2">
       For more information about OGR Phase 1 and Phase 2, please <a href="http://n0cgi.distributed.net/faq/cache/230.html">read our FAQ page</a>.

@@ -6,6 +6,7 @@
 
 do_wget ( ) {
 	wget -O${2} "http://${USER}.statsdev.distributed.net/${1}"
+	chmod 0755 ${2}
 	return
 }
 
@@ -19,7 +20,7 @@ get_project ( ) {
 }
 
 if [ x$1 = x ]; then
-    args="5 8 24 25"
+    args="5 8 24 25 26 27 28"
     echo "No projects specified, I assume you want all of them"
 else
     args=$@
