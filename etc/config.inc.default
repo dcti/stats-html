@@ -60,6 +60,9 @@ $co_lista   = "#9999cc";
 $co_listb   = "#9999bb";
 $co_listc   = "#cccccc";
 
+// Use this project if no project_id specified
+$default_project = 28;
+
 
 ////////////////////////////////
 // Number formatting defaults //
