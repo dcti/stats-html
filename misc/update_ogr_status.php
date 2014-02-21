@@ -108,7 +108,6 @@
  $statsList["1"] =& StubspaceStats::get_stubspace_history(1, 30);
  $statsList["2"] =& StubspaceStats::get_stubspace_history(2, 30);
  $statsList["3"] =& StubspaceStats::get_stubspace_history(3, 30);
- $statsList["4"] =& StubspaceStats::get_stubspace_history(4, 30);
 
  $lines = array();
  $linedata = explode(";", $line);
