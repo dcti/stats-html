@@ -69,9 +69,6 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 <? } ?>
     </tr>
     <tr>
-    <? if ( $random_stats == 1 ) { ?>
-      <!-- A random we will go... -->
-    <? } ?>
       <td align="left" class="phead2"><?= $gproj->get_scaled_unit_name() ?>:</td>
       <td align="right"><?= number_style_convert($stats->get_stats_item('work_total') * $gproj->get_scale()) ?></td>
 <? if ($stats->get_stats_item('work_today') > 0) { ?>
@@ -166,14 +163,15 @@ if (private_markupurl_safety($team->get_logo()) != "") {
 
   //A list of teams goes here
   ?> 
-    <table border="1" cellspacing="0" style="margin: auto;">
-      <tr>
-        <th class="thead">Rank</th>
-        <th class="thead">Team</th>
-        <th class="thead" align="right">Days</th>
-        <th class="thead" align="right"><?= $gproj->get_scaled_unit_name() ?></th>
-        <th class="thead" align="right">Yesterday</th>
-      </tr>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+      <thead>
+        <th>Rank</th>
+        <th>Team</th>
+        <th>Days</th>
+        <th><?= $gproj->get_scaled_unit_name() ?></th>
+        <th>Yesterday</th>
+      </thead>
       <?
       $totalwork = 0;
       $yestwork = 0;
@@ -196,11 +194,11 @@ if (private_markupurl_safety($team->get_logo()) != "") {
       <?
       }
       ?>
-      <tr>
+      <tfoot>
         <td class="tfoot" align="right" colspan="3">Total</td>
         <td class="tfoot" align="right"><?= number_style_convert($totalwork * $gproj->get_scale()) ?></td>
         <td class="tfoot" align="right"><?= number_style_convert($yestwork * $gproj->get_scale()) ?></td>
-      </tr>
+      </tfoot>
     </table>
     <hr>
     <a href="/participant/pjointeam.php?team=<?=$tm?>">I want to join this team!</a>

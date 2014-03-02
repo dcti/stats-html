@@ -6,7 +6,6 @@
 //  team == team id to display
 error_reporting(255);
 include "../etc/global.inc";
-$random_stats = 0;
 include "../etc/modules.inc";
 include "../etc/markup.inc";
 include "../etc/project.inc";

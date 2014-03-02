@@ -52,14 +52,6 @@ $fo_h1      = "<font face=\"verdana,arial,helvetica\" size=\"+2\">";
 $fo_h2      = "<font face=\"verdana,arial,helvetica\" size=\"+1\">";
 $foff       = "</font>";
 
-$co_bgcolor = "#dddddd";
-$co_text    = "#000000";
-$co_link    = "#222255";
-$co_heada   = "#ffffff";
-$co_lista   = "#9999cc";
-$co_listb   = "#9999bb";
-$co_listc   = "#cccccc";
-
 // Use this project if no project_id specified
 $default_project = 28;
 

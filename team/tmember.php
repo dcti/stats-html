@@ -143,26 +143,19 @@ if($team->get_id_mismatch() == true) {
   team ID is " . $team->get_id() . ".</h2>";
 }
 
-// Display how many members
-print "
-<table border=\"0\"><tr>
-  <td align=left>Total Members:</td>
-  <td align=right>$rows</td>
-  </tr></table>";
-
   // Provide a link back to tmsummary.php
   print "<p style=\"text-align:center\">Return to the <a href=\"tmsummary.php?project_id=$project_id&amp;team=$tm\">team summary page</a>.</p>";
 
-  // Start the table
   ?>
-      <table border="1" cellspacing="0" width="100%">
-        <tr>
-          <th class="thead">Team Rank</th>
-          <th class="thead">Participant</th>
-          <th class="thead">Project Rank</th>
-          <th class="thead">First</th>
-          <th class="thead">Last</th>
-          <th class="thead"><?=$gproj->get_scaled_unit_name()?> Yesterday</th>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+        <thead>
+          <th>Team Rank</th>
+          <th>Participant</th>
+          <th>Project Rank</th>
+          <th>First</th>
+          <th>Last</th>
+          <th><?=$gproj->get_scaled_unit_name()?> Yesterday</th>
           <?
           if ($totblocks) { ?>
             <th class="thead">%</th>
@@ -172,7 +165,7 @@ print "
           if ($totblocks) { ?>
             <th class="thead">%</th>
           <? } ?>
-        </tr>
+        </thead>
 
         <?
         // Generate the listing here.
@@ -194,7 +187,7 @@ print "
           $listas = safe_display($teamMembers[$i]->get_display_name());
 
           print "
-          <tr class=" . row_background_color($i) . ">
+          <tr>
             <td>$rnk</td>
             <td>
               <a href=\"/participant/psummary.php?project_id=$project_id&amp;id=$linkid\">$listas</a>
@@ -206,14 +199,10 @@ print "
             print "
             <td>$prnk " . html_rank_arrow($prnkchg) . "</td>";
           }
-          if ( $random_stats == 1 ) {
-            print "
-            <!-- Random goodness! -->";
-          }
           print "
-            <td align=\"right\">$first</td>
-            <td align=\"right\">$last</td>
-            <td align=\"right\">$yesterday</td>";
+            <td>$first</td>
+            <td>$last</td>
+            <td>$yesterday</td>";
           if ($totblocks) print "
             <td align=\"right\">" . number_style_convert($n_yesterday/$yblocks*100 ,2) . "</td>";
           print "

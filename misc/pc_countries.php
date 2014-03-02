@@ -1,6 +1,4 @@
-<?
-
- // $Id: pc_countries.php,v 1.18 2005/05/07 18:00:57 decibel Exp $
+<?php
 
  $outname = "countries";
 
@@ -23,15 +21,13 @@
    $qs .= "	order by sum(work_total)* ".$gproj->get_scale()." desc";
  };
 
-if ($debug == 1) 
-  echo "<b>SQL Query:</b><br><pre>$qs</pre><br>";
-
- display_last_update('e');
- print "<br>
-	 <center>
-	  <table border=\"1\" cellspacing=\"0\" >
-	   <tr>
-            <th class=\"thead\" colspan=2>&nbsp</td>";
+?>
+  <div class="table-responsive">
+  <table class="table table-bordered table-striped">
+<?php
+print "
+	   <thead>
+            <th colspan=2>&nbsp</td>";
  if ($source == 'y') {
    print "
 	    <th class=\"thead\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=o\">Overall</a></td>
@@ -42,22 +38,22 @@ if ($debug == 1)
 	    <th class=\"thead\" colspan=2><a href=\"$outname.php?project_id=$project_id&source=y\">Yesterday</a></td>";
  }
 ?> 
-           </tr>
-	   <tr>
+           </thead>
+	   <thead>
 	    <th class="thead">Nationality</th>
 	    <th class="thead" align="center">People</th>
 	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?></th>
 	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
 	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?></th>
 	    <th class="thead" align="center"><?=$gproj->get_scaled_unit_name()?>/Person</th>
-	   </tr>
+	   </thead>
 <?
 
  $country = $gdb->query($qs);
  $countries = $gdb->num_rows();
 
  for ($i = 0; $i < $countries; $i++) {
-   print "<tr class=" . row_background_color($i) . ">";
+   print "<tr>";
    $gdb->data_seek($i);
    $par = $gdb->fetch_object($country);
    $recs = (int) $par->recs;
@@ -84,18 +80,15 @@ if ($debug == 1)
  } 
 ?>
 	</table>
-           <table width="60%">
-            <tr>
-             <td>
-              <font size="-1">
+
+<div class="well">
                Note: Nationalities listed on this page are only reflective of
                those participants who have designated their nationality when
                <a href="/participant/pedit.php">editing</a> their participant information.
                No attempt has been made to derive nationalities from participant
                email addresses.
-              </font>
-             </td>
-            </tr>
-           </table>
-          </center>
+</div>
 
+<div class="well">
+ <?php display_last_update('e'); ?>
+</div>

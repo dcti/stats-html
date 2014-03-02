@@ -1,7 +1,5 @@
 <?
 
-# $Id: platformlist.php,v 1.27 2005/07/22 16:55:04 decibel Exp $
-
 $hour = 3;
 $now = getdate();
 if ($now['hours'] >= 0 and $now['hours'] < $hour) {
@@ -14,7 +12,7 @@ Header("Cache-Control: must-revalidate");
 Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 
 /// Variables passed in url
-//   source == "y" for yseterday, all other values ignored.
+//   source == "y" for yesterday, all other values ignored.
 //   view == display and sort order (t = total blocks, c = cpu, o = os, v = version)
 //           page will show those columns in view, sorted in view's order
 //   		(DEFAULT value is 'c', set in project.inc
@@ -96,11 +94,11 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 
  # Total number of columns in table, not counting yesterday or total columns. Start at 2 to account for first and last.
  $cols = 3;
- print "
-    <center>
-     <br>
-     <table border=\"1\" cellspacing=\"0\" cellpadding\"0\" >
-      <tr>";
+?>
+  <div class="table-responsive">
+    <table class="table table-bordered table-striped">
+<thead>
+ <?php
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
    if($ch == 'c') {
@@ -122,13 +120,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
 <?
  if($show_yesterday){ print "<th class=\"thead\">Yesterday</th>";}
  if($show_total) { print "<th class=\"thead\">Total ".$gproj->get_scaled_unit_name()."</th>";}
- print '</tr>';
+ print '</thead>';
  $total_yesterday = 0;
  $total_overall = 0;
  for ($i = 0; $i<$rows; $i++) {
 
 ?>
-<tr class="<? echo row_background_color($i)?>">
+<tr>
 <?
  $gdb->data_seek($i);
  $par = $gdb->fetch_object();

@@ -37,13 +37,6 @@ function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
    	exit;
 }
 
-if(isset($id) && isset($pass) && $pass != "") {
-   if($debug > 0) trigger_error("Authenticating through URL.",E_USER_NOTICE);
-    # ID and PASS provided in url, use these over all other options
-   	$test_id = $id;
-   	$test_pass = $pass;
-   	$test_from = "url";
-} else {
     if(isset($_COOKIE['sbid'])) {
       if($debug > 0) trigger_error("Authenticating through Cookie.",E_USER_NOTICE);
    		# We have a cookie set, use this
@@ -62,7 +55,6 @@ if(isset($id) && isset($pass) && $pass != "") {
    		}
    	}
 }
-if($debug > 0) print "<!-- Username: $test_id, Password: $test_pass -->\n";
 
 // @TODO - pass null or gproj here?
 $gpart = new Participant($gdb, $gproj, $test_id);

@@ -7,7 +7,6 @@
 // @todo -c Implement .order by date desc/asc
 
 include "../etc/global.inc";
-$random_stats = 0;
 include "../etc/modules.inc";
 include "../etc/project.inc";
 include "../etc/participant.php";

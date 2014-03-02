@@ -1,14 +1,9 @@
 <?
-# $Id: pc_money.php,v 1.7 2004/07/16 20:45:27 decibel Exp $
-# vi: ts=2 sw=2 tw=120 syntax=php
-
 $title = "Disposition of Prize Money";
 
 include "../etc/global.inc";
 include "../etc/modules.inc";
 include "../etc/project.inc";
-
-display_last_update('e');
 
 if ( $gproj->get_prize() == 0 ) {
   print "
@@ -172,7 +167,7 @@ print "
  }
 
 ?>
-   </table>
-  </center>
- </body>
-</html>
+
+<div class="well">
+ <?php display_last_update('e'); ?>
+</div>

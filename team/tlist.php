@@ -46,23 +46,23 @@ if ( $rows >= $limit ) {
 }
 
 ?>
-  <div><br></div>
-  <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">
-    <tr>
-       <td class="tfoot"><?=$btn_back?></td>
-       <td colspan="6" class="tfoot">&nbsp;</td>
-       <td align="right" class="tfoot"><?=$btn_fwd?></td>
-    </tr>
-    <tr>
-      <td align="center" class="thead">Rank</td>
-      <td align="center" class="thead">Team</td>
-      <td align="center" class="thead">First Unit</td>
-      <td align="center" class="thead">Last Unit</td>
-      <td align="right" class="thead">Days</td>
-      <td align="right" class="thead">Current Members</td>
-      <td align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Overall</td>
-      <td align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Yesterday</td>
-    </tr>
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+    <thead>
+       <th><?=$btn_back?></th>
+       <th colspan="6">&nbsp;</th>
+       <th align="right" class="tfoot"><?=$btn_fwd?></th>
+    </thead>
+    <thead>
+      <th align="center" class="thead">Rank</th>
+      <th align="center" class="thead">Team</th>
+      <th align="center" class="thead">First Unit</th>
+      <th align="center" class="thead">Last Unit</th>
+      <th align="right" class="thead">Days</th>
+      <th align="right" class="thead">Current Members</th>
+      <th align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Overall</th>
+      <th align="right" class="thead"><?=$gproj->get_scaled_unit_name()?> Yesterday</th>
+    </thead>
     <?
     $totalblocks=0;
     $totalblocksy=0;
@@ -72,8 +72,6 @@ if ( $rows >= $limit ) {
       $teamTmp =& $result[$i];
       $statsTmp =& $teamTmp->get_current_stats();
 
-      $row_bgnd_color = row_background_color($i);
-
       $totalblocks += (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
       $totalblocksy += (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
       $decimal_places=0;
@@ -82,7 +80,7 @@ if ( $rows >= $limit ) {
 
       $teamid = $teamTmp->get_id();
       ?>
-      <tr class="<?=$row_bgnd_color?>">
+      <tr>
         <td><?=$statsTmp->get_stats_item('rank')?><?=html_rank_arrow($statsTmp->get_stats_item('rank_change'))?></td>
         <td><a href="tmsummary.php?project_id=<?=$project_id?>&amp;team=<?=$teamid?>"><?= safe_display($teamTmp->get_name()) ?></a></td>
         <td align="right"><?=$first?></td>

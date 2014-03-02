@@ -22,16 +22,16 @@ $lastupdate = last_update('e');
 include "../templates/header.inc";
 
 ?>
-     <div><br></div>
-      <table border="1" cellspacing="0" cellpadding="1" width="100%" class="tborder">
-      <tr>
+<div class="table-responsive">
+  <table class="table table-bordered table-striped">
+      <thead>
        <th class="thead">Rank</th>
        <th class="thead">Participant</th>
        <th class="thead" align="right">First Unit</th>
        <th class="thead" align="right">Last Unit</th>
        <th class="thead" align="right">Days</th>
        <th class="thead" align="right"><?=$gproj->get_scaled_unit_name()?></th>
-      </tr>
+      </thead>
 <?
 
 $totalrows = 0;

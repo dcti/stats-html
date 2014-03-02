@@ -35,18 +35,13 @@ include "../templates/header.inc";
 
 ?>
 
-<!-- IMPORTANT NOTE TO SCRIPTERS!
-This page, like many stats pages, has a version which is far more suitable
-for machine parsing.  Please try the url:
-http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id&id=$id
--->
     <p align="center"><a href="psummary.php?project_id=<?=$project_id?>&amp;id=<?=$id?>">View <?=safe_display($gpart->get_display_name())?>'s Participant Summary</a></p>
-      <table align="center" border="1" cellspacing="0" cellpadding="1" >
-      <tr>
+      <table align="center" border="1" cellspacing="0" cellpadding="1" width="400">
+      <thead>
        <th class="thead">Date</th>
        <th class="thead" align="right"><?=$gproj->get_scaled_unit_name()?></th>
-       <th class="thead">&nbsp;</th>
-      </tr>
+       <th class="thead" width="100%">&nbsp;</th>
+      </thead>
 <?
 
 $maxwork_units = (double) 0;
@@ -62,15 +57,16 @@ foreach ($history as $histrow)
 {
     $work_units_fmt = number_format($histrow->work_units*$gproj->get_scale(), 0);
     $date_fmt = $histrow->stats_date;
-    $width = (int) (((double)$histrow->work_units / $maxwork_units) * 200) + 1;
-    ?>
+    $width = (int) (((double)$histrow->work_units / $maxwork_units) * 100) + 1;
+  ?>
       <tr class=<?=row_background_color($i);?>>
-      <? if ( $random_stats == 1 ) { ?>
-        <!-- Mmmm... random data... -->
-      <? } ?>
-        <td><?=$date_fmt?></td>
+        <td> <?=$date_fmt?></td>
         <td align="right"><?=$work_units_fmt?></td>
-        <td align="left"><img src="/images/bar.jpg" height="8" width="<?=$width?>" alt=""></td>
+        <td align="left"><div class="progress progress-striped active">
+  <div class="progress-bar"  role="progressbar" aria-valuenow="<?=$width?>" aria-valuemin="0" aria-valuemax="<?=$maxwork_units?>" style="width: <?=$width?>%">
+    <span class="sr-only"><?=$width?>% Complete</span>
+  </div>
+</div></td>
       </tr>
 <?
 	$i++;

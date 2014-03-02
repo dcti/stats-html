@@ -69,25 +69,15 @@ class ParticipantStats {
      */
     function load($id, &$project, $date)
     {
-        global $random_stats, $random_function;
-
         $qs  = "SELECT last_date + 1 - first_date as Days_Working,";
-        if ( $random_stats == 1 ) {
-            $qs .= "                day_rank$random_function::int AS day_rank, overall_rank$random_function::int AS overall_rank,";
-            $qs .= "                work_today$random_function AS work_today, work_total$random_function AS work_total,";
-        } else {
-            $qs .= "                day_rank, overall_rank,";
-            $qs .= "                work_today, work_total,";
-        }
+        $qs .= "                day_rank, overall_rank,";
+        $qs .= "                work_today, work_total,";
         $qs .= "                overall_rank_previous-overall_rank as overall_change,";
         $qs .= "                day_rank_previous-day_rank as day_change, ";
 	$qs .= "		first_date, last_date ";
         $qs .= "        FROM email_rank ";
         $qs .= "        WHERE id = " . $this->_db->prepare_int($id);
         $qs .= "            AND project_id = " . $this->_db->prepare_int($project->get_id());
-        if ($date != -1) {
-            // do..
-        }
 
         $this -> _state = $this -> _db -> query_first ($qs);
         return $this -> are_stats_loaded();
@@ -111,14 +101,8 @@ class ParticipantStats {
 
     function get_stats_history($lastdays = -1)
     {
-        global $random_stats, $random_function;
-
         $qs  = "SELECT to_char(date, 'dd-Mon-yyyy') as stats_date,";
-        if ( $random_stats == 1 ) {
-            $qs .= "              SUM(work_units)$random_function as work_units";
-        } else {
-            $qs .= "              SUM(work_units) as work_units";
-        }
+        $qs .= "              SUM(work_units) as work_units";
         $qs .= "       FROM email_contrib ec, stats_participant sp";
         $qs .= "       WHERE ec.project_id=" . $this->_db->prepare_int($this->_project->get_id());
         $qs .= "         AND (sp.id=".$this->_id." or sp.retire_to=" . $this->_db->prepare_int($this->_id).")";

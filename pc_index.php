@@ -31,7 +31,6 @@
 
   // @todo - this returns date in wrong format for lastupdate
   $lastupdate = $gprojstats->get_stats_item('date');
-  display_last_update('i');
 
   $yest_scaled_work_units = number_format( (double) $gprojstats->get_stats_item('work_units') * $gproj->get_scale());
   $yest_unscaled_work_units = number_format( (double) $gprojstats->get_stats_item('work_units'));
@@ -302,10 +301,15 @@
    <?if( $gproj->get_type() == 'OGRP2' ){?>
    <a name="ogrfootnote"></a>
    <p><font size="-2">
-      For more information about OGR Phase 1 and Phase 2, please <a href="http://n0cgi.distributed.net/faq/cache/230.html">read our FAQ page</a>.
+      For more information about OGR Phase 1 and Phase 2, please <a href="http://faq.distributed.net/cache/230.html">read our FAQ page</a>.
    </font></p>
    <br /><br />
    <?}?>
 
 
    </div>
+
+<div class="well">
+ <?php display_last_update('i'); ?>
+</div>
+

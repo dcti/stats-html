@@ -99,6 +99,10 @@ class Project {
         return $this -> _type;
     }
 
+    function is_project_loaded() {
+        return !($this -> _state === null);
+    }
+
     /**
      * Instantiates a new project object, and loads it with the specified project's information.
      *
