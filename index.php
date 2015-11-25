@@ -1,6 +1,8 @@
 <?php
   include "etc/global.inc";
   include "etc/modules.inc";
+
+  $title = "Welcome";
   include "templates/header.inc";
 ?>
     <div class="jumbotron">
