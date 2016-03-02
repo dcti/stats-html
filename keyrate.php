@@ -56,6 +56,16 @@ if ($project_id == 8) { ?>
       <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1y.png" alt="...">
     </a>
   </div>
+  <div class="col-xs-6 col-md-3">
+    <a href="http://bovine.statsdev.distributed.net/ogrng-rate-1m.png" class="thumbnail">
+      <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1m.png" alt="...">
+    </a>
+  </div>
+  <div class="col-xs-6 col-md-3">
+    <a href="http://bovine.statsdev.distributed.net/ogrng-rate-1w.png" class="thumbnail">
+      <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1w.png" alt="...">
+    </a>
+  </div>
 </div>
 
 <?php } else { ?>
