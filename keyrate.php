@@ -20,6 +20,9 @@ if ($project_id == 8) { ?>
     <img src="http://bovine.statsdev.distributed.net/ogrng-rate-10y.png"><br>
     <img src="http://bovine.statsdev.distributed.net/ogrng-rate-3y.png"><br>
     <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1y.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1m.png"><br>
+    <img src="http://bovine.statsdev.distributed.net/ogrng-rate-1w.png"><br>
+
 
 <?php } else { ?>
 <p>There is no keyrate information available for this project</p>
