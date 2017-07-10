@@ -85,13 +85,13 @@ no reason to be alarmed, they cannot get to your password this way.
 
 You may edit your personal information by visiting:
 
- http://stats.distributed.net/participant/pedit.php?id=$id&pass=$pass
+ https://stats.distributed.net/participant/pedit.php?id=$id&pass=$pass
 
 If you'd prefer to not have your id/password revealed in the http logs
 (this is a concern if you use a proxy), you can simply use the
 url:
 
- http://stats.distributed.net/participant/pedit.php
+ https://stats.distributed.net/participant/pedit.php
 
 You will be prompted for your email address and password.  Note, you
 should use your ID # as the 'username' when using this
@@ -99,7 +99,7 @@ method of authentication.
 
 To see your participant stats, visit:
 
- http://stats.distributed.net/participant/psummary.php?id=$id
+ https://stats.distributed.net/participant/psummary.php?id=$id
 
 Do not reply to this email.  Replies to this email will never be seen
 by a real, live person.  If you need further assistance, please mail
