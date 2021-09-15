@@ -136,7 +136,7 @@ The server is currently undergoing maintenance. As a result, you cannot currentl
         <hr>
 <?php if ($readonly_tmedit == 0) { ?>
        <input name="team" type="hidden" value="<?=$tm?>">
-       <input name="pass" type="hidden" value="<?=$pass?>">
+       <input name="pass" type="hidden" value="<?=htmlspecialchars($pass)?>">
        <input value="Update information" type="submit">
 <?php } ?>
       </td>
