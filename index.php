@@ -14,8 +14,8 @@
     </p>
     <p>
     Running progress and development announcements can be found in
-    <a href="http://blogs.distributed.net/">staff .plans/blogs</a>
-    and the announcements <a href="http://www.distributed.net/Discussion#lists">mailing list</a>.
+    <a href="https://blogs.distributed.net/">staff .plans/blogs</a>
+    and the announcements <a href="https://www.distributed.net/Discussion#lists">mailing list</a>.
     </p>
     <p>
     For those of you that have a morbid fascination about the statsbox
@@ -43,8 +43,7 @@
         </div>
         <div class="col-md-4"> 
           <h3>Cross-Project Statistics</h3>
-          <p><a href="http://n1cgi.distributed.net/speed/">Client speed comparison database (live)</a></p>
-          <p><a href="http://n1cgi.distributed.net/proxymessages.html">Proxy greeting Messages (revised at least hourly)</a></p>
+          <p><a href="https://cgi.distributed.net/speed/">Client speed comparison database (live)</a></p>
         </div>
       </div>
    </div>
