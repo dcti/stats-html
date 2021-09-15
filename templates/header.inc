@@ -6,6 +6,9 @@ if (isset($project_id)) {
 } else {
 	$t_project_id = "";
 }
+if (!isset($myname)) {
+    $myname = "";
+}
 
 
 
