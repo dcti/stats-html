@@ -61,12 +61,12 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  for($i=0; $i < strlen($view); $i++) {
    $ch = substr($view,$i,1);
    if($ch == 'c') {
-     $selstr = "$selstr min(coalesce(c.name, 'Unknown')) AS cpuname, min(coalesce(c.image, 'unknown.gif')) AS cpuimage,";
+     $selstr = "$selstr min(coalesce(c.name, c.cpu::varchar)) AS cpuname, min(coalesce(c.image, 'unknown.gif')) AS cpuimage,";
      $frostr = "$frostr LEFT JOIN STATS_cpu c ON ( c.cpu = p.cpu )";
      $ordstr = "$ordstr cpuname,";
    }
    if($ch == 'o') {
-     $selstr = "$selstr min(coalesce(o.name, 'Unknown')) AS osname, min(coalesce(o.image, 'unknown.gif')) AS osimage,";
+     $selstr = "$selstr min(coalesce(o.name, o.os::varchar)) AS osname, min(coalesce(o.image, 'unknown.gif')) AS osimage,";
      $frostr = "$frostr LEFT JOIN STATS_os o ON ( o.os = p.os )";
      $ordstr = "$ordstr osname,";
    }
