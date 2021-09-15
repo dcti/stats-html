@@ -163,13 +163,13 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
    $padding = (int) $cols - 1;
    print "
    <tr>
-	<td class= \"tfoot\" align=\"right\" colspan=\"$padding\">Total</td>";
+	<td class=\"tfoot\" align=\"right\" colspan=\"$padding\">Total</td>";
 
    if ($show_yesterday) {
-     print "<td class= \"tfoot\" align=\"right\">" . number_style_convert($total_yesterday, 0) . "</td>\n";
+     print "<td class=\"tfoot\" align=\"right\">" . number_style_convert($total_yesterday, 0) . "</td>\n";
    }
    if ($show_total) {
-     print "<td class= \"tfoot\" align=\"right\">" . number_style_convert($total_overall, 0) . "</td>\n";
+     print "<td class=\"tfoot\" align=\"right\">" . number_style_convert($total_overall, 0) . "</td>\n";
    }
  }
 
