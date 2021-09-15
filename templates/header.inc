@@ -17,7 +17,6 @@ if (isset($project_id)) {
   <link rel="stylesheet" type="text/css" href="/css/default.css" />
  </head>
  <body>
- <a href="http://stats.distributed.net/~decibel/thisegg.php"><!-- tacit --></a>
   <table width="100%" border="0" cellpadding="1" cellspacing="0">
   <colgroup><col><col width="33%"><col width="33%"><col width="33%"></colgroup>
    <tr>
@@ -30,8 +29,8 @@ if (isset($project_id)) {
    </tr>
    <tr>
     <td colspan="4" align="center" class="hcontent">
-      <a href="http://bugs.distributed.net/buglist.cgi?product=Stats&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED" style="color: red; font-weight:bolder">Bug Database</a>&nbsp;&nbsp;&nbsp;&nbsp;
-      <a href="http://blogs.distributed.net/" style="color:red; font-weight:bolder">Staff Blogs</a>
+      <a href="https://bugs.distributed.net/buglist.cgi?product=Stats&bug_status=UNCONFIRMED&bug_status=NEW&bug_status=ASSIGNED&bug_status=REOPENED" style="color: red; font-weight:bolder">Bug Database</a>&nbsp;&nbsp;&nbsp;&nbsp;
+      <a href="https://blogs.distributed.net/" style="color:red; font-weight:bolder">Staff Blogs</a>
     </td>
   </tr>
    <tr valign="top">
