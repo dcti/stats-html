@@ -54,7 +54,7 @@ function authfail($why,$tfrom,$tid,$tpass,$desc = "") {
        		$test_from = "auth";
    		}
    	}
-}
+
 
 // @TODO - pass null or gproj here?
 $gpart = new Participant($gdb, $gproj, $test_id);
