@@ -554,7 +554,7 @@ class Team
          *        int The number to return (starting at rank)
          *        int [output] The total number of ranked teams
          ***/
-         function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
+         public static function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
          {
            // First, we need to determine which query to run...
            if($source == 'y')
@@ -611,7 +611,7 @@ class Team
          * @param string The search string
          *        int The maximum number to return
          ***/
-         function &get_search_list($sstr, $limit = 50, &$db, &$project)
+         public static function &get_search_list($sstr, $limit = 50, &$db, &$project)
          {
            $sstr = strtolower( trim( $sstr ) );
 

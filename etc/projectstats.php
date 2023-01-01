@@ -79,7 +79,7 @@ class ProjectStats {
      * @return void
      * @param DBClass $ The database connectivity to use
      */
-    function ProjectStats($dbPtr,$project)
+    function __construct($dbPtr,$project)
     {
         $this->_db = $dbPtr;
         $this->_id = $project;
