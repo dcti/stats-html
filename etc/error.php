@@ -21,7 +21,7 @@ class ErrorHandler {
     /**
      * Construct a new error handler.
      */
-    function ErrorHandler($verbose = false, $proceed_url = null) {
+    function __construct($verbose = false, $proceed_url = null) {
         $this->verbose = $verbose;
         $this->proceed_url = $proceed_url;
     }

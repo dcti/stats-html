@@ -135,7 +135,7 @@ class Team
          * @param DBClass The database connectivity to use
          *        ProjectClass The current Project
          ***/
-         function Team(&$dbPtr, &$prjPtr, $team_id = -1)
+         function __construct(&$dbPtr, &$prjPtr, $team_id = -1)
 	 {
 	    $this->_db =& $dbPtr;
 	    $this->_project =& $prjPtr;

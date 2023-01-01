@@ -44,7 +44,7 @@ class ParticipantStats {
      *             ProjectClass The project to retrieve stats for
      *             date The stats date to load
      */
-    function ParticipantStats(&$dbPtr, &$project, $id = -1, $date = -1)
+    function __construct(&$dbPtr, &$project, $id = -1, $date = -1)
     {
         $this -> _db =& $dbPtr;
         $this -> _project =& $project;

@@ -550,7 +550,7 @@ class Participant {
      *                                  ProjectClass The current project
      *                                  int The ID of the participant to load
      */
-    function Participant($dbPtr, $prjPtr, $id = -1, $include_banned = false )
+    function __construct($dbPtr, $prjPtr, $id = -1, $include_banned = false )
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
@@ -768,7 +768,7 @@ class Participant {
     {
     }
 
-    function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
+    public static function &get_ranked_list($source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
     {
         // First, we need to determine which query to run...
         if ($source == 'y') {
@@ -822,7 +822,7 @@ class Participant {
      * @param string The search string
      *        int The maximum number to return
      */
-    function &get_search_list($sstr, $limit = 50, &$db, &$project)
+    public static function &get_search_list($sstr, $limit = 50, &$db, &$project)
     {
         $sstr = strtolower( trim( $sstr ) );
 
@@ -871,7 +871,7 @@ class Participant {
      * @param string The search string
      *        int The maximum number to return
      */
-    function &get_search_list_no_stats($sstr, $limit = 50, &$db)
+    public static function &get_search_list_no_stats($sstr, $limit = 50, &$db)
     {
         $sstr = strtolower($sstr);
 
@@ -911,7 +911,7 @@ class Participant {
      * @param string The search string
      *        int The maximum number to return
      */
-    function &get_search_list_no_stats_all($sstr, $limit = 50, &$db)
+    public static function &get_search_list_no_stats_all($sstr, $limit = 50, &$db)
     {
         $sstr = strtolower($sstr);
 
@@ -944,7 +944,7 @@ class Participant {
      *        int The number to return (starting at rank)
      *        int [output] The total number of ranked participants
      */
-    function &get_team_list($teamid, $source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
+    public static function &get_team_list($teamid, $source = 'o', $start = 1, $limit = 100, &$total, &$db, &$project)
     {
         // First, we need to determine which query to run...
         if($source == 'y') {

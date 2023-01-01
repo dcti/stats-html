@@ -26,7 +26,7 @@ class TeamStats
      * @return void
      * @param DBClass The database connectivity to use
      ***/
-    function TeamStats(&$dbPtr, &$prjPtr, $team_id = -1, $stats_date = -1)
+    function __construct(&$dbPtr, &$prjPtr, $team_id = -1, $stats_date = -1)
     {
         $this->_db =& $dbPtr;
         $this->_project =& $prjPtr;

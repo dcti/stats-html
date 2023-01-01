@@ -107,7 +107,7 @@ class Project {
      * @param DBClass $ The database connectivity to use
      *             int The ID of the project to load
      */
-    function Project($dbPtr, $id)
+    function __construct($dbPtr, $id)
     {
         $this -> _db = $dbPtr;
         $this -> _id = $id;
