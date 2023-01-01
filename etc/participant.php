@@ -277,8 +277,8 @@ class Participant {
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp =& new Participant($this->_db, $this->_project);
-            $statsTmp =& new ParticipantStats($this->_db, $this->_project);
+            $partTmp = new Participant($this->_db, $this->_project);
+            $statsTmp = new ParticipantStats($this->_db, $this->_project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
             $retVal[] = $partTmp;
@@ -342,8 +342,8 @@ class Participant {
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp =& new Participant($this->_db, $this->_project);
-            $statsTmp =& new ParticipantStats($this->_db, $this->_project);
+            $partTmp = new Participant($this->_db, $this->_project);
+            $statsTmp = new ParticipantStats($this->_db, $this->_project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
             $retVal[] = $partTmp;
@@ -800,8 +800,8 @@ class Participant {
         $cnt = count($result);
 
         for($i = 0; $i < $cnt; $i++) {
-            $partTmp =& new Participant($db, $project, null);
-            $statsTmp =& new ParticipantStats($db, $project);
+            $partTmp = new Participant($db, $project, null);
+            $statsTmp = new ParticipantStats($db, $project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
             $retVal[] = $partTmp;
@@ -848,8 +848,8 @@ class Participant {
 
         for($i = 0; $i < $cnt; $i++)
         {
-            $partTmp =& new Participant($db, $project);
-            $statsTmp =& new ParticipantStats($db, $project);
+            $partTmp = new Participant($db, $project);
+            $statsTmp = new ParticipantStats($db, $project);
             $statsTmp->explode($result[$i]);
             $partTmp->explode($result[$i], $statsTmp);
             $retVal[] = $partTmp;
@@ -977,8 +977,8 @@ class Participant {
         $cnt = count($result);
         for($i = 0; $i < $cnt; $i++)
         {
-            $parTmp =& new Participant($db, $project, null);
-            $statsTmp =& new ParticipantStats($db, $project);
+            $parTmp = new Participant($db, $project, null);
+            $statsTmp = new ParticipantStats($db, $project);
             $statsTmp->explode($result[$i]);
             $parTmp->explode($result[$i], $statsTmp);
             $retVal[] = $parTmp;

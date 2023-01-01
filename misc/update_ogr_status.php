@@ -41,7 +41,7 @@
      $result = array();
      for($i = 0; $i < $cnt; $i++)
      {
-       $tmp =& new StubspaceStats();
+       $tmp = new StubspaceStats();
        $tmp->project_id = $history[$i]->get_project_id();
        $tmp->stubspace_id = $history[$i]->get_stubspace_id();
        $tmp->stats_date = $history[$i]->get_stats_date();

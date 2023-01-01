@@ -35,7 +35,7 @@ class ErrorHandler {
      * @param errline  the line number in which the error occured.
      * @param errcontext  the context in which the error occured (array).
      */
-    function error_handler($errno, $errstr, $errfile, $errline, $errcontext) {
+    function error_handler($errno, $errstr, $errfile, $errline, $errcontext = null) {
         # Check if error reporting is turned off.
         if (error_reporting() == 0) {
             return;
@@ -72,7 +72,7 @@ class ErrorHandler {
      * @param errline  the line number in which the error occured.
      * @param errcontext  the context in which the error occured (array).
      */
-    function inline_error($errtype, $errstr, $errfile, $errline, $errcontext) {
+    function inline_error($errtype, $errstr, $errfile, $errline, $errcontext = null) {
         global $debug;
 
         echo '<p style="color: red;">' . $errtype . ': ' . nl2br(htmlentities($errstr)) . '</p>';
@@ -90,7 +90,7 @@ class ErrorHandler {
      * @param errline  the line number in which the error occured.
      * @param errcontext  the context in which the error occured (array).
      */
-    function halt_error($errtype, $errstr, $errfile, $errline, $errcontext) {
+    function halt_error($errtype, $errstr, $errfile, $errline, $errcontext = null) {
         global $debug;
 
         $output_buffer = ob_get_contents();
@@ -150,6 +150,7 @@ class ErrorHandler {
      * @access static
      */
     function print_context($errcontext) {
+        if ($errcontext == null) return;
         ?>
         <table>
             <tr><th>Variable</th><th>Value</th><th>Type</th></tr>
