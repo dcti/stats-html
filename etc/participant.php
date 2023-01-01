@@ -276,6 +276,7 @@ class Participant {
         $total = $this->_db->num_rows($queryData);
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
+	$retVal = [];
         for($i = 0; $i < $cnt; $i++) {
             $partTmp = new Participant($this->_db, $this->_project);
             $statsTmp = new ParticipantStats($this->_db, $this->_project);
@@ -341,6 +342,7 @@ class Participant {
         $total = $this->_db->num_rows($queryData);
         $result =& $this->_db->fetch_paged_result($queryData);
         $cnt = count($result);
+        $retVal = [];
         for($i = 0; $i < $cnt; $i++) {
             $partTmp = new Participant($this->_db, $this->_project);
             $statsTmp = new ParticipantStats($this->_db, $this->_project);
@@ -799,6 +801,8 @@ class Participant {
         $result =& $db->fetch_paged_result($queryData, 0, $limit);
         $cnt = count($result);
 
+	$retVal = [];
+
         for($i = 0; $i < $cnt; $i++) {
             $partTmp = new Participant($db, $project, null);
             $statsTmp = new ParticipantStats($db, $project);
@@ -846,6 +850,8 @@ class Participant {
         $result =& $db->fetch_paged_result($queryData, 1, $limit);
         $cnt = count($result);
 
+	$retVal = [];
+
         for($i = 0; $i < $cnt; $i++)
         {
             $partTmp = new Participant($db, $project);
@@ -885,6 +891,7 @@ class Participant {
         // Actually run the query...
         $queryData = $db->query_bound($qs, array( "%$sstr%", (int)$limit ));
         $total = $db->num_rows($queryData);
+	$retVal = [];
         for($i = 0; $i < $total; $i++)
         {
             $obj = $db->fetch_object($queryData);
@@ -923,6 +930,7 @@ class Participant {
         // Actually run the query...
         $queryData = $db->query_bound($qs, array( "%$sstr%", (int)$limit ));
         $total = $db->num_rows($queryData);
+	$retVal = [];
         for($i = 0; $i < $total; $i++)
         {
             $retVal[] = $db->fetch_object($queryData);
@@ -975,6 +983,7 @@ class Participant {
         $total = $db->num_rows($queryData);
         $result =& $db->fetch_paged_result($queryData, $start, $limit);
         $cnt = count($result);
+	$retVal = [];
         for($i = 0; $i < $cnt; $i++)
         {
             $parTmp = new Participant($db, $project, null);

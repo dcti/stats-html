@@ -426,6 +426,7 @@ class Team
 
            $result = $this->_db->fetch_paged_result($queryData);
            $cnt = count($result);
+           $retVal = [];
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($this->_db, $this->_project);
@@ -469,6 +470,7 @@ class Team
 
            $result = $this->_db->fetch_paged_result($queryData);
            $cnt = count($result);
+           $retVal = [];
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($this->_db, $this->_project);
@@ -588,6 +590,7 @@ class Team
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 0, $limit);
            $cnt = count($result);
+           $retVal = [];
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($db, $project);
@@ -634,6 +637,7 @@ class Team
            $total = $db->num_rows($queryData);
            $result =& $db->fetch_paged_result($queryData, 1, $limit);
            $cnt = count($result);
+           $retVal = [];
            for($i = 0; $i < $cnt; $i++)
            {
              $teamTmp = new Team($db, $project);
