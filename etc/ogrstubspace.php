@@ -161,7 +161,7 @@ class OGRStubspace
       $dbCount = count($dbResults);
       for($i = 0; $i < $dbCount; $i++)
       {
-        $newResult =& new OGRStubspace($dbPtr, $prjPtr);
+        $newResult = new OGRStubspace($dbPtr, $prjPtr);
         $newResult->explode($dbResults[$i]);
         $result[] = $newResult;
         unset($newResult);
@@ -362,7 +362,7 @@ class OGRStubspaceStats {
         $retVal = array();
         for($i = 0; $i < $cnt; $i++)
         {
-            $tmp =& new OGRStubspaceStats($dbPtr, $prjPtr);
+            $tmp = new OGRStubspaceStats($dbPtr, $prjPtr);
             $tmp->explode($results[$i]);
             $retVal[] = $tmp;
             unset($tmp);

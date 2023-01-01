@@ -32,7 +32,7 @@
     exit();
   }
 
-  $teamPtr =& new Team($gdb, $gproj, $team);
+  $teamPtr = new Team($gdb, $gproj, $team);
   $teamcontact = $teamPtr->get_contact_name();
 
   $pass = $teamPtr->get_password();
