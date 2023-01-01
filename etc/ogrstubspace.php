@@ -45,7 +45,7 @@ class OGRStubspace
      * @param ProjectClass $prjPtr The current project
      * @param int $id The ID of the stubspace to load
      */
-    function OGRStubspace($dbPtr, $prjPtr, $id = -1)
+    function __construct($dbPtr, $prjPtr, $id = -1)
     {
         $this -> _db = $dbPtr;
         $this -> _project = $prjPtr;
@@ -137,7 +137,7 @@ class OGRStubspace
      * @param ProjectClass $prjPtr The project to retrieve the list for [required for static invocation]
      * @param DBClass $dbPtr The database to retrieve the list from [required for static invocation]
      */
-    function &get_stubspace_list($prjPtr = null, $dbPtr = null)
+    public static function &get_stubspace_list($prjPtr = null, $dbPtr = null)
     {
       if($prjPtr == null)
       {
@@ -166,7 +166,6 @@ class OGRStubspace
         $result[] = $newResult;
         unset($newResult);
       }
-      
       return $result;
     }
 
@@ -273,7 +272,7 @@ class OGRStubspaceStats {
      * @return void
      * @param DBClass $ The database connectivity to use
      */
-    function OGRStubspaceStats($dbPtr, $prjPtr, $id = -1, $date = -1)
+    function __construct($dbPtr, $prjPtr, $id = -1, $date = -1)
     {
         $this->_db =& $dbPtr;
         $this->_project =& $prjPtr;
