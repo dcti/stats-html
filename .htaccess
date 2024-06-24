@@ -11,8 +11,6 @@
  Allow from .distributed.net
  # Cowhaus
  Allow from .bovine.net
- Allow from 99.153.64.72/29
- Allow from 99.23.192.252
  # ChrisJ
  Allow from .aprole.com
  Allow from 14.200.107.190
@@ -26,6 +24,9 @@
 
 RewriteEngine On
 RewriteBase /
+
+# block repo metadata
+RewriteRule ^\.git - [F]
 
 # team files that used to be in the root directory.
 RewriteRule ^(tm[a-z_]*|newteam[1-4])\.php3$ /team/$1.php  [R]
