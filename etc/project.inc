@@ -16,7 +16,7 @@ if (isset($_REQUEST['project_id'])) {
 	if (isset($default_project)) {
     $project_id = $default_project;
 	} else {
-		$project_id = 27;
+		$project_id = 8;
 	}
 }
 
