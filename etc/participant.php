@@ -507,7 +507,7 @@ class Participant {
      */
     function get_display_name()
     {
-        return $this -> get_display_name_internal($this -> get_id(),
+        return self::get_display_name_internal($this -> get_id(),
                                                   $this -> get_email(),
                                                   $this -> get_contact_name(),
                                                   $this -> _state -> listmode);
@@ -527,7 +527,7 @@ class Participant {
      * @param string $ The participant's contact name
      * @param string $ The participant's listmode
      */    
-    function &get_display_name_internal($id, $email, $contact_name, $listmode) {
+    public static function &get_display_name_internal($id, $email, $contact_name, $listmode) {
         if ($listmode == 0 || $listmode == 8 || $listmode == 9) {
             $listas = $email;
         } else if ($listmode == 1) {
