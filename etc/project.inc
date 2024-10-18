@@ -13,11 +13,11 @@ $myname = $_SERVER['SCRIPT_NAME'];
 if (isset($_REQUEST['project_id'])) {
     $project_id = (int)$_REQUEST['project_id'];
 } else {
-	if (isset($default_project)) {
-    $project_id = $default_project;
-	} else {
-		$project_id = 8;
-	}
+    if (isset($default_project)) {
+        $project_id = $default_project;
+    } else {
+        $project_id = 8;
+    }
 }
 
 if (isset($_GET['source'])) {
