@@ -206,7 +206,7 @@ class ErrorHandler {
                             $args[] = $this->build_parameter_string($value);
                         }
                     }
-                    echo '<td>( ' . htmlentities(implode($args, ', ')) . ' )</td></tr>';
+                    echo '<td>( ' . htmlentities(implode(', ', $args)) . ' )</td></tr>';
                 }
                 ?>
             </table>
@@ -227,7 +227,7 @@ class ErrorHandler {
             foreach ($param as $key => $value) {
                 $results[] = '[' . $this->build_parameter_string($key) . '] => ' . $this->build_parameter_string($value);
             }
-            return '{ ' . implode($results, ', ') . ' }';
+            return '{ ' . implode(', ', $results) . ' }';
         } else if (is_bool($param)) {
             if ($param) {
                 return 'true';
@@ -245,7 +245,7 @@ class ErrorHandler {
             foreach ($inst_vars as $name => $value) {
                 $results[] = '[' . $name . '] => ' . $this->build_parameter_string($value);
             }
-            return 'Object <' . $class_name . '> ( ' . implode($results, ', ') . ' )';
+            return 'Object <' . $class_name . '> ( ' . implode(', ', $results) . ' )';
         } else if (is_string($param)) {
             return "'" . $param . "'";
         }
