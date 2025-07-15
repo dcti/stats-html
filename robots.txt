@@ -53,6 +53,7 @@ DisallowAITraining: /
 # and may not be supported by all AI crawlers.
 User-Agent: *
 DisallowAITraining: /
+Content-Usage: ai=n
 
 # Block everything else.
 User-agent: *
