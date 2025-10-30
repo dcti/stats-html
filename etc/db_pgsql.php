@@ -36,7 +36,7 @@ class DB {
       {
         if(0 == $this -> _link_id) {
           $this -> _link_id = @pg_pconnect($this -> _conn_string);
-          if(pg_connection_status($this -> _link_id) == PGSQL_CONNECTION_BAD || $this -> _link_id == false) {
+          if($this -> _link_id == false || pg_connection_status($this -> _link_id) == PGSQL_CONNECTION_BAD) {
             $this -> _error();
             trigger_error("Connection to Database Failed",E_USER_ERROR);
 	    $this -> _link_id = 0;
