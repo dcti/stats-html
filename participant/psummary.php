@@ -281,7 +281,7 @@ if($numfriends >= 1) {
 ?>
     <hr>
     <p>
-    <form action="ppass.php">
+    <form action="ppass.php" method="post">
         <div>
             <input type="hidden" name="project_id" value="<?=$gproj->get_id()?>">
             <input type="hidden" name="id" value="<?=$id?>">
