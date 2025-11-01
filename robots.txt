@@ -51,7 +51,6 @@ User-Agent: Cotoyogi
 User-Agent: aiHitBot
 User-Agent: Factset_spyderbot
 User-Agent: FirecrawlAgent
-
 Disallow: /
 DisallowAITraining: /
 
