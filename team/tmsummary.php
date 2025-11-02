@@ -215,7 +215,7 @@ if (private_markupurl_safety($team->get_logo()) != "") {
         <input value="Edit" type="submit">
       </p>
     </form>
-    <form action="tmpass.php"><p>
+    <form action="tmpass.php" method="post"><p>
     If you are the team coordinator, and you've forgotten your team password,<br> click
     <input type="hidden" name="team" value="<?=$team->get_id()?>">
     <input type="submit" value="here"> and the password will be mailed to
