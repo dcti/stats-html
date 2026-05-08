@@ -61,8 +61,8 @@ if ($debug == 1)
    $gdb->data_seek($i);
    $par = $gdb->fetch_object($country);
    $recs = (int) $par->recs;
-   $units_total = (double) $par->units_total;
-   $units_today = (double) $par->units_today;
+   $units_total = (float) $par->units_total;
+   $units_today = (float) $par->units_today;
    $f_recs = number_style_convert($recs);
    $f_units_total = number_style_convert($units_total);
    $f_blockavg_total = number_style_convert($units_total/$recs);

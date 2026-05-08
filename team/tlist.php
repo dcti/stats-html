@@ -74,8 +74,8 @@ if ( $rows >= $limit ) {
 
       $row_bgnd_color = row_background_color($i);
 
-      $totalblocks += (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
-      $totalblocksy += (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
+      $totalblocks += (float) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
+      $totalblocksy += (float) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
       $decimal_places=0;
       $first = $statsTmp->get_stats_item('first_date');
       $last = $statsTmp->get_stats_item('last_date');
@@ -89,8 +89,8 @@ if ( $rows >= $limit ) {
         <td align="right"><?=$last?></td>
         <td align="right"><?=number_format($statsTmp->get_stats_item('days_working'), 0)?></td>
         <td align="right"><?=number_format($statsTmp->get_stats_item('members_current'), 0)?></td>
-        <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale(), 0)?></td>
-        <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale(), 0)?></td>
+        <td align="right"><?=number_format( (float) $statsTmp->get_stats_item('work_total') * $gproj->get_scale(), 0)?></td>
+        <td align="right"><?=number_format( (float) $statsTmp->get_stats_item('work_today') * $gproj->get_scale(), 0)?></td>
       </tr>
       <?
       unset($teamTmp);

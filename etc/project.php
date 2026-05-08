@@ -131,8 +131,8 @@ class Project {
 
         $this -> _name = $prj_info -> name;
         $this -> _type = $prj_info -> project_type;
-        $this -> _totalunits = (double)$prj_info -> work_unit_qty;
-        $this -> _scale = (double)$prj_info -> work_unit_disp_multiplier / $prj_info -> work_unit_disp_divisor;
+        $this -> _totalunits = (float)$prj_info -> work_unit_qty;
+        $this -> _scale = (float)$prj_info -> work_unit_disp_multiplier / $prj_info -> work_unit_disp_divisor;
         $this -> _scaled_unit_name = $prj_info -> scaled_work_unit_name;
         $this -> _unscaled_unit_name = $prj_info -> unscaled_work_unit_name;
         $this -> _state = $prj_info ;

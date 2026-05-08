@@ -61,7 +61,7 @@ $rows = count($result);
       </tr>
  <?
 
- $totalblocks = (double) 0;
+ $totalblocks = (float) 0;
  if($rows <= 0)
  {
    echo "<tr><td colspan=\"6\">No Matching Records Found</td></tr>\n";
@@ -70,7 +70,7 @@ $rows = count($result);
    $ROWparticipant = $result[$i];
    $ROWstats = $ROWparticipant->get_current_stats();
    $id = (int) $ROWparticipant->get_id();
-   $totalblocks += (double) $ROWstats->get_stats_item("work_total") * $gproj->get_scale();
+   $totalblocks += (float) $ROWstats->get_stats_item("work_total") * $gproj->get_scale();
 
 	?>
 	<tr class="<?=row_background_color($i)?>">
@@ -79,7 +79,7 @@ $rows = count($result);
          <td align="right"><?=$ROWstats->get_stats_item("first_date")?></td>
          <td align="right"><?=$ROWstats->get_stats_item("last_date")?></td>
          <td align="right"><?=number_style_convert($ROWstats->get_stats_item("days_working"))?></td>
-         <td align="right"><?=number_style_convert( (double) $ROWstats->get_stats_item("work_total") * $gproj->get_scale())?></td>
+         <td align="right"><?=number_style_convert( (float) $ROWstats->get_stats_item("work_total") * $gproj->get_scale())?></td>
         </tr>
         <?
  }

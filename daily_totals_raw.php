@@ -33,7 +33,7 @@ DATE,UNITS,PARTICIPANTS,TEAMS
 for ($i = 0; $i<$rows; $i++) {
 	sybase_data_seek($result,$i);
 	$par = sybase_fetch_object($result);
-	print "$par->datefmt," . (double) $par->WORK_UNITS . "," . (int) $par->PARTICIPANTS . ","
+	print "$par->datefmt," . (float) $par->WORK_UNITS . "," . (int) $par->PARTICIPANTS . ","
 		. (int) $par->TEAMS. "\n";
 }
 ?>

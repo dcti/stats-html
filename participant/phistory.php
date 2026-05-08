@@ -49,7 +49,7 @@ http://stats.distributed.net/participant/phistory_raw.php?project_id=$project_id
       </tr>
 <?
 
-$maxwork_units = (double) 0;
+$maxwork_units = (float) 0;
 foreach ($history as $histrow)
 {
     if($histrow->work_units > $maxwork_units) {
@@ -62,7 +62,7 @@ foreach ($history as $histrow)
 {
     $work_units_fmt = number_format($histrow->work_units*$gproj->get_scale(), 0);
     $date_fmt = $histrow->stats_date;
-    $width = (int) (((double)$histrow->work_units / $maxwork_units) * 200) + 1;
+    $width = (int) (((float)$histrow->work_units / $maxwork_units) * 200) + 1;
     ?>
       <tr class=<?=row_background_color($i);?>>
       <? if ( $random_stats == 1 ) { ?>

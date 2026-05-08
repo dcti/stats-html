@@ -76,7 +76,7 @@ $qs = "p_phistory @project_id = $project_id, @id = $id, @sort_field = 'WORK_UNIT
 sybase_query("set rowcount 0");
 $result = sybase_query($qs);
 $best_day = sybase_fetch_object($result);
-$best_day_units = (double) $best_day->WORK_UNITS;
+$best_day_units = (float) $best_day->WORK_UNITS;
 $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400))/1000,0);
 */
 
@@ -182,7 +182,7 @@ $best_rate = number_format((($best_day_units*$constant_keys_in_one_block)/(86400
 
 <?
 /*
-  $pct_of_best = (double) $rs_rank->TODAY * $gproj->get_scale() / $best_day_units;
+  $pct_of_best = (float) $rs_rank->TODAY * $gproj->get_scale() / $best_day_units;
   if($pct_of_best == 1) {
 ?>
   <br>

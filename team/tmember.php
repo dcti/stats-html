@@ -102,9 +102,9 @@ if ($teamStats == null) {
   $totblocks = FALSE;
 } else {
   $totblocks = TRUE;
-  $yblocks = (double) $teamStats->get_stats_item("work_today") * $gproj->get_scale();
+  $yblocks = (float) $teamStats->get_stats_item("work_today") * $gproj->get_scale();
   if ( $yblocks == 0 ) $yblocks = 1;
-  $oblocks = (double) $teamStats->get_stats_item("work_total") * $gproj->get_scale();
+  $oblocks = (float) $teamStats->get_stats_item("work_total") * $gproj->get_scale();
 }
 
 // The source of the data...
@@ -182,9 +182,9 @@ print "
           $rnk = number_style_convert($lo + $i);
           $prnk = $statsTmp->get_stats_item("rank");
           $prnkchg = $statsTmp->get_stats_item("rank_change");
-          $n_yesterday = (double) $statsTmp->get_stats_item("work_today") * $gproj->get_scale();
+          $n_yesterday = (float) $statsTmp->get_stats_item("work_today") * $gproj->get_scale();
           $yesterday = number_style_convert($n_yesterday);
-          $n_blocks = (double) $statsTmp->get_stats_item("work_total") * $gproj->get_scale();
+          $n_blocks = (float) $statsTmp->get_stats_item("work_total") * $gproj->get_scale();
           $blocks = number_style_convert($n_blocks);
           $first = $statsTmp->get_stats_item("first_date");
           $last = $statsTmp->get_stats_item("last_date");

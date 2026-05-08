@@ -150,12 +150,12 @@ Header("Expires: " . gmdate("D, d M Y", $now) . " $hour:00 GMT");
  ";
 
  if($show_yesterday) {
-   print "<td align=\"right\">" . number_style_convert( (double) $par->yesterday ) . "</td>\n";
-   $total_yesterday += (double) $par->yesterday ;
+   print "<td align=\"right\">" . number_style_convert( (float) $par->yesterday ) . "</td>\n";
+   $total_yesterday += (float) $par->yesterday ;
  }
  if($show_total) {
-   print "<td align=\"right\">" . number_style_convert( (double) $par->total ) . "</td>\n";
-   $total_overall += (double) $par->total ;
+   print "<td align=\"right\">" . number_style_convert( (float) $par->total ) . "</td>\n";
+   $total_overall += (float) $par->total ;
  }
  print "</tr>";
 }

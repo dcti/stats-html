@@ -1249,7 +1249,7 @@ class Graph {
 
 	if( $aCSIMName=='' ) {
 	    // create a random map name
-	    srand ((double) microtime() * 1000000);
+	    srand ((float) microtime() * 1000000);
 	    $r = rand(0,100000);
 	    $aCSIMName='__mapname'.$r.'__';
 	}

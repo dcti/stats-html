@@ -36,7 +36,7 @@
   // If we don't have a password assigned yet, then generate one
   if (trim($par->get_password()) == "") {
     print "Generating new password...<br>";
-    mt_srand((double)microtime()*1000000);
+    mt_srand((float)microtime()*1000000);
     $pass = "";
     // Build a random password
     $passstring = "0Aa1Bb2Cc3Dd4Ee5Ff6Gg7Hh8Ii9JjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz";

@@ -36,12 +36,12 @@ include "../templates/header.inc";
 
 $totalrows = 0;
 $plist = Participant::get_ranked_list($source, $lo, $limit, $totalrows, $gdb, $gproj);
-$totalblocks = (double) 0;
+$totalblocks = (float) 0;
 $i = 0;
 if ($plist) {
 	foreach ($plist as $par) {
 		$statspar =& $par->get_current_stats();
-	    $totalblocks = $totalblocks + (double) $statspar -> get_stats_item('blocks') * $gproj->get_scale();
+	    $totalblocks = $totalblocks + (float) $statspar -> get_stats_item('blocks') * $gproj->get_scale();
 	    ?>
 		<tr class="<?=row_background_color($i)?>">
 			<td><?=$statspar -> get_stats_item('rank')?><?=html_rank_arrow($statspar -> get_stats_item('change')) ?></td>
@@ -49,7 +49,7 @@ if ($plist) {
 			<td align="right"><?=$statspar -> get_stats_item('first_date') ?></td>
 			<td align="right"><?=$statspar -> get_stats_item('last_date') ?></td>
 			<td align="right"><?=$statspar -> get_stats_item('days_working')?></td>
-			<td align="right"><?=number_style_convert((double) $statspar -> get_stats_item('blocks') * $gproj->get_scale()) ?></td>
+			<td align="right"><?=number_style_convert((float) $statspar -> get_stats_item('blocks') * $gproj->get_scale()) ?></td>
 		</tr>
 	 <?
 	    $i++;

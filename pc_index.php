@@ -33,8 +33,8 @@
   $lastupdate = $gprojstats->get_stats_item('date');
   display_last_update('i');
 
-  $yest_scaled_work_units = number_format( (double) $gprojstats->get_stats_item('work_units') * $gproj->get_scale());
-  $yest_unscaled_work_units = number_format( (double) $gprojstats->get_stats_item('work_units'));
+  $yest_scaled_work_units = number_format( (float) $gprojstats->get_stats_item('work_units') * $gproj->get_scale());
+  $yest_unscaled_work_units = number_format( (float) $gprojstats->get_stats_item('work_units'));
   $yest_emails = number_format($gprojstats->get_stats_item('participants'));
   $yest_teams = number_format($gprojstats->get_stats_item('teams'));
   $new_emails = number_format($gprojstats->get_stats_item('participants_new'));
@@ -45,8 +45,8 @@
 
   $time_working_raw = $gprojstats->get_time_working();
   $time_working = number_format($gprojstats->get_time_working());
-  $tot_unscaled_work_units = number_format( (double) $gprojstats->get_tot_units());
-  $tot_scaled_work_units = number_format( (double) $gprojstats->get_tot_units() * $gproj->get_scale());
+  $tot_unscaled_work_units = number_format( (float) $gprojstats->get_tot_units());
+  $tot_scaled_work_units = number_format( (float) $gprojstats->get_tot_units() * $gproj->get_scale());
 
   $total_emails = number_format($gprojstats->get_total_emails());
   $total_teams = number_format($gprojstats->get_total_teams());

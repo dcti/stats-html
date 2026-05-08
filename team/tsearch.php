@@ -59,8 +59,8 @@ include "../templates/header.inc";
       $statsTmp =& $teamTmp->get_current_stats();
       $members = number_format($statsTmp->get_stats_item('members_current'));
       $teamid = $teamTmp->get_id();
-      $totalblocks += (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
-      $totalblocksy += (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
+      $totalblocks += (float) $statsTmp->get_stats_item('work_total') * $gproj->get_scale();
+      $totalblocksy += (float) $statsTmp->get_stats_item('work_today') * $gproj->get_scale();
 
     ?>
     <tr class="<?=row_background_color($i)?>">
@@ -70,8 +70,8 @@ include "../templates/header.inc";
       <td align="right"><?= $statsTmp->get_stats_item('last_date')?></td>
       <td align="right"><?= number_format($statsTmp->get_stats_item('days_working'))?></td>
       <td align="right"><?=$members?></td>
-      <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_total') * $gproj->get_scale())?> </td>
-      <td align="right"><?=number_format( (double) $statsTmp->get_stats_item('work_today') * $gproj->get_scale())?> </td>
+      <td align="right"><?=number_format( (float) $statsTmp->get_stats_item('work_total') * $gproj->get_scale())?> </td>
+      <td align="right"><?=number_format( (float) $statsTmp->get_stats_item('work_today') * $gproj->get_scale())?> </td>
     </tr>
     <?
     }
